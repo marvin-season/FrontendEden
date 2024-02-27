@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="88fd0818-7f23-477b-94d2-08136e211673" name="Changes" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="HTML File" />
+        <option value="JavaScript File" />
+      </list>
+    </option>
+  </component>
+  <component name="GitToolBoxStore">
+    <option name="projectConfigVersion" value="5" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 8
+}</component>
+  <component name="ProjectId" id="2Zi6OSgtyuim5tPRt9ImQyV06ZL" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/marvin010528/workspace/2023-2024/front/js&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;yarn&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="88fd0818-7f23-477b-94d2-08136e211673" name="Changes" comment="" />
+      <created>1702892521344</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1702892521344</updated>
+      <workItem from="1702892522558" duration="1709000" />
+      <workItem from="1702955121353" duration="3264000" />
+      <workItem from="1703498886294" duration="1484000" />
+      <workItem from="1703579949326" duration="1682000" />
+      <workItem from="1704698068674" duration="716000" />
+      <workItem from="1704779733876" duration="399000" />
+      <workItem from="1704790294958" duration="5679000" />
+      <workItem from="1704865111292" duration="4081000" />
+      <workItem from="1705632880911" duration="2079000" />
+      <workItem from="1705659117701" duration="128000" />
+      <workItem from="1705660106189" duration="683000" />
+      <workItem from="1706429355674" duration="600000" />
+      <workItem from="1706957748573" duration="1489000" />
+      <workItem from="1707033601354" duration="1544000" />
+      <workItem from="1707103015442" duration="904000" />
+      <workItem from="1707116904765" duration="1064000" />
+      <workItem from="1707619025409" duration="800000" />
+      <workItem from="1708497101889" duration="6017000" />
+      <workItem from="1708565030451" duration="3203000" />
+      <workItem from="1708655464655" duration="1913000" />
+      <workItem from="1708916129631" duration="686000" />
+      <workItem from="1708934717459" duration="4256000" />
+      <workItem from="1708998873058" duration="1000" />
+      <workItem from="1709016009208" duration="16000" />
+      <workItem from="1709016040929" duration="177000" />
+      <workItem from="1709016556378" duration="625000" />
+      <workItem from="1709017282186" duration="34000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/../javascript-advanced/你不知道的js/异步/1.js</url>
+          <line>1</line>
+          <option name="timeStamp" value="13" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/../javascript-advanced/你不知道的js/异步/1.js</url>
+          <line>5</line>
+          <option name="timeStamp" value="16" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/../javascript-advanced/你不知道的js/异步/1.js</url>
+          <line>7</line>
+          <option name="timeStamp" value="17" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/../javascript-advanced/你不知道的js/异步/1.js</url>
+          <line>11</line>
+          <option name="timeStamp" value="18" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>
