@@ -1,4 +1,4 @@
-import {debounce} from "../common/debounce/index.js";
+import {debounce} from "../common/urtl/index.js";
 
 /**
  * debounce test
