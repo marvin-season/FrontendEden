@@ -5,7 +5,7 @@ export const debounce = (fn, delay = 1000) => {
         console.log('args', args)
         timer && clearTimeout(timer)
         timer = setTimeout(() => {
-            fn.apply(this, ...args)
+            fn.call(this, ...args)
             timer = null
         }, delay)
     }

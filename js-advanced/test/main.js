@@ -8,13 +8,15 @@ let callback = (...args) => {
  */
 let debounceFunc = debounce(callback);
 let count = 0;
-// while (count < 10) {
-//     debounceFunc('a', 1, 'b')
-//     count++
-// }
+while (count < 10) {
+    debounceFunc('a', 1, 'b')
+    count++
+}
 
+/**
+ * throttle test
+ */
 const throttleFunc = throttle(callback, 1000)
 setInterval(() => {
     throttleFunc(1, 23)
-    count++
 }, 500)
