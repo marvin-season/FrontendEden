@@ -4,10 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="88fd0818-7f23-477b-94d2-08136e211673" name="Changes" comment="throttle test">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js-advanced/common/urtl/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/js-advanced/common/urtl/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js-advanced/test/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/js-advanced/test/main.js" afterDir="false" />
+    <list default="true" id="88fd0818-7f23-477b-94d2-08136e211673" name="Changes" comment="call">
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,6 +53,11 @@
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+    </key>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -142,7 +145,15 @@
       <option name="project" value="LOCAL" />
       <updated>1709104309276</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="call">
+      <option name="closed" value="true" />
+      <created>1709104539709</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1709104539709</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -153,7 +164,8 @@
     <MESSAGE value="npm init" />
     <MESSAGE value="debounce" />
     <MESSAGE value="throttle test" />
-    <option name="LAST_COMMIT_MESSAGE" value="throttle test" />
+    <MESSAGE value="call" />
+    <option name="LAST_COMMIT_MESSAGE" value="call" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
