@@ -4,11 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="88fd0818-7f23-477b-94d2-08136e211673" name="Changes" comment="init">
-      <change afterPath="$PROJECT_DIR$/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/js-advanced/common/debounce/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/js-advanced/test/main.js" afterDir="false" />
+    <list default="true" id="88fd0818-7f23-477b-94d2-08136e211673" name="Changes" comment="debounce">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/index.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -93,7 +91,7 @@
       <workItem from="1709017282186" duration="34000" />
       <workItem from="1709017342797" duration="2180000" />
       <workItem from="1709024389838" duration="1249000" />
-      <workItem from="1709099299807" duration="1030000" />
+      <workItem from="1709099299807" duration="1167000" />
     </task>
     <task id="LOCAL-00001" summary="init">
       <option name="closed" value="true" />
@@ -103,7 +101,31 @@
       <option name="project" value="LOCAL" />
       <updated>1709017562492</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="npm init">
+      <option name="closed" value="true" />
+      <created>1709100357322</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1709100357322</updated>
+    </task>
+    <task id="LOCAL-00003" summary="debounce">
+      <option name="closed" value="true" />
+      <created>1709100362013</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1709100362013</updated>
+    </task>
+    <task id="LOCAL-00004" summary="debounce">
+      <option name="closed" value="true" />
+      <created>1709100422494</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1709100422494</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -111,7 +133,9 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="init" />
-    <option name="LAST_COMMIT_MESSAGE" value="init" />
+    <MESSAGE value="npm init" />
+    <MESSAGE value="debounce" />
+    <option name="LAST_COMMIT_MESSAGE" value="debounce" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

@@ -1,5 +1,8 @@
 import {debounce} from "../common/debounce/index.js";
 
+/**
+ * debounce test
+ */
 let debounceFunc = debounce((...args) => {
     console.log('== args', args)
 });
