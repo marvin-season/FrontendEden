@@ -6,11 +6,11 @@ const Status = {
     Reject: 2
 }
 
-class PromiseA {
+export class PromiseA {
     resolveCallbacks = []
     value = null
     status = Status.Pending  //  pending, fulfilled, or rejected
-    constructor(executor: ExecutorType) {
+    constructor(executor?: ExecutorType) {
         this.status = Status.Pending
         const task = []
 
@@ -28,7 +28,7 @@ class PromiseA {
         executor(resolve, reject)
     }
 
-    then(onFulfilled: any, onRejected: any) {
+    then(onFulfilled?: any, onRejected?: any) {
         return new PromiseA((resolve, reject) => {
             if (this.status === Status.Fulfilled) {
                 const res = onFulfilled(this.value);
@@ -67,4 +67,3 @@ class PromiseA {
     }
 }
 
-export default PromiseA

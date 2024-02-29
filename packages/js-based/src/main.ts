@@ -1,3 +1,5 @@
-import {add_} from "@root/shared";
+import {PromiseA} from "@root/shared";
 
-console.log(add_(1, 2));
+
+
+PromiseA.resolve({a: 1}).then(console.log)
