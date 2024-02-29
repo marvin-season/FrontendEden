@@ -3,13 +3,21 @@
   "private": true,
   "version": "1.0.0",
   "type": "module",
+  "module": "./dist/shared.js",
+  "types": "./dist/types/index.d.ts",
+  "files": [
+    "./dist"
+  ],
   "scripts": {
     "dev": "vite --host --port=10001",
-    "build": "tsc && vite build",
-    "preview": "vite preview"
+    "build": "tsc && vite build"
+  },
+  "dependencies": {
   },
   "devDependencies": {
     "typescript": "^5.2.2",
-    "vite": "^5.1.4"
+    "vite": "^5.1.4",
+    "vite-plugin-dts": "^2.2.0",
+    "@types/node": "^20.11.20"
   }
 }
