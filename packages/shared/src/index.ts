@@ -1,1 +1,2 @@
-export * from './promisea/promisea'
+export * from './promisea'
+export * from './utils'
