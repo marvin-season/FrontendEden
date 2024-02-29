@@ -2,7 +2,6 @@
   "name": "root",
   "private": true,
   "workspaces": [
-    "packages/*"
   ],
   "scripts": {
     "dev": "lerna run --scope @root/js-based --scope @root/shared dev",
