@@ -5,7 +5,13 @@ import {resolve} from 'path';
 export default defineConfig({
   plugins: [react()],
   server: {
-    port: 10003
+    port: 10003,
+    proxy: {
+      '/tenant-api': {
+        target: 'http://10.3.73.222:48080',
+        changeOrigin: true,
+      },
+    }
   },
   resolve: {
     alias: {

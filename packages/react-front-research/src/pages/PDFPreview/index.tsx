@@ -10,7 +10,7 @@ function Index() {
 
     return <div>
         <div style={{height: `500px`, overflow: "auto",}}>
-            <PdfViewer url={url}
+            <PdfViewer url={'/tenant-api/api/knowledge/file/download?url=http:aa.pdf'}
                        width={800} searchText={keywords.demo6}/>;
         </div>
 
