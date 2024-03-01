@@ -1,1 +1,5 @@
-console.log(new Blob());
+export class Blob_ extends Blob{
+
+}
+
+
