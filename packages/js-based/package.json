@@ -4,16 +4,10 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite --host --port=10002",
-    "build": "tsc && vite build",
-    "preview": "vite preview"
   },
   "dependencies": {
-    "@root/shared": "workspace:^1.0.0"
 
   },
   "devDependencies": {
-    "typescript": "^5.2.2",
-    "vite": "^5.1.4"
   }
 }
