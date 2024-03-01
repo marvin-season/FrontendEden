@@ -22,6 +22,7 @@ const NavItem = styled.div<{ activated: boolean }>`
 `
 
 const Nav = styled.div`
+  width: 200px;
   padding: 10px;
   border-right: 1px solid #aaa;
 `
@@ -39,7 +40,7 @@ const Layout = () => {
         {
             label: 'PDF搜索',
             onClick: () => {
-                navigate('/pdf-search');
+                navigate('/pdf-preview');
             }
         }
     ]

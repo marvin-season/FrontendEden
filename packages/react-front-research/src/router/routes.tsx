@@ -1,6 +1,6 @@
 import {RouteObject} from "react-router-dom";
 import Layout from "@/layout";
-import PDFSearch from "@/pages/PDFSearch";
+import PDFPreview from "@/pages/PDFPreview";
 import Index from "@/pages/Index";
 
 export const routes: RouteObject[] = [
@@ -14,9 +14,9 @@ export const routes: RouteObject[] = [
                 element: <Index/>
             },
             {
-                path: 'index',
+                path: 'pdf-preview',
                 index: true,
-                element: <PDFSearch/>
+                element: <PDFPreview/>
             },
         ]
     }
