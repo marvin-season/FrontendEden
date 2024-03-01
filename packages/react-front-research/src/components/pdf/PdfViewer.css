@@ -1,0 +1,55 @@
+body {
+  margin: 0;
+}
+
+.Viewer input,
+.Viewer button {
+  font: inherit;
+}
+
+.Viewer header {
+  background-color: #323639;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+  padding: 20px;
+  color: white;
+}
+
+.Viewer header h1 {
+  font-size: inherit;
+  margin: 0;
+}
+
+.Viewer__container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 10px 0;
+  padding: 10px;
+}
+
+.Viewer__container__load {
+  margin-top: 1em;
+  color: white;
+}
+
+.Viewer__container__document {
+  width: 100%;
+  max-width: calc(100% - 2em);
+  margin: 1em 0;
+}
+
+.Viewer__container__document .react-pdf__Document {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.Viewer__container__document .react-pdf__Page {
+  margin: 1em 0;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+}
+
+.Viewer__container__document .react-pdf__message {
+  padding: 20px;
+  color: white;
+}

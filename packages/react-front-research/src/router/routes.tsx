@@ -1,6 +1,7 @@
 import {RouteObject} from "react-router-dom";
-import Layout from "../layout";
-
+import Layout from "@/layout";
+import PDFSearch from "@/pages/PDFSearch";
+import Index from "@/pages/Index";
 
 export const routes: RouteObject[] = [
     {
@@ -10,8 +11,13 @@ export const routes: RouteObject[] = [
             {
                 path: 'index',
                 index: true,
-                // element: <Index/>
-            }
+                element: <Index/>
+            },
+            {
+                path: 'index',
+                index: true,
+                element: <PDFSearch/>
+            },
         ]
     }
 ]
