@@ -154,6 +154,7 @@ export const PdfViewer: React.FC<PdfViewerProps> = ({
                     >
                         {Array.from(new Array(numPages), (el, index) => (
                             <Page
+                                renderAnnotationLayer={false}
                                 width={width}
                                 key={`page_${index + 1}`}
                                 pageNumber={index + 1}
