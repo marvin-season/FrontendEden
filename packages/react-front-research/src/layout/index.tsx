@@ -1,6 +1,7 @@
 import {Outlet, useNavigate} from "react-router-dom";
 import styled from 'styled-components'
 import {useState} from "react";
+import {routes} from "@/router/routes.tsx";
 
 const LayoutContainer = styled.div`
   display: flex;
@@ -30,20 +31,18 @@ const Nav = styled.div`
 const Layout = () => {
     const navigate = useNavigate();
     const [currentIndex, setCurrentIndex] = useState(0)
-    const navs = [
-        {
-            label: '首页',
-            onClick: () => {
-                navigate('/index');
-            }
-        },
-        {
-            label: 'PDF搜索',
-            onClick: () => {
-                navigate('/pdf-preview');
-            }
+    const navs: { label: string; onClick: Function }[] = []
+    routes.flatMap(route => route.children).forEach(item => {
+        if (item) {
+
+            navs.push({
+                label: item.path,
+                onClick: () => {
+                    navigate(`/${item.path}`);
+                }
+            })
         }
-    ]
+    })
 
     return <>
         <LayoutContainer>
