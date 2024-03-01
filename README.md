@@ -29,4 +29,7 @@ cd target/dir && npm run dev
 packages:
   js-advanced: js高级特性验证使用（web.js）
   shared: js相关api手写，以及相关工具类（node.js）
+  react-front-research: react开发相关调研
+  express-based: 基于express的node开发环境
+  react-pdf-viewer: 基于react-pdf的一个可高亮的库
 ```
