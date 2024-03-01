@@ -11,7 +11,7 @@ function Index() {
     return <div>
         <div style={{height: `500px`, overflow: "auto",}}>
             <PdfViewer url={url}
-                       width={800} searchText={value}/>;
+                       width={800} searchText={keywords.demo6}/>;
         </div>
 
     </div>

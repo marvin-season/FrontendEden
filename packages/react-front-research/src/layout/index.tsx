@@ -31,7 +31,7 @@ const Nav = styled.div`
 const Layout = () => {
     const navigate = useNavigate();
     const [currentIndex, setCurrentIndex] = useState(0)
-    const navs: { label: string; onClick: Function }[] = []
+    const navs: { label: string | undefined; onClick: Function }[] = []
     routes.flatMap(route => route.children).forEach(item => {
         if (item) {
 
