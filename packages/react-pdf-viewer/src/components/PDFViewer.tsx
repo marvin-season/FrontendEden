@@ -22,16 +22,17 @@ const PDFViewer: React.FC<PDFProps> = ({
                                            searchText
                                        }) => {
 
-    const [hlSet, setHlSet] = useState<HighlightSet>(new Set(['0-0', '0-7']))
+    const [hlSet, setHlSet] = useState<HighlightSet>(new Set([]))
 
     return <>
-        <DocumentHighLight file={file} searchText={searchText} onHighLight={(res) => {
-            console.log(res)
+        <DocumentHighLight file={file} searchText={'The File'} onHighLight={(res) => {
+            console.log('hlSet', res)
             setHlSet(res)
         }}/>
         <Document file={file}>
             <Page customTextRenderer={(textItem) => {
                 const itemKey = `${textItem.pageIndex}-${textItem.itemIndex}`
+
                 if (hlSet.has(itemKey)) {
                     return `<mark>${textItem.str}</mark>`
                 } else {
