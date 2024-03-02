@@ -1,9 +1,9 @@
 import {useEffect} from "react";
 import * as pdfjsLib from "pdfjs-dist";
-import {PDFProps} from "@/components/PDFViewer.tsx";
+import {HighlightSet, PDFProps} from "@/components/PDFViewer.tsx";
 
 export default function DocumentHighLight({file}: PDFProps & {
-    onHighLight: (res: any) => void
+    onHighLight: (highlightMap: HighlightSet) => void
 }) {
     useEffect(() => {
         (async () => {
