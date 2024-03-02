@@ -1,11 +1,11 @@
-import './App.css'
+import PDFViewer from "@/components/PDFViewer.tsx";
 
 function App() {
-  return (
-    <>
-
-    </>
-  )
+    return (
+        <>
+            <PDFViewer/>
+        </>
+    )
 }
 
 export default App
