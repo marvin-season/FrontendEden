@@ -1,6 +1,5 @@
 import PDFViewer from "@/components/PDFViewer.tsx";
-import {ChangeEventHandler, useEffect, useState} from "react";
-import * as pdfjsLib from "pdfjs-dist";
+import {ChangeEventHandler, useState} from "react";
 
 function App() {
     const [file, setFile] = useState<Blob>();
@@ -12,17 +11,6 @@ function App() {
         setFile(file)
     }
 
-    useEffect(() => {
-        (async () => {
-            if (file) {
-                const pdf = await pdfjsLib.getDocument(await file.arrayBuffer()).promise;
-                let page = await pdf.getPage(1);
-                let textContent = await page.getTextContent();
-                console.log('textContent', textContent)
-
-            }
-        })()
-    }, [file]);
     return (
         <>
             <input type={'file'} onChange={handleFileChange}/>
