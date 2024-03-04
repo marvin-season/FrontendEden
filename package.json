@@ -1,8 +1,7 @@
 {
   "name": "root",
   "private": true,
-  "workspaces": [
-  ],
+  "workspaces": [],
   "scripts": {
     "dev": "lerna run --scope @root/js-based --scope @root/shared dev",
     "dev_": "pnpm --filter @root/js-based --filter @root/shared --parallel dev",
@@ -11,5 +10,8 @@
   },
   "devDependencies": {
     "lerna": "^6.6.2"
+  },
+  "dependencies": {
+    "react-use": "^17.5.0"
   }
 }
