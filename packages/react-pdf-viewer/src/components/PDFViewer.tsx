@@ -26,15 +26,14 @@ const PDFViewer: React.FC<PDFProps> = ({
     const [hlSet, setHlSet] = useState<HighlightSet>(new Set([]))
 
     const renderPage = (pageNumber: number) => {
-        return <Page key={pageNumber} customTextRenderer={(textItem) => {
+        return <Page key={pageNumber} customTextRenderer={searchText ? (textItem) => {
             const itemKey = `${textItem.pageIndex}-${textItem.itemIndex}`
             if (hlSet.has(itemKey)) {
-                console.log(hlSet, itemKey)
                 return `<mark>${textItem.str}</mark>`
             } else {
                 return textItem.str
             }
-        }} renderAnnotationLayer={false} width={800} pageNumber={pageNumber}></Page>
+        } : undefined} renderAnnotationLayer={false} width={800} pageNumber={pageNumber}></Page>
     }
 
 
@@ -50,7 +49,7 @@ const PDFViewer: React.FC<PDFProps> = ({
             {
                 Array.from(new Array(numPages), (item, index) => {
                     return <>
-                        { renderPage(index + 1)}
+                        {renderPage(index + 1)}
                         {index + 1}
                     </>
                 })

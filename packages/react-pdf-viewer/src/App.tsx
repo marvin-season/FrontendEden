@@ -14,8 +14,7 @@ function App() {
     return (
         <>
             <input type={'file'} onChange={handleFileChange}/>
-            <PDFViewer searchText={'为保证动力电池更佳的使用性能，在较低温度下充电时，车辆会开启动力\n' +
-                '电池加热功能，因此充电时间会延长'} file={file}/>
+            <PDFViewer file={file}/>
         </>
     )
 }
