@@ -14,7 +14,7 @@ function App() {
     return (
         <>
             <input type={'file'} onChange={handleFileChange}/>
-            <PDFViewer file={file}/>
+            <PDFViewer searchText={'什么是 Java 中的 OpenCSV 库？其作用是什么'} file={file}/>
         </>
     )
 }

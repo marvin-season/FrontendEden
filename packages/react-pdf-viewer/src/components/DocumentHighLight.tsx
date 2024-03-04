@@ -5,8 +5,9 @@ import {HighlightSet, PDFProps} from "@/components/PDFViewer.tsx";
 import DocumentTracker from "@/components/DocumentTracker.ts";
 import {TextItem} from "pdfjs-dist/types/src/display/api";
 
+
 export default function DocumentHighLight({file, searchText, onHighLight}: PDFProps & {
-    onHighLight: (highlightSet: HighlightSet) => void;
+    onHighLight: (highlightSet: HighlightSet, highlightPageIndexSet: Set<number>) => void;
     searchText: string;
 }) {
     useEffect(() => {
@@ -21,7 +22,7 @@ export default function DocumentHighLight({file, searchText, onHighLight}: PDFPr
                     const {items} = await page.getTextContent()
                     const result = await tracker.track(items as TextItem[], pageIndex, searchText);
                     if (result) {
-                        return onHighLight(tracker.highlightSet)
+                        return onHighLight(tracker.highlightSet, tracker.highlightPageIndexSet)
                     }
                 }
             }

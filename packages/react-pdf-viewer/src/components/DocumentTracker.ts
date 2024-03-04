@@ -22,7 +22,8 @@ export default class DocumentTracker {
     resolveItemsChain: resolveItemNode; // 头节点
     pointer: resolveItemNode | null = null;
     resolveText = '';
-    highlightSet: HighlightSet = new Set()
+    highlightSet: HighlightSet = new Set();
+    highlightPageIndexSet: Set<number> = new Set();
     readonly regex = /[^\u4e00-\u9fa5a-zA-Z0-9]/g;
 
     constructor(maxPage = 3, regex?: RegExp) {
@@ -73,6 +74,7 @@ export default class DocumentTracker {
                     for (let reverseIndex = resolveItems.length - 1; reverseIndex >= 0; reverseIndex--) {
                         str = resolveItems[reverseIndex].str.replace(this.regex, '') + str;
                         this.highlightSet.add(`${pageIndex}-${reverseIndex}`)
+                        this.highlightPageIndexSet.add(pageIndex)
                         if (str.indexOf(searchText) != -1) {
                             return true
                         }
