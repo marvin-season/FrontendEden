@@ -28,7 +28,6 @@ const PDFViewer: React.FC<PDFProps> = ({
     const renderPage = (pageNumber: number) => {
         return <Page key={pageNumber} customTextRenderer={(textItem) => {
             const itemKey = `${textItem.pageIndex}-${textItem.itemIndex}`
-            console.log(hlSet, itemKey)
             if (hlSet.has(itemKey)) {
                 console.log(hlSet, itemKey)
                 return `<mark>${textItem.str}</mark>`
@@ -51,7 +50,7 @@ const PDFViewer: React.FC<PDFProps> = ({
             {
                 Array.from(new Array(numPages), (item, index) => {
                     return <>
-                        { index < 2 && renderPage(index + 1)}
+                        { renderPage(index + 1)}
                         {index + 1}
                     </>
                 })

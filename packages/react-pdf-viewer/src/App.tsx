@@ -14,9 +14,8 @@ function App() {
     return (
         <>
             <input type={'file'} onChange={handleFileChange}/>
-            <PDFViewer searchText={'未正确处理，可能造成人员严重伤害甚至死亡。私自拆卸、拆解或随意丢\n' +
-                '弃动力电池将会对环境造成污染，由此导致的环境污染或安全事故，应承\n' +
-                '担相应责任'} file={file}/>
+            <PDFViewer searchText={'为保证动力电池更佳的使用性能，在较低温度下充电时，车辆会开启动力\n' +
+                '电池加热功能，因此充电时间会延长'} file={file}/>
         </>
     )
 }

@@ -6,7 +6,16 @@ type resolveItemNode = {
     next: null | resolveItemNode;
     prev: null | resolveItemNode;
 }
-
+/**
+ * 按照页解析，pdfjs以TextItem[]的数据格式，将页面的数据暴露出来
+ * 高亮算法的思路是:
+ * 0、取出当前page的文本项，放入累加文本中；
+ * 1、判断累加的文本是否匹配，符合条件的TextItem 打标识
+ * 2、否则开始下一页（将下一页数据累加到文本中）
+ *
+ * resolveItemsChain： 由每页的文本项节点组成的链表，头节点空
+ * pointer一个游荡的指针
+ */
 export default class DocumentTracker {
     maxPage;
     trackedPage: number = 0; // 已经解析的页码个数
@@ -28,11 +37,17 @@ export default class DocumentTracker {
 
     async track(items: TextItem[], pageIndex: number, text: string) {
         // 最多跨页: 2
-        if (this.trackedPage > this.maxPage && this.resolveItemsChain?.next) {
+        if (this.trackedPage >= this.maxPage && this.resolveItemsChain.next) {
+            const len = this.resolveItemsChain.next.value.reduce((prev, cur) => {
+                return prev.concat(cur.str)
+            }, '').length;
+
+            console.log('len', len)
+            this.resolveText = this.resolveText.slice(len)
+
             this.resolveItemsChain.next.prev = null
-            this.resolveItemsChain = this.resolveItemsChain.next
+            this.resolveItemsChain.next = this.resolveItemsChain.next.next
         }
-        debugger
 
         const resolveItems: TextItem[] = [];
 
