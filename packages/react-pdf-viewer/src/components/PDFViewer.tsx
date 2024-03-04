@@ -25,10 +25,23 @@ const PDFViewer: React.FC<PDFProps> = ({
     const [numPages, setNumPages] = useState(0)
     const [hlSet, setHlSet] = useState<HighlightSet>(new Set([]))
 
+    const renderPage = (pageNumber: number) => {
+        return <Page key={pageNumber} customTextRenderer={(textItem) => {
+            const itemKey = `${textItem.pageIndex}-${textItem.itemIndex}`
+            console.log(hlSet, itemKey)
+            if (hlSet.has(itemKey)) {
+                console.log(hlSet, itemKey)
+                return `<mark>${textItem.str}</mark>`
+            } else {
+                return textItem.str
+            }
+        }} renderAnnotationLayer={false} width={800} pageNumber={pageNumber}></Page>
+    }
+
+
     return <>
         {
             searchText && <DocumentHighLight file={file} searchText={searchText} onHighLight={(res) => {
-                console.log('hlSet', res)
                 setHlSet(res)
             }}/>
         }
@@ -37,15 +50,10 @@ const PDFViewer: React.FC<PDFProps> = ({
         }}>
             {
                 Array.from(new Array(numPages), (item, index) => {
-                    return <Page key={index} customTextRenderer={(textItem) => {
-                        const itemKey = `${textItem.pageIndex}-${textItem.itemIndex}`
-
-                        if (hlSet.has(itemKey)) {
-                            return `<mark>${textItem.str}</mark>`
-                        } else {
-                            return textItem.str
-                        }
-                    }} renderAnnotationLayer={false} width={800} pageNumber={index + 1}></Page>
+                    return <>
+                        { index < 2 && renderPage(index + 1)}
+                        {index + 1}
+                    </>
                 })
             }
 

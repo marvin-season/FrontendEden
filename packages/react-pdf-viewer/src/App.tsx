@@ -14,10 +14,9 @@ function App() {
     return (
         <>
             <input type={'file'} onChange={handleFileChange}/>
-            <PDFViewer searchText={'恭喜您拥有一辆电动豪华旗舰 MPV，感谢您对岚图汽车的信任与支持！\n' +
-                '正确合理地使用车辆不仅能给您带来十足的驾乘乐趣和舒适性，还能延\n' +
-                '长车辆使用寿命。因此，请您在使用车辆之前，务必仔细阅读本手册。\n' +
-                '本手册所提供的信息，对保障您的驾乘安全'} file={file}/>
+            <PDFViewer searchText={'未正确处理，可能造成人员严重伤害甚至死亡。私自拆卸、拆解或随意丢\n' +
+                '弃动力电池将会对环境造成污染，由此导致的环境污染或安全事故，应承\n' +
+                '担相应责任'} file={file}/>
         </>
     )
 }
