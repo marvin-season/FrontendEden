@@ -33,15 +33,13 @@ const PDFViewer: React.FC<PDFProps> = ({
         onHighLight: (hlSet, hlPageIndex) => {
             setHlSet(hlSet);
             setRenderTextLayer(true)
-            return true
         }
     });
 
     useEffect(() => {
-        searchText && getHighlightInfo().then(hlOK => {
-            console.log('getHighlightInfo', hlOK)
-            setRenderTextLayer(hlOK)
-
+        getHighlightInfo().then(ok => {
+            console.log('getHighlightInfo', ok)
+            setRenderTextLayer(ok)
         })
     }, [searchText]);
 
