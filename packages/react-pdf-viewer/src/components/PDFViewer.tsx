@@ -1,8 +1,8 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import './index.css'
 import 'react-pdf/dist/Page/TextLayer.css';
 import {Document, Page, pdfjs} from "react-pdf";
-import DocumentHighLight from "@/components/DocumentHighLight.tsx";
+import useHighlightInfo from "@/components/useHighlightInfo.ts";
 
 
 export type PDFProps = {
@@ -25,7 +25,25 @@ const PDFViewer: React.FC<PDFProps> = ({
 
     const [numPages, setNumPages] = useState(0);
     const [hlSet, setHlSet] = useState<HighlightSet>(new Set([]));
-    const [renderTextLayer, setRenderTextLayer] = useState(false)
+    const [renderTextLayer, setRenderTextLayer] = useState(false);
+
+    const {getHighlightInfo} = useHighlightInfo({
+        file,
+        searchText,
+        onHighLight: (hlSet, hlPageIndex) => {
+            setHlSet(hlSet);
+            setRenderTextLayer(true)
+            return true
+        }
+    });
+
+    useEffect(() => {
+        searchText && getHighlightInfo().then(hlOK => {
+            console.log('getHighlightInfo', hlOK)
+            setRenderTextLayer(hlOK)
+
+        })
+    }, [searchText]);
 
     const renderPage = (pageNumber: number) => {
         return <Page
@@ -44,14 +62,18 @@ const PDFViewer: React.FC<PDFProps> = ({
         </Page>
     }
 
+    useEffect(() => {
+
+    }, [searchText]);
+
 
     return <>
-        {
-            searchText && <DocumentHighLight file={file} searchText={searchText} onHighLight={(hlSet, hlPageIndex) => {
-                setHlSet(hlSet);
-                setRenderTextLayer(true)
-            }}/>
-        }
+        {/*{*/}
+        {/*    searchText && <DocumentHighLight file={file} searchText={searchText} onHighLight={(hlSet, hlPageIndex) => {*/}
+        {/*        setHlSet(hlSet);*/}
+        {/*        setRenderTextLayer(true)*/}
+        {/*    }}/>*/}
+        {/*}*/}
         {
             <Document file={file} onLoadSuccess={({numPages}) => {
                 setNumPages(numPages)
