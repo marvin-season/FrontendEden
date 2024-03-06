@@ -100,6 +100,9 @@ importers:
 
   packages/react-pdf-viewer:
     dependencies:
+      '@root/shared':
+        specifier: workspace:^1.0.0
+        version: link:../shared
       pdfjs-dist:
         specifier: 3.11.174
         version: 3.11.174

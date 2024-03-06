@@ -36,3 +36,10 @@ export const call_ = function (ctx = {}, ...args: any) {
     delete ctx[key]
     return res
 }
+
+export const handleScroll = (selector: string) => {
+    let targetEle = document.querySelector(selector);
+    // const targetEle = all[0] || all[1];
+    console.log('targetEle', targetEle);
+    targetEle?.scrollIntoView({behavior: 'smooth'});
+};

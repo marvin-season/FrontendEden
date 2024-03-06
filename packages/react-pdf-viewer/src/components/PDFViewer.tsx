@@ -3,6 +3,7 @@ import './index.css'
 import 'react-pdf/dist/Page/TextLayer.css';
 import {Document, Page, pdfjs} from "react-pdf";
 import useHighlightInfo from "@/components/useHighlightInfo.ts";
+import {handleScroll} from "@root/shared"
 
 
 export type PDFProps = {
@@ -38,7 +39,6 @@ const PDFViewer: React.FC<PDFProps> = ({
 
     useEffect(() => {
         getHighlightInfo().then(ok => {
-            console.log('getHighlightInfo', ok)
             setRenderTextLayer(ok)
         })
     }, [searchText]);
@@ -46,12 +46,16 @@ const PDFViewer: React.FC<PDFProps> = ({
     const renderPage = (pageNumber: number) => {
         return <Page
             width={800} pageNumber={pageNumber}
-            key={pageNumber}
             renderTextLayer={renderTextLayer}
+            onRenderTextLayerSuccess={() => handleScroll('#text_highlight')}
             customTextRenderer={searchText ? (textItem) => {
                 const itemKey = `${textItem.pageIndex}-${textItem.itemIndex}`
                 if (hlSet.has(itemKey)) {
-                    return `<mark>${textItem.str}</mark>`
+                    // hlSet.delete(itemKey)
+                    // if (hlSet.size === 0) {
+                    //     handleScroll('#text_highlight')
+                    // }
+                    return `<mark id="text_highlight">${textItem.str}</mark>`
                 } else {
                     return textItem.str
                 }
@@ -66,21 +70,16 @@ const PDFViewer: React.FC<PDFProps> = ({
 
 
     return <>
-        {/*{*/}
-        {/*    searchText && <DocumentHighLight file={file} searchText={searchText} onHighLight={(hlSet, hlPageIndex) => {*/}
-        {/*        setHlSet(hlSet);*/}
-        {/*        setRenderTextLayer(true)*/}
-        {/*    }}/>*/}
-        {/*}*/}
         {
             <Document file={file} onLoadSuccess={({numPages}) => {
                 setNumPages(numPages)
             }}>
                 {new Array(numPages).fill(0).map((item, index) => {
-                    return <>
+                    return <div
+                        key={index}>
                         {renderPage(index + 1)}
                         {index + 1}
-                    </>
+                    </div>
                 })
                 }
 

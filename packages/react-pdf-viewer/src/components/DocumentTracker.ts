@@ -43,7 +43,6 @@ export default class DocumentTracker {
                 return prev.concat(cur.str)
             }, '').length;
 
-            console.log('len', len)
             this.resolveText = this.resolveText.slice(len)
 
             this.resolveItemsChain.next.prev = null
