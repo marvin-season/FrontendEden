@@ -1,9 +1,8 @@
-import React, {useEffect, useRef, useState} from "react";
+import React, {useEffect, useState} from "react";
 import './index.css'
 import 'react-pdf/dist/Page/TextLayer.css';
 import {Document, Page, pdfjs} from "react-pdf";
 import DocumentHighLight from "@/components/DocumentHighLight.tsx";
-import {useScroll} from "react-use";
 
 
 export type PDFProps = {
@@ -41,10 +40,11 @@ const PDFViewer: React.FC<PDFProps> = ({
     }
 
     useEffect(() => {
-        setLoadPDFDocument(false);
+        if (searchText?.length) {
+            setLoadPDFDocument(false);
+        }
         // setPageRenderRange([])
     }, [file, searchText]);
-
 
 
     return <>
@@ -58,14 +58,14 @@ const PDFViewer: React.FC<PDFProps> = ({
         {
             loadPDFDocument && <Document file={file} onLoadSuccess={({numPages}) => {
                 setNumPages(numPages)
+                setPageRenderRange([0, numPages - 1])
             }}>
-                {
-                    pageRenderRange.map((pageIndex, index) => {
-                        return <>
-                            {renderPage(pageIndex + 1)}
-                            {pageIndex + 1}
-                        </>
-                    })
+                {pageRenderRange.map((pageIndex, index) => {
+                    return <>
+                        {renderPage(pageIndex + 1)}
+                        {pageIndex + 1}
+                    </>
+                })
                 }
 
             </Document>
