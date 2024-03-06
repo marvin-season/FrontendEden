@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import './index.css'
 import 'react-pdf/dist/Page/TextLayer.css';
 import {Document, Page, pdfjs} from "react-pdf";
@@ -25,45 +25,41 @@ const PDFViewer: React.FC<PDFProps> = ({
 
     const [numPages, setNumPages] = useState(0);
     const [hlSet, setHlSet] = useState<HighlightSet>(new Set([]));
-    const [loadPDFDocument, setLoadPDFDocument] = useState(!searchText);
-    const [pageRenderRange, setPageRenderRange] = useState<number[]>([])
+    const [renderTextLayer, setRenderTextLayer] = useState(false)
 
     const renderPage = (pageNumber: number) => {
-        return <Page key={pageNumber} customTextRenderer={searchText ? (textItem) => {
-            const itemKey = `${textItem.pageIndex}-${textItem.itemIndex}`
-            if (hlSet.has(itemKey)) {
-                return `<mark>${textItem.str}</mark>`
-            } else {
-                return textItem.str
-            }
-        } : undefined} renderAnnotationLayer={false} width={800} pageNumber={pageNumber}></Page>
+        return <Page
+            width={800} pageNumber={pageNumber}
+            key={pageNumber}
+            renderTextLayer={renderTextLayer}
+            customTextRenderer={searchText ? (textItem) => {
+                const itemKey = `${textItem.pageIndex}-${textItem.itemIndex}`
+                if (hlSet.has(itemKey)) {
+                    return `<mark>${textItem.str}</mark>`
+                } else {
+                    return textItem.str
+                }
+            } : undefined}
+            renderAnnotationLayer={false}>
+        </Page>
     }
-
-    useEffect(() => {
-        if (searchText?.length) {
-            setLoadPDFDocument(false);
-        }
-        // setPageRenderRange([])
-    }, [file, searchText]);
 
 
     return <>
         {
             searchText && <DocumentHighLight file={file} searchText={searchText} onHighLight={(hlSet, hlPageIndex) => {
                 setHlSet(hlSet);
-                setLoadPDFDocument(true);
-                setPageRenderRange(Array.from(hlPageIndex))
+                setRenderTextLayer(true)
             }}/>
         }
         {
-            loadPDFDocument && <Document file={file} onLoadSuccess={({numPages}) => {
+            <Document file={file} onLoadSuccess={({numPages}) => {
                 setNumPages(numPages)
-                setPageRenderRange([0, numPages - 1])
             }}>
-                {pageRenderRange.map((pageIndex, index) => {
+                {new Array(numPages).fill(0).map((item, index) => {
                     return <>
-                        {renderPage(pageIndex + 1)}
-                        {pageIndex + 1}
+                        {renderPage(index + 1)}
+                        {index + 1}
                     </>
                 })
                 }
