@@ -1,14 +1,12 @@
 import PDFViewer from "@/components/PDFViewer.tsx";
 import {ChangeEventHandler, useState} from "react";
-import mathPDF from '/math.pdf';
 
-
-const hls = [
-    "在导数这一章中的极限不会直接给出极限，而是会给出导数或函数的相关 定义，来求极限，再根据导数定义转换为导数。同时要注意这里不止会有导数定 义，还会有函数等性质。",
-    "求高阶导数基本上使用归纳法或莱布尼茨公式。"
-]
 
 function App() {
+    const [hls, setHls] = useState([
+        "在导数这一章中的极限不会直接给出极限，而是会给出导数或函数的相关 定义，来求极限，再根据导数定义转换为导数。同时要注意这里不止会有导数定 义，还会有函数等性质。",
+        "求高阶导数基本上使用归纳法或莱布尼茨公式。"
+    ])
     const [file, setFile] = useState<Blob>();
     const [searchText, setSearchText] = useState<string>()
     const handleFileChange: ChangeEventHandler<HTMLInputElement> = async (e) => {
@@ -26,7 +24,12 @@ function App() {
                     width: '500px'
                 }}>
                     <input type={'file'} onChange={handleFileChange}/>
-                    {searchText}
+                    <textarea onKeyUp={(e) => {
+                        if (e.key.toLowerCase() === 'enter') {
+                            setHls(hls.concat([(e.target as HTMLTextAreaElement).value]))
+                        }
+                    }}/>
+                    <div>{searchText}</div>
                     {
                         hls.map(item => <div
                             onClick={() => {
