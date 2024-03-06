@@ -13,7 +13,12 @@ export default function useHighlightInfo({file, onHighLight, searchText = ''}: P
             return false
         }
         if (file) {
-            const pdfDocumentProxy = await pdfjsLib.getDocument(await (file as Blob).arrayBuffer()).promise;
+
+            const pdfDocumentProxy = await pdfjsLib.getDocument(
+                file instanceof Blob ?
+                    await (file as Blob).arrayBuffer() :
+                    file
+            ).promise;
             const numPages = pdfDocumentProxy.numPages;
             const tracker = new DocumentTracker();
             for (let pageIndex = 0; pageIndex < numPages; pageIndex++) {

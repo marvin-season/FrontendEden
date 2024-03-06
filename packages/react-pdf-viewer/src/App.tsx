@@ -1,14 +1,11 @@
 import PDFViewer from "@/components/PDFViewer.tsx";
 import {ChangeEventHandler, useState} from "react";
+import mathPDF from '/math.pdf';
+
 
 const hls = [
-    "有很强的学习能力和适应能力，有较",
-    "提出了公网移动通信系统的漏泄电缆与专网漏泄电缆间距及定向壁\n" +
-    "挂天线间距要求。",
-    "引入建筑物地下室的管道伸出外墙时不应小于 2.0m,并应向室外人\n" +
-    "(手)孔方向倾斜，防水坡度不应小于 0.5%。直接引入建筑物地下室\n" +
-    "的弱电终端设备用户管宜采用多 根公称口径为 25mm～50mm 的热浸\n" +
-    "镀锌焊接钢导管"
+    "在导数这一章中的极限不会直接给出极限，而是会给出导数或函数的相关 定义，来求极限，再根据导数定义转换为导数。同时要注意这里不止会有导数定 义，还会有函数等性质。",
+    "求高阶导数基本上使用归纳法或莱布尼茨公式。"
 ]
 
 function App() {
@@ -50,7 +47,7 @@ function App() {
                     height: '800px',
                     overflow: 'auto'
                 }}>
-                    <PDFViewer searchText={searchText} file={file}/>
+                    <PDFViewer searchText={searchText} file={file || '/math.pdf'}/>
                 </div>
             </div>
         </>
