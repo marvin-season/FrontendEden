@@ -3,6 +3,8 @@ import Layout from "@/layout";
 import PDFPreview from "@/pages/PDFPreview";
 import Index from "@/pages/Index";
 import FilePage from "@/pages/FilePage";
+import React from "react";
+import CompReRender from "@/pages/CompReRender";
 
 export const routes: RouteObject[] = [
     {
@@ -23,6 +25,11 @@ export const routes: RouteObject[] = [
                 path: 'blob-file-buffer',
                 index: true,
                 element: <FilePage/>
+            },
+            {
+                path: 'comp-rerender',
+                index: true,
+                element: <CompReRender/>
             },
         ]
     }
