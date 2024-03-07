@@ -1,7 +1,7 @@
 import {PDFDocumentProxy, PDFPageProxy} from "pdfjs-dist";
-import DocumentTracker from "@/components/DocumentTracker.ts";
+import DocumentTracker from "./DocumentTracker";
 import {TextItem} from "pdfjs-dist/types/src/display/api";
-import {PDFProps} from "@/components/PDFViewer.tsx";
+import {PDFProps} from "./PDFViewer";
 
 export default function useHighlightInfo({searchText = ''}: PDFProps) {
 

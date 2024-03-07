@@ -1,5 +1,5 @@
 import {TextItem} from "pdfjs-dist/types/src/display/api";
-import {HighlightSet} from "@/components/PDFViewer.tsx";
+import {HighlightSet} from "./PDFViewer";
 
 type resolveItemNode = {
     value: TextItem[];

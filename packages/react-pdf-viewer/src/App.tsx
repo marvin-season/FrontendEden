@@ -1,5 +1,5 @@
-import PDFViewer from "@/components/PDFViewer.tsx";
-import {ChangeEventHandler, useEffect, useState} from "react";
+import {PDFViewer} from "@/components/PDFViewer/index.ts";
+import {ChangeEventHandler, useState} from "react";
 
 
 function App() {
@@ -73,8 +73,10 @@ function App() {
                     height: '800px',
                     overflow: 'auto'
                 }}>
-                    <PDFViewer searchText={searchText}
-                               file={file || '/math.pdf'}/>
+                    <PDFViewer
+                    width={800}
+                        searchText={searchText}
+                               file={file || 'http://10.0.5.63:32099/smart-vision/ai-application/datasets/7297960218f046e09a2002bb11dca4f9/H56b-%E7%94%A8%E6%88%B7%E6%89%8B%E5%86%8C-%E5%85%A8%E7%89%882023.11.8_1-43.pdf?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=OG3OEPE5JXXS3K12%2F20240307%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240307T060717Z&X-Amz-Expires=10800&X-Amz-SignedHeaders=host&X-Amz-Signature=c6a2882a8b6dafe752b9dab396afa3a04a3afcf76de0730480954abc5c1be4d5'}/>
                 </div>
             </div>
         </>
