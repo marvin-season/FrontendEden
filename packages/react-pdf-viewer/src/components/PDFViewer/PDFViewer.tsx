@@ -20,6 +20,11 @@ pdfjs.GlobalWorkerOptions.workerSrc = new URL(
     import.meta.url
 ).toString();
 
+const Loading = () => {
+    return <>
+        Loading
+    </>
+}
 
 export const PDFViewer: React.FC<PDFProps> = ({
                                                   file,
@@ -29,24 +34,34 @@ export const PDFViewer: React.FC<PDFProps> = ({
 
     const [numPages, setNumPages] = useState(0);
     const [hlSet, setHlSet] = useState<HighlightSet>(new Set([]));
-    const [renderTextLayer, setRenderTextLayer] = useState(false);
+    const [isLoading, setIsLoading] = useState(true)
     const pdfDocumentProxyRef = useRef<PDFDocumentProxy>();
 
+    const scrollToHighlight = async () => {
+        return new Promise((resolve) => {
+            handleScroll("#text_highlight")
+            resolve(1)
+        })
+    }
+
+    useEffect(() => {
+        file && setIsLoading(true)
+    }, [file]);
 
     const {getHighlightInfo} = useHighlightInfo({file, searchText});
 
     const renderPage = (pageNumber: number) => {
         return <Page
-            loading={'NoData Page'}
-            width={width} pageNumber={pageNumber}
-            renderTextLayer={renderTextLayer}
-            // onRenderTextLayerSuccess={() => handleScroll("#text_highlight")}
+            width={width}
+            pageNumber={pageNumber}
             customTextRenderer={searchText ? (textItem) => {
                 const itemKey = `${textItem.pageIndex}-${textItem.itemIndex}`;
                 if (hlSet.has(itemKey)) {
                     hlSet.delete(itemKey)
                     if (hlSet.size === 0) {
-                        handleScroll("#text_highlight")
+                        scrollToHighlight().then(_ => {
+                            setIsLoading(false)
+                        })
                     }
                     return `<mark id="text_highlight">${textItem.str}</mark>`;
                 } else {
@@ -60,9 +75,6 @@ export const PDFViewer: React.FC<PDFProps> = ({
     const handleHighlightInfo = (res: boolean | any) => {
         if (res) {
             setHlSet(res.highlightSet);
-            setRenderTextLayer(true);
-        } else {
-            setRenderTextLayer(false);
         }
     };
 
@@ -73,27 +85,29 @@ export const PDFViewer: React.FC<PDFProps> = ({
 
     return <>
         {
-            <Document
-                loading={'NoData'}
-                file={file}
-                onLoadSuccess={(pdf) => {
-                    console.log("onLoadSuccess");
-                    pdfDocumentProxyRef.current = pdf;
-                    getHighlightInfo({pdfDocumentProxy: pdf}).then(handleHighlightInfo);
-                    setNumPages(pdf.numPages);
-                }}>
-                {new Array(numPages).fill(0).map((item, index) => {
-                    return <div
-                        key={index}>
-                        {renderPage(index + 1)}
-                        {index + 1}
-                    </div>;
-                })
-                }
-
-            </Document>
-
+            isLoading && <Loading/>
         }
+
+            <div style={{visibility: isLoading ? 'hidden' : 'visible'}}>
+                <Document
+                    file={file}
+                    onLoadSuccess={(pdf) => {
+                        pdfDocumentProxyRef.current = pdf;
+                        getHighlightInfo({pdfDocumentProxy: pdf}).then(handleHighlightInfo);
+                        setNumPages(pdf.numPages);
+                    }}>
+                    {new Array(numPages).fill(0).map((item, index) => {
+                        return <div
+                            key={index}>
+                            {renderPage(index + 1)}
+                            {index + 1}
+                        </div>;
+                    })
+                    }
+
+                </Document>
+            </div>
+
 
     </>;
 };
