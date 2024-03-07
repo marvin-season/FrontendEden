@@ -22,7 +22,7 @@ pdfjs.GlobalWorkerOptions.workerSrc = new URL(
 
 const Loading = () => {
     return <>
-        Loading
+        Loading 啊啊啊啊啊啊
     </>
 }
 
@@ -34,19 +34,9 @@ export const PDFViewer: React.FC<PDFProps> = ({
 
     const [numPages, setNumPages] = useState(0);
     const [hlSet, setHlSet] = useState<HighlightSet>(new Set([]));
-    const [isLoading, setIsLoading] = useState(true)
+    const [isLoading, setIsLoading] = useState(false)
     const pdfDocumentProxyRef = useRef<PDFDocumentProxy>();
 
-    const scrollToHighlight = async () => {
-        return new Promise((resolve) => {
-            handleScroll("#text_highlight")
-            resolve(1)
-        })
-    }
-
-    useEffect(() => {
-        file && setIsLoading(true)
-    }, [file]);
 
     const {getHighlightInfo} = useHighlightInfo({file, searchText});
 
@@ -57,11 +47,10 @@ export const PDFViewer: React.FC<PDFProps> = ({
             customTextRenderer={searchText ? (textItem) => {
                 const itemKey = `${textItem.pageIndex}-${textItem.itemIndex}`;
                 if (hlSet.has(itemKey)) {
+                    console.log('hlSet', hlSet)
                     hlSet.delete(itemKey)
                     if (hlSet.size === 0) {
-                        scrollToHighlight().then(_ => {
-                            setIsLoading(false)
-                        })
+                        handleScroll("#text_highlight")
                     }
                     return `<mark id="text_highlight">${textItem.str}</mark>`;
                 } else {
@@ -84,29 +73,24 @@ export const PDFViewer: React.FC<PDFProps> = ({
 
 
     return <>
-        {
-            isLoading && <Loading/>
-        }
 
-            <div style={{visibility: isLoading ? 'hidden' : 'visible'}}>
-                <Document
-                    file={file}
-                    onLoadSuccess={(pdf) => {
-                        pdfDocumentProxyRef.current = pdf;
-                        getHighlightInfo({pdfDocumentProxy: pdf}).then(handleHighlightInfo);
-                        setNumPages(pdf.numPages);
-                    }}>
-                    {new Array(numPages).fill(0).map((item, index) => {
-                        return <div
-                            key={index}>
-                            {renderPage(index + 1)}
-                            {index + 1}
-                        </div>;
-                    })
-                    }
+        <Document
+            file={file}
+            onLoadSuccess={(pdf) => {
+                pdfDocumentProxyRef.current = pdf;
+                getHighlightInfo({pdfDocumentProxy: pdf}).then(handleHighlightInfo);
+                setNumPages(pdf.numPages);
+            }}>
+            {new Array(numPages).fill(0).map((item, index) => {
+                return <div
+                    key={index}>
+                    {renderPage(index + 1)}
+                    {index + 1}
+                </div>;
+            })
+            }
 
-                </Document>
-            </div>
+        </Document>
 
 
     </>;
