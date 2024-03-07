@@ -1,41 +1,36 @@
-import {useEffect} from "react";
-import * as pdfjsLib from "pdfjs-dist";
-import {PDFPageProxy} from "pdfjs-dist";
+import {PDFDocumentProxy, PDFPageProxy} from "pdfjs-dist";
 import DocumentTracker from "@/components/DocumentTracker.ts";
 import {TextItem} from "pdfjs-dist/types/src/display/api";
-import {HighlightSet, PDFProps} from "@/components/PDFViewer.tsx";
+import {PDFProps} from "@/components/PDFViewer.tsx";
 
-export default function useHighlightInfo({file, onHighLight, searchText = ''}: PDFProps & {
-    onHighLight: (highlightSet: HighlightSet, highlightPageIndexSet: Set<number>) => void;
-}) {
-    const getHighlightInfo = async () => {
+export default function useHighlightInfo({searchText = ''}: PDFProps) {
+
+    const getHighlightInfo = async ({pdfDocumentProxy}: { pdfDocumentProxy?: PDFDocumentProxy }) => {
+        console.log(pdfDocumentProxy, pdfDocumentProxy != undefined)
         if (searchText?.length <= 0) {
             return false
         }
-        if (file) {
 
-            const pdfDocumentProxy = await pdfjsLib.getDocument(
-                file instanceof Blob ?
-                    await (file as Blob).arrayBuffer() :
-                    file
-            ).promise;
+        if (pdfDocumentProxy) {
             const numPages = pdfDocumentProxy.numPages;
             const tracker = new DocumentTracker();
             for (let pageIndex = 0; pageIndex < numPages; pageIndex++) {
                 const page: PDFPageProxy = await pdfDocumentProxy.getPage(pageIndex + 1);
                 const {items} = await page.getTextContent()
                 const result = await tracker.track(items as TextItem[], pageIndex, searchText);
+                console.log('tracker.highlightSet', tracker.highlightSet)
                 if (result) {
-                    onHighLight(tracker.highlightSet, tracker.highlightPageIndexSet)
-                    return true
+
+                    return {
+                        highlightSet: tracker.highlightSet,
+                        highlightPageIndexSet: tracker.highlightPageIndexSet
+                    }
                 }
             }
         }
+
         return false
     }
-    useEffect(() => {
-        getHighlightInfo().then()
-    }, [file]);
 
     return {
         getHighlightInfo

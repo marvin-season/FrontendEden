@@ -1,13 +1,14 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import './index.css'
 import 'react-pdf/dist/Page/TextLayer.css';
 import {Document, Page, pdfjs} from "react-pdf";
 import useHighlightInfo from "@/components/useHighlightInfo.ts";
 import {handleScroll} from "@root/shared"
+import {PDFDocumentProxy} from "pdfjs-dist";
 
 
 export type PDFProps = {
-    file: string | Blob | ArrayBuffer | undefined;
+    file?: string | Blob | ArrayBuffer | undefined;
     searchText?: string
 };
 
@@ -27,21 +28,9 @@ const PDFViewer: React.FC<PDFProps> = ({
     const [numPages, setNumPages] = useState(0);
     const [hlSet, setHlSet] = useState<HighlightSet>(new Set([]));
     const [renderTextLayer, setRenderTextLayer] = useState(false);
+    const pdfDocumentProxyRef = useRef<PDFDocumentProxy>();
 
-    const {getHighlightInfo} = useHighlightInfo({
-        file,
-        searchText,
-        onHighLight: (hlSet, hlPageIndex) => {
-            setHlSet(hlSet);
-            setRenderTextLayer(true)
-        }
-    });
-
-    useEffect(() => {
-        getHighlightInfo().then(ok => {
-            setRenderTextLayer(ok)
-        })
-    }, [searchText]);
+    const {getHighlightInfo} = useHighlightInfo({searchText});
 
     const renderPage = (pageNumber: number) => {
         return <Page
@@ -51,10 +40,6 @@ const PDFViewer: React.FC<PDFProps> = ({
             customTextRenderer={searchText ? (textItem) => {
                 const itemKey = `${textItem.pageIndex}-${textItem.itemIndex}`
                 if (hlSet.has(itemKey)) {
-                    // hlSet.delete(itemKey)
-                    // if (hlSet.size === 0) {
-                    //     handleScroll('#text_highlight')
-                    // }
                     return `<mark id="text_highlight">${textItem.str}</mark>`
                 } else {
                     return textItem.str
@@ -64,15 +49,27 @@ const PDFViewer: React.FC<PDFProps> = ({
         </Page>
     }
 
-    useEffect(() => {
+    const handleHighlightInfo = (res: boolean | any) => {
+        if (res) {
+            setHlSet(res.highlightSet);
+            setRenderTextLayer(true)
+        } else {
+            setRenderTextLayer(false)
+        }
+    }
 
+    useEffect(() => {
+        searchText && getHighlightInfo({pdfDocumentProxy: pdfDocumentProxyRef.current}).then(handleHighlightInfo)
     }, [searchText]);
 
 
     return <>
         {
-            <Document file={file} onLoadSuccess={({numPages}) => {
-                setNumPages(numPages)
+            <Document file={file} onLoadSuccess={(pdf) => {
+                console.log('onLoadSuccess')
+                pdfDocumentProxyRef.current = pdf
+                getHighlightInfo({pdfDocumentProxy: pdf}).then(handleHighlightInfo)
+                setNumPages(pdf.numPages)
             }}>
                 {new Array(numPages).fill(0).map((item, index) => {
                     return <div
