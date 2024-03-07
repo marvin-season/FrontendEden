@@ -14,6 +14,7 @@ export type PDFProps = {
 
 export type HighlightSet = Set<string>
 
+
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
     "pdfjs-dist/build/pdf.worker.min.js",
     import.meta.url
@@ -32,17 +33,21 @@ export const PDFViewer: React.FC<PDFProps> = ({
     const pdfDocumentProxyRef = useRef<PDFDocumentProxy>();
 
 
-    const {getHighlightInfo} = useHighlightInfo({searchText});
+    const {getHighlightInfo} = useHighlightInfo({file, searchText});
 
     const renderPage = (pageNumber: number) => {
         return <Page
             loading={'NoData Page'}
             width={width} pageNumber={pageNumber}
             renderTextLayer={renderTextLayer}
-            onRenderTextLayerSuccess={() => handleScroll("#text_highlight")}
+            // onRenderTextLayerSuccess={() => handleScroll("#text_highlight")}
             customTextRenderer={searchText ? (textItem) => {
                 const itemKey = `${textItem.pageIndex}-${textItem.itemIndex}`;
                 if (hlSet.has(itemKey)) {
+                    hlSet.delete(itemKey)
+                    if (hlSet.size === 0) {
+                        handleScroll("#text_highlight")
+                    }
                     return `<mark id="text_highlight">${textItem.str}</mark>`;
                 } else {
                     return textItem.str;
