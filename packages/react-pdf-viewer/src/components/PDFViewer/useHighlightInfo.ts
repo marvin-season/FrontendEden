@@ -1,7 +1,7 @@
 import {PDFDocumentProxy, PDFPageProxy} from "pdfjs-dist";
 import DocumentTracker from "./DocumentTracker";
 import {TextItem} from "pdfjs-dist/types/src/display/api";
-import {PDFProps} from "./PDFViewer";
+import {HighlightResultInfoType, PDFProps} from "./PDFViewer";
 
 export default function useHighlightInfo({searchText = '', file}: PDFProps) {
 
@@ -19,9 +19,9 @@ export default function useHighlightInfo({searchText = '', file}: PDFProps) {
                 const {items} = await page.getTextContent()
                 const tracked = await tracker.track(items as TextItem[], pageIndex, searchText);
                 if (tracked) {
-                    const result = {
+                    const result: HighlightResultInfoType = {
                         highlightSet: tracker.highlightSet,
-                        highlightPageIndexSet: tracker.highlightPageIndexSet
+                        pages: tracker.highlightPageIndexSet
                     };
 
                     return result

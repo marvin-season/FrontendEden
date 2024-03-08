@@ -14,6 +14,10 @@ export type PDFProps = {
 
 export type HighlightSet = Set<string>
 
+export type HighlightResultInfoType = {
+    highlightSet: HighlightSet;
+    pages: Set<number>
+}
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
     "pdfjs-dist/build/pdf.worker.min.js",
