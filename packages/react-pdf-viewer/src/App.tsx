@@ -1,11 +1,12 @@
 import {PDFViewer} from "@/components/PDFViewer/index.ts";
 import {ChangeEventHandler, useState} from "react";
+import {useDownLoadFile} from "@/hook/pdf";
 
 
 function App() {
     const [hls, setHls] = useState([
         {
-            url: "http://10.0.5.63:32099/smart-vision/ai-application/datasets/7297960218f046e09a2002bb11dca4f9/H56b-%E7%94%A8%E6%88%B7%E6%89%8B%E5%86%8C-%E5%85%A8%E7%89%882023.11.8_1-43.pdf?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=OG3OEPE5JXXS3K12%2F20240307%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240307T060717Z&X-Amz-Expires=10800&X-Amz-SignedHeaders=host&X-Amz-Signature=c6a2882a8b6dafe752b9dab396afa3a04a3afcf76de0730480954abc5c1be4d5",
+            url: "http://10.0.5.63:32099/smart-vision/ai-application/datasets/90421bde12614773a803166fca47dd81/H56b-%E7%94%A8%E6%88%B7%E6%89%8B%E5%86%8C-%E5%85%A8%E7%89%882023.11.8_1-43.pdf?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=OG3OEPE5JXXS3K12%2F20240308%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240308T074538Z&X-Amz-Expires=10800&X-Amz-SignedHeaders=host&X-Amz-Signature=a17b2b8144559f1139a1227514271acc198fbf321a450aefc0d1a8806e56a0ee",
             content: "。\n" +
                 "充电指南\n" +
                 "注意\n" +
@@ -14,7 +15,7 @@ function App() {
                 "桩指示灯位于面板上（如下图箭头所示）"
         },
         {
-            url: "http://10.0.5.63:32099/smart-vision/ai-application/datasets/7297960218f046e09a2002bb11dca4f9/H56b-%E7%94%A8%E6%88%B7%E6%89%8B%E5%86%8C-%E5%85%A8%E7%89%882023.11.8_1-43.pdf?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=OG3OEPE5JXXS3K12%2F20240307%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240307T060717Z&X-Amz-Expires=10800&X-Amz-SignedHeaders=host&X-Amz-Signature=c6a2882a8b6dafe752b9dab396afa3a04a3afcf76de0730480954abc5c1be4d5",
+            url: "http://10.0.5.63:32099/smart-vision/ai-application/datasets/90421bde12614773a803166fca47dd81/H56b-%E7%94%A8%E6%88%B7%E6%89%8B%E5%86%8C-%E5%85%A8%E7%89%882023.11.8_1-43.pdf?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=OG3OEPE5JXXS3K12%2F20240308%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240308T074538Z&X-Amz-Expires=10800&X-Amz-SignedHeaders=host&X-Amz-Signature=a17b2b8144559f1139a1227514271acc198fbf321a450aefc0d1a8806e56a0ee",
             content: "6 5 71 3 4 2\n" +
                 " cb\n" +
                 "da\n" +
@@ -48,7 +49,9 @@ function App() {
         }
     ])
     const [file, setFile] = useState<Blob>();
-    const [currentIndex, setCurrentIndex] = useState(2)
+    const [currentIndex, setCurrentIndex] = useState(2);
+    useDownLoadFile(hls[currentIndex].url, setFile);
+
     const handleFileChange: ChangeEventHandler<HTMLInputElement> = async (e) => {
         let file: File | undefined = e.currentTarget.files?.[0];
         if (!file) {
@@ -91,7 +94,7 @@ function App() {
                     <PDFViewer
                         width={800}
                         searchText={hls[currentIndex].content}
-                        file={file || hls[currentIndex].url}/>
+                        file={file}/>
                 </div>
             </div>
         </>
