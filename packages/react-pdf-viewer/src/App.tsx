@@ -41,10 +41,14 @@ function App() {
             url: "/math.pdf",
             content: "题目会给出对应的导数以及相关条件，并要求求一个极限，这个极限式子并\n" +
                 "不是个随机的式子，而一个是与导数定义相关的极限式子"
+        },
+        {
+            url: "/math.pdf",
+            content: "这个部分在书上主要是跟隐函数共同出现。"
         }
     ])
     const [file, setFile] = useState<Blob>();
-    const [currentIndex, setCurrentIndex] = useState(0)
+    const [currentIndex, setCurrentIndex] = useState(2)
     const handleFileChange: ChangeEventHandler<HTMLInputElement> = async (e) => {
         let file: File | undefined = e.currentTarget.files?.[0];
         if (!file) {

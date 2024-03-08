@@ -65,7 +65,7 @@ export const PDFViewer: React.FC<PDFProps> = ({
         </Page>;
     };
 
-    const handleHighlightInfo = (res: boolean | any) => {
+    const handleHighlightInfo = (res: any) => {
         if (res) {
             setHlSet(res.highlightSet);
         }

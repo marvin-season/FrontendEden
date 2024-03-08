@@ -9,9 +9,13 @@
     "preview": "vite preview"
   },
   "devDependencies": {
-    "lerna": "^6.6.2"
+    "@types/lodash": "^4.14.202",
+    "lerna": "^6.6.2",
+    "md5 ": "link:@types/md5 "
   },
   "dependencies": {
+    "js-md5": "^0.8.3",
+    "lodash": "^4.17.21",
     "react-use": "^17.5.0"
   }
 }
