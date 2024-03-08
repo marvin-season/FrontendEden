@@ -1,11 +1,20 @@
-import React, {useEffect, useRef, useState} from "react";
+import React, {useCallback, useEffect, useRef, useState} from "react";
 import "react-pdf/dist/Page/TextLayer.css";
 import {Document, Page, pdfjs} from "react-pdf";
 import useHighlightInfo from "./useHighlightInfo";
 import {handleScroll} from "@root/shared";
 import {PDFDocumentProxy} from "pdfjs-dist";
-import {useMeasure, useScroll} from "react-use";
+import {useGetState} from "ahooks";
+import {PDFPage} from "./PDFPage.tsx";
+import lodash from 'lodash'
 
+const MemoPage = React.memo(PDFPage, (prevProps, nextProps) => {
+    return prevProps.pageNumber == nextProps.pageNumber
+        && prevProps.width == nextProps.width
+        && prevProps.customRenderer == nextProps.customRenderer
+        && prevProps.pageIndex == nextProps.pageIndex
+        && prevProps.searchText == nextProps.searchText
+})
 
 export type PDFProps = {
     file?: string | Blob | ArrayBuffer | undefined;
@@ -37,20 +46,29 @@ export const PDFViewer: React.FC<PDFProps> = ({
                                                   width
                                               }) => {
 
-    const [numPages, setNumPages] = useState(0);
+    const [_, setNumPages, getNumPages] = useGetState(0);
     const [hlSet, setHlSet] = useState<HighlightSet>(new Set([]));
     const [isLoading, setIsLoading] = useState(false)
     const pdfDocumentProxyRef = useRef<PDFDocumentProxy>();
     const documentContainerRef = useRef<HTMLDivElement>(null);
-    const documentContainerInfo = useScroll(documentContainerRef);
-    const [documentRef, documentInfo] = useMeasure<HTMLDivElement>();
-
+    const documentRef = useRef<HTMLDivElement>(null);
+    const [pageRenderRange, setPageRenderRange] = useState<number[]>([1, 2, 3, 4, 5, 6, 7])
     const {getHighlightInfo} = useHighlightInfo({file, searchText});
 
 
-    const handleHighlightInfo = (res: any) => {
-        if (res) {
+    const handleHighlightInfo = (res: boolean | HighlightResultInfoType) => {
+        if (res && typeof res != "boolean") {
             setHlSet(res.highlightSet);
+            // const pages = [...res.pages].sort();
+            // const firstPageIndex = pages[0] - 1;
+            // const lastPageIndex = pages.at(-1) + 1;
+            // if (firstPageIndex >= 0) {
+            //     pages.unshift(firstPageIndex)
+            // }
+            // if (lastPageIndex <= getNumPages()) {
+            //     pages.push(lastPageIndex)
+            // }
+            // setPageRenderRange(pages)
         }
     };
 
@@ -62,7 +80,7 @@ export const PDFViewer: React.FC<PDFProps> = ({
         return <Page
             width={width}
             pageNumber={pageNumber}
-            renderTextLayer={!!searchText}
+            renderTextLayer={true}
             customTextRenderer={(textItem) => {
                 const itemKey = `${textItem.pageIndex}-${textItem.itemIndex}`;
                 if (hlSet.has(itemKey)) {
@@ -79,42 +97,47 @@ export const PDFViewer: React.FC<PDFProps> = ({
         </Page>;
     };
 
-    const handleRenderRangePage = (pageIndexes: number[]) => {
-        return <>
-            {
-                pageIndexes.map(index =>
-                    <div key={index}>
-                        {
-                            renderPage(index)
-                        }
-                        {index + 1}
-                    </div>
-                )
-            }
-        </>
+    const handleAddFirst = useCallback(lodash.debounce(() => {
+        console.log('顶部');
+        // if (pageRenderRange.at(0) >= 1) {
+        //     pageRenderRange.unshift(pageRenderRange.at(0) - 1)
+        // }
+    }, 1000), [])
 
-    }
+    const handleAddLast = useCallback(lodash.debounce(() => {
+        console.log('底部');
+        // if (pageRenderRange.at(-1) <= getNumPages()) {
+        //     pageRenderRange.push(pageRenderRange.at(-1) + 1)
+        // }
+    }, 1000), [])
 
     useEffect(() => {
-        const {height} = documentInfo
-        const {y: top}
-            = documentContainerInfo;
-        console.log(top, height)
-        // top
-        if (top == 0) {
-            console.log('顶部');
-        } else if (top + 800 == height) {
-            console.log('底部');
+        const documentContainerDom = documentContainerRef.current;
+        const documentDom = documentRef.current
+
+        if (!documentContainerDom || !documentDom) {
+            return
         }
-    }, [documentContainerInfo]);
+        documentContainerDom.addEventListener('scroll', (e) => {
+            console.log(e)
+            const {height: documentHeight} = documentDom.getBoundingClientRect()
+
+            if (documentContainerDom.scrollTop <= 800 / 2) {
+                handleAddFirst()
+            } else if (documentContainerDom.scrollTop + 800 / 2 == documentHeight) {
+                handleAddLast()
+            }
+        })
+
+    }, []);
 
     return <>
+        <button onClick={handleAddLast}>aaa</button>
         <div style={{
             height: '800px',
             overflow: "auto"
         }} ref={documentContainerRef}>
-            <div ref={documentRef}
-            >
+            <div ref={documentRef}>
                 <Document
                     file={file}
                     onLoadSuccess={(pdf) => {
@@ -122,7 +145,17 @@ export const PDFViewer: React.FC<PDFProps> = ({
                         getHighlightInfo({pdfDocumentProxy: pdf}).then(handleHighlightInfo);
                         setNumPages(pdf.numPages);
                     }}>
-                    {handleRenderRangePage([5, 6, 7])}
+                    {
+                        renderPage(7)
+                    }
+                    {/*{*/}
+                    {/*    pageRenderRange.map(pageIndex => <div key={pageIndex + 1}>*/}
+                    {/*            {*/}
+                    {/*                renderPage(pageIndex + 1)*/}
+                    {/*            }*/}
+                    {/*        </div>*/}
+                    {/*    )*/}
+                    {/*}*/}
 
                 </Document>
             </div>
