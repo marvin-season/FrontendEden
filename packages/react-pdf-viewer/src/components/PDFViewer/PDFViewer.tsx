@@ -59,7 +59,8 @@ export const PDFViewer: React.FC<PDFProps> = ({
         return <Page
             width={width}
             pageNumber={pageNumber}
-            customTextRenderer={searchText ? (textItem) => {
+            renderTextLayer={!!searchText}
+            customTextRenderer={(textItem) => {
                 const itemKey = `${textItem.pageIndex}-${textItem.itemIndex}`;
                 if (hlSet.has(itemKey)) {
                     hlSet.delete(itemKey)
@@ -70,7 +71,7 @@ export const PDFViewer: React.FC<PDFProps> = ({
                 } else {
                     return textItem.str;
                 }
-            } : undefined}
+            }}
             renderAnnotationLayer={false}>
         </Page>;
     };
