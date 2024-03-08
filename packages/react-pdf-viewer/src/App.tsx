@@ -62,7 +62,7 @@ function App() {
 
     return (
         <>
-            <div style={{display: 'flex', justifyContent: "space-between"}}>
+            <div style={{display: 'flex', justifyContent: "space-around", flexDirection: "row-reverse"}}>
                 <div style={{
                     overflow: 'auto',
                     width: '500px'
