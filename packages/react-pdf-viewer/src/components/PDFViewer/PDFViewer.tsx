@@ -41,7 +41,6 @@ export const PDFViewer: React.FC<PDFProps> = ({
     const [isLoading, setIsLoading] = useState(false)
     const pdfDocumentProxyRef = useRef<PDFDocumentProxy>();
 
-
     const {getHighlightInfo} = useHighlightInfo({file, searchText});
 
 
@@ -76,8 +75,23 @@ export const PDFViewer: React.FC<PDFProps> = ({
         </Page>;
     };
 
-    return <>
+    const handleRenderRangePage = (pageIndexes: number[]) => {
+        return <>
+            {
+                pageIndexes.map(index =>
+                    <div key={index}>
+                        {
+                            renderPage(index)
+                        }
+                        {index + 1}
+                    </div>
+                )
+            }
+        </>
 
+    }
+
+    return <>
         <Document
             file={file}
             onLoadSuccess={(pdf) => {
@@ -85,14 +99,13 @@ export const PDFViewer: React.FC<PDFProps> = ({
                 getHighlightInfo({pdfDocumentProxy: pdf}).then(handleHighlightInfo);
                 setNumPages(pdf.numPages);
             }}>
-            {new Array(numPages).fill(0).map((item, index) => {
-                return <div
-                    key={index}>
-                    {renderPage(index + 1)}
-                    {index + 1}
-                </div>;
-            })
-            }
+            {handleRenderRangePage([5, 6, 7])}
+            {/*{new Array(numPages).fill(0).map((item, index) => {*/}
+            {/*    return <>*/}
+            {/*        {handleRenderRangePage([5, 6, 7])}*/}
+            {/*    </>;*/}
+            {/*})*/}
+            {/*}*/}
 
         </Document>
 
