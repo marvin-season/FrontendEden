@@ -87,15 +87,10 @@ function App() {
                     }
                 </div>
 
-                <div style={{
-                    height: '800px',
-                    overflow: 'auto'
-                }}>
-                    <PDFViewer
-                        width={800}
-                        searchText={hls[currentIndex].content}
-                        file={file}/>
-                </div>
+                <PDFViewer
+                    width={800}
+                    searchText={hls[currentIndex].content}
+                    file={file}/>
             </div>
         </>
     )

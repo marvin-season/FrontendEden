@@ -4,6 +4,7 @@ import {Document, Page, pdfjs} from "react-pdf";
 import useHighlightInfo from "./useHighlightInfo";
 import {handleScroll} from "@root/shared";
 import {PDFDocumentProxy} from "pdfjs-dist";
+import {useMeasure, useScroll} from "react-use";
 
 
 export type PDFProps = {
@@ -40,6 +41,9 @@ export const PDFViewer: React.FC<PDFProps> = ({
     const [hlSet, setHlSet] = useState<HighlightSet>(new Set([]));
     const [isLoading, setIsLoading] = useState(false)
     const pdfDocumentProxyRef = useRef<PDFDocumentProxy>();
+    const documentContainerRef = useRef<HTMLDivElement>(null);
+    const documentContainerInfo = useScroll(documentContainerRef);
+    const [documentRef, documentInfo] = useMeasure<HTMLDivElement>();
 
     const {getHighlightInfo} = useHighlightInfo({file, searchText});
 
@@ -91,23 +95,39 @@ export const PDFViewer: React.FC<PDFProps> = ({
 
     }
 
-    return <>
-        <Document
-            file={file}
-            onLoadSuccess={(pdf) => {
-                pdfDocumentProxyRef.current = pdf;
-                getHighlightInfo({pdfDocumentProxy: pdf}).then(handleHighlightInfo);
-                setNumPages(pdf.numPages);
-            }}>
-            {handleRenderRangePage([5, 6, 7])}
-            {/*{new Array(numPages).fill(0).map((item, index) => {*/}
-            {/*    return <>*/}
-            {/*        {handleRenderRangePage([5, 6, 7])}*/}
-            {/*    </>;*/}
-            {/*})*/}
-            {/*}*/}
+    useEffect(() => {
+        const {height} = documentInfo
+        const {y: top}
+            = documentContainerInfo;
+        console.log(top, height)
+        // top
+        if (top == 0) {
+            console.log('顶部');
+        } else if (top + 800 == height) {
+            console.log('底部');
+        }
+    }, [documentContainerInfo]);
 
-        </Document>
+    return <>
+        <div style={{
+            height: '800px',
+            overflow: "auto"
+        }} ref={documentContainerRef}>
+            <div ref={documentRef}
+            >
+                <Document
+                    file={file}
+                    onLoadSuccess={(pdf) => {
+                        pdfDocumentProxyRef.current = pdf;
+                        getHighlightInfo({pdfDocumentProxy: pdf}).then(handleHighlightInfo);
+                        setNumPages(pdf.numPages);
+                    }}>
+                    {handleRenderRangePage([5, 6, 7])}
+
+                </Document>
+            </div>
+
+        </div>
 
 
     </>;
