@@ -20,6 +20,7 @@ export default function useHighlightInfo({searchText = '', file}: PDFProps) {
         }
 
         if(resMap[key]){
+            console.log('cached', resMap[key])
             return lodash.cloneDeep(resMap[key])
         }
 

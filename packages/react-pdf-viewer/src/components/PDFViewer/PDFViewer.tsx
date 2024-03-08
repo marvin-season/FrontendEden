@@ -44,26 +44,6 @@ export const PDFViewer: React.FC<PDFProps> = ({
 
     const {getHighlightInfo} = useHighlightInfo({file, searchText});
 
-    const renderPage = (pageNumber: number) => {
-        return <Page
-            width={width}
-            pageNumber={pageNumber}
-            customTextRenderer={searchText ? (textItem) => {
-                const itemKey = `${textItem.pageIndex}-${textItem.itemIndex}`;
-                if (hlSet.has(itemKey)) {
-                    console.log('hlSet', hlSet)
-                    hlSet.delete(itemKey)
-                    if (hlSet.size === 0) {
-                        handleScroll("#text_highlight")
-                    }
-                    return `<mark id="text_highlight">${textItem.str}</mark>`;
-                } else {
-                    return textItem.str;
-                }
-            } : undefined}
-            renderAnnotationLayer={false}>
-        </Page>;
-    };
 
     const handleHighlightInfo = (res: any) => {
         if (res) {
@@ -75,6 +55,25 @@ export const PDFViewer: React.FC<PDFProps> = ({
         searchText && getHighlightInfo({pdfDocumentProxy: pdfDocumentProxyRef.current}).then(handleHighlightInfo);
     }, [searchText]);
 
+    const renderPage = (pageNumber: number) => {
+        return <Page
+            width={width}
+            pageNumber={pageNumber}
+            customTextRenderer={searchText ? (textItem) => {
+                const itemKey = `${textItem.pageIndex}-${textItem.itemIndex}`;
+                if (hlSet.has(itemKey)) {
+                    hlSet.delete(itemKey)
+                    if (hlSet.size === 0) {
+                        setTimeout(() => handleScroll("#text_highlight"))
+                    }
+                    return `<mark id="text_highlight">${textItem.str}</mark>`;
+                } else {
+                    return textItem.str;
+                }
+            } : undefined}
+            renderAnnotationLayer={false}>
+        </Page>;
+    };
 
     return <>
 
