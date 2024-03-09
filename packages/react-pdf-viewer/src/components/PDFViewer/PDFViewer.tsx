@@ -52,23 +52,23 @@ export const PDFViewer: React.FC<PDFProps> = ({
     const pdfDocumentProxyRef = useRef<PDFDocumentProxy>();
     const documentContainerRef = useRef<HTMLDivElement>(null);
     const documentRef = useRef<HTMLDivElement>(null);
-    const [pageRenderRange, setPageRenderRange] = useState<number[]>([1, 2, 3, 4, 5, 6, 7])
+    const [pageRenderRange, setPageRenderRange] = useState<number[]>([4, 5, 6])
     const {getHighlightInfo} = useHighlightInfo({file, searchText});
 
 
     const handleHighlightInfo = (res: boolean | HighlightResultInfoType) => {
         if (res && typeof res != "boolean") {
             setHlSet(res.highlightSet);
-            // const pages = [...res.pages].sort();
-            // const firstPageIndex = pages[0] - 1;
-            // const lastPageIndex = pages.at(-1) + 1;
-            // if (firstPageIndex >= 0) {
-            //     pages.unshift(firstPageIndex)
-            // }
-            // if (lastPageIndex <= getNumPages()) {
-            //     pages.push(lastPageIndex)
-            // }
-            // setPageRenderRange(pages)
+            const pages = [...res.pages].sort();
+            const firstPageIndex = pages[0] - 1;
+            const lastPageIndex = pages.at(-1) + 1;
+            if (firstPageIndex >= 0) {
+                pages.unshift(firstPageIndex)
+            }
+            if (lastPageIndex <= getNumPages()) {
+                pages.push(lastPageIndex)
+            }
+            setPageRenderRange(pages)
         }
     };
 
@@ -99,19 +99,19 @@ export const PDFViewer: React.FC<PDFProps> = ({
 
     const handleAddFirst = useCallback(lodash.debounce(() => {
         console.log('顶部');
-        // if (pageRenderRange.at(0) >= 1) {
-        //     pageRenderRange.unshift(pageRenderRange.at(0) - 1)
-        // }
+        if (pageRenderRange.at(0) >= 1) {
+            setPageRenderRange([pageRenderRange.at(0) - 1, ...pageRenderRange])
+        }
     }, 1000), [])
 
     const handleAddLast = useCallback(lodash.debounce(() => {
         console.log('底部');
-        // if (pageRenderRange.at(-1) <= getNumPages()) {
-        //     pageRenderRange.push(pageRenderRange.at(-1) + 1)
-        // }
+        if (pageRenderRange.at(-1) <= getNumPages()) {
+            setPageRenderRange([...pageRenderRange, pageRenderRange.at(-1) + 1])
+        }
     }, 1000), [])
 
-    useEffect(() => {
+    const handelScroll = () => {
         const documentContainerDom = documentContainerRef.current;
         const documentDom = documentRef.current
 
@@ -119,15 +119,23 @@ export const PDFViewer: React.FC<PDFProps> = ({
             return
         }
         documentContainerDom.addEventListener('scroll', (e) => {
-            console.log(e)
             const {height: documentHeight} = documentDom.getBoundingClientRect()
-
             if (documentContainerDom.scrollTop <= 800 / 2) {
                 handleAddFirst()
             } else if (documentContainerDom.scrollTop + 800 / 2 == documentHeight) {
                 handleAddLast()
             }
         })
+    }
+
+    useEffect(() => {
+        return () => {
+            if (documentContainerRef.current) {
+                documentContainerRef.current.removeEventListener('scroll', () => {
+                    console.log('remove')
+                })
+            }
+        };
 
     }, []);
 
@@ -144,18 +152,17 @@ export const PDFViewer: React.FC<PDFProps> = ({
                         pdfDocumentProxyRef.current = pdf;
                         getHighlightInfo({pdfDocumentProxy: pdf}).then(handleHighlightInfo);
                         setNumPages(pdf.numPages);
+
+                        handelScroll()
                     }}>
                     {
-                        renderPage(7)
+                        pageRenderRange.map(pageIndex => <div key={pageIndex + 1}>
+                                {
+                                    renderPage(pageIndex + 1)
+                                }
+                            </div>
+                        )
                     }
-                    {/*{*/}
-                    {/*    pageRenderRange.map(pageIndex => <div key={pageIndex + 1}>*/}
-                    {/*            {*/}
-                    {/*                renderPage(pageIndex + 1)*/}
-                    {/*            }*/}
-                    {/*        </div>*/}
-                    {/*    )*/}
-                    {/*}*/}
 
                 </Document>
             </div>
