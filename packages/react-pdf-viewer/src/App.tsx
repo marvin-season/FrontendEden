@@ -1,5 +1,8 @@
+import {ReactPdfjs} from "@/views/react-pdfjs";
+
 function App() {
-    return <>dasdas
+    return <>
+        <ReactPdfjs/>
     </>
 }
 
