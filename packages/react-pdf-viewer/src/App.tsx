@@ -1,8 +1,9 @@
-import {ReactPdfjs} from "@/views/react-pdfjs";
+import {PdfjsCanvas} from "@/views/react-pdfjs/canvas.tsx";
+import PDFTest from "@/views/ReactPdf/PDFTest.tsx";
 
 function App() {
     return <>
-        <ReactPdfjs/>
+        <PdfjsCanvas/>
     </>
 }
 

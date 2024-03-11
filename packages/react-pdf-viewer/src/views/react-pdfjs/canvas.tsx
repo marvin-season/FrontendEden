@@ -8,17 +8,17 @@ pdfjs.GlobalWorkerOptions.workerSrc = new URL(
     import.meta.url
 ).toString();
 
-export const ReactPdfjs: React.FC<{}> = props => {
+export const PdfjsCanvas: React.FC<{}> = props => {
     const canvasElement = useRef<HTMLCanvasElement>(null);
 
-    const renderPage = async (scale: number) => {
+    const renderPage = async (pageNumber: number, scale: number) => {
         const {current: canvas} = canvasElement;
         if (!canvas) {
             return
         }
         const document = pdfjs.getDocument('/math.pdf');
         const pdfDocumentProxy = await document.promise;
-        const pdfPageProxy = await pdfDocumentProxy.getPage(3);
+        const pdfPageProxy = await pdfDocumentProxy.getPage(pageNumber);
 
         const viewport = pdfPageProxy.getViewport({scale: scale * devicePixelRatio});
 
@@ -53,7 +53,7 @@ export const ReactPdfjs: React.FC<{}> = props => {
 
     return (
         <>
-            <button onClick={() => renderPage(1)}
+            <button onClick={() => renderPage(3, 1)}
                     style={{position: 'fixed', right: 0, height: '50px', zIndex: 999}}>
                 render
             </button>
