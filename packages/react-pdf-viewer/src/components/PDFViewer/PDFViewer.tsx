@@ -47,7 +47,7 @@ export const PDFViewer: React.FC<PDFProps> = ({
                                               }) => {
 
     const [_, setNumPages, getNumPages] = useGetState(0); // 页数
-    const [hlSet, setHlSet] = useState<HighlightSet>(new Set([]));
+    const [hlSet, setHlSet, getHlSet] = useGetState<HighlightSet>(new Set([]));
     const [renderTextLayer, setRenderTextLayer] = useState(false)
     const pdfDocumentProxyRef = useRef<PDFDocumentProxy>();
     const documentContainerRef = useRef<HTMLDivElement>(null);
@@ -57,45 +57,19 @@ export const PDFViewer: React.FC<PDFProps> = ({
 
 
     const handleHighlightInfo = (res: boolean | HighlightResultInfoType) => {
-        // if (res && typeof res != "boolean") {
-        //     setHlSet(res.highlightSet);
-        //     const pages = [...res.pages].sort();
-        //     const firstPageIndex = pages[0] - 1;
-        //     const lastPageIndex = pages.at(-1) + 1;
-        //     if (firstPageIndex >= 0) {
-        //         pages.unshift(firstPageIndex)
-        //     }
-        //     if (lastPageIndex <= getNumPages()) {
-        //         pages.push(lastPageIndex)
-        //     }
-        //     setPageRenderRange(pages)
-        // }
+        if (res && typeof res != "boolean") {
+            setHlSet(res.highlightSet);
+            const pages = [...res.pages].sort();
+            setPageRenderRange(pages);
+            setRenderTextLayer(true);
+            // handleAddLast(2)
+            // handleAddFirst(2)
+        }
     };
 
     useEffect(() => {
         searchText && getHighlightInfo({pdfDocumentProxy: pdfDocumentProxyRef.current}).then(handleHighlightInfo);
     }, [searchText]);
-
-    const renderPage = (pageNumber: number) => {
-        return <Page
-            width={width}
-            pageNumber={pageNumber}
-            renderTextLayer={renderTextLayer}
-            customTextRenderer={(textItem) => {
-                const itemKey = `${textItem.pageIndex}-${textItem.itemIndex}`;
-                if (hlSet.has(itemKey)) {
-                    hlSet.delete(itemKey)
-                    if (hlSet.size === 0) {
-                        setTimeout(() => handleScroll("#text_highlight"))
-                    }
-                    return `<mark id="text_highlight">${textItem.str}</mark>`;
-                } else {
-                    return textItem.str;
-                }
-            }}
-            renderAnnotationLayer={false}>
-        </Page>;
-    };
 
     const handleAddFirst = lodash.debounce((number = 3) => {
         console.log(`<- 加载n${number}页`, getPageRenderRange());
@@ -113,6 +87,8 @@ export const PDFViewer: React.FC<PDFProps> = ({
             }
             setPageRenderRange([...newPageIndex, ...getPageRenderRange()])
         }
+        setRenderTextLayer(true);
+
     }, 1000)
 
     const handleAddLast = useCallback(lodash.debounce((number = 3) => {
@@ -162,6 +138,27 @@ export const PDFViewer: React.FC<PDFProps> = ({
 
     }, []);
 
+    const renderPage = (pageNumber: number) => {
+        return <Page
+            width={width}
+            pageNumber={pageNumber}
+            renderTextLayer={renderTextLayer}
+            customTextRenderer={(textItem) => {
+                const itemKey = `${textItem.pageIndex}-${textItem.itemIndex}`;
+                if (getHlSet().has(itemKey)) {
+                    hlSet.delete(itemKey)
+                    if (getHlSet().size === 0) {
+                        setTimeout(() => handleScroll("#text_highlight"))
+                    }
+                    return `<mark id="text_highlight">${textItem.str}</mark>`;
+                } else {
+                    return textItem.str;
+                }
+            }}
+            renderAnnotationLayer={false}>
+        </Page>;
+    };
+
     return <>
         <button onClick={handleAddLast}>aaa</button>
         <div style={{
@@ -176,10 +173,10 @@ export const PDFViewer: React.FC<PDFProps> = ({
                         getHighlightInfo({pdfDocumentProxy: pdf}).then(handleHighlightInfo);
                         setNumPages(pdf.numPages);
 
-                        handelScroll()
+                        handelScroll();
                     }}>
                     {
-                        pageRenderRange.map(pageIndex => <div key={pageIndex + 1}>
+                        getPageRenderRange().map(pageIndex => <div key={pageIndex + 1}>
                                 {
                                     renderPage(pageIndex + 1)
                                 }
