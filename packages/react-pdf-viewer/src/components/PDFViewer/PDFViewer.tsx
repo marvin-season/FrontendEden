@@ -48,28 +48,28 @@ export const PDFViewer: React.FC<PDFProps> = ({
 
     const [_, setNumPages, getNumPages] = useGetState(0);
     const [hlSet, setHlSet] = useState<HighlightSet>(new Set([]));
-    const [isLoading, setIsLoading] = useState(false)
+    const [renderTextLayer, setRenderTextLayer] = useState(false)
     const pdfDocumentProxyRef = useRef<PDFDocumentProxy>();
     const documentContainerRef = useRef<HTMLDivElement>(null);
     const documentRef = useRef<HTMLDivElement>(null);
-    const [pageRenderRange, setPageRenderRange] = useState<number[]>([4, 5, 6])
+    const [pageRenderRange, setPageRenderRange, getPageRenderRange] = useGetState<number[]>([5, 6])
     const {getHighlightInfo} = useHighlightInfo({file, searchText});
 
 
     const handleHighlightInfo = (res: boolean | HighlightResultInfoType) => {
-        if (res && typeof res != "boolean") {
-            setHlSet(res.highlightSet);
-            const pages = [...res.pages].sort();
-            const firstPageIndex = pages[0] - 1;
-            const lastPageIndex = pages.at(-1) + 1;
-            if (firstPageIndex >= 0) {
-                pages.unshift(firstPageIndex)
-            }
-            if (lastPageIndex <= getNumPages()) {
-                pages.push(lastPageIndex)
-            }
-            setPageRenderRange(pages)
-        }
+        // if (res && typeof res != "boolean") {
+        //     setHlSet(res.highlightSet);
+        //     const pages = [...res.pages].sort();
+        //     const firstPageIndex = pages[0] - 1;
+        //     const lastPageIndex = pages.at(-1) + 1;
+        //     if (firstPageIndex >= 0) {
+        //         pages.unshift(firstPageIndex)
+        //     }
+        //     if (lastPageIndex <= getNumPages()) {
+        //         pages.push(lastPageIndex)
+        //     }
+        //     setPageRenderRange(pages)
+        // }
     };
 
     useEffect(() => {
@@ -80,7 +80,7 @@ export const PDFViewer: React.FC<PDFProps> = ({
         return <Page
             width={width}
             pageNumber={pageNumber}
-            renderTextLayer={true}
+            renderTextLayer={renderTextLayer}
             customTextRenderer={(textItem) => {
                 const itemKey = `${textItem.pageIndex}-${textItem.itemIndex}`;
                 if (hlSet.has(itemKey)) {
@@ -97,19 +97,19 @@ export const PDFViewer: React.FC<PDFProps> = ({
         </Page>;
     };
 
-    const handleAddFirst = useCallback(lodash.debounce(() => {
-        console.log('顶部');
-        if (pageRenderRange.at(0) >= 1) {
-            setPageRenderRange([pageRenderRange.at(0) - 1, ...pageRenderRange])
+    const handleAddFirst = lodash.debounce(() => {
+        console.log('顶部', getPageRenderRange());
+        if (getPageRenderRange().at(0) >= 1) {
+            setPageRenderRange([getPageRenderRange().at(0) - 1, ...getPageRenderRange()])
         }
-    }, 1000), [])
+    }, 1000)
 
     const handleAddLast = useCallback(lodash.debounce(() => {
-        console.log('底部');
-        if (pageRenderRange.at(-1) <= getNumPages()) {
-            setPageRenderRange([...pageRenderRange, pageRenderRange.at(-1) + 1])
+        console.log('底部', pageRenderRange);
+        if (getPageRenderRange().at(-1) <= getNumPages()) {
+            setPageRenderRange([...getPageRenderRange(), getPageRenderRange().at(-1) + 1])
         }
-    }, 1000), [])
+    }, 1000), [pageRenderRange])
 
     const handelScroll = () => {
         const documentContainerDom = documentContainerRef.current;
@@ -119,10 +119,12 @@ export const PDFViewer: React.FC<PDFProps> = ({
             return
         }
         documentContainerDom.addEventListener('scroll', (e) => {
-            const {height: documentHeight} = documentDom.getBoundingClientRect()
-            if (documentContainerDom.scrollTop <= 800 / 2) {
+            const {height: documentHeight} = documentDom.getBoundingClientRect();
+            console.log('documentContainerDom.scrollTop', documentContainerDom.scrollTop, documentHeight);
+            // 提前两页加载
+            if (documentContainerDom.scrollTop <= 800 * 2) {
                 handleAddFirst()
-            } else if (documentContainerDom.scrollTop + 800 / 2 == documentHeight) {
+            } else if (documentContainerDom.scrollTop + 800 + 800 * 2 >= documentHeight) {
                 handleAddLast()
             }
         })
