@@ -72,7 +72,7 @@ export const PDFViewer: React.FC<PDFProps> = ({
     }, [searchText]);
 
     const handleAddFirst = lodash.debounce((number = 3) => {
-        console.log(`<- 加载n${number}页`, getPageRenderRange());
+        console.log(`<- 加载${number}页`, getPageRenderRange());
         const firstPageIndex = getPageRenderRange().at(0);
         if (firstPageIndex >= 1) {
             const newPageIndex = []
@@ -87,12 +87,11 @@ export const PDFViewer: React.FC<PDFProps> = ({
             }
             setPageRenderRange([...newPageIndex, ...getPageRenderRange()])
         }
-        setRenderTextLayer(true);
 
-    }, 1000)
+    }, 500)
 
     const handleAddLast = useCallback(lodash.debounce((number = 3) => {
-        console.log(`-> 加载n${number}页`, getPageRenderRange(), getNumPages());
+        console.log(`-> 加载${number}页`, getPageRenderRange(), getNumPages());
 
         const lastPageIndex = getPageRenderRange().at(-1);
         if (lastPageIndex <= getNumPages() - 2) {
@@ -107,7 +106,7 @@ export const PDFViewer: React.FC<PDFProps> = ({
             }
             setPageRenderRange([...getPageRenderRange(), ...newPageIndex])
         }
-    }, 1000), [pageRenderRange])
+    }, 500), [pageRenderRange])
 
     const handelScroll = () => {
         const documentContainerDom = documentContainerRef.current;
@@ -140,12 +139,14 @@ export const PDFViewer: React.FC<PDFProps> = ({
 
     const renderPage = (pageNumber: number) => {
         return <Page
+            inputRef={pageRef}
             width={width}
             pageNumber={pageNumber}
             renderTextLayer={renderTextLayer}
             customTextRenderer={(textItem) => {
                 const itemKey = `${textItem.pageIndex}-${textItem.itemIndex}`;
                 if (getHlSet().has(itemKey)) {
+                    console.log(hlSet, getHlSet() )
                     hlSet.delete(itemKey)
                     if (getHlSet().size === 0) {
                         setTimeout(() => handleScroll("#text_highlight"))
@@ -159,8 +160,14 @@ export const PDFViewer: React.FC<PDFProps> = ({
         </Page>;
     };
 
+    const pageRef = useRef<HTMLDivElement>(null);
+
+
     return <>
-        <button onClick={handleAddLast}>aaa</button>
+        <button onClick={() => {
+            console.log(pageRef.current);
+            setRenderTextLayer(!renderTextLayer)
+        }}>TEST</button>
         <div style={{
             height: '800px',
             overflow: "auto"
