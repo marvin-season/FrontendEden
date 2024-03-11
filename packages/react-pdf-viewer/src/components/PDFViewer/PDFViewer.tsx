@@ -3,11 +3,10 @@ import "react-pdf/dist/Page/TextLayer.css";
 import {Document, Page, pdfjs} from "react-pdf";
 import useHighlightInfo from "./useHighlightInfo";
 import {handleScroll} from "@root/shared";
-import {PDFDocumentProxy} from "pdfjs-dist";
+import {PDFDocumentProxy, renderTextLayer} from "pdfjs-dist";
 import {useGetState} from "ahooks";
 import {PDFPage} from "./PDFPage.tsx";
 import lodash from 'lodash'
-
 const MemoPage = React.memo(PDFPage, (prevProps, nextProps) => {
     return prevProps.pageNumber == nextProps.pageNumber
         && prevProps.width == nextProps.width
