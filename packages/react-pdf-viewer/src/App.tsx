@@ -3,7 +3,7 @@ import PDFTest from "@/views/ReactPdf/PDFTest.tsx";
 
 function App() {
     return <>
-        <PdfjsCanvas/>
+        <PDFTest/>
     </>
 }
 

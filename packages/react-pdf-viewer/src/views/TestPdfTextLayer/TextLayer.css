@@ -49,8 +49,6 @@
     forced-color-adjust: none;
     transform-origin: 0 0;
     z-index: 2;
-    left: 8px;
-    top: 8px;
 }
 
 .textLayer :is(span, br) {

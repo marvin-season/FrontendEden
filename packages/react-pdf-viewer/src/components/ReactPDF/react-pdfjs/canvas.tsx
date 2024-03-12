@@ -1,26 +1,29 @@
-import React, {useCallback, useEffect, useRef} from "react";
+import React, {useCallback, useContext, useEffect, useRef} from "react";
 
 import * as pdfjs from "pdfjs-dist";
 import {RenderParameters} from "pdfjs-dist/types/src/display/api";
+import {PDFPageContext} from "@/components/ReactPDF";
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
     "pdfjs-dist/build/pdf.worker.min.js",
     import.meta.url
 ).toString();
 
-export const PdfjsCanvas: React.FC<{}> = props => {
+export const PdfjsCanvas: React.FC<{
+    pageNumber: number;
+}> = ({pageNumber}) => {
+    const {
+        page
+    } = useContext(PDFPageContext)
     const canvasElement = useRef<HTMLCanvasElement>(null);
 
     const renderPage = async (pageNumber: number, scale: number) => {
         const {current: canvas} = canvasElement;
-        if (!canvas) {
+        if (!canvas || !page) {
             return
         }
-        const document = pdfjs.getDocument('/math.pdf');
-        const pdfDocumentProxy = await document.promise;
-        const pdfPageProxy = await pdfDocumentProxy.getPage(pageNumber);
 
-        const viewport = pdfPageProxy.getViewport({scale: scale * devicePixelRatio});
+        const viewport = page.getViewport({scale: scale * devicePixelRatio});
 
         canvas.width = viewport.width;
         canvas.height = viewport.height;
@@ -35,7 +38,7 @@ export const PdfjsCanvas: React.FC<{}> = props => {
             viewport,
         };
 
-        pdfPageProxy.render(renderContext).promise.then(() => {
+        page.render(renderContext).promise.then(() => {
             canvas.style.visibility = '';
         })
     }
@@ -51,20 +54,18 @@ export const PdfjsCanvas: React.FC<{}> = props => {
 
     useEffect(() => cleanup, [canvasElement]);
 
+    useEffect(() => {
+        renderPage(pageNumber, 1).then();
+    }, []);
+
     return (
-        <>
-            <button onClick={() => renderPage(3, 1)}
-                    style={{position: 'fixed', right: 0, height: '50px', zIndex: 999}}>
-                render
-            </button>
-            <canvas
-                ref={canvasElement}
-                style={{
-                    display: 'block',
-                    userSelect: 'none',
-                }}
-            >
-            </canvas>
-        </>
+        <canvas
+            ref={canvasElement}
+            style={{
+                display: 'block',
+                userSelect: 'none',
+            }}
+        >
+        </canvas>
     );
 };
