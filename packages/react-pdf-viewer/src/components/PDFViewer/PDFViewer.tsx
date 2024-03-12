@@ -65,7 +65,7 @@ export const PDFViewer: React.FC<PDFProps> = ({
     const handleAddFirst = lodash.debounce((number = 3) => {
         console.log(`<- 加载${number}页`, getPageRenderRange());
         const firstPageIndex = getPageRenderRange().at(0);
-        if (firstPageIndex >= 1) {
+        if (firstPageIndex && firstPageIndex >= 1) {
             const newPageIndex = []
             // = [firstPageIndex - 1, firstPageIndex - 2, firstPageIndex - 3].filter(index => index >= 0);
             // [lastPageIndex + 1, lastPageIndex + 2, lastPageIndex + 3].filter(index => index <= getNumPages())
@@ -85,7 +85,7 @@ export const PDFViewer: React.FC<PDFProps> = ({
         console.log(`-> 加载${number}页`, getPageRenderRange(), getNumPages());
 
         const lastPageIndex = getPageRenderRange().at(-1);
-        if (lastPageIndex <= getNumPages() - 2) {
+        if (lastPageIndex && lastPageIndex <= getNumPages() - 2) {
             const newPageIndex = []
             // [lastPageIndex + 1, lastPageIndex + 2, lastPageIndex + 3].filter(index => index <= getNumPages())
             for (let i = 1; i <= number; i++) {
