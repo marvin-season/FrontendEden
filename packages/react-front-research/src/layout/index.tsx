@@ -7,6 +7,7 @@ const LayoutContainer = styled.div`
   display: flex;
   justify-content: flex-start;
   height: 100vh;
+  width: 100vw;
   overflow: auto;
   box-sizing: border-box;
   gap: 10px;

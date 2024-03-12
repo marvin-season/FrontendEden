@@ -5,6 +5,7 @@ import Index from "@/pages/Index";
 import FilePage from "@/pages/FilePage";
 import React from "react";
 import CompReRender from "@/pages/CompReRender";
+import ChatPanel from "@/pages/ChatPanel";
 
 export const routes: RouteObject[] = [
     {
@@ -30,6 +31,11 @@ export const routes: RouteObject[] = [
                 path: 'comp-rerender',
                 index: true,
                 element: <CompReRender/>
+            },
+            {
+                path: 'chat-panel',
+                index: true,
+                element: <ChatPanel/>
             },
         ]
     }
