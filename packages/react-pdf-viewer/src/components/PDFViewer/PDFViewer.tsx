@@ -3,17 +3,9 @@ import "react-pdf/dist/Page/TextLayer.css";
 import {Document, Page, pdfjs} from "react-pdf";
 import useHighlightInfo from "./useHighlightInfo";
 import {handleScroll} from "@root/shared";
-import {PDFDocumentProxy, renderTextLayer} from "pdfjs-dist";
+import {PDFDocumentProxy} from "pdfjs-dist";
 import {useGetState} from "ahooks";
-import {PDFPage} from "./PDFPage.tsx";
 import lodash from 'lodash'
-const MemoPage = React.memo(PDFPage, (prevProps, nextProps) => {
-    return prevProps.pageNumber == nextProps.pageNumber
-        && prevProps.width == nextProps.width
-        && prevProps.customRenderer == nextProps.customRenderer
-        && prevProps.pageIndex == nextProps.pageIndex
-        && prevProps.searchText == nextProps.searchText
-})
 
 export type PDFProps = {
     file?: string | Blob | ArrayBuffer | undefined;
@@ -145,7 +137,7 @@ export const PDFViewer: React.FC<PDFProps> = ({
             customTextRenderer={(textItem) => {
                 const itemKey = `${textItem.pageIndex}-${textItem.itemIndex}`;
                 if (getHlSet().has(itemKey)) {
-                    console.log(hlSet, getHlSet() )
+                    console.log(hlSet, getHlSet())
                     hlSet.delete(itemKey)
                     if (getHlSet().size === 0) {
                         setTimeout(() => handleScroll("#text_highlight"))
@@ -166,7 +158,8 @@ export const PDFViewer: React.FC<PDFProps> = ({
         <button onClick={() => {
             console.log(pageRef.current);
             setRenderTextLayer(!renderTextLayer)
-        }}>TEST</button>
+        }}>TEST
+        </button>
         <div style={{
             height: '800px',
             overflow: "auto"
@@ -179,7 +172,7 @@ export const PDFViewer: React.FC<PDFProps> = ({
                         getHighlightInfo({pdfDocumentProxy: pdf}).then(handleHighlightInfo);
                         setNumPages(pdf.numPages);
 
-                        handelScroll();
+                        // handelScroll();
                     }}>
                     {
                         getPageRenderRange().map(pageIndex => <div key={pageIndex + 1}>
