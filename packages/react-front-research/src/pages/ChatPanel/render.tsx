@@ -7,17 +7,12 @@ import {
 } from "@/components/chat/types.ts";
 import {ReactElement, useEffect, useState} from "react";
 
-function convertToTree(chatList: ChatItem[], id: string): TreeChatItem | undefined {
-    const findIndex = chatList.findIndex(item => item.id == id);
-    if (findIndex < 0) {
-        return undefined
-    }
-    const root = chatList[findIndex] as TreeChatItem;
+function convertToTree(chatList: ChatItem[], root: TreeChatItem): TreeChatItem {
 
     const children: TreeChatItem[] = []
     chatList.forEach(item => {
-        if (item.parentId == id) {
-            const root = convertToTree(chatList, item.id);
+        if (item.parentId == root.id) {
+            const root = convertToTree(chatList, item);
             if (root) children.push(root)
         }
     })
@@ -26,38 +21,47 @@ function convertToTree(chatList: ChatItem[], id: string): TreeChatItem | undefin
     return root
 }
 
+function getRoots(chatList: ChatItem[]) {
+    return chatList.filter(item => !item.parentId);
+}
+
 export const treeLayoutRender: ChatProps['renderChatItemLayout'] = (chatList, renderAnswerPanel, renderQuestionPanel) => {
 
-    const [root, setRoot] = useState<TreeChatItem>();
-    const [currentNode, setCurrentNode] = useState<TreeChatItem>();
+    const [roots, setRoots] = useState<TreeChatItem[]>([]);
 
     useEffect(() => {
-        setRoot(convertToTree(chatList, chatList[0].id));
-        setCurrentNode(root);
+        const roots = getRoots(chatList).map(root => {
+            return convertToTree(chatList, root);
+        })
+        console.log(roots)
+        roots && setRoots(roots);
     }, []);
 
     return <>
         {
-            root && renderTree(root, renderAnswerPanel, renderQuestionPanel)
+            roots.length > 0 && roots.map(root => renderTree(root, renderAnswerPanel, renderQuestionPanel))
         }
     </>
 }
 
 function renderTree(root: TreeChatItem, renderAnswerPanel?: renderAnswerPanelType, renderQuestionPane?: renderQuestionPanelType): ReactElement {
-    console.log(root)
-    if (!root.children || root.children.length <= 0) {
-        return <>
+
+
+    if (!root.children || root.children.length == 0) {
+        return <div>
             {
                 root.role == "answer" ? renderAnswerPanel?.(root) : renderQuestionPane?.(root)
             }
-        </>
+        </div>
 
     }
 
     return <>
-        {
-            root.role == "answer" ? renderAnswerPanel?.(root) : renderQuestionPane?.(root)
-        }
+        <div style={{paddingBottom: '20px'}}>
+            {
+                root.role == "answer" ? renderAnswerPanel?.(root) : renderQuestionPane?.(root)
+            }
+        </div>
         {
             root.children.map(item => {
                 return <div key={item.id}>

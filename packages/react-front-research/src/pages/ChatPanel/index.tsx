@@ -28,16 +28,21 @@ const chatList: ChatItem[] = [
     },
     {
         id: '5',
-        content: '吃完了去玩儿？',
-        role: 'answer',
-        parentId: '6',
+        content: '今天星期几？',
+        role: 'question',
     },
     {
         id: '6',
         content: '嘿嘿，我马上去吃',
         role: 'question',
         parentId: '4'
-    }
+    },
+    {
+        id: '7',
+        content: '今天星期三？',
+        role: 'answer',
+        parentId: '5',
+    },
 ]
 export default function () {
 
