@@ -1,7 +1,8 @@
 import {AnswerChatItem, QuestionChatItem} from "@/components/chat/types.ts";
 import {Flex} from "@/styled";
-import React from "react";
+import React, {FC, useState} from "react";
 import {useChatContext} from "@/components/chat/context/ChatContext.tsx";
+import {Input} from "@/components/chat/styled.ts";
 
 export function AnswerPanel({chatItem}: { chatItem: AnswerChatItem }) {
     return <Flex style={{
@@ -37,4 +38,23 @@ export function ChatList() {
             renderChatItemLayout?.(chatList, renderAnswerPanel, renderQuestionPanel)
         }
     </>;
+}
+
+export const UserInput: FC<{
+    onChange?: (value: string) => void;
+    onSend?: (value: string) => void;
+}> = ({onChange, onSend}) => {
+    const [value, setValue] = useState<string>('')
+
+    return <Flex>
+        <Input value={value} onChange={(e) => {
+            setValue(e.target.value);
+            onChange?.(e.target.value);
+        }}/>
+        <button onClick={() => {
+            value.trim().length > 0 && onSend?.(value);
+            setValue('')
+        }}>发送
+        </button>
+    </Flex>
 }
