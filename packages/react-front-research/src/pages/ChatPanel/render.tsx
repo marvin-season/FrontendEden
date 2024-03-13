@@ -1,19 +1,17 @@
-import {
-    ChatItem,
-    ChatProps,
-    renderAnswerPanelType,
-    renderQuestionPanelType,
-    TreeChatItem
-} from "@/components/chat/types.ts";
-import {ReactElement, useEffect, useState} from "react";
+import {ChatProps, renderAnswerPanelType, renderQuestionPanelType, TreeChatItem} from "@/components/chat/types.ts";
+import React, {ReactElement, useEffect, useState} from "react";
+import {Flex} from "@/styled";
 
-function convertToTree(chatList: ChatItem[], root: TreeChatItem): TreeChatItem {
+function convertToTree(chatList: TreeChatItem[], root: TreeChatItem): TreeChatItem {
 
     const children: TreeChatItem[] = []
     chatList.forEach(item => {
         if (item.parentId == root.id) {
-            const root = convertToTree(chatList, item);
-            if (root) children.push(root)
+            const treeRoot = convertToTree(chatList, item);
+            if (treeRoot) {
+                children.push(treeRoot);
+                treeRoot.parent = root
+            }
         }
     })
 
@@ -21,7 +19,7 @@ function convertToTree(chatList: ChatItem[], root: TreeChatItem): TreeChatItem {
     return root
 }
 
-function getRoots(chatList: ChatItem[]) {
+function getRoots(chatList: TreeChatItem[]) {
     return chatList.filter(item => !item.parentId);
 }
 
@@ -72,4 +70,63 @@ function renderTree(root: TreeChatItem, renderAnswerPanel?: renderAnswerPanelTyp
             })
         }
     </>
+}
+
+export function TreeAnswerPanel({chatItem}: { chatItem: TreeChatItem }) {
+    const show = chatItem.parent?.childrenShow
+
+    return (<>
+        {
+            show && <Flex onClick={() => {
+
+            }} style={{
+                cursor: 'pointer',
+                background: 'lightblue'
+            }}>
+                <Flex>
+                    答：
+                </Flex>
+                <Flex>
+                    {chatItem.content}
+                </Flex>
+
+            </Flex>
+        }
+    </>);
+}
+
+export function TreeQuestionPanel({chatItem, onShow}: {
+    chatItem: TreeChatItem;
+    onShow: (chatItem: TreeChatItem) => void
+}) {
+    const show = () => {
+        // 判读是否显示
+        if (!chatItem.parent) {
+            return true
+        }
+        let parent = chatItem.parent;
+        while (parent.parent) {
+            parent = parent.parent
+        }
+        return parent.childrenShow
+    }
+    return <>
+        {
+            show() && <Flex
+                onClick={() => {
+                    onShow(chatItem)
+                }}
+                style={{
+                    cursor: 'pointer',
+                    background: 'lightcyan'
+                }}>
+                <Flex>
+                    问：
+                </Flex>
+                <Flex>
+                    {chatItem.content}
+                </Flex>
+            </Flex>
+        }
+    </>;
 }

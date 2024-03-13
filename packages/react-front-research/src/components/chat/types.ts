@@ -4,7 +4,6 @@ export interface ChatItem {
     content: string;
     type?: 'normal' | 'file';
     id: string;
-    parentId?: string;
     role: 'answer' | 'question';
 }
 
@@ -14,6 +13,9 @@ export interface QuestionChatItem extends ChatItem {
 export interface TreeChatItem extends ChatItem {
     children?: TreeChatItem[];
     childrenIds?: string[];
+    childrenShow?: boolean;
+    parentId?: string;
+    parent?: TreeChatItem;
 }
 
 export interface AnswerChatItem extends ChatItem {
