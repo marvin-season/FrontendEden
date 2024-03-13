@@ -5,11 +5,11 @@ import {AnswerPanel, QuestionPanel} from "@/components/chat/default/DefaultLayou
 export const linerLayoutRender: ChatProps['renderChatItemLayout'] = (chatList, renderAnswer, renderQuestion) => <>
     {
         chatList.map(chatItem => {
-            return <>
+            return <div key={chatItem.id}>
                 {
                     chatItem.role === 'answer' ? renderAnswer?.(chatItem) : renderQuestion?.(chatItem)
                 }
-            </>
+            </div>
         })
     }
 </>

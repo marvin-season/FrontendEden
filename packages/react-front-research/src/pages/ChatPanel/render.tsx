@@ -60,7 +60,11 @@ function renderTree(root: TreeChatItem, renderAnswerPanel?: renderAnswerPanelTyp
         }
         {
             root.children.map(item => {
-                return renderTree(item, renderAnswerPanel, renderQuestionPane)
+                return <div key={item.id}>
+                    {
+                        renderTree(item, renderAnswerPanel, renderQuestionPane)
+                    }
+                </div>
             })
         }
     </>
