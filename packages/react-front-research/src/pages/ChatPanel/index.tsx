@@ -1,6 +1,5 @@
 import {Chat} from "@/components/chat/Chat.tsx";
 import {TreeChatItem} from "@/components/chat/types.ts";
-import {TreeAnswerPanel, treeLayoutRender, TreeQuestionPanel} from "@/pages/ChatPanel/render.tsx";
 import {useState} from "react";
 
 const list: TreeChatItem[] = [
@@ -51,17 +50,12 @@ export default function () {
     return <>
         <Chat
             chatList={chatList}
-            renderChatItemLayout={treeLayoutRender}
-            renderAnswerPanel={(chatItem) => <TreeAnswerPanel chatItem={chatItem}/>}
-            renderQuestionPanel={(chatItem) => <TreeQuestionPanel onShow={(chatItem) => {
-                const target = chatList.find(item => item.id === chatItem.id);
-                if (target) {
-                    target.childrenShow = !target.childrenShow
-                    setChatList(chatList.concat(target))
-                }
-            }} chatItem={chatItem}/>}
             onSend={(value) => {
-
+                setChatList(chatList.concat({
+                    id: Date.now().toString(),
+                    content: value,
+                    role: 'question'
+                }))
             }}/>
     </>
 }
