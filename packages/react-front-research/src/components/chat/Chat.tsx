@@ -7,13 +7,15 @@ import {
 } from "@/components/chat/default/DefaultRender.tsx";
 import {ChatList, UserInput} from "@/components/chat/default/DefaultLayout.tsx";
 import {ChatContext} from "./context/ChatContext";
+import {Flex} from "@/styled";
 
 
 export const Chat: FC<ChatProps> = ({
                                         chatList,
                                         renderAnswerPanel = defaultAnswerRender,
                                         renderQuestionPanel = defaultQuestionRender,
-                                        renderChatItemLayout = linerLayoutRender
+                                        renderChatItemLayout = linerLayoutRender,
+                                        onSend
                                     }) => {
 
 
@@ -24,6 +26,8 @@ export const Chat: FC<ChatProps> = ({
         renderChatItemLayout
     }}>
         <ChatList/>
-        <UserInput onSend={console.log}/>
+        <Flex>
+            <UserInput onSend={onSend}/>
+        </Flex>
     </ChatContext.Provider>
 }

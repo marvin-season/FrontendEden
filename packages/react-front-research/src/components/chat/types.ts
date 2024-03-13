@@ -28,4 +28,6 @@ export interface ChatProps {
     renderAnswerPanel?: renderAnswerPanelType;
     renderQuestionPanel?: renderQuestionPanelType;
     renderChatItemLayout?: (chatList: ChatItem[], renderAnswerPanel?: renderAnswerPanelType, renderQuestionPanel?: renderQuestionPanelType) => ReactElement;
+
+    onSend?: (value: string) => void
 }

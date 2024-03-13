@@ -42,6 +42,8 @@ const chatList: ChatItem[] = [
 export default function () {
 
     return <>
-        <Chat chatList={chatList} renderChatItemLayout={treeLayoutRender}/>
+        <Chat chatList={chatList} renderChatItemLayout={treeLayoutRender} onSend={(value) => {
+
+        }}/>
     </>
 }
