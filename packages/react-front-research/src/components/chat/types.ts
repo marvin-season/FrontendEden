@@ -5,11 +5,15 @@ export interface ChatItem {
     type?: 'normal' | 'file';
     id: string;
     parentId?: string;
-    sonIds?: string[];
     role: 'answer' | 'question';
 }
 
 export interface QuestionChatItem extends ChatItem {
+}
+
+export interface TreeChatItem extends ChatItem {
+    children?: TreeChatItem[];
+    childrenIds?: string[];
 }
 
 export interface AnswerChatItem extends ChatItem {

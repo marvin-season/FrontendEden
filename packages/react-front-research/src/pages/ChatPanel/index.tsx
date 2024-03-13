@@ -5,30 +5,37 @@ import {treeLayoutRender} from "@/pages/ChatPanel/render.tsx";
 const chatList: ChatItem[] = [
     {
         id: '1',
-        content: 'hi',
+        content: '你吃饭了没',
         role: 'question',
     },
     {
         id: '2',
-        content: 'hello',
+        content: 'hello，我吃过了',
         role: 'answer',
         parentId: '1'
     },
     {
         id: '3',
-        content: '我是您的AI助手',
+        content: '青椒炒肉',
         role: 'answer',
         parentId: '1'
     },
     {
         id: '4',
-        content: 'hi',
-        role: 'question',
+        content: '你吃了没？',
+        role: 'answer',
+        parentId: '1',
     },
     {
         id: '5',
-        content: 'hello',
+        content: '吃完了去玩儿？',
         role: 'answer',
+        parentId: '6',
+    },
+    {
+        id: '6',
+        content: '嘿嘿，我马上去吃',
+        role: 'question',
         parentId: '4'
     }
 ]

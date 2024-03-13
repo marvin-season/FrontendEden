@@ -8,7 +8,7 @@ export function AnswerPanel({chatItem}: { chatItem: AnswerChatItem }) {
         background: 'lightblue'
     }}>
         <Flex>
-            答
+            答：
         </Flex>
         <Flex>
             {chatItem.content}
@@ -22,10 +22,10 @@ export function QuestionPanel({chatItem}: { chatItem: QuestionChatItem }) {
         background: 'lightcyan'
     }}>
         <Flex>
-            {chatItem.content}
+            问：
         </Flex>
         <Flex>
-            问
+            {chatItem.content}
         </Flex>
     </Flex>;
 }
