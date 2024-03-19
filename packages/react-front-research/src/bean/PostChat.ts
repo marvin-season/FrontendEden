@@ -9,19 +9,10 @@ export class PostChat {
     static messageBuffer = new MessageBuffer();
 
     private asyncIterator: AsyncGenerator<string, void, unknown> | null = null;
-
-    url: string;
-    params: any = {};
     responseHandle: Promise<Response | void> | null = null;
-    onData: onDataFunc;
-    onError?: onErrorFunc;
 
-    constructor(url: string, params: any, onData: onDataFunc, onError?: onErrorFunc) {
-        this.url = url;
-        this.params = params;
-        this.onData = onData;
-        this.onError = onError;
-    }
+
+    constructor(public url: string, public params: any, public onData: onDataFunc, public onError?: onErrorFunc) {}
 
     post() {
         PostChat.messageBuffer.clear();
