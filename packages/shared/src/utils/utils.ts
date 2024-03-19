@@ -43,3 +43,5 @@ export const handleScroll = (selector: string) => {
     console.log('targetEle', targetEle);
     targetEle?.scrollIntoView({behavior: 'smooth'});
 };
+
+export const sleep = async (timeout: number) => new Promise((resolve) => setTimeout(resolve, timeout));
