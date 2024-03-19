@@ -6,12 +6,7 @@ const EmojiPanel = () => {
     const [img, setImg] = useState<string>();
     const [imgWidth, setImgWidth] = useState<number>(300)
     return <Flex>
-        <div style={{
-            position: "relative",
-            width: '70%',
-            height: '100vh',
-            overflow: "auto",
-        }}>
+        <div className={'emoji'}>
             <img width={imgWidth} src={img} alt="不见了"/>
             <div contentEditable={true} style={{width: imgWidth}} className={'emoji_mask'}></div>
         </div>

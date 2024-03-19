@@ -1,8 +1,28 @@
+.emoji {
+    position: relative;
+    width: 70%;
+    height: 100vh;
+    overflow: auto;
+
+    & > img {
+        filter: blur(1px);
+
+        &:hover {
+            filter: blur(0);
+        }
+    }
+
+}
+
 .emoji_mask {
+    z-index: 1px;
     position: absolute;
     left: 0;
     right: 0;
     top: 0;
+    color: #fff;
+    font-size: 18px;
+    filter: blur(0);
 
     &:focus {
         border: none;
