@@ -160,8 +160,7 @@ const readBuffer = async (onData: onDataFunc, onCompleted: onCompletedFunc) => {
     messageAnimation().then();
 };
 
-export async function* generateStreamLine(reader: ReadableStreamDefaultReader<any>) {
-    const utf8Decoder = new TextDecoder("utf-8");
+export async function* generateStreamLine(reader: ReadableStreamDefaultReader<any>, utf8Decoder = new TextDecoder("utf-8")) {
 
 
     // const reader = response.body.getReader();

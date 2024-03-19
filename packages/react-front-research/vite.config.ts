@@ -11,6 +11,11 @@ export default defineConfig({
         target: 'http://10.3.73.222:48080',
         changeOrigin: true,
       },
+      '/api/': {
+        target: 'http://10.0.44.34:5000', // 开发环境
+        ws: true,
+        changeOrigin: true,
+      },
     }
   },
   resolve: {
