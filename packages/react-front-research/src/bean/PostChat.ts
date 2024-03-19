@@ -30,11 +30,7 @@ export class PostChat {
             this.responseHandle = fetch(this.url, {
                 mode: "cors",
                 credentials: "include",
-                headers: new Headers({
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer 343c29e8485445fab6381ece3858a0d0`,
-                    "Tenant-Id": "449"
-                }),
+                headers: new Headers({}),
                 redirect: "follow",
                 method: "POST",
                 body: JSON.stringify({
