@@ -1,15 +1,16 @@
-import {generateStreamLine, parseLine} from "@/utils/postChat.ts";
 import {sleep} from "@root/shared";
+import {FetchStreamParser} from "@/bean/FetchStreamParser.ts";
 
 type onDataFunc = (str: string, isFirstMessage: boolean, moreInfo: any) => void;
 type onCompletedFunc = (data: any) => void
 
 export class PostChat {
+    static streamParser = new FetchStreamParser();
+
     url: string;
     params: any = {};
     buffer: { value: any, done: boolean }[] = [];
     responseHandle: Promise<Response> | null = null;
-    utf8Decoder = new TextDecoder("utf-8");
     isReadable: boolean = false;
     onData: onDataFunc;
     onCompleted: onCompletedFunc
@@ -28,7 +29,7 @@ export class PostChat {
             credentials: "include",
             headers: new Headers({
                 "Content-Type": "application/json",
-                Authorization: `Bearer 343c29e8485445fab6381ece3858a0d0`,
+                "Authorization": `Bearer 343c29e8485445fab6381ece3858a0d0`,
                 "Tenant-Id": "449"
             }),
             redirect: "follow",
@@ -45,7 +46,9 @@ export class PostChat {
     storeAsLine() {
         this.responseHandle?.then(async response => {
             if (response?.body) {
-                const asyncIterator = generateStreamLine(response.body.getReader(), this.utf8Decoder);
+
+                const asyncIterator = PostChat.streamParser.readAsGenerator(response.body.getReader());
+
                 let lastLineData: any;
                 while (true) {
                     const {value, done} = await asyncIterator.next();
@@ -54,7 +57,7 @@ export class PostChat {
                         break;
                     }
 
-                    parseLine(value, lineData => {
+                    PostChat.streamParser.parseLine(value, lineData => {
                         lastLineData = lineData;
                         if (!lineData || [1001, 1002, 500, 400].includes(lineData.code as number) || !lineData.event) {
                             // onError(lineData?.msg, lineData?.code);
