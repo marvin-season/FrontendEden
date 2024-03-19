@@ -5,8 +5,8 @@ export type onDataFunc = (messageInfo: any, isDone: boolean, isFirstMessage: boo
 export type onErrorFunc = (message: any, code?: number) => void;
 
 export class PostChat {
-    static streamParser = new FetchStreamParser();
-    static messageBuffer = new MessageBuffer();
+    private static streamParser = new FetchStreamParser();
+    private static messageBuffer = new MessageBuffer();
 
     private asyncIterator: AsyncGenerator<string, void> | null = null;
 
