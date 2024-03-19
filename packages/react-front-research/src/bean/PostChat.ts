@@ -8,17 +8,25 @@ export class PostChat {
     static streamParser = new FetchStreamParser();
     static messageBuffer = new MessageBuffer();
 
-    private asyncIterator: AsyncGenerator<string, void, unknown> | null = null;
-    responseHandle: Promise<Response | void> | null = null;
+    private asyncIterator: AsyncGenerator<string, void> | null = null;
 
 
-    constructor(public url: string, public params: any, public onData: onDataFunc, public onError?: onErrorFunc) {}
+    constructor(public url: string, public params: any, public onData: onDataFunc, public onError?: onErrorFunc, public controller?: AbortController) {
+    }
+
+    abort(){
+        this.controller?.abort();
+        MessageBuffer.isReadable = false;
+        PostChat.messageBuffer.clear();
+        this.onError?.(999)
+    }
 
     post() {
         PostChat.messageBuffer.clear();
 
         try {
-            this.responseHandle = fetch(this.url, {
+            fetch(this.url, {
+                signal: this.controller?.signal,
                 mode: "cors",
                 credentials: "include",
                 headers: new Headers({}),
