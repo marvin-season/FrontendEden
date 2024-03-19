@@ -2,7 +2,8 @@ import {sleep} from "@root/shared";
 import {FetchStreamParser} from "@/bean/FetchStreamParser.ts";
 
 type onDataFunc = (str: string, isFirstMessage: boolean, moreInfo: any) => void;
-type onCompletedFunc = (data: any) => void
+type onCompletedFunc = (data: any) => void;
+type onErrorFunc = (message: any, code?: number) => void;
 
 export class PostChat {
     static streamParser = new FetchStreamParser();
@@ -13,38 +14,53 @@ export class PostChat {
     responseHandle: Promise<Response> | null = null;
     isReadable: boolean = false;
     onData: onDataFunc;
-    onCompleted: onCompletedFunc
+    onCompleted: onCompletedFunc;
+    onError?: onErrorFunc
 
-    constructor(url: string, params: any, onData: onDataFunc, onCompleted: onCompletedFunc) {
+    constructor(url: string, params: any, onData: onDataFunc, onCompleted: onCompletedFunc, onError?: onErrorFunc) {
         this.url = url;
         this.params = params;
         this.onData = onData;
-        this.onCompleted = onCompleted
+        this.onCompleted = onCompleted;
+        this.onError = onError;
     }
 
     post() {
         this.clearBuffer();
-        this.responseHandle = fetch(this.url, {
-            mode: "cors",
-            credentials: "include",
-            headers: new Headers({
-                "Content-Type": "application/json",
-                "Authorization": `Bearer 343c29e8485445fab6381ece3858a0d0`,
-                "Tenant-Id": "449"
-            }),
-            redirect: "follow",
-            method: "POST",
-            body: JSON.stringify({
-                ...this.params,
-                response_mode: "streaming"
-            })
-        });
-        this.storeAsLine();
+        try {
+            this.responseHandle = fetch(this.url, {
+                mode: "cors",
+                credentials: "include",
+                headers: new Headers({
+                    "Content-Type": "application/json",
+                    "Authorization": `1Bearer 343c29e8485445fab6381ece3858a0d0`,
+                    "Tenant-Id": "449"
+                }),
+                redirect: "follow",
+                method: "POST",
+                body: JSON.stringify({
+                    ...this.params,
+                    response_mode: "streaming"
+                })
+            });
+
+            this.storeAsLine()
+        } catch (e) {
+            this.onError?.(e)
+        }
+
         return this
     }
 
-    storeAsLine() {
+    private storeAsLine() {
         this.responseHandle?.then(async response => {
+            const noStreamData = await response.json();
+
+            if (noStreamData) {
+                this.onError?.(noStreamData);
+                return
+            }
+
             if (response?.body) {
 
                 const asyncIterator = PostChat.streamParser.readAsGenerator(response.body.getReader());
@@ -60,9 +76,10 @@ export class PostChat {
                     PostChat.streamParser.parseLine(value, lineData => {
                         lastLineData = lineData;
                         if (!lineData || [1001, 1002, 500, 400].includes(lineData.code as number) || !lineData.event) {
-                            // onError(lineData?.msg, lineData?.code);
+                            this.onError?.(lineData?.msg, lineData?.code);
                             return;
                         }
+
                         this.writeBuffer(lineData);
 
                         if (!this.isReadable) {

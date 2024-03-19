@@ -77,11 +77,8 @@ const params = {
 }
 
 const postChat = new PostChat('/api/apps/complex/chat', params,
-    (message) => {
-        console.log(message)
-    }, () => {
+    console.log, console.log, console.log).post();
 
-    }).post();
 console.log(postChat)
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
