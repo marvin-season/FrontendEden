@@ -6,6 +6,7 @@ import FilePage from "@/pages/FilePage";
 import React from "react";
 import CompReRender from "@/pages/CompReRender";
 import ChatPanel from "@/pages/ChatPanel";
+import EmojiPanel from "@/pages/EmojiPanel";
 
 export const routes: RouteObject[] = [
     {
@@ -36,6 +37,11 @@ export const routes: RouteObject[] = [
                 path: 'chat-panel',
                 index: true,
                 element: <ChatPanel/>
+            },
+            {
+                path: 'emoji-panel',
+                index: true,
+                element: <EmojiPanel/>
             },
         ]
     }
