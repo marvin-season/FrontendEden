@@ -10,7 +10,7 @@ export class PostChat {
 
     url: string;
     params: any = {};
-    buffer: { value: any, done: boolean }[] = [];
+    messageBuffer: { value: any, done: boolean }[] = [];
     responseHandle: Promise<Response> | null = null;
     isReadable: boolean = false;
     onData: onDataFunc;
@@ -95,19 +95,19 @@ export class PostChat {
 
     writeBuffer(value: any, done = false) {
         // console.log('value', value, done)
-        this.buffer.push({
+        this.messageBuffer.push({
             value, done
         });
     };
 
     clearBuffer() {
-        this.buffer.splice(0, this.buffer.length)
+        this.messageBuffer.splice(0, this.messageBuffer.length)
     }
 
     readBuffer() {
         let isFirstMessage = true;
         const messageAnimation = async () => {
-            const element = this.buffer.shift();
+            const element = this.messageBuffer.shift();
             if (element?.done) {
                 this.onCompleted(element?.value);
                 this.isReadable = false;
