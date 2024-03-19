@@ -75,12 +75,9 @@ const params = {
     "user_id": "392",
     "app_id": "469"
 }
-
-const postChat = new PostChat('/api/apps/complex/chat', params,
-    console.log, console.log, console.log).post();
+const postChat = new PostChat('/api/apps/complex/chat', params, console.log, console.log).post();
 
 console.log(postChat)
-
 ReactDOM.createRoot(document.getElementById('root')!).render(
     // <React.StrictMode>
     <Providers>

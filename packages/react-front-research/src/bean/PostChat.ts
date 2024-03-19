@@ -1,8 +1,7 @@
 import {FetchStreamParser} from "@/bean/FetchStreamParser.ts";
 import {MessageBuffer} from "@/bean/MessageBuffer.ts";
 
-export type onDataFunc = (str: string, isFirstMessage: boolean, moreInfo: any) => void;
-export type onCompletedFunc = (data: any) => void;
+export type onDataFunc = (messageInfo: any, isDone: boolean, isFirstMessage: boolean) => void;
 export type onErrorFunc = (message: any, code?: number) => void;
 
 export class PostChat {
@@ -13,14 +12,12 @@ export class PostChat {
     params: any = {};
     responseHandle: Promise<Response> | null = null;
     onData: onDataFunc;
-    onCompleted: onCompletedFunc;
     onError?: onErrorFunc;
 
-    constructor(url: string, params: any, onData: onDataFunc, onCompleted: onCompletedFunc, onError?: onErrorFunc) {
+    constructor(url: string, params: any, onData: onDataFunc, onError?: onErrorFunc) {
         this.url = url;
         this.params = params;
         this.onData = onData;
-        this.onCompleted = onCompleted;
         this.onError = onError;
     }
 
@@ -77,7 +74,7 @@ export class PostChat {
 
                         if (!MessageBuffer.isReadable) {
                             MessageBuffer.isReadable = true;
-                            PostChat.messageBuffer.read(this.onData, this.onCompleted)
+                            PostChat.messageBuffer.read(this.onData)
                         }
                     });
 
@@ -85,7 +82,5 @@ export class PostChat {
             }
         })
     }
-
-
 }
 
