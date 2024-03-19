@@ -8,9 +8,11 @@ export class PostChat {
     static streamParser = new FetchStreamParser();
     static messageBuffer = new MessageBuffer();
 
+    private asyncIterator: AsyncGenerator<string, void, unknown> | null = null;
+
     url: string;
     params: any = {};
-    responseHandle: Promise<Response> | null = null;
+    responseHandle: Promise<Response | void> | null = null;
     onData: onDataFunc;
     onError?: onErrorFunc;
 
@@ -39,9 +41,14 @@ export class PostChat {
                     ...this.params,
                     response_mode: "streaming"
                 })
+            }).then(async response => {
+                if (response.body) {
+                    this.asyncIterator = PostChat.streamParser.readAsGenerator(response.body.getReader());
+                    await this.storeAsLine()
+                }
             });
 
-            this.storeAsLine()
+
         } catch (e) {
             this.onError?.(e)
         }
@@ -49,38 +56,37 @@ export class PostChat {
         return this
     }
 
-    private storeAsLine() {
-        this.responseHandle?.then(async response => {
-            if (response?.body) {
+    private async storeAsLine() {
+        if (!this.asyncIterator) {
+            console.log('asyncIterator is null')
+            return
+        }
 
-                const asyncIterator = PostChat.streamParser.readAsGenerator(response.body.getReader());
-
-                let lastLineData: any;
-                while (true) {
-                    const {value, done} = await asyncIterator.next();
-                    if (done) {
-                        PostChat.messageBuffer.write(lastLineData, true);
-                        break;
-                    }
-
-                    PostChat.streamParser.parseLine(value, lineData => {
-                        lastLineData = lineData;
-                        if (!lineData || [1001, 1002, 500, 400].includes(lineData.code as number) || !lineData.event) {
-                            this.onError?.(lineData?.msg, lineData?.code);
-                            return;
-                        }
-
-                        PostChat.messageBuffer.write(lineData);
-
-                        if (!MessageBuffer.isReadable) {
-                            MessageBuffer.isReadable = true;
-                            PostChat.messageBuffer.read(this.onData)
-                        }
-                    });
-
-                }
+        let lastLineData: any;
+        while (true) {
+            const {value, done} = await this.asyncIterator.next();
+            if (done) {
+                PostChat.messageBuffer.write(lastLineData, true);
+                break;
             }
-        })
+
+            PostChat.streamParser.parseLine(value, lineData => {
+                lastLineData = lineData;
+                if (!lineData || [1001, 1002, 500, 400].includes(lineData.code as number) || !lineData.event) {
+                    this.onError?.(lineData?.msg, lineData?.code);
+                    return;
+                }
+
+                PostChat.messageBuffer.write(lineData);
+
+                if (!MessageBuffer.isReadable) {
+                    MessageBuffer.isReadable = true;
+                    PostChat.messageBuffer.read(this.onData)
+                }
+            });
+
+        }
+
     }
 }
 
