@@ -13,14 +13,13 @@ class PostChatContext {
         this.strategy = strategy;
     }
 
-    executeStrategy(asyncIterator: AsyncGenerator<string, void>, onData: onDataFunc) {
-        this.strategy?.execute(asyncIterator, onData);
+    executeStrategy(streamParser: FetchStreamParser, asyncIterator: AsyncGenerator<string, void>, onData: onDataFunc) {
+        this.strategy?.execute(streamParser, asyncIterator, onData);
     }
 }
 
 export class PostChat {
     private static streamParser = new FetchStreamParser();
-    private static messageBuffer = new MessageBuffer();
     private context: PostChatContext = new PostChatContext();
     private asyncIterator: AsyncGenerator<string, void> | null = null;
     private static readonly initConfig: RequestInit = {
@@ -43,13 +42,10 @@ export class PostChat {
     abort() {
         this.controller?.abort();
         MessageBuffer.isReadable = false;
-        PostChat.messageBuffer.clear();
         this.onError?.(999)
     }
 
     post() {
-        PostChat.messageBuffer.clear();
-
         try {
             fetch(this.url, {
                 signal: this.controller?.signal,
@@ -61,7 +57,7 @@ export class PostChat {
             }).then(async response => {
                 if (response.body) {
                     this.asyncIterator = PostChat.streamParser.readAsGenerator(response.body.getReader());
-                    this.context.executeStrategy(this.asyncIterator, this.onData)
+                    this.context.executeStrategy(PostChat.streamParser, this.asyncIterator, this.onData)
                 }
             });
 
