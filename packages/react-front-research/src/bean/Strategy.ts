@@ -3,16 +3,16 @@ import {MessageBuffer} from "@/bean/MessageBuffer.ts";
 import {onDataFunc} from "@/bean/PostChat.ts";
 
 export interface Strategy {
-    execute: (streamParser: FetchStreamParser, asyncIterator: AsyncGenerator<string, void>, onData: onDataFunc) => void
+    execute: (asyncIterator: AsyncGenerator<string, void>, onData: onDataFunc) => void
 }
 
 export class StoreStrategy implements Strategy {
+    private static streamParser = new FetchStreamParser();
 
     private static messageBuffer = new MessageBuffer();
 
-    execute(streamParser: FetchStreamParser, asyncIterator: AsyncGenerator<string, void>, onData: onDataFunc): void {
+    execute(asyncIterator: AsyncGenerator<string, void>, onData: onDataFunc): void {
         (async () => {
-            StoreStrategy.messageBuffer.clear()
             let lastLineData: any;
             while (true) {
                 const {value, done} = await asyncIterator.next();
@@ -21,7 +21,7 @@ export class StoreStrategy implements Strategy {
                     break;
                 }
 
-                streamParser.parseLine(value, lineData => {
+                StoreStrategy.streamParser.parseLine(value, lineData => {
                     lastLineData = lineData;
                     if (!lineData || [1001, 1002, 500, 400].includes(lineData.code as number) || !lineData.event) {
                         throw new Error(lineData.code)
