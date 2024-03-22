@@ -1,46 +1,20 @@
 import {FetchStreamParser} from "@/bean/FetchStreamParser.ts";
 import {MessageBuffer} from "@/bean/MessageBuffer.ts";
-import {StoreStrategy, Strategy} from "@/bean/Strategy.ts";
 
 export type onDataFunc = (messageInfo: any, isDone: boolean, isFirstMessage: boolean) => void;
 export type onErrorFunc = (message: any, code?: number) => void;
 
-
-class PostChatContext {
-    private strategy: Strategy | null = null;
-
-    set(strategy: Strategy) {
-        this.strategy = strategy;
-    }
-
-    executeStrategy(asyncIterator: AsyncGenerator<string, void>, onData: onDataFunc) {
-        this.strategy?.execute(asyncIterator, onData);
-    }
-}
-
 export class PostChat {
     private static streamParser = new FetchStreamParser();
     private static messageBuffer = new MessageBuffer();
-    private context: PostChatContext = new PostChatContext();
+
     private asyncIterator: AsyncGenerator<string, void> | null = null;
-    private static readonly initConfig: RequestInit = {
-        mode: "cors",
-        credentials: "include",
-        redirect: "follow",
-        method: "POST",
-        headers: new Headers({
-            'Content-Type': 'application/json',
-            'Tenant-Id': '',
-            'Authorization': 'Bearer '
-        }),
-    }
 
 
     constructor(public url: string, public params: any, public onData: onDataFunc, public onError?: onErrorFunc, public controller?: AbortController) {
-        this.context.set(new StoreStrategy())
     }
 
-    abort() {
+    abort(){
         this.controller?.abort();
         MessageBuffer.isReadable = false;
         PostChat.messageBuffer.clear();
@@ -53,7 +27,11 @@ export class PostChat {
         try {
             fetch(this.url, {
                 signal: this.controller?.signal,
-                ...PostChat.initConfig,
+                mode: "cors",
+                credentials: "include",
+                headers: new Headers({}),
+                redirect: "follow",
+                method: "POST",
                 body: JSON.stringify({
                     ...this.params,
                     response_mode: "streaming"
@@ -61,17 +39,49 @@ export class PostChat {
             }).then(async response => {
                 if (response.body) {
                     this.asyncIterator = PostChat.streamParser.readAsGenerator(response.body.getReader());
-                    this.context.executeStrategy(this.asyncIterator, this.onData)
+                    await this.storeAsLine()
                 }
             });
 
 
         } catch (e) {
-            console.log(e)
             this.onError?.(e)
         }
 
         return this
+    }
+
+    private async storeAsLine() {
+        if (!this.asyncIterator) {
+            console.log('asyncIterator is null')
+            return
+        }
+
+        let lastLineData: any;
+        while (true) {
+            const {value, done} = await this.asyncIterator.next();
+            if (done) {
+                PostChat.messageBuffer.write(lastLineData, true);
+                break;
+            }
+
+            PostChat.streamParser.parseLine(value, lineData => {
+                lastLineData = lineData;
+                if (!lineData || [1001, 1002, 500, 400].includes(lineData.code as number) || !lineData.event) {
+                    this.onError?.(lineData?.msg, lineData?.code);
+                    return;
+                }
+
+                PostChat.messageBuffer.write(lineData);
+
+                if (!MessageBuffer.isReadable) {
+                    MessageBuffer.isReadable = true;
+                    PostChat.messageBuffer.read(this.onData)
+                }
+            });
+
+        }
+
     }
 }
 
