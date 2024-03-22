@@ -1,4 +1,4 @@
-import React, {useEffect, useRef} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import "react-pdf/dist/Page/TextLayer.css";
 import {Document, Page, pdfjs} from "react-pdf";
 import useHighlightInfo from "./useHighlightInfo";
@@ -35,8 +35,8 @@ export const PDFViewer: React.FC<PDFProps> = ({
                                                   searchText,
                                                   width
                                               }) => {
-
     const [hlSet, setHlSet, getHlSet] = useGetState<HighlightSet>(new Set([]));
+    const [hlPageSet, setHlPageSet] = useState<Set<number>>(new Set())
     const pdfDocumentProxyRef = useRef<PDFDocumentProxy>();
     const documentContainerRef = useRef<HTMLDivElement>(null);
     const documentRef = useRef<HTMLDivElement>(null);
@@ -47,10 +47,7 @@ export const PDFViewer: React.FC<PDFProps> = ({
     const handleHighlightInfo = (res: boolean | HighlightResultInfoType) => {
         if (res && typeof res != "boolean") {
             setHlSet(res.highlightSet);
-            const pages = [...res.pages].sort();
-            // setPageRenderRange(pages);
-            // handleAddLast(2)
-            // handleAddFirst(2)
+            setHlPageSet(res.pages)
         }
     };
 
@@ -63,10 +60,10 @@ export const PDFViewer: React.FC<PDFProps> = ({
             inputRef={pageRef}
             width={width}
             pageNumber={pageNumber}
+            renderTextLayer={hlPageSet.has(pageNumber - 1)}
             customTextRenderer={(textItem) => {
                 const itemKey = `${textItem.pageIndex}-${textItem.itemIndex}`;
                 if (getHlSet().has(itemKey)) {
-                    console.log(hlSet, getHlSet())
                     hlSet.delete(itemKey)
                     if (getHlSet().size === 0) {
                         setTimeout(() => handleScroll("#text_highlight"))
