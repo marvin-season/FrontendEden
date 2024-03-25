@@ -2,6 +2,7 @@ import {Chat} from "@/components/chat/Chat.tsx";
 import {ChatItem, TreeChatItem} from "@/components/chat/types.ts";
 import {useState} from "react";
 import {nanoid} from "nanoid";
+import {groupRender} from "@/pages/ChatPanel/groupRender.tsx";
 
 const nanoid1 = nanoid()
 
@@ -43,6 +44,7 @@ export default function () {
     return <>
         <Chat
             chatList={chatList}
+            renderChatItemLayout={groupRender}
             onSend={(value) => {
                 setChatList(chatList.concat({
                     id: Date.now().toString(),

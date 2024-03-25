@@ -4,6 +4,11 @@ import {resolve} from 'path';
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
+  optimizeDeps:{
+    esbuildOptions:{
+      target: 'esnext'
+    }
+  },
   server: {
     port: 10003,
     proxy: {
