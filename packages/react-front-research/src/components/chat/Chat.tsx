@@ -21,8 +21,8 @@ export const Chat: FC<ChatProps> = ({
 
     return <ChatContext.Provider value={{
         chatList: chatList,
-        renderAnswerPanel,
         renderQuestionPanel,
+        renderAnswerPanel,
         renderChatItemLayout
     }}>
         <ChatList/>

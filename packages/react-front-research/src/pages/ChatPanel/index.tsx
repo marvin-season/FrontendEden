@@ -1,8 +1,8 @@
 import {Chat} from "@/components/chat/Chat.tsx";
-import {TreeChatItem} from "@/components/chat/types.ts";
+import {ChatItem, TreeChatItem} from "@/components/chat/types.ts";
 import {useState} from "react";
 
-const list: TreeChatItem[] = [
+const list: ChatItem[] = [
     {
         id: '1',
         content: '你吃饭了没',
@@ -12,19 +12,16 @@ const list: TreeChatItem[] = [
         id: '2',
         content: 'hello，我吃过了',
         role: 'answer',
-        parentId: '1'
     },
     {
         id: '3',
         content: '青椒炒肉',
         role: 'answer',
-        parentId: '1'
     },
     {
         id: '4',
         content: '你吃了没？',
         role: 'answer',
-        parentId: '1',
     },
     {
         id: '5',
@@ -35,13 +32,11 @@ const list: TreeChatItem[] = [
         id: '6',
         content: '嘿嘿，我马上去吃',
         role: 'question',
-        parentId: '4'
     },
     {
         id: '7',
         content: '今天星期三？',
         role: 'answer',
-        parentId: '5',
     },
 ]
 export default function () {
