@@ -44,13 +44,17 @@ export const UserInput: FC<{
     onChange?: (value: string) => void;
     onSend?: (value: string) => void;
 }> = ({onChange, onSend}) => {
-    const [value, setValue] = useState<string>('')
+    const [value, setValue] = useState<string>('');
+    const {onSelectedFile} = useChatContext();
 
     return <Flex>
         <Input value={value} onChange={(e) => {
             setValue(e.target.value);
             onChange?.(e.target.value);
         }}/>
+        <Input type={"file"} onChange={(e) => {
+            e.currentTarget.files && onSelectedFile?.(e.currentTarget.files)
+        }}></Input>
         <button onClick={() => {
             value.trim().length > 0 && onSend?.(value);
             setValue('')

@@ -39,12 +39,31 @@ const list: ChatItem[] = [
     },
 ]
 export default function () {
-    const [chatList, setChatList] = useState<TreeChatItem[]>(list)
+    const [chatList, setChatList] = useState<TreeChatItem[]>(list);
 
     return <>
         <Chat
             chatList={chatList}
             renderChatItemLayout={groupRenderLayout}
+            onSelectedFile={([file]) => {
+                if (file) {
+                    const url = URL.createObjectURL(file);
+                    setChatList(chatList.concat({
+                        id: Date.now().toString(),
+                        content: url,
+                        attach: {
+                            images: [
+                                {
+                                    src: url,
+                                    width: '120px'
+                                }
+                            ]
+                        },
+                        role: 'question',
+                        groupId: nanoid()
+                    }))
+                }
+            }}
             onSend={(value) => {
                 setChatList(chatList.concat({
                     id: Date.now().toString(),

@@ -15,7 +15,8 @@ export const Chat: FC<ChatProps> = ({
                                         renderAnswerPanel = defaultAnswerRender,
                                         renderQuestionPanel = defaultQuestionRender,
                                         renderChatItemLayout = linerLayoutRender,
-                                        onSend
+                                        onSend,
+                                        onSelectedFile
                                     }) => {
 
 
@@ -23,7 +24,8 @@ export const Chat: FC<ChatProps> = ({
         chatList: chatList,
         renderQuestionPanel,
         renderAnswerPanel,
-        renderChatItemLayout
+        renderChatItemLayout,
+        onSelectedFile
     }}>
         <ChatList/>
         <Flex>
