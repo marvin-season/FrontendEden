@@ -1,11 +1,12 @@
 import {AnswerChatItem, ChatItem, ChatProps, QuestionChatItem} from "@/components/chat/types.ts";
 import React, {FC, useMemo, useState} from "react";
 import {Flex} from "@/styled";
+import {groupBy} from "@root/shared";
 
 export const groupRender: ChatProps['renderChatItemLayout'] = (chatList, renderAnswerPanel, renderQuestionPanel) => {
 
     const groupedChatList = useMemo(() => {
-        return groupBy(chatList, 'groupId')
+        return groupBy<ChatItem>(chatList, 'groupId') as ChatItem[][]
     }, [chatList.length]);
 
     console.log('groupedChatList', groupedChatList)

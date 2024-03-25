@@ -51,8 +51,8 @@ export const sleep = async (timeout: number) => new Promise((resolve) => setTime
  * @param array group target
  * @param key group key
  */
-export const groupBy = (array: ChatItem[], key: keyof ChatItem) => {
-    return array.reduce((prev: ChatItem[][], cur: ChatItem) => {
+export const groupBy = <T>(array: T[], key: keyof T) => {
+    return array.reduce((prev: T[][], cur: T) => {
         const find = prev?.find((item) => item?.find((item_) => item_[key] === cur[key]));
         if (find) {
             find.push(cur);
@@ -60,5 +60,5 @@ export const groupBy = (array: ChatItem[], key: keyof ChatItem) => {
             prev?.push([cur]);
         }
         return prev;
-    }, []);
+    }, []) as T[][];
 };
