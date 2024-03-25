@@ -2,17 +2,6 @@ import {AnswerChatItem, ChatItem, ChatProps, QuestionChatItem} from "@/component
 import React, {FC, useMemo, useState} from "react";
 import {Flex} from "@/styled";
 
-export const groupBy = (array: ChatItem[], key: keyof ChatItem) => {
-    return array.reduce((prev: ChatItem[][], cur: ChatItem) => {
-        const find = prev?.find((item) => item?.find((item_) => item_[key] === cur[key]));
-        if (find) {
-            find.push(cur);
-        } else {
-            prev?.push([cur]);
-        }
-        return prev;
-    }, []);
-};
 export const groupRender: ChatProps['renderChatItemLayout'] = (chatList, renderAnswerPanel, renderQuestionPanel) => {
 
     const groupedChatList = useMemo(() => {

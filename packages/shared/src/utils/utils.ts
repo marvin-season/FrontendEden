@@ -45,3 +45,20 @@ export const handleScroll = (selector: string) => {
 };
 
 export const sleep = async (timeout: number) => new Promise((resolve) => setTimeout(resolve, timeout));
+
+/**
+ *
+ * @param array group target
+ * @param key group key
+ */
+export const groupBy = (array: ChatItem[], key: keyof ChatItem) => {
+    return array.reduce((prev: ChatItem[][], cur: ChatItem) => {
+        const find = prev?.find((item) => item?.find((item_) => item_[key] === cur[key]));
+        if (find) {
+            find.push(cur);
+        } else {
+            prev?.push([cur]);
+        }
+        return prev;
+    }, []);
+};
