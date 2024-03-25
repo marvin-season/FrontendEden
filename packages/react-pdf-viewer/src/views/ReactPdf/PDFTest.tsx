@@ -18,23 +18,12 @@ function PDFTest() {
                 "　　“⼤娘放⼼，⾏云知道。”他笑着应了⼀句，中年⼥⼦似极为感怀，⼀声叹息，掩⾯上⻋。独留⼩姑娘与⾏云⾯对⾯站着。\n" +
                 "　　姑娘垂头着头⼀⾔不发，⽕把跳跃的光芒映得她眼中⼀⽚潋滟。"
         },
-        // {
-        //     url: "/demo.pdf",
-        //     content: "经过一年的努力，我们比以往任何时候都更有自信。在安吉会议上，我们敢于剖析自己\n" +
-        //         "的问题和不足"
-        // },
-        // {
-        //     url: "/math.pdf",
-        //     content: "题目会给出对应的导数以及相关条件，并要求求一个极限，这个极限式子并\n" +
-        //         "不是个随机的式子，而一个是与导数定义相关的极限式子"
-        // },
-        // {
-        //     url: "/math.pdf",
-        //     content: "这个部分在书上主要是跟隐函数共同出现。"
-        // }
     ])
     const [file, setFile] = useState<Blob>();
     const [currentIndex, setCurrentIndex] = useState(0);
+    const [searchText, setSearchText] = useState('')
+
+
     useDownLoadFile(hls[currentIndex].url, setFile);
 
     const handleFileChange: ChangeEventHandler<HTMLInputElement> = async (e) => {
@@ -53,9 +42,19 @@ function PDFTest() {
                     width: '500px'
                 }}>
                     <input type={'file'} onChange={handleFileChange}/>
-                    {/*<textarea onKeyUp={(e) => {*/}
-
-                    {/*}}/>*/}
+                    <div>
+                        <textarea value={searchText} onChange={(e) => {
+                            setSearchText(e.currentTarget.value)
+                        }}/>
+                        <button onClick={() => {
+                            hls.push({
+                                content: searchText,
+                                url: ''
+                            })
+                            setSearchText('')
+                        }}>添加
+                        </button>
+                    </div>
                     {
                         hls.map((item, index) => <div
                             onClick={() => {
