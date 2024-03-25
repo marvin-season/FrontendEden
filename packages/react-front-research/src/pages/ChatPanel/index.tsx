@@ -45,24 +45,24 @@ export default function () {
         <Chat
             chatList={chatList}
             renderChatItemLayout={groupRenderLayout}
-            onSelectedFile={([file]) => {
-                if (file) {
-                    const url = URL.createObjectURL(file);
-                    setChatList(chatList.concat({
-                        id: Date.now().toString(),
-                        content: url,
-                        attach: {
-                            images: [
-                                {
-                                    src: url,
-                                    width: '120px'
-                                }
-                            ]
-                        },
-                        role: 'question',
-                        groupId: nanoid()
-                    }))
+            onSelectedFile={(files) => {
+                const images: any[] = [];
+                for (let index = 0; index < files.length; index++) {
+                    const file = files[index]
+                    if (file) {
+                        const url = URL.createObjectURL(file);
+                        images.push({src: url, width: '120px'})
+                    }
                 }
+                setChatList(chatList.concat({
+                    id: Date.now().toString(),
+                    content: '文件',
+                    attach: {
+                        images
+                    },
+                    role: 'question',
+                    groupId: nanoid()
+                }))
             }}
             onSend={(value) => {
                 setChatList(chatList.concat({

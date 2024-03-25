@@ -52,7 +52,7 @@ export const UserInput: FC<{
             setValue(e.target.value);
             onChange?.(e.target.value);
         }}/>
-        <Input type={"file"} onChange={(e) => {
+        <Input multiple={true} type={"file"} onChange={(e) => {
             e.currentTarget.files && onSelectedFile?.(e.currentTarget.files)
         }}></Input>
         <button onClick={() => {
