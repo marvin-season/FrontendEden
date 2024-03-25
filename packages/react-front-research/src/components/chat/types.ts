@@ -1,6 +1,7 @@
 import {ReactElement} from "react";
 
 export interface ChatItem {
+    groupId: string;
     content: string;
     type?: 'normal' | 'file';
     id: string;
