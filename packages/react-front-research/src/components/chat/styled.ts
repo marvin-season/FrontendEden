@@ -7,3 +7,17 @@ export const Input = styled.input`
   border-radius: 8px;
   border: 1px solid #837e7e;
 `
+export const FileInput = styled.input`
+  display: none;
+`
+export const FileInputSelector = styled.label`
+  cursor: pointer;
+  background: #002fa7;
+  color: #fff;
+  font-weight: bold;
+  font-size: 18px;
+  height: 40px;
+  line-height: 40px;
+  border-radius: 8px;
+  padding: 0 6px;
+`

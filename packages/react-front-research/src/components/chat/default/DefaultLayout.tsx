@@ -2,7 +2,7 @@ import {AnswerChatItem, QuestionChatItem} from "@/components/chat/types.ts";
 import {Flex} from "@/styled";
 import React, {FC, useState} from "react";
 import {useChatContext} from "@/components/chat/context/ChatContext.tsx";
-import {Input} from "@/components/chat/styled.ts";
+import {FileInput, FileInputSelector, Input} from "@/components/chat/styled.ts";
 
 export function AnswerPanel({chatItem}: { chatItem: AnswerChatItem }) {
     return <Flex style={{
@@ -52,9 +52,14 @@ export const UserInput: FC<{
             setValue(e.target.value);
             onChange?.(e.target.value);
         }}/>
-        <Input multiple={true} type={"file"} onChange={(e) => {
-            e.currentTarget.files && onSelectedFile?.(e.currentTarget.files)
-        }}></Input>
+
+        <FileInputSelector htmlFor="file-upload">
+            <span>选择图片</span>
+            <FileInput id="file-upload" type="file" multiple={true} onChange={(e) => {
+                e.currentTarget.files && onSelectedFile?.(e.currentTarget.files)
+            }}/>
+        </FileInputSelector>
+
         <button onClick={() => {
             value.trim().length > 0 && onSend?.(value);
             setValue('')
