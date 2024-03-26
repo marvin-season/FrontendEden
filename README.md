@@ -5,7 +5,6 @@
 切换分支
 ```shell
 git checkout -b yourbranch
-git merge main # optional
 ```
 
 安装依赖
