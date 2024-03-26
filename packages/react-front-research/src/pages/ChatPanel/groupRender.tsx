@@ -51,7 +51,7 @@ export const SwiperChatItemPanel: FC<{ list: ChatItem[] }> = ({list}) => {
 
 export function QuestionPanel({chatItem}: { chatItem: QuestionChatItem }) {
     return <Flex style={{
-        background: 'lightcyan',
+        background: '#ffffff',
         justifyContent: 'flex-end',
         alignItems: 'center',
         padding: '8px',
@@ -72,7 +72,7 @@ export function QuestionPanel({chatItem}: { chatItem: QuestionChatItem }) {
 
 export function AnswerPanel({chatItem}: { chatItem: AnswerChatItem }) {
     return <Flex style={{
-        background: 'lightblue',
+        background: '#81d8d0',
         justifyContent: 'flex-start',
         alignItems: 'center',
         padding: '8px',
