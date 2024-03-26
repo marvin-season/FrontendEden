@@ -1,17 +1,14 @@
 import React, {useEffect} from "react";
 
 import MyWorker from './myWorker.ts?worker';
-import {Task} from "@/components/task";
 
 const worker = new MyWorker();
 
 
 export const WorkerPanel = () => {
 
-    const handlePause = (ms: number) => {
-        worker.postMessage({
-            ms
-        });
+    const executeHeavilyTask = (ms: number) => {
+        worker.postMessage({ms});
     }
 
     useEffect(() => {
@@ -23,10 +20,10 @@ export const WorkerPanel = () => {
     }, []);
 
     return <>
-        <div onClick={() => {
-            handlePause(3000)
-        }}>pause
-        </div>
+        <button onClick={() => {
+            executeHeavilyTask(2000)
+        }}>execute
+        </button>
         {/*<Task/>*/}
     </>
 }
