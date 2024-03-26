@@ -13,14 +13,14 @@ const LayoutContainer = styled.div`
   gap: 10px;
 `
 
-const NavItem = styled.div<{ activated: boolean }>`
+const NavItem = styled.div<{ selected: boolean }>`
   cursor: pointer;
   width: 200px;
   padding: 4px;
   border-radius: 8px;
   font-size: 16px;
 
-  color: ${({activated}) => activated ? 'blue' : 'black'};
+  color: ${({selected}) => selected ? 'blue' : 'black'};
 `
 
 const Nav = styled.div`
@@ -52,7 +52,7 @@ const Layout = () => {
                     navs.map(({onClick, label}, index) =>
                         <NavItem
                             key={index}
-                            activated={currentIndex == index}
+                            selected={currentIndex === index}
                             onClick={() => {
                                 setCurrentIndex(index)
                                 onClick()
