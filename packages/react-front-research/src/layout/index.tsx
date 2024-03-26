@@ -1,6 +1,6 @@
 import {Outlet, useNavigate} from "react-router-dom";
 import styled from 'styled-components'
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {routes} from "@/router/routes.tsx";
 
 const LayoutContainer = styled.div`
@@ -35,7 +35,6 @@ const Layout = () => {
     const navs: { label: string | undefined; onClick: Function }[] = []
     routes.flatMap(route => route.children).forEach(item => {
         if (item) {
-
             navs.push({
                 label: item.path,
                 onClick: () => {
@@ -44,6 +43,11 @@ const Layout = () => {
             })
         }
     })
+
+    useEffect(() => {
+        const index = parseInt(sessionStorage.getItem('routerCurrentIndex') || '0');
+        setCurrentIndex(index)
+    }, []);
 
     return <>
         <LayoutContainer>
@@ -55,6 +59,7 @@ const Layout = () => {
                             selected={currentIndex === index}
                             onClick={() => {
                                 setCurrentIndex(index)
+                                sessionStorage.setItem('routerCurrentIndex', index.toString())
                                 onClick()
                             }}>{label}
                         </NavItem>)
