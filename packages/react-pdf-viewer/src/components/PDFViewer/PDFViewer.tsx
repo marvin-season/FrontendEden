@@ -60,7 +60,7 @@ export const PDFViewer: React.FC<PDFProps> = ({
             inputRef={pageRef}
             width={width}
             pageNumber={pageNumber}
-            renderTextLayer={hlPageSet.has(pageNumber - 1)}
+            renderTextLayer={false}
             customTextRenderer={(textItem) => {
                 const itemKey = `${textItem.pageIndex}-${textItem.itemIndex}`;
                 if (getHlSet().has(itemKey)) {
