@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>拖拽</title>
+</head>
+<style>
+    .container {
+        width: 600px;
+        margin: auto;
+        border: 1px solid #d8f3f3;
+        border-radius: 8px;
+
+        .item {
+            margin: 2px;
+            height: 60px;
+            background: #75daf1;
+            border-radius: 8px;
+        }
+
+        .dragging {
+            background: #fff;
+            border: 0.5px dashed #8a8f8f;
+        }
+    }
+
+</style>
+<body>
+<div class="container">
+    <div draggable="true" class="item">1</div>
+    <div draggable="true" class="item">2</div>
+    <div draggable="true" class="item">3</div>
+    <div draggable="true" class="item">4</div>
+    <div draggable="true" class="item">5</div>
+</div>
+
+<script>
+    let sourceNode = null;
+    const container = document.querySelector('.container');
+
+    container.ondragstart = e => {
+        sourceNode = e.target;
+        setTimeout(() => {
+            e.target.classList.add('dragging')
+        })
+    }
+    container.ondragend = e => {
+        console.log(e.target)
+        sourceNode.classList.remove('dragging')
+    }
+    container.ondragover = e => {
+        e.preventDefault();
+    }
+    container.ondragenter = e => {
+        e.preventDefault()
+        if (e.target === container || e.target === sourceNode) {
+            return
+        }
+        const children = [...container.children]
+
+        const sourceIndex = children.indexOf(sourceNode); // 当前拖拽的元素下标
+        const targetIndex = children.indexOf(e.target); // 进入的目标元素下标
+        console.log(sourceIndex, targetIndex)
+        if (sourceIndex > targetIndex) {
+            container.insertBefore(sourceNode, e.target)
+        } else {
+            container.insertBefore(e.target, sourceNode)
+        }
+    }
+
+
+</script>
+</body>
+</html>
