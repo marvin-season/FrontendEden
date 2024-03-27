@@ -3,8 +3,6 @@ import "react-pdf/dist/Page/TextLayer.css";
 import {Document, Page, pdfjs} from "react-pdf";
 import useHighlightInfo from "./useHighlightInfo";
 import {PDFDocumentProxy} from "pdfjs-dist";
-import {useGetState} from "ahooks";
-import PdfLoading from "./PdfLoading.gif"
 
 export type PDFProps = {
     file?: string | Blob | ArrayBuffer | undefined;
@@ -26,26 +24,19 @@ pdfjs.GlobalWorkerOptions.workerSrc = new URL(
     import.meta.url
 ).toString();
 
-const Loading = () => {
-    return <div style={{height: "100vh", flexShrink: 0, paddingTop: '60px'}}>
-        loading
-    </div>;
-};
-
 export const PDFViewer: React.FC<PDFProps> = ({
                                                   page_scale,
                                                   file,
                                                   searchText,
                                                   width
                                               }) => {
-    const [pdfVisibility, setPdfVisibility] = useState(false);
     const pdfDocumentProxyRef = useRef<PDFDocumentProxy>();
-    const [hlSet, setHlSet, getHlSet] = useGetState<HighlightSet>(new Set([]));
+    const [hlSet, setHlSet] = useState<HighlightSet>(new Set([]));
     // 高亮页下标
     const [hlPages, setHlPages] = useState<Set<number>>(new Set());
     // 所有页面下标
     const [allPages, setAllPages] = useState<number[]>([]);
-    const {getHighlightInfo} = useHighlightInfo({searchText});
+    const {getHighlightInfo} = useHighlightInfo({searchText, salt: typeof file === "string" ? file : ''});
 
 
     const handleHighlightInfo = (res: boolean | HighlightResultInfoType) => {
@@ -56,7 +47,6 @@ export const PDFViewer: React.FC<PDFProps> = ({
     };
 
     useEffect(() => {
-        console.log('searchText', searchText)
         searchText && getHighlightInfo({pdfDocumentProxy: pdfDocumentProxyRef.current}).then(handleHighlightInfo);
     }, [searchText]);
 
@@ -68,7 +58,6 @@ export const PDFViewer: React.FC<PDFProps> = ({
             renderTextLayer={hlPages.has(pageNumber - 1)}
             onRenderTextLayerSuccess={() => {
                 if (hlPages.has(pageNumber - 1)) {
-                    setPdfVisibility(true);
                     setTimeout(() => {
                         const targets = document.querySelectorAll('#text_highlight');
                         targets[targets.length - 1]?.scrollIntoView({
@@ -80,7 +69,7 @@ export const PDFViewer: React.FC<PDFProps> = ({
             }}
             customTextRenderer={(textItem) => {
                 const itemKey = `${textItem.pageIndex}-${textItem.itemIndex}`;
-                if (getHlSet().has(itemKey)) {
+                if (hlSet.has(itemKey)) {
                     return `<span style="background:#fff;color: #27af81" id="text_highlight">${textItem.str}</>`;
                 } else {
                     return "";

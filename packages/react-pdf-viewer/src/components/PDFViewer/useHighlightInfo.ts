@@ -8,19 +8,20 @@ import {useMemo} from "react";
 
 const resMap: Record<string, HighlightResultInfoType> = {}
 
-export default function useHighlightInfo({searchText = '', file}: PDFProps) {
+export default function useHighlightInfo({searchText = '', salt}: PDFProps & { salt: string }) {
 
     const key = useMemo(() => {
-        return md5.md5(searchText)
-    }, [searchText])
+        return md5.md5(searchText?.concat(salt))
+    }, [searchText, salt])
 
     const getHighlightInfo = async ({pdfDocumentProxy}: { pdfDocumentProxy?: PDFDocumentProxy }) => {
+        console.log('searchText', searchText)
         if (searchText?.length <= 0) {
             return false
         }
 
-        if(resMap[key]){
-            console.log('cached', resMap[key])
+        if (resMap[key]) {
+            console.log('cached', resMap)
             return lodash.cloneDeep(resMap[key])
         }
 

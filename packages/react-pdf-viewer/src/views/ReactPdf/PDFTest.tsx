@@ -7,11 +7,12 @@ function PDFTest() {
         content: string,
     }[]>([
         {
-            content: '谁要你施舍了'
+            content: '此处已有你说的那种阵法'
         },
         {
-            content: '言罢他起身回屋'
-        }
+            content: '谁要你施舍了!'
+        },
+
     ])
     const [file, setFile] = useState<Blob | string>('/与凤行.pdf');
     const [currentIndex, setCurrentIndex] = useState(0);
