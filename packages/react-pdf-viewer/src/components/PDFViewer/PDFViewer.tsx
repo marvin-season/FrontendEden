@@ -2,14 +2,16 @@ import React, {useEffect, useRef, useState} from "react";
 import "react-pdf/dist/Page/TextLayer.css";
 import {Document, Page, pdfjs} from "react-pdf";
 import useHighlightInfo from "./useHighlightInfo";
-import {handleScroll} from "@root/shared";
 import {PDFDocumentProxy} from "pdfjs-dist";
 import {useGetState} from "ahooks";
+import PdfLoading from "./PdfLoading.gif"
 
 export type PDFProps = {
     file?: string | Blob | ArrayBuffer | undefined;
     searchText?: string;
-    width?: number
+    width?: number;
+    highlightColor?: string;
+    page_scale?: number;
 };
 
 export type HighlightSet = Set<string>
@@ -25,89 +27,90 @@ pdfjs.GlobalWorkerOptions.workerSrc = new URL(
 ).toString();
 
 const Loading = () => {
-    return <>
-        Loading 啊啊啊啊啊啊
-    </>
-}
+    return <div style={{height: "100vh", flexShrink: 0, paddingTop: '60px'}}>
+        loading
+    </div>;
+};
 
 export const PDFViewer: React.FC<PDFProps> = ({
+                                                  page_scale,
                                                   file,
                                                   searchText,
                                                   width
                                               }) => {
-    const [hlSet, setHlSet, getHlSet] = useGetState<HighlightSet>(new Set([]));
-    const [hlPageSet, setHlPageSet] = useState<Set<number>>(new Set())
+    const [pdfVisibility, setPdfVisibility] = useState(false);
     const pdfDocumentProxyRef = useRef<PDFDocumentProxy>();
-    const documentContainerRef = useRef<HTMLDivElement>(null);
-    const documentRef = useRef<HTMLDivElement>(null);
-    const [pageRenderRange, setPageRenderRange, getPageRenderRange] = useGetState<number[]>([])
-    const {getHighlightInfo} = useHighlightInfo({file, searchText});
+    const [hlSet, setHlSet, getHlSet] = useGetState<HighlightSet>(new Set([]));
+    // 高亮页下标
+    const [hlPages, setHlPages] = useState<Set<number>>(new Set());
+    // 所有页面下标
+    const [allPages, setAllPages] = useState<number[]>([]);
+    const {getHighlightInfo} = useHighlightInfo({searchText});
 
 
     const handleHighlightInfo = (res: boolean | HighlightResultInfoType) => {
         if (res && typeof res != "boolean") {
             setHlSet(res.highlightSet);
-            setHlPageSet(res.pages)
+            setHlPages(res.pages);
         }
     };
 
     useEffect(() => {
+        console.log('searchText', searchText)
         searchText && getHighlightInfo({pdfDocumentProxy: pdfDocumentProxyRef.current}).then(handleHighlightInfo);
     }, [searchText]);
 
     const renderPage = (pageNumber: number) => {
         return <Page
-            inputRef={pageRef}
+            scale={page_scale}
             width={width}
             pageNumber={pageNumber}
-            renderTextLayer={false}
+            renderTextLayer={hlPages.has(pageNumber - 1)}
+            onRenderTextLayerSuccess={() => {
+                if (hlPages.has(pageNumber - 1)) {
+                    setPdfVisibility(true);
+                    setTimeout(() => {
+                        const targets = document.querySelectorAll('#text_highlight');
+                        targets[targets.length - 1]?.scrollIntoView({
+                            behavior: 'smooth',
+                            block: "end",
+                        })
+                    })
+                }
+            }}
             customTextRenderer={(textItem) => {
                 const itemKey = `${textItem.pageIndex}-${textItem.itemIndex}`;
                 if (getHlSet().has(itemKey)) {
-                    hlSet.delete(itemKey)
-                    if (getHlSet().size === 0) {
-                        setTimeout(() => handleScroll("#text_highlight"))
-                    }
-                    return `<mark id="text_highlight">${textItem.str}</mark>`;
+                    return `<span style="background:#fff;color: #27af81" id="text_highlight">${textItem.str}</>`;
                 } else {
-                    return textItem.str;
+                    return "";
                 }
             }}
             renderAnnotationLayer={false}>
         </Page>;
     };
 
-    const pageRef = useRef<HTMLDivElement>(null);
-
 
     return <>
-        <div style={{
-            height: '800px',
-            overflow: "auto"
-        }} ref={documentContainerRef}>
-            <div ref={documentRef}>
-                <Document
-                    file={file}
-                    onLoadSuccess={(pdf) => {
-                        pdfDocumentProxyRef.current = pdf;
-                        getHighlightInfo({pdfDocumentProxy: pdf}).then(handleHighlightInfo);
-                        setPageRenderRange(new Array(pdf.numPages).fill(0).map((item, index) => index))
-                    }}>
-                    {
-                        getPageRenderRange().map(pageIndex => <div key={pageIndex + 1}>
-                                {
-                                    renderPage(pageIndex + 1)
-                                }
-                            </div>
-                        )
-                    }
+        <Document
+            file={file}
+            onLoadSuccess={(pdf) => {
+                pdfDocumentProxyRef.current = pdf;
+                getHighlightInfo({pdfDocumentProxy: pdf}).then(handleHighlightInfo);
+                setAllPages(new Array(pdf.numPages).fill(0).map((item, index) => index));
+            }}>
+            {
+                allPages.map(pageIndex => <div key={pageIndex + 1}>
+                        {
+                            renderPage(pageIndex + 1)
+                        }
+                    </div>
+                )
+            }
 
-                </Document>
-            </div>
-
-        </div>
-
-
+        </Document>
     </>;
 };
+
+
 

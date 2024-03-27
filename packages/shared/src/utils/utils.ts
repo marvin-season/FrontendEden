@@ -37,11 +37,13 @@ export const call_ = function (ctx = {}, ...args: any) {
     return res
 }
 
-export const handleScroll = (selector: string) => {
-    let targetEle = document.querySelector(selector);
-    // const targetEle = all[0] || all[1];
-    console.log('targetEle', targetEle);
-    targetEle?.scrollIntoView({behavior: 'smooth'});
+export const handleScroll: (selector: string, options: ScrollIntoViewOptions) => void
+    = (selector, options = {
+    behavior: 'smooth',
+    block: "end",
+}) => {
+    const targets = document.querySelectorAll('#text_highlight');
+    targets[targets.length - 1]?.scrollIntoView(options)
 };
 
 export const sleep = async (timeout: number) => new Promise((resolve) => setTimeout(resolve, timeout));
