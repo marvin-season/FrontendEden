@@ -4,6 +4,7 @@ import {useChatContext} from "@/components/chat/context/ChatContext.tsx";
 import {FileSelector} from "@/components/file";
 import {Button, Flex, Image, Input, message} from "antd";
 import {defaultAnswerPanelRender, defaultQuestionPanelRender} from "@/components/chat/default/DefaultRender.tsx";
+import {UploadOutlined} from "@ant-design/icons";
 
 export const CommonPanel: FC<{
     chatItem: ChatItem,
@@ -35,21 +36,29 @@ export const UserInput = () => {
     const [value, setValue] = useState<string>('');
     const {onSelectedFile, onSend} = useChatContext();
 
+    const handleSend = () => {
+        if (value.trim().length > 0) {
+            onSend?.(value);
+            setValue('')
+        } else {
+            message.info('消息不能为空').then()
+        }
+    }
     return <Flex align={"center"} gap={6}>
-        <Input value={value} onChange={(e) => {
-            setValue(e.target.value);
-        }}/>
+        <FileSelector onChange={onSelectedFile}><UploadOutlined className={'text-xl text-cyan-700'}/></FileSelector>
+        <Input
+            value={value}
+            onKeyUp={e => {
+                if (e.key.toLowerCase() == 'enter') {
+                    handleSend()
+                }
+            }}
+            onChange={(e) => {
+                setValue(e.target.value);
+            }}
+        />
 
-        <Button onClick={() => {
-            if (value.trim().length > 0) {
-                onSend?.(value);
-                setValue('')
-            } else {
-                message.info('消息不能为空').then()
-            }
-        }}>发送
-        </Button>
-        <FileSelector onChange={onSelectedFile}>{'选择图片'}</FileSelector>
+        <Button onClick={handleSend}>发送</Button>
 
     </Flex>
 }
