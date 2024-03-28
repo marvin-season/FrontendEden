@@ -1,15 +1,13 @@
-import {Chat} from "@/components/chat/Chat.tsx";
-import {groupRenderLayout} from "@/pages/ChatPanel/groupRender.tsx";
+import {FC} from "react";
 import {useChat} from "@/pages/ChatPanel/useChat.ts";
+import {connect} from "@/components/chat/hoc.tsx";
+import {Chat} from "@/components/chat";
 
-export default function () {
-
+const ChatPanel: FC = () => {
     const chatProps = useChat();
+    const ConnectedChat = connect(Chat, chatProps);
 
-    return <>
-        <Chat
-            {...chatProps}
-            renderChatItemLayout={groupRenderLayout}
-        ></Chat>
-    </>
+    return <ConnectedChat/>;
 }
+
+export default ChatPanel

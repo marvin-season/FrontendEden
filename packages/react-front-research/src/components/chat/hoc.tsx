@@ -1,4 +1,4 @@
-import React, {ComponentType, CSSProperties} from "react";
+import React, {ComponentType, CSSProperties, FunctionComponent} from "react";
 import {Flex} from "@/styled";
 
 export const withContainerStyle = <P extends object>(Component: ComponentType<P>, style: CSSProperties) => {
@@ -7,4 +7,8 @@ export const withContainerStyle = <P extends object>(Component: ComponentType<P>
             <Component style={{justifyContent: 'flex-start',}} {...props}></Component>
         </Flex>
     }
+}
+
+export const connect = <P extends object>(Component: FunctionComponent<P>, props: P) => {
+    return (pp: Partial<P>) => <Component {...props} {...pp}/>
 }
