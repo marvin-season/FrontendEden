@@ -7,6 +7,7 @@ import {
 } from "@/components/chat/default/DefaultRender.tsx";
 import {ChatList, UserInput, UseSelectedImage} from "@/components/chat/default/DefaultLayout.tsx";
 import {ChatContext} from "./context/ChatContext";
+import {Flex} from "antd";
 
 
 export const Chat: FC<ChatProps> = ({
@@ -23,12 +24,13 @@ export const Chat: FC<ChatProps> = ({
         renderChatItemLayout,
         ...restProps
     }}>
-        <div className={'text-3xl font-bold underline'} style={{height: '600px', overflow: "auto"}}>
-            <ChatList/>
-        </div>
-        <div>
+        <Flex vertical={true} gap={6} className={'h-full p-6'}>
+            <Flex className={'h-2/3 border-slate-200 border rounded-lg'}>
+                <ChatList/>
+            </Flex>
             <UseSelectedImage/>
             <UserInput/>
-        </div>
+        </Flex>
+
     </ChatContext.Provider>
 }

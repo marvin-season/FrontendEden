@@ -35,7 +35,7 @@ export const UserInput = () => {
     const [value, setValue] = useState<string>('');
     const {onSelectedFile, onSend} = useChatContext();
 
-    return <Flex align={"center"}>
+    return <Flex align={"center"} gap={6}>
         <Input value={value} onChange={(e) => {
             setValue(e.target.value);
         }}/>
