@@ -23,7 +23,7 @@ export const Chat: FC<ChatProps> = ({
         renderChatItemLayout,
         ...restProps
     }}>
-        <div style={{height: '600px', overflow: "auto"}}>
+        <div className={'text-3xl font-bold underline'} style={{height: '600px', overflow: "auto"}}>
             <ChatList/>
         </div>
         <div>
