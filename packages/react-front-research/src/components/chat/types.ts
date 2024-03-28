@@ -1,4 +1,4 @@
-import {ReactElement} from "react";
+import React, {ReactElement} from "react";
 
 export interface BaseAttachImage {
     src: string,
@@ -57,3 +57,6 @@ export interface ChatProps {
     onReload?: (chatItem: ChatItem) => void,
     chatAttach?: ChatAttach;
 }
+
+
+export type CommonPanelRenderType = (chatItem: ChatItem) => React.ReactElement

@@ -1,10 +1,25 @@
-import {AnswerChatItem, ChatItem, ChatProps, QuestionChatItem} from "@/components/chat/types.ts";
+import {ChatItem, ChatProps} from "@/components/chat/types.ts";
 import React, {FC, useMemo, useState} from "react";
 import {Flex} from "@/styled";
 // @ts-ignore
 import {groupBy} from "@root/shared";
-import {Image, Typography} from "antd";
+import {Typography} from "antd";
 import {useChatContext} from "@/components/chat/context/ChatContext.tsx";
+import {CommonPanel} from "@/components/chat/default/DefaultLayout.tsx";
+import {withContainerStyle} from "@/pages/ChatPanel/hoc.tsx";
+import {defaultAnswerPanelRender, defaultQuestionPanelRender} from "@/components/chat/default/DefaultRender.tsx";
+
+const QuestionPanel = withContainerStyle(CommonPanel, {
+    background: '#eee',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+});
+
+const AnswerPanel = withContainerStyle(CommonPanel, {
+    background: '#ddd',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+});
 
 export const groupRenderLayout: ChatProps['renderChatItemLayout'] = (chatList, renderAnswerPanel, renderQuestionPanel) => {
 
@@ -34,12 +49,10 @@ export const SwiperChatItemPanel: FC<{ list: ChatItem[] }> = ({list}) => {
         setCurrentIndex(currentIndex + i);
     };
     return <>
-
+        {/*回答*/}
         {
             list[currentIndex].role == "answer" && <>
-                {
-                    AnswerPanel({chatItem: list[currentIndex]})
-                }
+                <AnswerPanel chatItem={list[currentIndex]} renderChildren={defaultAnswerPanelRender}/>
                 <Flex>
                     {
                         list.length > 1 && <Flex>
@@ -52,51 +65,13 @@ export const SwiperChatItemPanel: FC<{ list: ChatItem[] }> = ({list}) => {
                 </Flex>
             </>
         }
+
+        {/*问题*/}
         {
-            list[currentIndex].role == "question" && QuestionPanel({chatItem: list[currentIndex]})
+            list[currentIndex].role == "question" &&
+            <QuestionPanel chatItem={list[currentIndex]} renderChildren={defaultQuestionPanelRender}></QuestionPanel>
         }
-
-
     </>
-}
-
-export function QuestionPanel({chatItem}: { chatItem: QuestionChatItem }) {
-    return <Flex style={{
-        background: '#ffffff',
-        justifyContent: 'flex-end',
-        alignItems: 'center',
-        padding: '8px',
-        boxSizing: 'border-box'
-    }}>
-        <div>
-            <div>
-                {
-                    chatItem.chatItemAttach?.images?.map(item => {
-                        return <Image key={item.src} width={item.width} height={item.height} src={item.src}
-                                      alt={item.src}/>
-                    })
-                }
-            </div>
-            <div>
-                {chatItem.content}
-            </div>
-        </div>
-    </Flex>;
-}
-
-export function AnswerPanel({chatItem}: { chatItem: AnswerChatItem }) {
-    return <Flex style={{
-        background: '#81d8d0',
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-        padding: '8px',
-        boxSizing: 'border-box'
-    }}>
-        <Flex>
-            {chatItem.content}
-        </Flex>
-
-    </Flex>;
 }
 
 

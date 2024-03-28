@@ -1,36 +1,27 @@
-import {AnswerChatItem, QuestionChatItem} from "@/components/chat/types.ts";
+import {AnswerChatItem, ChatItem, CommonPanelRenderType, QuestionChatItem} from "@/components/chat/types.ts";
 import {Flex} from "@/styled";
-import React, {useState} from "react";
+import React, {FC, useState} from "react";
 import {useChatContext} from "@/components/chat/context/ChatContext.tsx";
 import {Input} from "@/components/chat/styled.ts";
 import {FileSelector} from "@/components/file";
 import {Image} from "antd";
+import {defaultAnswerPanelRender, defaultQuestionPanelRender} from "@/components/chat/default/DefaultRender.tsx";
 
-export function AnswerPanel({chatItem}: { chatItem: AnswerChatItem }) {
-    return <Flex style={{
-        background: 'lightblue'
-    }}>
-        <Flex>
-            答：
-        </Flex>
-        <Flex>
-            {chatItem.content}
-        </Flex>
-
-    </Flex>;
+export const CommonPanel: FC<{
+    chatItem: ChatItem,
+    renderChildren: CommonPanelRenderType,
+}> = ({renderChildren, chatItem}) => {
+    return <>
+        {renderChildren(chatItem)}
+    </>
 }
 
-export function QuestionPanel({chatItem}: { chatItem: QuestionChatItem }) {
-    return <Flex style={{
-        background: 'lightcyan'
-    }}>
-        <Flex>
-            问：
-        </Flex>
-        <Flex>
-            {chatItem.content}
-        </Flex>
-    </Flex>;
+export function DefaultAnswerPanel({chatItem}: { chatItem: AnswerChatItem }) {
+    return defaultAnswerPanelRender(chatItem)
+}
+
+export function DefaultQuestionPanel({chatItem}: { chatItem: QuestionChatItem }) {
+    return defaultQuestionPanelRender(chatItem);
 }
 
 export function ChatList() {
