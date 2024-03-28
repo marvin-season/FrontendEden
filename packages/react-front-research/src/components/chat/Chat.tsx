@@ -23,7 +23,9 @@ export const Chat: FC<ChatProps> = ({
         renderChatItemLayout,
         ...restProps
     }}>
-        <ChatList/>
+        <div style={{height: '600px', overflow: "auto"}}>
+            <ChatList/>
+        </div>
         <div>
             <UseSelectedImage/>
             <UserInput/>

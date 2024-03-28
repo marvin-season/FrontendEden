@@ -12,12 +12,11 @@ export const FileInput = styled.input`
 `
 export const FileInputSelector = styled.label`
   cursor: pointer;
-  background: #002fa7;
-  color: #fff;
+  flex-shrink: 0;
   font-weight: bold;
-  font-size: 18px;
+  font-size: 14px;
   height: 40px;
   line-height: 40px;
   border-radius: 8px;
-  padding: 0 6px;
+  padding: 2px;
 `
