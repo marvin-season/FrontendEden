@@ -66,6 +66,9 @@ importers:
 
   packages/react-front-research:
     dependencies:
+      '@ant-design/icons':
+        specifier: ^5.3.5
+        version: 5.3.5(react-dom@18.2.0)(react@18.2.0)
       '@root/shared':
         specifier: workspace:^1.0.0
         version: link:../shared

@@ -3,8 +3,6 @@ import React, {FC, useMemo, useState} from "react";
 import {Flex} from "@/styled";
 // @ts-ignore
 import {groupBy} from "@root/shared";
-import {Typography} from "antd";
-import {useChatContext} from "@/components/chat/context/ChatContext.tsx";
 import {CommonPanel} from "@/components/chat/default/DefaultLayout.tsx";
 import {defaultAnswerPanelRender, defaultQuestionPanelRender} from "@/components/chat/default/DefaultRender.tsx";
 
@@ -26,7 +24,6 @@ export const groupRenderLayout: ChatProps['renderChatItemLayout'] = (chatList, r
 
 export const SwiperChatItemPanel: FC<{ list: ChatItem[] }> = ({list}) => {
     const [currentIndex, setCurrentIndex] = useState(0);
-    const {onReload} = useChatContext();
     const handleChangeIndex = (i: number) => {
         console.log(currentIndex);
         if (currentIndex + i < 0 || currentIndex + i > list.length - 1) {
@@ -42,13 +39,12 @@ export const SwiperChatItemPanel: FC<{ list: ChatItem[] }> = ({list}) => {
                 <CommonPanel chatItem={list[currentIndex]} renderChildren={defaultAnswerPanelRender}/>
                 <Flex>
                     {
-                        list.length > 1 && <Flex>
-                            <div style={{cursor: "pointer"}} onClick={() => handleChangeIndex(-1)}>{'<'}</div>
+                        list.length > 1 && <Flex className={'pl-2 cursor-pointer text-sm text-sky-400 select-none'}>
+                            <div onClick={() => handleChangeIndex(-1)}>{'<'}</div>
                             {currentIndex + 1}/{list.length}
-                            <div style={{cursor: "pointer"}} onClick={() => handleChangeIndex(1)}>{'>'}</div>
+                            <div onClick={() => handleChangeIndex(1)}>{'>'}</div>
                         </Flex>
                     }
-                    <Typography.Link type="success" onClick={() => onReload?.(list[currentIndex])}>reload</Typography.Link>
                 </Flex>
             </>
         }
