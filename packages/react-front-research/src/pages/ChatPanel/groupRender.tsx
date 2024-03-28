@@ -59,15 +59,17 @@ export function QuestionPanel({chatItem}: { chatItem: QuestionChatItem }) {
         boxSizing: 'border-box'
     }}>
         <div>
-            {
-                chatItem.chatItemAttach?.images?.map(item => {
-                    return <Image key={item.src} width={item.width} height={item.height} src={item.src} alt={item.src}/>
-                })
-            }
-            {chatItem.content}
+            <div>
+                {
+                    chatItem.chatItemAttach?.images?.map(item => {
+                        return <Image key={item.src} width={item.width} height={item.height} src={item.src} alt={item.src}/>
+                    })
+                }
+            </div>
+            <div>
+                {chatItem.content}
+            </div>
         </div>
-
-
     </Flex>;
 }
 

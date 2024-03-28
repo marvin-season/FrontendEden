@@ -30,9 +30,9 @@ export const Chat: FC<ChatProps> = ({
         chatAttach
     }}>
         <ChatList/>
-        <Flex>
+        <div>
             <UseSelectedImage/>
             <UserInput onSend={onSend}/>
-        </Flex>
+        </div>
     </ChatContext.Provider>
 }

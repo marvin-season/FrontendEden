@@ -71,6 +71,17 @@ export default function () {
                 }))
 
                 setBaseAttach({})
+
+                setTimeout(() => {
+                    setChatList(prevState => {
+                        return prevState.concat({
+                            id: Date.now().toString(),
+                            content: value,
+                            role: 'answer',
+                            groupId: nanoid(),
+                        })
+                    })
+                })
             }}/>
     </>
 }
