@@ -6,8 +6,8 @@ import {groupBy} from "@root/shared";
 import {Typography} from "antd";
 import {useChatContext} from "@/components/chat/context/ChatContext.tsx";
 import {CommonPanel} from "@/components/chat/default/DefaultLayout.tsx";
-import {withContainerStyle} from "@/pages/ChatPanel/hoc.tsx";
 import {defaultAnswerPanelRender, defaultQuestionPanelRender} from "@/components/chat/default/DefaultRender.tsx";
+import {withContainerStyle} from "@/components/chat/hoc.tsx";
 
 const QuestionPanel = withContainerStyle(CommonPanel, {
     background: '#eee',
