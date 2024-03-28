@@ -61,6 +61,7 @@ export default function () {
                     images
                 })
             }}
+            onReload={console.log}
             onSend={(value) => {
                 setChatList(chatList.concat({
                     id: Date.now().toString(),

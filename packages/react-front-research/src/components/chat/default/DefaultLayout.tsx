@@ -1,6 +1,6 @@
 import {AnswerChatItem, QuestionChatItem} from "@/components/chat/types.ts";
 import {Flex} from "@/styled";
-import React, {FC, useState} from "react";
+import React, {useState} from "react";
 import {useChatContext} from "@/components/chat/context/ChatContext.tsx";
 import {Input} from "@/components/chat/styled.ts";
 import {FileSelector} from "@/components/file";
@@ -42,17 +42,13 @@ export function ChatList() {
     </>;
 }
 
-export const UserInput: FC<{
-    onChange?: (value: string) => void;
-    onSend?: (value: string) => void;
-}> = ({onChange, onSend}) => {
+export const UserInput = () => {
     const [value, setValue] = useState<string>('');
-    const {onSelectedFile} = useChatContext();
+    const {onSelectedFile, onSend} = useChatContext();
 
     return <Flex>
         <Input value={value} onChange={(e) => {
             setValue(e.target.value);
-            onChange?.(e.target.value);
         }}/>
 
         <FileSelector onChange={onSelectedFile}>{'选择图片'}</FileSelector>

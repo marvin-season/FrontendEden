@@ -3,7 +3,8 @@ import React, {FC, useMemo, useState} from "react";
 import {Flex} from "@/styled";
 // @ts-ignore
 import {groupBy} from "@root/shared";
-import {Image} from "antd";
+import {Image, Typography} from "antd";
+import {useChatContext} from "@/components/chat/context/ChatContext.tsx";
 
 export const groupRenderLayout: ChatProps['renderChatItemLayout'] = (chatList, renderAnswerPanel, renderQuestionPanel) => {
 
@@ -23,6 +24,7 @@ export const groupRenderLayout: ChatProps['renderChatItemLayout'] = (chatList, r
 
 export const SwiperChatItemPanel: FC<{ list: ChatItem[] }> = ({list}) => {
     const [currentIndex, setCurrentIndex] = useState(0);
+    const {onReload} = useChatContext();
     const handleChangeIndex = (i: number) => {
         console.log(currentIndex);
         if (currentIndex + i < 0 || currentIndex + i > list.length - 1) {
@@ -34,19 +36,27 @@ export const SwiperChatItemPanel: FC<{ list: ChatItem[] }> = ({list}) => {
     return <>
 
         {
-            list[currentIndex].role == "answer" && AnswerPanel({chatItem: list[currentIndex]})
+            list[currentIndex].role == "answer" && <>
+                {
+                    AnswerPanel({chatItem: list[currentIndex]})
+                }
+                <Flex>
+                    {
+                        list.length > 1 && <Flex>
+                            <div style={{cursor: "pointer"}} onClick={() => handleChangeIndex(-1)}>{'<'}</div>
+                            {currentIndex + 1}/{list.length}
+                            <div style={{cursor: "pointer"}} onClick={() => handleChangeIndex(1)}>{'>'}</div>
+                        </Flex>
+                    }
+                    <Typography.Link type="success" onClick={() => onReload?.(list[currentIndex])}>reload</Typography.Link>
+                </Flex>
+            </>
         }
         {
             list[currentIndex].role == "question" && QuestionPanel({chatItem: list[currentIndex]})
         }
 
-        {
-            list.length > 1 && <Flex>
-                <div style={{cursor: "pointer"}} onClick={() => handleChangeIndex(-1)}>{'<'}</div>
-                {currentIndex + 1}/{list.length}
-                <div style={{cursor: "pointer"}} onClick={() => handleChangeIndex(1)}>{'>'}</div>
-            </Flex>
-        }
+
     </>
 }
 
@@ -62,7 +72,8 @@ export function QuestionPanel({chatItem}: { chatItem: QuestionChatItem }) {
             <div>
                 {
                     chatItem.chatItemAttach?.images?.map(item => {
-                        return <Image key={item.src} width={item.width} height={item.height} src={item.src} alt={item.src}/>
+                        return <Image key={item.src} width={item.width} height={item.height} src={item.src}
+                                      alt={item.src}/>
                     })
                 }
             </div>
