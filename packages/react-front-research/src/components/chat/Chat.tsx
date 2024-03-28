@@ -10,26 +10,18 @@ import {ChatContext} from "./context/ChatContext";
 
 
 export const Chat: FC<ChatProps> = ({
-                                        chatList,
                                         renderAnswerPanel = defaultAnswerRender,
                                         renderQuestionPanel = defaultQuestionRender,
                                         renderChatItemLayout = linerLayoutRender,
-                                        onSend,
-                                        onSelectedFile,
-                                        onReload,
-                                        chatAttach
+                                        ...restProps
                                     }) => {
 
 
     return <ChatContext.Provider value={{
-        chatList: chatList,
         renderQuestionPanel,
         renderAnswerPanel,
         renderChatItemLayout,
-        onSelectedFile,
-        onSend,
-        onReload,
-        chatAttach
+        ...restProps
     }}>
         <ChatList/>
         <div>
