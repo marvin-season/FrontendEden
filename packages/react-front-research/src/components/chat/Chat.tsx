@@ -25,7 +25,7 @@ export const Chat: FC<ChatProps> = ({
         ...restProps
     }}>
         <Flex vertical={true} gap={6} className={'h-full p-6'}>
-            <Flex className={'h-2/3 border-slate-200 border rounded-lg'}>
+            <Flex vertical={true} className={'h-2/3 border-slate-200 border rounded-lg'}>
                 <ChatList/>
             </Flex>
             <UseSelectedImage/>

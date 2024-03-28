@@ -1,8 +1,7 @@
 import React from "react";
 import {ChatProps, CommonPanelRenderType} from "@/components/chat/types.ts";
 import {DefaultAnswerPanel, DefaultQuestionPanel} from "@/components/chat/default/DefaultLayout.tsx";
-import {Flex} from "@/styled";
-import {Image} from "antd";
+import {Flex, Image} from "antd";
 
 export const linerLayoutRender: ChatProps['renderChatItemLayout'] = (chatList, renderAnswer, renderQuestion) => <>
     {
@@ -24,40 +23,25 @@ export const defaultQuestionRender: ChatProps['renderQuestionPanel'] = (chatItem
 
 export const defaultAnswerPanelRender: CommonPanelRenderType = (chatItem) => {
     return <>
-        <Flex style={{
-            background: '#81d8d0',
-            justifyContent: 'flex-start',
-            alignItems: 'center',
-            padding: '8px',
-            boxSizing: 'border-box'
-        }}>
-            <Flex>
+        <Flex className={'p-2'}>
+            <div className={'bg-indigo-100'}>
                 {chatItem.content}
-            </Flex>
-
+            </div>
         </Flex>
     </>
 }
 export const defaultQuestionPanelRender: CommonPanelRenderType = (chatItem) => {
-    return <Flex style={{
-        background: '#ffffff',
-        justifyContent: 'flex-end',
-        alignItems: 'center',
-        padding: '8px',
-        boxSizing: 'border-box'
-    }}>
+    return <Flex>
         <div>
-            <div>
-                {
-                    chatItem.chatItemAttach?.images?.map(item => {
-                        return <Image key={item.src} width={item.width} height={item.height} src={item.src}
-                                      alt={item.src}/>
-                    })
-                }
-            </div>
-            <div>
-                {chatItem.content}
-            </div>
+            {
+                chatItem.chatItemAttach?.images?.map(item => {
+                    return <Image key={item.src} width={item.width} height={item.height} src={item.src}
+                                  alt={item.src}/>
+                })
+            }
+        </div>
+        <div>
+            {chatItem.content}
         </div>
     </Flex>
 }

@@ -7,19 +7,6 @@ import {Typography} from "antd";
 import {useChatContext} from "@/components/chat/context/ChatContext.tsx";
 import {CommonPanel} from "@/components/chat/default/DefaultLayout.tsx";
 import {defaultAnswerPanelRender, defaultQuestionPanelRender} from "@/components/chat/default/DefaultRender.tsx";
-import {withContainerStyle} from "@/components/chat/hoc.tsx";
-
-const QuestionPanel = withContainerStyle(CommonPanel, {
-    background: '#eee',
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-});
-
-const AnswerPanel = withContainerStyle(CommonPanel, {
-    background: '#ddd',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-});
 
 export const groupRenderLayout: ChatProps['renderChatItemLayout'] = (chatList, renderAnswerPanel, renderQuestionPanel) => {
 
@@ -52,7 +39,7 @@ export const SwiperChatItemPanel: FC<{ list: ChatItem[] }> = ({list}) => {
         {/*回答*/}
         {
             list[currentIndex].role == "answer" && <>
-                <AnswerPanel chatItem={list[currentIndex]} renderChildren={defaultAnswerPanelRender}/>
+                <CommonPanel chatItem={list[currentIndex]} renderChildren={defaultAnswerPanelRender}/>
                 <Flex>
                     {
                         list.length > 1 && <Flex>
@@ -69,7 +56,7 @@ export const SwiperChatItemPanel: FC<{ list: ChatItem[] }> = ({list}) => {
         {/*问题*/}
         {
             list[currentIndex].role == "question" &&
-            <QuestionPanel chatItem={list[currentIndex]} renderChildren={defaultQuestionPanelRender}></QuestionPanel>
+            <CommonPanel chatItem={list[currentIndex]} renderChildren={defaultQuestionPanelRender}></CommonPanel>
         }
     </>
 }
