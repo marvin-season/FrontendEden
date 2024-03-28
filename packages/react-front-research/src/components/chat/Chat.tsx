@@ -5,7 +5,7 @@ import {
     defaultQuestionRender,
     linerLayoutRender
 } from "@/components/chat/default/DefaultRender.tsx";
-import {ChatList, UserInput} from "@/components/chat/default/DefaultLayout.tsx";
+import {ChatList, UserInput, UseSelectedImage} from "@/components/chat/default/DefaultLayout.tsx";
 import {ChatContext} from "./context/ChatContext";
 import {Flex} from "@/styled";
 
@@ -16,7 +16,8 @@ export const Chat: FC<ChatProps> = ({
                                         renderQuestionPanel = defaultQuestionRender,
                                         renderChatItemLayout = linerLayoutRender,
                                         onSend,
-                                        onSelectedFile
+                                        onSelectedFile,
+                                        chatAttach
                                     }) => {
 
 
@@ -25,10 +26,12 @@ export const Chat: FC<ChatProps> = ({
         renderQuestionPanel,
         renderAnswerPanel,
         renderChatItemLayout,
-        onSelectedFile
+        onSelectedFile,
+        chatAttach
     }}>
         <ChatList/>
         <Flex>
+            <UseSelectedImage/>
             <UserInput onSend={onSend}/>
         </Flex>
     </ChatContext.Provider>

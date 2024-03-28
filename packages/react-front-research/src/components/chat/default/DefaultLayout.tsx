@@ -63,3 +63,16 @@ export const UserInput: FC<{
         </button>
     </Flex>
 }
+
+
+export const UseSelectedImage = () => {
+    const {chatAttach} = useChatContext();
+
+    return <>
+        {
+            chatAttach?.images?.map(image => {
+                return <img key={image.src} width={image.width} src={image.src} alt="no image"/>
+            })
+        }
+    </>
+}

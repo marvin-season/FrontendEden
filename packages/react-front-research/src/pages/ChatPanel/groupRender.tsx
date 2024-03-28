@@ -59,8 +59,8 @@ export function QuestionPanel({chatItem}: { chatItem: QuestionChatItem }) {
     }}>
         <div>
             {
-                chatItem.attach?.images.map(item => {
-                    return <img width={item.width} height={item.height} src={item.src} alt={item.src}/>
+                chatItem.chatItemAttach?.images?.map(item => {
+                    return <img key={item.src} width={item.width} height={item.height} src={item.src} alt={item.src}/>
                 })
             }
             {chatItem.content}

@@ -1,5 +1,5 @@
 import {Chat} from "@/components/chat/Chat.tsx";
-import {ChatItem, TreeChatItem} from "@/components/chat/types.ts";
+import {BaseAttach, ChatItem, TreeChatItem} from "@/components/chat/types.ts";
 import {useState} from "react";
 import {nanoid} from "nanoid";
 import {groupRenderLayout} from "@/pages/ChatPanel/groupRender.tsx";
@@ -40,10 +40,12 @@ const list: ChatItem[] = [
 ]
 export default function () {
     const [chatList, setChatList] = useState<TreeChatItem[]>(list);
+    const [baseAttach, setBaseAttach] = useState<BaseAttach>({})
 
     return <>
         <Chat
             chatList={chatList}
+            chatAttach={baseAttach}
             renderChatItemLayout={groupRenderLayout}
             onSelectedFile={(files) => {
                 const images: any[] = [];
@@ -54,23 +56,21 @@ export default function () {
                         images.push({src: url, width: '120px'})
                     }
                 }
-                setChatList(chatList.concat({
-                    id: Date.now().toString(),
-                    content: '文件',
-                    attach: {
-                        images
-                    },
-                    role: 'question',
-                    groupId: nanoid()
-                }))
+
+                setBaseAttach({
+                    images
+                })
             }}
             onSend={(value) => {
                 setChatList(chatList.concat({
                     id: Date.now().toString(),
                     content: value,
                     role: 'question',
-                    groupId: nanoid()
+                    groupId: nanoid(),
+                    chatItemAttach: baseAttach
                 }))
+
+                setBaseAttach({})
             }}/>
     </>
 }

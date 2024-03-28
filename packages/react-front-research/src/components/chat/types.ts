@@ -7,7 +7,7 @@ export interface BaseAttachImage {
 }
 
 export interface BaseAttach {
-    images: BaseAttachImage[]
+    images?: BaseAttachImage[]
 }
 
 export interface ChatAttach extends BaseAttach {
