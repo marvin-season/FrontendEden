@@ -3,6 +3,7 @@ import React, {FC, useMemo, useState} from "react";
 import {Flex} from "@/styled";
 // @ts-ignore
 import {groupBy} from "@root/shared";
+import {Image} from "antd";
 
 export const groupRenderLayout: ChatProps['renderChatItemLayout'] = (chatList, renderAnswerPanel, renderQuestionPanel) => {
 
@@ -60,7 +61,7 @@ export function QuestionPanel({chatItem}: { chatItem: QuestionChatItem }) {
         <div>
             {
                 chatItem.chatItemAttach?.images?.map(item => {
-                    return <img key={item.src} width={item.width} height={item.height} src={item.src} alt={item.src}/>
+                    return <Image key={item.src} width={item.width} height={item.height} src={item.src} alt={item.src}/>
                 })
             }
             {chatItem.content}

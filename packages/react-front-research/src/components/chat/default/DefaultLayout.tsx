@@ -4,6 +4,7 @@ import React, {FC, useState} from "react";
 import {useChatContext} from "@/components/chat/context/ChatContext.tsx";
 import {Input} from "@/components/chat/styled.ts";
 import {FileSelector} from "@/components/file";
+import {Image} from "antd";
 
 export function AnswerPanel({chatItem}: { chatItem: AnswerChatItem }) {
     return <Flex style={{
@@ -71,7 +72,7 @@ export const UseSelectedImage = () => {
     return <>
         {
             chatAttach?.images?.map(image => {
-                return <img key={image.src} width={image.width} src={image.src} alt="no image"/>
+                return <Image key={image.src} width={image.width} src={image.src} alt="no image"/>
             })
         }
     </>
