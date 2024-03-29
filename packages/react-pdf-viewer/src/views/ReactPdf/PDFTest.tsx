@@ -1,11 +1,20 @@
 import {PDFViewer} from "@/components/PDFViewer/index.ts";
-import {ChangeEventHandler, useState} from "react";
+import {ChangeEventHandler, useEffect, useState} from "react";
 
 
 function PDFTest() {
     const [hls, setHls] = useState<{
         content: string,
     }[]>([
+        {
+            content: '。\n' +
+                '　　沈璃⼀⼈⾏动极快，瞬息便转⾄郊外野⼭，她⽴于⼭头望远处⼀望，正是⻛和⽇丽之⽇，远处⻛光尽收眼底，京城城⻔已在极远的地⽅，她⾐袍⼀转，步⼊⼭林之间，寻得灵⽓极盛之处，掌⼼法⼒凝聚，覆掌与地，肃容低喝：“来！”\n' +
+                '　　仿似有⼀道灵光⾃她掌⼼灌⼊地⾯，光芒以她为圆⼼，极快的向四周扩散开来，⼭⽯颤动，⻦兽惊⽽四⾛，劲⻛扬起沈璃的⾐⻆，待⾐摆再次落地，不消⽚刻，寂静的⼭林⾥倏地出现数到身影'
+        },
+        {
+            content: '。\n' +
+                '　　这倒省事，沈璃⼀把擒住扑来的⼩荷的⼿腕，扣住命⻔，将她的⼿往后背⼀拧，径直将她擒住，接着把她脖⼦⼀揽，往廊桥边的护栏上⼀放，将红缨枪往空中⼀扔，枪随即消失'
+        },
         {
             content: '这⾏⽌君独居天外天已经数不清有好多年了！他根本就不知道天界谁是谁吧！更别提魔界了！他到底是怎么定的⼈选啊！这⽼⼈家偶尔⼼⾎来潮来天界议个事，竟议毁了他的⼀⽣啊！\n' +
                 '　　不过事到如今毁也毁成这样了，拂容君⼼道，难怪天帝今⽇⽐往⽇更⽣⽓⼀些，原来是怕他这违背⾏⽌君⼼意的话触了⾏⽌君逆鳞。但是既然知道这亲是谁定的，那就直接求求这幕后之⼈吧'
@@ -22,9 +31,10 @@ function PDFTest() {
         }
 
     ])
-    const [file, setFile] = useState<Blob | string>('http://10.0.5.63:31548/smart-vision/ai-application/datasets/ec36ecc1287e483ea893f8cdbd9ab5c2/%E4%B8%8E%E5%87%A4%E8%A1%8C.pdf?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AHMKZINMGO355MTE%2F20240327%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240327T085430Z&X-Amz-Expires=10800&X-Amz-SignedHeaders=host&X-Amz-Signature=86e8428b38853545bc67a0ee33c0da3c12b0c8059566d60bcf24a51bf457642d');
+    const [url, setUrl] = useState('http://10.0.5.63:31548/smart-vision/ai-application/datasets/ec36ecc1287e483ea893f8cdbd9ab5c2/%E4%B8%8E%E5%87%A4%E8%A1%8C.pdf?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AHMKZINMGO355MTE%2F20240329%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240329T020146Z&X-Amz-Expires=10800&X-Amz-SignedHeaders=host&X-Amz-Signature=bca22aa103cab0b3e9f73cba73cda1a7dc20ac848de45d4df75a5a012376f59d')
+    const [file, setFile] = useState<Blob | string>(url);
     const [currentIndex, setCurrentIndex] = useState(0);
-    const [searchText, setSearchText] = useState('')
+    const [searchText, setSearchText] = useState('');
 
 
     const handleFileChange: ChangeEventHandler<HTMLInputElement> = async (e) => {
@@ -61,6 +71,12 @@ function PDFTest() {
                         })
                         setSearchText('')
                     }}>添加
+                    </button>
+                    <input value={url} onChange={(e) => setUrl(e.target.value)}/>
+
+                    <button onClick={() => {
+                        setFile(url)
+                    }}>添加url
                     </button>
                     <div style={{maxWidth: '600px'}}>
 
