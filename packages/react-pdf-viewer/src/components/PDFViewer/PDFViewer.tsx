@@ -47,7 +47,9 @@ export const PDFViewer: React.FC<PDFProps> = ({
     };
 
     useEffect(() => {
-        searchText && getHighlightInfo({pdfDocumentProxy: pdfDocumentProxyRef.current}).then(handleHighlightInfo);
+        pdfDocumentProxyRef.current && searchText && getHighlightInfo({
+            pdfDocumentProxy: pdfDocumentProxyRef.current
+        }).then(handleHighlightInfo);
     }, [searchText]);
 
     const renderPage = (pageNumber: number) => {
@@ -57,6 +59,7 @@ export const PDFViewer: React.FC<PDFProps> = ({
             pageNumber={pageNumber}
             renderTextLayer={hlPages.has(pageNumber - 1)}
             onRenderTextLayerSuccess={() => {
+                console.log(pageNumber)
                 if (hlPages.has(pageNumber - 1)) {
                     setTimeout(() => {
                         const targets = document.querySelectorAll('#text_highlight');

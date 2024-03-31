@@ -14,7 +14,7 @@ export default function useHighlightInfo({searchText = '', salt}: PDFProps & { s
         return md5.md5(searchText?.concat(salt))
     }, [searchText, salt])
 
-    const getHighlightInfo = async ({pdfDocumentProxy}: { pdfDocumentProxy?: PDFDocumentProxy }) => {
+    const getHighlightInfo = async ({pdfDocumentProxy}: { pdfDocumentProxy: PDFDocumentProxy }) => {
         console.log('searchText', searchText)
         if (searchText?.length <= 0) {
             return false
@@ -25,25 +25,23 @@ export default function useHighlightInfo({searchText = '', salt}: PDFProps & { s
             return lodash.cloneDeep(resMap[key])
         }
 
-        if (pdfDocumentProxy) {
-            const numPages = pdfDocumentProxy.numPages;
-            const tracker = new DocumentTracker();
-            for (let pageIndex = 0; pageIndex < numPages; pageIndex++) {
-                const page: PDFPageProxy = await pdfDocumentProxy.getPage(pageIndex + 1);
-                const {items} = await page.getTextContent()
-                const tracked = await tracker.track(items as TextItem[], pageIndex, searchText);
-                if (tracked) {
-                    const result: HighlightResultInfoType = {
-                        highlightSet: tracker.highlightSet,
-                        pages: tracker.highlightPageIndexSet
-                    };
-                    resMap[key] = lodash.cloneDeep(result);
+        const numPages = pdfDocumentProxy.numPages;
+        const tracker = new DocumentTracker();
+        for (let pageIndex = 0; pageIndex < numPages; pageIndex++) {
+            const page: PDFPageProxy = await pdfDocumentProxy.getPage(pageIndex + 1);
+            const {items} = await page.getTextContent()
+            const tracked = await tracker.track(items as TextItem[], pageIndex, searchText);
+            if (tracked) {
+                const result: HighlightResultInfoType = {
+                    highlightSet: tracker.highlightSet,
+                    pages: tracker.highlightPageIndexSet
+                };
+                resMap[key] = lodash.cloneDeep(result);
 
-                    return result
-                }
+                return result
             }
-
         }
+
 
         return false
     }
