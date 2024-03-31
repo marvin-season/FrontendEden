@@ -1,0 +1,14 @@
+.container {
+    height: 500px;
+    width: 300px;
+    overflow: auto;
+    border: 1px solid black;
+}
+
+.page {
+    height: 700px;
+}
+
+.item {
+    border: 1px solid pink;
+}
