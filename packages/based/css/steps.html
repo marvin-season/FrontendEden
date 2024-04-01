@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+    @keyframes linerColor {
+        100% {
+            background: linear-gradient(to right, blue 100%, black 100%);
+            background: -webkit-linear-gradient(to right, blue 100%, black 100%);
+            background-clip: text;
+        }
+        90% {
+            background: linear-gradient(to right, blue 90%, black 90%);
+            //background: -webkit-linear-gradient(to right, blue 100%, black 100%);
+            background-clip: text;
+        }
+        80% {
+            background: linear-gradient(to right, blue 80%, black 80%);
+            //background: -webkit-linear-gradient(to right, blue 100%, black 100%);
+            background-clip: text;
+        }
+        70% {
+            background: linear-gradient(to right, blue 70%, black 70%);
+            //background: -webkit-linear-gradient(to right, blue 100%, black 100%);
+            background-clip: text;
+        }
+        60% {
+            background: linear-gradient(to right, blue 60%, black 60%);
+            //background: -webkit-linear-gradient(to right, blue 100%, black 100%);
+            background-clip: text;
+        }
+        50% {
+            background: linear-gradient(to right, blue 50%, black 50%);
+            //background: -webkit-linear-gradient(to right, blue 100%, black 100%);
+            background-clip: text;
+        }
+        40% {
+            background: linear-gradient(to right, blue 40%, black 40%);
+            //background: -webkit-linear-gradient(to right, blue 100%, black 100%);
+            background-clip: text;
+        }
+        50% {
+            background: linear-gradient(to right, blue 50%, black 50%);
+            //background: -webkit-linear-gradient(to right, blue 100%, black 100%);
+            background-clip: text;
+        }
+    }
+
+    .hl {
+        background: linear-gradient(to right, blue 20%, black 20%);
+        background: -webkit-linear-gradient(to right, blue 20%, black 20%);
+
+        color: transparent;
+
+        background-clip: text;
+
+        word-break: break-all;
+        white-space: nowrap;
+        animation: linerColor 3s linear forwards;
+        overflow: hidden;
+        font-family: Consolas, Monaco;
+
+    }
+</style>
+<body>
+<div id="container" class="hl">
+    <div>The direction in which the animation is played. The value must be one of those available in</div>
+    <div>The direction in which the animation is played. </div>
+    <div>The value must be one of those available in</div>
+</div>
+<script>
+    const element = document.getElementById('container');
+    element.onclick = () => {
+        element.classList.add('hl')
+    }
+</script>
+</body>
+</html>
