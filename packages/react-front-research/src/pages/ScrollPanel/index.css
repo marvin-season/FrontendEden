@@ -5,10 +5,29 @@
     border: 1px solid black;
 }
 
+
 .page {
-    height: 700px;
+    position: relative;
+}
+
+.canvas {
+    height: 600px;
+}
+
+.textLayer {
+    position: absolute;
+    top: 0;
+    height: 600px;
 }
 
 .item {
     border: 1px solid pink;
+    padding: 10px;
+    font-size: 16px;
+}
+
+
+.hl {
+    color: #fff;
+    background-color: #031e47;
 }
