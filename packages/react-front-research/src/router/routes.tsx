@@ -9,6 +9,7 @@ import EmojiPanel from "@/pages/EmojiPanel";
 import {WorkerPanel} from "@/pages/WorkerPanel";
 import ScrollPanel from "@/pages/ScrollPanel";
 import ReactResearchPanel from "@/pages/ReactResearchPanel";
+import PerformChunksPanel from "@/pages/PerformChunksPanel";
 
 export const routes: RouteObject[] = [
     {
@@ -22,38 +23,35 @@ export const routes: RouteObject[] = [
             },
             {
                 path: 'blob-file-buffer',
-                index: true,
                 element: <FilePage/>
             },
             {
                 path: 'comp-rerender',
-                index: true,
                 element: <CompReRender/>
             },
             {
                 path: 'chat-panel',
-                index: true,
                 element: <ChatPanel/>
             },
             {
                 path: 'emoji-panel',
-                index: true,
                 element: <EmojiPanel/>
             },
             {
                 path: 'worker-panel',
-                index: true,
                 element: <WorkerPanel/>
             },
             {
                 path: 'scroll-panel',
-                index: true,
                 element: <ScrollPanel/>
             },
             {
                 path: 'react-research-panel',
-                index: true,
                 element: <ReactResearchPanel/>
+            },
+            {
+                path: 'perform-chunks-panel',
+                element: <PerformChunksPanel/>
             },
         ]
     }
