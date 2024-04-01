@@ -8,6 +8,7 @@ import ChatPanel from "@/pages/ChatPanel";
 import EmojiPanel from "@/pages/EmojiPanel";
 import {WorkerPanel} from "@/pages/WorkerPanel";
 import ScrollPanel from "@/pages/ScrollPanel";
+import ReactResearchPanel from "@/pages/ReactResearchPanel";
 
 export const routes: RouteObject[] = [
     {
@@ -48,6 +49,11 @@ export const routes: RouteObject[] = [
                 path: 'scroll-panel',
                 index: true,
                 element: <ScrollPanel/>
+            },
+            {
+                path: 'react-research-panel',
+                index: true,
+                element: <ReactResearchPanel/>
             },
         ]
     }
