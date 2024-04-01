@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+
+    .hl {
+        color: transparent;
+        background-color: #f40;
+        background-clip: text;
+        width: 300px;
+
+        transition: width linear 2s;
+    }
+</style>
+<body>
+<div id="container" style="width: 200px">
+    Hello World
+</div>
+<script>
+    const element = document.querySelector('#container');
+    element.onclick = () => {
+        element.classList.add('hl')
+    }
+</script>
+</body>
+</html>
