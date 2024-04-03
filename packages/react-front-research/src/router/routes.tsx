@@ -10,6 +10,7 @@ import {WorkerPanel} from "@/pages/WorkerPanel";
 import ScrollPanel from "@/pages/ScrollPanel";
 import ReactResearchPanel from "@/pages/ReactResearchPanel";
 import PerformChunksPanel from "@/pages/PerformChunksPanel";
+import MarkdownPanel from "@/pages/MarkdownPanel";
 
 export const routes: RouteObject[] = [
     {
@@ -52,6 +53,10 @@ export const routes: RouteObject[] = [
             {
                 path: 'perform-chunks-panel',
                 element: <PerformChunksPanel/>
+            },
+            {
+                path: 'markdown-panel',
+                element: <MarkdownPanel/>
             },
         ]
     }

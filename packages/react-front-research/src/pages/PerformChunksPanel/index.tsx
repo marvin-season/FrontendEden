@@ -4,11 +4,11 @@ import {Button} from "antd";
 const count = 200000
 const PerformChunksPanel = () => {
     const handle = () => {
-        const taskHandler = (i) => {
+        const taskHandler = (i: number) => {
             const element = document.getElementById('chunks-container');
             const htmlDivElement = document.createElement('div');
-            htmlDivElement.innerText = i
-            element.appendChild(htmlDivElement)
+            htmlDivElement.innerText = String(i)
+            element?.appendChild(htmlDivElement)
         }
 
         performChunks({count, taskHandler, scheduler: browserScheduler});
