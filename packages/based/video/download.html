@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>下载</title>
+</head>
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+
+<body>
+<button id="btn">click</button>
+
+<div id="container">
+    <video class="art-video" preload="metadata" playsinline="" >
+        <track default="" kind="metadata" src="">
+    </video>
+</div>
+
+<script>
+
+    const btn = document.getElementById('btn');
+    const video = document.getElementById('video');
+    var hls = new Hls();
+    btn.onclick = async () => {
+        const config_res = await fetch('https://hls.vdtuzv.com/videos3/1f10919af71d6f419d5d9f11b91996e4/1f10919af71d6f419d5d9f11b91996e4.m3u8?auth_key=1712212086-660e48764c9ff-0-2d73059c9417474c8f7d679ad8014a30&v=3&time=0')
+        const text = await config_res.text();
+        // 创建Blob对象
+        const blob = new Blob([text], { type: 'text/plain' });
+        // 创建下载链接
+        const downloadLink = document.createElement('a');
+        downloadLink.href = URL.createObjectURL(blob);
+        downloadLink.download = 'textfile.txt'; // 设置下载文件名
+        downloadLink.click(); // 触发点击下载
+    }
+
+</script>
+
+</body>
+</html>
