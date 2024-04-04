@@ -1,5 +1,8 @@
-import {memo, useMemo, useState} from "react";
+import React, {memo, useState} from "react";
+import {Page as Page_} from "@/pages/ReactResearchPanel/Page.tsx";
+import {Button} from "antd";
 
+const Page = React.memo(Page_)
 
 const SomeLabel = memo<{ value: number }>(({value}) => {
     console.log('SomeLabel')
@@ -7,21 +10,20 @@ const SomeLabel = memo<{ value: number }>(({value}) => {
 })
 
 const ReactResearchPanel = memo(() => {
-    const [value, setValue] = useState(0)
-
-    const [age, setAge] = useState(0)
-
-    const AnyLabel = useMemo(() => {
-        console.log('AnyLabel')
-        return <div>AnyLabel:{value}</div>
-    }, [value]);
+    const [searchText, setSearchText] = useState('')
+    const [pages, setPages] = useState([1, 2, 3]);
     return <>
-        {AnyLabel}
-        <SomeLabel value={value}/>
-        <div>value: {value}</div>
-        <div>age: {age}</div>
-        <button onClick={() => setValue(value + 1)}>change value</button>
-        <button onClick={() => setAge(age + 1)}>change age</button>
+
+        <Button onClick={() => {
+            setSearchText('hi')
+        }}>
+            {searchText} 'click'
+        </Button>
+        {
+            pages.map(page => {
+                return <Page key={page} pageNumber={page}/>
+            })
+        }
 
     </>
 })

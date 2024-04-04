@@ -65,7 +65,7 @@ const Layout = () => {
                         </NavItem>)
                 }
             </Nav>
-            <div style={{flex: 1}}>
+            <div style={{flex: 1, overflow: "auto"}}>
                 <Outlet/>
             </div>
         </LayoutContainer>
