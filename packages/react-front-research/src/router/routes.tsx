@@ -11,6 +11,7 @@ import ScrollPanel from "@/pages/ScrollPanel";
 import ReactResearchPanel from "@/pages/ReactResearchPanel";
 import PerformChunksPanel from "@/pages/PerformChunksPanel";
 import MarkdownPanel from "@/pages/MarkdownPanel";
+import VideoPanel from "@/pages/VideoPanel";
 
 export const routes: RouteObject[] = [
     {
@@ -57,6 +58,10 @@ export const routes: RouteObject[] = [
             {
                 path: 'markdown-panel',
                 element: <MarkdownPanel/>
+            },
+            {
+                path: 'video-panel',
+                element: <VideoPanel/>
             },
         ]
     }
