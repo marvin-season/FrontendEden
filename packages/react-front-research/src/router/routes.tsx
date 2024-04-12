@@ -12,6 +12,7 @@ import ReactResearchPanel from "@/pages/ReactResearchPanel";
 import PerformChunksPanel from "@/pages/PerformChunksPanel";
 import MarkdownPanel from "@/pages/MarkdownPanel";
 import VideoPanel from "@/pages/VideoPanel";
+import AudioPanel from "@/pages/AudioPanel";
 
 export const routes: RouteObject[] = [
     {
@@ -62,6 +63,10 @@ export const routes: RouteObject[] = [
             {
                 path: 'video-panel',
                 element: <VideoPanel/>
+            },
+            {
+                path: '音浪',
+                element: <AudioPanel/>
             },
         ]
     }
