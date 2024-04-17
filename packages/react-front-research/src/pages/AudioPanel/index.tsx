@@ -8,12 +8,16 @@ const AudioPanel = () => {
     const request = useRequest(exampleApi);
 
     useEffect(() => {
-        request({
+        request.request({
             params: {},
             method: "get"
         }).then((res) => {
             console.log(res)
         })
+
+        return () => {
+            request.cancel();
+        }
     }, []);
 
     return <>
