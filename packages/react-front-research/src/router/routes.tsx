@@ -13,6 +13,7 @@ import PerformChunksPanel from "@/pages/PerformChunksPanel";
 import MarkdownPanel from "@/pages/MarkdownPanel";
 import VideoPanel from "@/pages/VideoPanel";
 import AudioPanel from "@/pages/AudioPanel";
+import RaceCondition from "@/pages/RaceCondition";
 
 export const routes: RouteObject[] = [
     {
@@ -67,6 +68,10 @@ export const routes: RouteObject[] = [
             {
                 path: '音浪',
                 element: <AudioPanel/>
+            },
+            {
+                path: '竞态条件',
+                element: <RaceCondition/>
             },
         ]
     }
