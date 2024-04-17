@@ -1,16 +1,17 @@
 import {useEffect} from "react";
 import {useRequest} from "@/hook/useRequest.ts";
-import {ResponseType} from "@/type";
+import {exampleApi} from "@/api/mock.ts";
 
-
-const mockApi = () => fetch('/api/example/mock').then(res => res.json());
 
 const AudioPanel = () => {
 
-    const request = useRequest<ResponseType>(mockApi)
+    const request = useRequest(exampleApi);
 
     useEffect(() => {
-        request({name: 1}, 23).then((res) => {
+        request({
+            params: {},
+            method: "get"
+        }).then((res) => {
             console.log(res)
         })
     }, []);
