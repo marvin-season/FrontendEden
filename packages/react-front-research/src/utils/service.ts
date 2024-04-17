@@ -1,5 +1,4 @@
 import axios, {type AxiosInstance, type AxiosRequestConfig} from "axios"
-import {ElMessage} from "element-plus"
 import {get, merge} from "lodash-es"
 
 function createService() {
@@ -19,6 +18,7 @@ function createService() {
             // 二进制数据则直接返回
             const responseType = response.request?.responseType
             if (responseType === "blob" || responseType === "arraybuffer") return apiData
+
             return apiData
             // 这个 code 是和后端约定的业务 code
             // const code = apiData.code
@@ -77,7 +77,6 @@ function createService() {
                 default:
                     break
             }
-            ElMessage.error(error.message)
             return Promise.reject(error)
         }
     )
