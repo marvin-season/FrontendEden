@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloud Animation</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: radial-gradient(circle, #4c83ab 20%, transparent 70%);
+            animation: cloudAnimation 10s infinite alternate;
+        }
+
+        @keyframes cloudAnimation {
+            0% {
+                background: radial-gradient(circle, #4c83ab 20%, transparent 70%);
+            }
+            100% {
+                background: radial-gradient(circle, #3c2894 40%, transparent 60%);
+            }
+        }
+    </style>
+</head>
+<body>
+<!-- 页面内容 -->
+</body>
+</html>
