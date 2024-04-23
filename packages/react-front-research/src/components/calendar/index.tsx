@@ -17,7 +17,7 @@ export const Calendar = forwardRef<{}, {}>((props, ref) => {
     }, [date]);
     // const [dateStr, setDateStr] = useState("")
     return <CalendarContainer>
-        <Button onClick={() => setShowDatePicker(true)}>{dateStr}</Button>
+        <Button onClick={() => setShowDatePicker(!showDatePicker)}>{dateStr}</Button>
         {
             showDatePicker && <DatePicker initDate={date} onClose={() => setShowDatePicker(false)} onChange={(date) => {
                 setDate(date);

@@ -1,22 +1,25 @@
 import {forwardRef, memo, useEffect, useState} from "react";
 import styled from "styled-components";
 import {getMonthData} from "@/utils/date.ts";
+import {Button} from "antd";
 
 const DatePickerContainer = styled.div`
+    padding: 20px;
     position: absolute;
     top: 100px;
 `
 
-const DatePickerBox = styled.div`
+const DatePickerContent = styled.div`
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     border-radius: 8px;
-    padding: 20px;
     background-color: #ffffff;
 `
 
 const DatePickerHeader = styled.div`
-
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
 `
 
 const DateBox = styled.div<{ isToday?: boolean; selected?: boolean }>`
@@ -38,23 +41,26 @@ const DatePicker = forwardRef<
         onChange: (date: Date) => void;
         onClose: () => void;
     }>(({onChange, onClose, initDate}, ref) => {
-    const {dates, currentDate} = useDate();
+    const [someDate, setSomeDate] = useState<Date>(new Date())
+    const {dates, todayDate} = useDate(someDate);
     const [selectedDate, setSelectedDate] = useState<Date | undefined>(initDate)
-    console.log('selectedDate', selectedDate)
-    useEffect(() => {
 
-    }, []);
 
     return <DatePickerContainer>
-        <DatePickerBox>
-            <DatePickerHeader>
-
-            </DatePickerHeader>
+        <DatePickerHeader>
+            <Button type={"text"} onClick={() => {
+                // someDate.setDate(someDate.getDate() - 1)
+                // setSomeDate(todayDate)
+            }}>{'<'}</Button>
+            {'04'}
+            <Button type={"text"}>{'>'}</Button>
+        </DatePickerHeader>
+        <DatePickerContent>
             {
                 dates.map((item, index) => {
                     return <DateBox
                         key={index}
-                        isToday={item.getDate() === currentDate.getDate()}
+                        isToday={item.getDate() === todayDate.getDate()}
                         selected={selectedDate?.getDate() === item.getDate()}
                         onDoubleClick={() => {
                             setSelectedDate(item);
@@ -68,27 +74,30 @@ const DatePicker = forwardRef<
                     </DateBox>
                 })
             }
-        </DatePickerBox>
+        </DatePickerContent>
     </DatePickerContainer>
 })
 
 
-const useDate = () => {
-    const [currentDate, setCurrentDate] = useState(new Date());
-
+const useDate = (someDate?: Date) => {
     const [dates, setDates] = useState<Date[]>([]);
 
     useEffect(() => {
-        const r = getMonthData(currentDate.getFullYear(), currentDate.getMonth());
+        console.log("some ", someDate)
+        if (!someDate) {
+            someDate = new Date()
+        }
+        const r = getMonthData(someDate.getFullYear(), someDate.getMonth());
         setDates(r);
         return () => {
             setDates([]);
         }
-    }, []);
+    }, [someDate]);
 
     return {
-        currentDate,
-        dates
+        someDate,
+        dates,
+        todayDate: new Date()
     }
 }
 
