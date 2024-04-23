@@ -16,19 +16,24 @@ const DatePickerBox = styled.div`
 `
 
 const DateBox = styled.div<{ isToday?: boolean; selected?: boolean }>`
+    user-select: none;
     border-radius: 4px;
     cursor: pointer;
     padding: 4px 8px;
-    background: ${({isToday, selected}) => isToday ? "#b0def3" : selected ? "" : "#ffffff"};
+    background: ${({isToday, selected}) => isToday ? "#b0def3" : selected ? "#d9b6df" : "#ffffff"};
 
+    &:hover {
+        background-color: #f4d1e9;
+    }
 `
 
 const DatePicker = forwardRef<
     {},
     {
         onChange: (date: Date) => void;
-    }>(({}, ref) => {
-    const {dates, currentDate} = useDate()
+    }>(({onChange}, ref) => {
+    const {dates, currentDate} = useDate();
+    const [selectedDate, setSelectedDate] = useState<Date | null>(null)
 
     console.log({dates, currentDate})
     useEffect(() => {
@@ -39,7 +44,15 @@ const DatePicker = forwardRef<
         <DatePickerBox>
             {
                 dates.map((item, index) => {
-                    return <DateBox key={index} isToday={item.getDate() === currentDate.getDate()} selected={false}>
+                    return <DateBox
+                        key={index}
+                        isToday={item.getDate() === currentDate.getDate()}
+                        selected={selectedDate === item}
+                        onDoubleClick={() => {
+                            setSelectedDate(item);
+                            onChange(item);
+                        }}
+                    >
                         {
                             item.getDate()
                         }
