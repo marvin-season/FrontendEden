@@ -15,6 +15,11 @@ export default defineConfig({
         target: 'https://mock.mengxuegu.com/mock/6618fb2ad985433db203dcb9/',
         changeOrigin: true,
         rewrite: path => path.replace('/api/', '')
+      },
+      '/v2/' : {
+        target: 'http://127.0.0.1:5000',
+        changeOrigin: true,
+        rewrite: path => path.replace('/v2/', '')
       }
     }
   },

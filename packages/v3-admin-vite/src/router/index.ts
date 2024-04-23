@@ -129,6 +129,15 @@ export const constantRoutes: RouteRecordRaw[] = [
           title: "Vxe Table",
           keepAlive: true
         }
+      },
+      {
+        path: "file-upload",
+        component: () => import("@/views/table/file-upload/index.vue"),
+        name: "FileUpload",
+        meta: {
+          title: "File Upload",
+          keepAlive: true
+        }
       }
     ]
   },
