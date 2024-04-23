@@ -1,5 +1,5 @@
-import {forwardRef, useState} from "react";
-import {Input} from "antd";
+import {forwardRef, useMemo, useState} from "react";
+import {Button} from "antd";
 import DatePicker from "@/components/calendar/DatePicker.tsx";
 import styled from "styled-components";
 import moment from "moment";
@@ -10,13 +10,17 @@ const CalendarContainer = styled.div`
 
 export const Calendar = forwardRef<{}, {}>((props, ref) => {
     const [showDatePicker, setShowDatePicker] = useState(false);
-    const [dateStr, setDateStr] = useState("")
+    const [date, setDate] = useState<Date>();
+
+    const dateStr = useMemo(() => {
+        return moment(date).format("YYYY-MM-DD");
+    }, [date]);
+    // const [dateStr, setDateStr] = useState("")
     return <CalendarContainer>
-        <Input value={dateStr} onFocus={() => setShowDatePicker(true)} onChange={(e) => setDateStr(e.target.value)}/>
+        <Button onClick={() => setShowDatePicker(true)}>{dateStr}</Button>
         {
-            showDatePicker && <DatePicker onClose={() => setShowDatePicker(false)} onChange={(date) => {
-                const dateStr_ = moment(date).format("YYYY-MM-DD");
-                setDateStr(dateStr_);
+            showDatePicker && <DatePicker initDate={date} onClose={() => setShowDatePicker(false)} onChange={(date) => {
+                setDate(date);
             }}/>
         }
     </CalendarContainer>

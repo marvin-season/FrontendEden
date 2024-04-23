@@ -34,13 +34,13 @@ const DateBox = styled.div<{ isToday?: boolean; selected?: boolean }>`
 const DatePicker = forwardRef<
     {},
     {
+        initDate?: Date,
         onChange: (date: Date) => void;
         onClose: () => void;
-    }>(({onChange, onClose}, ref) => {
+    }>(({onChange, onClose, initDate}, ref) => {
     const {dates, currentDate} = useDate();
-    const [selectedDate, setSelectedDate] = useState<Date | null>(null)
-
-    console.log({dates, currentDate})
+    const [selectedDate, setSelectedDate] = useState<Date | undefined>(initDate)
+    console.log('selectedDate', selectedDate)
     useEffect(() => {
 
     }, []);
@@ -55,7 +55,7 @@ const DatePicker = forwardRef<
                     return <DateBox
                         key={index}
                         isToday={item.getDate() === currentDate.getDate()}
-                        selected={selectedDate === item}
+                        selected={selectedDate?.getDate() === item.getDate()}
                         onDoubleClick={() => {
                             setSelectedDate(item);
                             onChange(item);
