@@ -14,6 +14,7 @@ import MarkdownPanel from "@/pages/MarkdownPanel";
 import VideoPanel from "@/pages/VideoPanel";
 import AudioPanel from "@/pages/AudioPanel";
 import RaceCondition from "@/pages/RaceCondition";
+import CalendarPanel from "@/pages/CalendarPanel";
 
 export const routes: RouteObject[] = [
     {
@@ -72,6 +73,10 @@ export const routes: RouteObject[] = [
             {
                 path: '竞态条件',
                 element: <RaceCondition/>
+            },
+            {
+                path: '日历',
+                element: <CalendarPanel/>
             },
         ]
     }
