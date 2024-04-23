@@ -1,4 +1,4 @@
-import {forwardRef, useEffect, useState} from "react";
+import {forwardRef, memo, useEffect, useState} from "react";
 import styled from "styled-components";
 import {getMonthData} from "@/utils/date.ts";
 
@@ -13,6 +13,10 @@ const DatePickerBox = styled.div`
     border-radius: 8px;
     padding: 20px;
     background-color: #ffffff;
+`
+
+const DatePickerHeader = styled.div`
+
 `
 
 const DateBox = styled.div<{ isToday?: boolean; selected?: boolean }>`
@@ -31,7 +35,8 @@ const DatePicker = forwardRef<
     {},
     {
         onChange: (date: Date) => void;
-    }>(({onChange}, ref) => {
+        onClose: () => void;
+    }>(({onChange, onClose}, ref) => {
     const {dates, currentDate} = useDate();
     const [selectedDate, setSelectedDate] = useState<Date | null>(null)
 
@@ -42,6 +47,9 @@ const DatePicker = forwardRef<
 
     return <DatePickerContainer>
         <DatePickerBox>
+            <DatePickerHeader>
+
+            </DatePickerHeader>
             {
                 dates.map((item, index) => {
                     return <DateBox
@@ -51,6 +59,7 @@ const DatePicker = forwardRef<
                         onDoubleClick={() => {
                             setSelectedDate(item);
                             onChange(item);
+                            onClose();
                         }}
                     >
                         {
@@ -83,4 +92,4 @@ const useDate = () => {
     }
 }
 
-export default DatePicker
+export default memo(DatePicker)
