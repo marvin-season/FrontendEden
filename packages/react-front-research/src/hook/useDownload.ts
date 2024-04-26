@@ -1,10 +1,17 @@
-export const useDownload = (onProgress: (receivedLength: number, totalLength: number) => void) => {
-    // const fetchByUrl = async (url: string) => {
-    //
-    // }
+import {useRef} from "react";
+
+export const useDownload = (
+    onProgress?: (receivedLength: number, totalLength: number) => void,
+    onSuccess?: (blob: Blob) => void,
+    onCancel?: () => void
+) => {
+    const controller = useRef<AbortController>();
 
     const download = async (url: string, {contentType}: { "contentType"?: string }) => {
-        const res = await fetch(url);
+        controller.current = new AbortController();
+        const res = await fetch(url, {
+            signal: controller.current.signal
+        });
         // 文件总长度
         const contentLength = res.headers.get('content-length');
 
@@ -12,6 +19,7 @@ export const useDownload = (onProgress: (receivedLength: number, totalLength: nu
             return
         }
         const reader = res.body.getReader();
+        let receivedLength = 0;
 
         const chunks: Uint8Array[] = [];
         while (true) {
@@ -20,8 +28,8 @@ export const useDownload = (onProgress: (receivedLength: number, totalLength: nu
                 break
             }
             chunks.push(value);
-
-            onProgress(value.length, +contentLength)
+            receivedLength += value.length;
+            onProgress?.(receivedLength, +contentLength)
         }
 
         const blob = new Blob(chunks, {type: res.headers.get("content-type") || contentType});
@@ -32,7 +40,7 @@ export const useDownload = (onProgress: (receivedLength: number, totalLength: nu
         link.href = window.URL.createObjectURL(blob);
         // Set the download attribute of the link to specify the filename
         link.download = url.replace(link.href, '');
-        console.log(url,link.href, link.download);
+        console.log(url, link.href, link.download);
 
         // Append the link to the body
         document.body.appendChild(link);
@@ -42,11 +50,21 @@ export const useDownload = (onProgress: (receivedLength: number, totalLength: nu
 
         // Remove the link from the body
         document.body.removeChild(link);
-        return blob;
+        onSuccess?.(blob);
 
+    }
+
+    const cancel = () => {
+        if (controller.current) {
+            controller.current.abort();
+            if (controller.current.signal.aborted) {
+                onCancel?.()
+            }
+        }
     }
 
     return {
         download,
+        cancel
     }
 }
