@@ -1,14 +1,26 @@
 import {useRef} from "react";
 import {exportFile} from "@/utils/file.ts";
 
+type ProgressCallback = (receivedLength: number, totalLength: number) => void;
+type SuccessCallback = (blob: Blob) => void;
+type CancelCallback = () => void;
+
+interface DownloadOptions {
+    contentType?: string;
+    isExport?: boolean;
+}
+
 export const useDownload = (
-    onProgress?: (receivedLength: number, totalLength: number) => void,
-    onSuccess?: (blob: Blob) => void,
-    onCancel?: () => void
+    onProgress: ProgressCallback = () => {
+    },
+    onSuccess: SuccessCallback = () => {
+    },
+    onCancel: CancelCallback = () => {
+    }
 ) => {
     const controller = useRef<AbortController>();
 
-    const download = async (url: string, {contentType, isExport}: { "contentType"?: string, isExport?: boolean }) => {
+    const download = async (url: string, {contentType, isExport}: DownloadOptions) => {
         controller.current = new AbortController();
         const res = await fetch(url, {
             signal: controller.current.signal
@@ -30,13 +42,13 @@ export const useDownload = (
             }
             chunks.push(value);
             receivedLength += value.length;
-            onProgress?.(receivedLength, +contentLength)
+            onProgress(receivedLength, +contentLength)
         }
 
         const blob = new Blob(chunks, {type: res.headers.get("content-type") || contentType});
 
         isExport && exportFile(blob, url);
-        onSuccess?.(blob);
+        onSuccess(blob);
 
     }
 
@@ -44,7 +56,7 @@ export const useDownload = (
         if (controller.current) {
             controller.current.abort();
             if (controller.current.signal.aborted) {
-                onCancel?.()
+                onCancel()
             }
         }
     }
