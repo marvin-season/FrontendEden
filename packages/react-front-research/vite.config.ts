@@ -20,7 +20,18 @@ export default defineConfig({
         target: 'http://127.0.0.1:5000',
         changeOrigin: true,
         rewrite: path => path.replace('/v2/', '')
-      }
+      },
+      '/w3c/' : {
+        target: 'https://www.w3.org',
+        changeOrigin: true,
+        rewrite: path => path.replace('/w3c/', '')
+      },
+      '/api2/' : {
+        target: 'http://127.0.0.1:8080',
+        changeOrigin: true,
+        rewrite: path => path.replace('/api2/', '')
+      },
+
     }
   },
   resolve: {
