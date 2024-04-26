@@ -1,0 +1,3 @@
+new ReadableStream({
+    type: "bytes"
+}, {})

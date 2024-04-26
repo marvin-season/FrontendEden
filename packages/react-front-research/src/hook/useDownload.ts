@@ -35,6 +35,7 @@ export const useDownload = (
             if (!res.body || !contentLength) {
                 return
             }
+            console.log(res.body)
             const reader = res.body.getReader();
             let receivedLength = 0;
 
