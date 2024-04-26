@@ -8,7 +8,7 @@ export const useDownload = (
 ) => {
     const controller = useRef<AbortController>();
 
-    const download = async (url: string, {contentType}: { "contentType"?: string }) => {
+    const download = async (url: string, {contentType, isExport}: { "contentType"?: string, isExport?: boolean }) => {
         controller.current = new AbortController();
         const res = await fetch(url, {
             signal: controller.current.signal
@@ -35,7 +35,7 @@ export const useDownload = (
 
         const blob = new Blob(chunks, {type: res.headers.get("content-type") || contentType});
 
-        exportFile(blob, url)
+        isExport && exportFile(blob, url);
         onSuccess?.(blob);
 
     }
