@@ -23,3 +23,22 @@ export function readLines(filePath: string, callback: (data: any) => void) {
             console.error('Error reading file:', error);
         });
 }
+
+
+export const exportFile = (blob: Blob, name: string) => {
+    const link = document.createElement('a');
+
+    // Set the href attribute of the link to the Blob object
+    link.href = window.URL.createObjectURL(blob);
+    // Set the download attribute of the link to specify the filename
+    link.download = name;
+
+    // Append the link to the body
+    document.body.appendChild(link);
+
+    // Trigger a click event on the link to start the download
+    link.click();
+
+    // Remove the link from the body
+    document.body.removeChild(link);
+}

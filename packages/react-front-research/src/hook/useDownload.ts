@@ -1,4 +1,5 @@
 import {useRef} from "react";
+import {exportFile} from "@/utils/file.ts";
 
 export const useDownload = (
     onProgress?: (receivedLength: number, totalLength: number) => void,
@@ -34,22 +35,7 @@ export const useDownload = (
 
         const blob = new Blob(chunks, {type: res.headers.get("content-type") || contentType});
 
-        const link = document.createElement('a');
-
-        // Set the href attribute of the link to the Blob object
-        link.href = window.URL.createObjectURL(blob);
-        // Set the download attribute of the link to specify the filename
-        link.download = url.replace(link.href, '');
-        console.log(url, link.href, link.download);
-
-        // Append the link to the body
-        document.body.appendChild(link);
-
-        // Trigger a click event on the link to start the download
-        link.click();
-
-        // Remove the link from the body
-        document.body.removeChild(link);
+        exportFile(blob, url)
         onSuccess?.(blob);
 
     }
