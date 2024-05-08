@@ -138,7 +138,16 @@ export const constantRoutes: RouteRecordRaw[] = [
           title: "File Upload",
           keepAlive: true
         }
-      }
+      },
+      {
+        path: "goat-table",
+        component: () => import("@/views/table/goat/index.vue"),
+        name: "Goat",
+        meta: {
+          title: "GoatTable",
+          keepAlive: true
+        }
+      },
     ]
   },
   {
