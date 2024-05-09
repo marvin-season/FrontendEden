@@ -7,7 +7,7 @@ import {GetTableData} from "@/api/table/types/table";
 const tableData = ref<GetTableData[]>([]);
 const editRowData = ref<GetTableData>();
 
-getTableDataApi({size: 10, currentPage: 1}).then((res) => res?.data?.list).then(list => {
+getTableDataApi({size: 100, currentPage: 1}).then((res) => res?.data?.list).then(list => {
   tableData.value = list
 })
 defineOptions({
@@ -52,7 +52,7 @@ const column: TableColumnProps[] = [
 </script>
 
 <template>
-  <GoatTable :column="column" :data="tableData" :edit-row-data="editRowData">
+  <GoatTable :column="column" :data="tableData" :edit-row-data="editRowData" :visible-len="8">
     <template #op="scope">
       <div v-if="scope.column.type === 'operator'">
         <ElButton type="danger" @click="handleDelete(scope)">删除</ElButton>

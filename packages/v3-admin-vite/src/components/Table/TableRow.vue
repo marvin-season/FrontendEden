@@ -16,7 +16,7 @@ const context = inject<TableProps<any>>(TableContext);
 </script>
 
 <template>
-  <div class="row">
+  <div>
     <div class="meta" v-for="(meta, index) in context?.column" :key="index"
          :style="{width: meta.width || '150px'}">
 
@@ -31,12 +31,10 @@ const context = inject<TableProps<any>>(TableContext);
       <slot :row="rowData" :column="meta"></slot>
     </div>
   </div>
+
 </template>
 
 <style scoped lang="scss">
-.row {
-  padding: 10px;
-}
 
 .meta {
   display: inline-block;

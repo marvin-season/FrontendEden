@@ -17,6 +17,7 @@ export interface TableProps<T> {
   data: T[];
   column: TableColumnProps[];
   editRowData?: T; // 可编辑的行
+  visibleLen?: number
 }
 
 defineOptions({
@@ -30,7 +31,7 @@ const props = defineProps<TableProps<any>>();
 
 <template>
   <div class="table">
-    <TableContext :data="props.data" :column="props.column" :edit-row-data="props.editRowData">
+    <TableContext :data="props.data" :column="props.column" :edit-row-data="props.editRowData" :visible-len="props.visibleLen">
       <TableHeader></TableHeader>
       <TableBody>
         <template #default="{row, column}">
