@@ -10,6 +10,7 @@ export interface TableColumnProps {
   width?: string;
   type?: "operator";
   readonly?: boolean;
+  editable?: boolean;
 }
 
 export interface TableProps<T> {

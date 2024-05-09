@@ -26,16 +26,18 @@ const column: TableColumnProps[] = [
   {
     title: 'ID',
     dataIndex: 'id',
-    readonly: true
   },
   {
     title: '名称',
     dataIndex: 'username',
+    editable: true
   },
   {
     title: '邮箱',
     dataIndex: 'email',
-    width: '250px'
+    width: '250px',
+    editable: true
+
   },
   {
     title: '创建时间',

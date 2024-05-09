@@ -21,7 +21,8 @@ const context = inject<TableProps<any>>(TableContext);
          :style="{width: meta.width || '150px'}">
 
       <el-input
-        v-if="!meta.type && !meta.readonly && context?.editRowData?.id === rowData?.id"
+        style="width: 80%"
+        v-if="!meta.type && meta.editable && context?.editRowData?.id === rowData?.id"
         v-model="rowData[meta.dataIndex]">
       </el-input>
 
