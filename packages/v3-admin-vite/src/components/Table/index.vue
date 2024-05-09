@@ -7,7 +7,9 @@ export interface TableColumnProps {
   title: string;
   dataIndex: string;
   tooltip?: string;
-  width?: string
+  width?: string;
+  type?: "operator";
+  readonly?: boolean;
 }
 
 export interface TableProps<T> {

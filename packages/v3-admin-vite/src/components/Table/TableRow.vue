@@ -19,9 +19,9 @@ const context = inject<TableProps<any>>(TableContext);
   <div class="row">
     <div class="meta" v-for="(meta, index) in context?.column" :key="index"
          :style="{width: meta.width || '150px'}">
-      
+
       <el-input
-        v-if="context?.editRowData?.id === rowData?.id"
+        v-if="!meta.type && !meta.readonly && context?.editRowData?.id === rowData?.id"
         v-model="rowData[meta.dataIndex]">
       </el-input>
 

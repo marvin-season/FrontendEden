@@ -26,6 +26,7 @@ const column: TableColumnProps[] = [
   {
     title: 'ID',
     dataIndex: 'id',
+    readonly: true
   },
   {
     title: '名称',
@@ -42,7 +43,8 @@ const column: TableColumnProps[] = [
   },
   {
     title: '操作',
-    dataIndex: 'op',
+    dataIndex: '',
+    type: "operator"
   },
 ]
 </script>
@@ -50,7 +52,7 @@ const column: TableColumnProps[] = [
 <template>
   <GoatTable :column="column" :data="tableData" :edit-row-data="editRowData">
     <template #op="scope">
-      <div v-if="scope.column.dataIndex === 'op'">
+      <div v-if="scope.column.type === 'operator'">
         <ElButton type="danger" @click="handleDelete(scope)">删除</ElButton>
         <ElButton type="success" @click="handleUpdate(scope)">修改</ElButton>
       </div>
