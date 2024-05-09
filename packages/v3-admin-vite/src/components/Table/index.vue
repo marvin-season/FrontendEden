@@ -10,21 +10,24 @@ export interface TableColumnProps {
   width?: string
 }
 
+export interface TableProps<T> {
+  data: T[];
+  column: TableColumnProps[];
+  editRowData?: T; // 可编辑的行
+}
+
 defineOptions({
   name: 'GoatTable'
 });
 
 
-const props = defineProps<{
-  data: any[];
-  column: TableColumnProps[];
-}>();
+const props = defineProps<TableProps<any>>();
 
 </script>
 
 <template>
   <div class="table">
-    <TableContext :table-data="props.data" :table-column="props.column">
+    <TableContext :data="props.data" :column="props.column" :edit-row-data="props.editRowData">
       <TableHeader></TableHeader>
       <TableBody>
         <template #default="{row, column}">

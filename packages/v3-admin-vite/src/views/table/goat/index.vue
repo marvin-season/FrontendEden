@@ -4,7 +4,9 @@ import {getTableDataApi} from "@/api/table";
 import {ref} from "vue";
 import {GetTableData} from "@/api/table/types/table";
 
-const tableData = ref<GetTableData[]>([])
+const tableData = ref<GetTableData[]>([]);
+const editRowData = ref<GetTableData>();
+
 getTableDataApi({size: 10, currentPage: 1}).then((res) => res?.data?.list).then(list => {
   tableData.value = list
 })
@@ -16,10 +18,7 @@ const handleDelete = ({row}: { row: GetTableData }) => {
   tableData.value = tableData.value.filter(rowItem => rowItem.id !== row.id);
 }
 const handleUpdate = ({row}: { row: GetTableData }) => {
-  const find = tableData.value.find(rowItem => rowItem.id === row.id);
-  if (find) {
-    find.username = "马文澍"
-  }
+  editRowData.value = row;
 }
 
 
@@ -49,7 +48,7 @@ const column: TableColumnProps[] = [
 </script>
 
 <template>
-  <GoatTable :column="column" :data="tableData">
+  <GoatTable :column="column" :data="tableData" :edit-row-data="editRowData">
     <template #op="scope">
       <div v-if="scope.column.dataIndex === 'op'">
         <ElButton type="danger" @click="handleDelete(scope)">删除</ElButton>

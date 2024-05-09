@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {inject} from "vue";
 import {TableContext} from "@/components/Table/utils";
-import {TableContextProps} from "@/components/Table/TableContext.vue";
+import {TableProps} from "@/components/Table/index.vue";
 
 defineOptions({
   name: "TableRow",
@@ -11,17 +11,24 @@ const {rowData} = defineProps<{
   rowData: any
 }>();
 
-const context = inject<TableContextProps>(TableContext);
+const context = inject<TableProps<any>>(TableContext);
 
 </script>
 
 <template>
   <div class="row">
-    <span class="meta" v-for="(meta, index) in context?.tableColumn" :key="index"
-          :style="{width: meta.width || '150px'}">
-      {{ rowData[meta.dataIndex] }}
+    <div class="meta" v-for="(meta, index) in context?.column" :key="index"
+         :style="{width: meta.width || '150px'}">
+      
+      <el-input
+        v-if="context?.editRowData?.id === rowData?.id"
+        v-model="rowData[meta.dataIndex]">
+      </el-input>
+
+      <span v-else>{{ rowData[meta.dataIndex] }}</span>
+
       <slot :row="rowData" :column="meta"></slot>
-    </span>
+    </div>
   </div>
 </template>
 

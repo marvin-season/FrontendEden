@@ -1,20 +1,17 @@
 <script setup lang="ts">
 import {provide} from "vue";
 import {TableContext} from "@/components/Table/utils";
+import {TableProps} from "@/components/Table/index.vue";
 
-export interface TableContextProps {
-  tableData: any[];
-  tableColumn: any[];
-}
 
 defineOptions({
   name: 'TableContext'
 });
 
-const props = defineProps<TableContextProps>();
+const props = defineProps<TableProps<any>>();
 
 // defineSlots();
-provide<TableContextProps>(TableContext, props)
+provide<TableProps<any>>(TableContext, props)
 
 </script>
 

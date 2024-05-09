@@ -1,19 +1,19 @@
 <script setup lang="ts">
 import {inject} from "vue";
 import {TableContext} from "@/components/Table/utils";
-import {TableContextProps} from "@/components/Table/TableContext.vue";
 import TableRow from "@/components/Table/TableRow.vue";
+import {TableProps} from "@/components/Table/index.vue";
 
 defineOptions({
   name: 'TableContent',
 });
 
-const a = inject<TableContextProps>(TableContext)
+const a = inject<TableProps<any>>(TableContext)
 console.log("🚀 => ", a?.tableData);
 </script>
 
 <template>
-  <template v-for="rowData in a?.tableData" :key="rowData.id">
+  <template v-for="rowData in a?.data" :key="rowData.id">
     <TableRow :row-data="rowData">
       <template #default="{column, row}">
         <slot :row="row" :column="column"></slot>

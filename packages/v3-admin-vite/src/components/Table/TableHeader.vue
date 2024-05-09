@@ -2,19 +2,19 @@
 
 import {inject} from "vue";
 import {TableContext} from "@/components/Table/utils";
-import {TableContextProps} from "@/components/Table/TableContext.vue";
+import {TableProps} from "@/components/Table/index.vue";
 
 defineOptions({
   name: 'TableHeader',
 })
 
-const context = inject<TableContextProps>(TableContext);
+const context = inject<TableProps<any>>(TableContext);
 
 </script>
 
 <template>
   <div class="row header">
-    <span class="meta" v-for="(meta, index) in context?.tableColumn" :style="{width: meta.width || '150px'}">
+    <span class="meta" v-for="(meta, index) in context?.column" :style="{width: meta.width || '150px'}">
       {{ meta.title }}
     </span>
   </div>
@@ -24,9 +24,11 @@ const context = inject<TableContextProps>(TableContext);
 .row {
   padding: 10px;
 }
-.header{
+
+.header {
   background-color: #efefef;
 }
+
 .meta {
   display: inline-block;
   font-size: 14px;
