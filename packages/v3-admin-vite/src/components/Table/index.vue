@@ -13,11 +13,15 @@ export interface TableColumnProps {
   editable?: boolean;
 }
 
-export interface TableProps<T> {
+export type TreeData<T extends Record<string, any>> = {
+  [P in keyof T]: T[P];
+} & { children: TreeData<T>[] }
+
+export interface TableProps<T extends Record<string, any>> {
   data: T[];
   column: TableColumnProps[];
   editRowData?: T; // 可编辑的行
-  visibleLen?: number
+  treeData?: TreeData<T>
 }
 
 defineOptions({
@@ -31,7 +35,8 @@ const props = defineProps<TableProps<any>>();
 
 <template>
   <div class="table">
-    <TableContext :data="props.data" :column="props.column" :edit-row-data="props.editRowData" :visible-len="props.visibleLen">
+    <TableContext :data="props.data" :tree-data="props.treeData" :column="props.column"
+                  :edit-row-data="props.editRowData" :visible-len="props.visibleLen">
       <TableHeader></TableHeader>
       <TableBody>
         <template #default="{row, column}">

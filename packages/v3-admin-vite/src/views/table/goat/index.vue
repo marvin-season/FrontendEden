@@ -54,7 +54,7 @@ const column: TableColumnProps[] = [
 </script>
 
 <template>
-  <GoatTable :column="column" :data="tableData" :edit-row-data="editRowData" :visible-len="8">
+  <GoatTable :column="column" :edit-row-data="editRowData" :tree-data="tableData">
     <template #op="scope">
       <div v-if="scope.column.type === 'operator'">
         <ElButton type="danger" @click="handleDelete(scope)">删除</ElButton>

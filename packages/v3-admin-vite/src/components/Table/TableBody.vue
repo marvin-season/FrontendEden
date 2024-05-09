@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import {inject, ref, watchEffect} from "vue";
 import {TableContext} from "@/components/Table/utils";
-import TableRow from "@/components/Table/TableRow.vue";
 import {TableProps} from "@/components/Table/index.vue";
 import {RecycleScroller} from 'vue-virtual-scroller';
 import TreeRow from "@/components/Table/TreeRow.vue";
@@ -32,26 +31,27 @@ const handleVisible = (e) => {
 </script>
 
 <template>
-<!--  <RecycleScroller-->
-<!--    @visible="handleVisible"-->
-<!--    class="scroller"-->
-<!--    :items="context?.data"-->
-<!--    :min-item-size="40"-->
-<!--    :buffer="400"-->
-<!--    key-field="id"-->
-<!--    v-slot="{ item }"-->
-<!--  >-->
-<!--    <TreeRow class="row" :row-data="item" :id="`row-${item.id}`">-->
-<!--      <template #default="{column, row}">-->
-<!--        <slot :row="row" :column="column"></slot>-->
-<!--      </template>-->
-<!--    </TreeRow>-->
-<!--  </RecycleScroller>-->
-    <TreeRow v-for="item in context?.data" :key="item?.id" class="row" :row-data="item" :id="`row-${item?.id}`">
+  <RecycleScroller
+    v-if="context?.data"
+    @visible="handleVisible"
+    class="scroller"
+    :items="context?.data"
+    :min-item-size="40"
+    :buffer="400"
+    key-field="id"
+    v-slot="{ item }"
+  >
+    <TreeRow class="row" :row-data="item" :id="`row-${item.id}`">
       <template #default="{column, row}">
         <slot :row="row" :column="column"></slot>
       </template>
     </TreeRow>
+  </RecycleScroller>
+  <TreeRow v-if="context?.treeData" v-for="item in context?.treeData" :key="item?.id" class="row" :row-data="item" :id="`row-${item?.id}`">
+    <template #default="{column, row}">
+      <slot :row="row" :column="column"></slot>
+    </template>
+  </TreeRow>
 </template>
 
 <style scoped lang="scss">
