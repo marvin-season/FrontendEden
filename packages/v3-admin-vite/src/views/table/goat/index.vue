@@ -12,18 +12,34 @@ defineOptions({
   name: 'Goat',
 })
 
-const handleDelete = console.log
-const handleUpdate = console.log
+const handleDelete = ({row}: { row: GetTableData }) => {
+  tableData.value = tableData.value.filter(rowItem => rowItem.id !== row.id);
+}
+const handleUpdate = ({row}: { row: GetTableData }) => {
+  const find = tableData.value.find(rowItem => rowItem.id === row.id);
+  if (find) {
+    find.username = "马文澍"
+  }
+}
 
 
 const column: TableColumnProps[] = [
+  {
+    title: 'ID',
+    dataIndex: 'id',
+  },
   {
     title: '名称',
     dataIndex: 'username',
   },
   {
-    title: 'ID',
-    dataIndex: 'id',
+    title: '邮箱',
+    dataIndex: 'email',
+    width: '250px'
+  },
+  {
+    title: '创建时间',
+    dataIndex: 'createTime',
   },
   {
     title: '操作',

@@ -20,7 +20,7 @@ const context = inject<TableContextProps>(TableContext);
     <span class="meta" v-for="(meta, index) in context?.tableColumn" :key="index"
           :style="{width: meta.width || '150px'}">
       {{ rowData[meta.dataIndex] }}
-      <slot :row="rowData[meta.dataIndex]" :column="meta"></slot>
+      <slot :row="rowData" :column="meta"></slot>
     </span>
   </div>
 </template>
