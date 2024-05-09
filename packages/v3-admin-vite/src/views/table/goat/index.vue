@@ -7,8 +7,10 @@ import {GetTableData} from "@/api/table/types/table";
 const tableData = ref<GetTableData[]>([]);
 const editRowData = ref<GetTableData>();
 
-getTableDataApi({size: 100, currentPage: 1}).then((res) => res?.data?.list).then(list => {
-  tableData.value = list
+getTableDataApi({size: 10, currentPage: 1}).then((res) => res?.data?.list).then(list => {
+  list[0].children = [list[0], list[1], list[2]];
+  console.log("🚀 => ", list)
+  tableData.value = list;
 })
 defineOptions({
   name: 'Goat',

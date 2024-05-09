@@ -12,11 +12,13 @@ const {rowData} = defineProps<{
 }>();
 
 const context = inject<TableProps<any>>(TableContext);
+const handleClickRow = () => {
 
+}
 </script>
 
 <template>
-  <div>
+  <div @click="handleClickRow">
     <div class="meta" v-for="(meta, index) in context?.column" :key="index"
          :style="{width: meta.width || '150px'}">
 
