@@ -3,6 +3,7 @@ import GoatTable, {TableColumnProps, TableProps, TreeData} from "@/components/Ta
 import {getTableDataApi} from "@/api/table";
 import {ref} from "vue";
 import {GetTableData} from "@/api/table/types/table";
+import {ElMessageBox} from "element-plus";
 
 const tableData = ref<GetTableData[]>([]);
 const editRowData = ref<GetTableData>();
@@ -20,8 +21,15 @@ const handleDelete = ({row}: { row: GetTableData }) => {
   tableData.value = tableData.value.filter(rowItem => rowItem.id !== row.id);
 }
 const handleUpdate = (data: { row: GetTableData }) => {
-  editRowData.value = data.row;
-  console.log("🚀 => ", data)
+  if (editRowData.value === data.row) {
+    return
+  }
+
+  ElMessageBox.confirm('这将会直接修改你的表格数据', {
+    type: 'warning',
+  }).then(() => {
+    editRowData.value = data.row;
+  })
 }
 
 const handleLog = console.log
