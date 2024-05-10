@@ -49,8 +49,8 @@ const handleVisible = (e) => {
     </TableRow>
   </RecycleScroller>
   <TreeRow v-if="context?.treeData" v-for="item in context?.treeData" :key="item?.id" class="row" :row-data="item" :id="`row-${item?.id}`">
-    <template #default="{column, row}">
-      <slot :row="row" :column="column"></slot>
+    <template #default="scope">
+      <slot v-bind="scope"></slot>
     </template>
   </TreeRow>
 </template>

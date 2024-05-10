@@ -8,7 +8,7 @@ export interface TableColumnProps {
   dataIndex: string;
   tooltip?: string;
   width?: string;
-  type?: "operator";
+  type?: "operator" | "expand";
   readonly?: boolean;
   editable?: boolean;
 }
@@ -38,8 +38,8 @@ const props = defineProps<TableProps<any>>();
     <TableContext v-bind="props">
       <TableHeader></TableHeader>
       <TableBody>
-        <template #default="{row, column}">
-          <slot name="op" :row="row" :column="column"></slot>
+        <template #default="scope">
+          <slot name="op" v-bind="scope"></slot>
         </template>
       </TableBody>
     </TableContext>
