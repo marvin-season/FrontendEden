@@ -21,7 +21,7 @@ const handleCollapse = () => {
 </script>
 
 <template>
-  <div>
+  <div class="tree">
     <div flex gap-2>
       <span v-if="rowData.children" @click="handleCollapse">
         <span v-if="collapse">-</span>
@@ -35,13 +35,17 @@ const handleCollapse = () => {
     </div>
     <div v-if="collapse" v-for="item in rowData.children" :key="item.id"
          :style="{ paddingLeft: 20 * (depth + 1) + 'px'}">
-      <TreeRow :depth="depth + 1" :row-data="item"></TreeRow>
+      <TreeRow :depth="depth + 1" :row-data="item">
+        <template #default="{column, row}">
+          <slot :row="row" :column="column"></slot>
+        </template>
+      </TreeRow>
     </div>
   </div>
 </template>
 
 <style scoped lang="scss">
-.flex {
-
+.tree{
+  padding: 10px 0;
 }
 </style>

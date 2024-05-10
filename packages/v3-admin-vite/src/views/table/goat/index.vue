@@ -19,8 +19,9 @@ defineOptions({
 const handleDelete = ({row}: { row: GetTableData }) => {
   tableData.value = tableData.value.filter(rowItem => rowItem.id !== row.id);
 }
-const handleUpdate = ({row}: { row: GetTableData }) => {
-  editRowData.value = row;
+const handleUpdate = (data: { row: GetTableData }) => {
+  editRowData.value = data.row;
+  console.log("🚀 => ", data)
 }
 
 
