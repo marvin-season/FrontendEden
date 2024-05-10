@@ -45,7 +45,7 @@ const handleCollapse = () => {
 </template>
 
 <style scoped lang="scss">
-.tree{
+.tree {
   padding: 10px 0;
 }
 </style>
