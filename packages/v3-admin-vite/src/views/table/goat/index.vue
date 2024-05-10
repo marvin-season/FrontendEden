@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import GoatTable, {TableColumnProps} from "@/components/Table/index.vue";
+import GoatTable, {TableColumnProps, TableProps, TreeData} from "@/components/Table/index.vue";
 import {getTableDataApi} from "@/api/table";
 import {ref} from "vue";
 import {GetTableData} from "@/api/table/types/table";
@@ -7,7 +7,7 @@ import {GetTableData} from "@/api/table/types/table";
 const tableData = ref<GetTableData[]>([]);
 const editRowData = ref<GetTableData>();
 
-getTableDataApi({size: 10, currentPage: 1}).then((res) => res?.data?.list).then(list => {
+getTableDataApi({size: 10, currentPage: 1}).then((res) => res?.data?.list).then((list: any) => {
   list[0].children = [list[0], list[1], list[2]];
   console.log("🚀 => ", list)
   tableData.value = list;
@@ -51,6 +51,8 @@ const column: TableColumnProps[] = [
     type: "operator"
   },
 ]
+
+
 </script>
 
 <template>
