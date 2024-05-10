@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {inject, provide, reactive} from "vue";
-import {TableContext, TableEventProvider} from "@/components/Table/utils";
+import {TableContextProvider, TableEventProvider} from "@/components/Table/utils";
 import {TableProps} from "@/components/Table/index.vue";
 // @ts-ignore
 import {RecycleScroller} from 'vue-virtual-scroller';
@@ -12,7 +12,7 @@ defineOptions({
 });
 
 const expandScope = reactive<{ rows: Set<any>, row: any }>({row: {}, rows: new Set()});
-const context = inject<TableProps<any>>(TableContext);
+const context = inject<TableProps<any>>(TableContextProvider);
 
 // 注入点击所在行的数据和事件
 provide(TableEventProvider, {

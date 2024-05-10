@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import TableContext from "@/components/Table/TableContext.vue";
+import TableContextProvider from "@/components/Table/TableContextProvider.vue";
 import TableHeader from "@/components/Table/TableHeader.vue";
 import TableBody from "@/components/Table/TableBody.vue";
 
@@ -36,7 +36,7 @@ const props = defineProps<TableProps<any>>();
 
 <template>
   <div class="table">
-    <TableContext v-bind="props">
+    <TableContextProvider v-bind="props">
       <TableHeader></TableHeader>
       <TableBody>
         <template #default="scope">
@@ -46,7 +46,7 @@ const props = defineProps<TableProps<any>>();
           <slot name="expand" v-bind="scope"></slot>
         </template>
       </TableBody>
-    </TableContext>
+    </TableContextProvider>
   </div>
 </template>
 

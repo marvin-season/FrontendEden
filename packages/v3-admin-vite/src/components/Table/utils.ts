@@ -1,2 +1,2 @@
-export const TableContext = Symbol.for("TableContext");
+export const TableContextProvider = Symbol.for("TableContextProvider");
 export const TableEventProvider = Symbol.for("TableEventProvider");

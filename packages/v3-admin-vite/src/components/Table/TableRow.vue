@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {inject} from "vue";
-import {TableContext, TableEventProvider} from "@/components/Table/utils";
+import {TableContextProvider, TableEventProvider} from "@/components/Table/utils";
 import {TableProps} from "@/components/Table/index.vue";
 
 defineOptions({
@@ -11,7 +11,7 @@ const {rowData} = defineProps<{
   rowData: any
 }>();
 
-const context = inject<TableProps<any>>(TableContext);
+const context = inject<TableProps<any>>(TableContextProvider);
 const tableEventProvider = inject<any>(TableEventProvider)
 const handleClickRow = () => {
 

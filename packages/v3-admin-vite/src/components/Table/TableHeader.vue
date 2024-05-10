@@ -1,14 +1,14 @@
 <script setup lang="ts">
 
 import {inject} from "vue";
-import {TableContext} from "@/components/Table/utils";
+import {TableContextProvider} from "@/components/Table/utils";
 import {TableProps} from "@/components/Table/index.vue";
 
 defineOptions({
   name: 'TableHeader',
 })
 
-const context = inject<TableProps<any>>(TableContext);
+const context = inject<TableProps<any>>(TableContextProvider);
 
 </script>
 
