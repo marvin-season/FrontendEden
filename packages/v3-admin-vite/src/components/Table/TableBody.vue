@@ -80,6 +80,7 @@ provide(TableEventProvider, {
 }
 
 .goat_row {
+  border-bottom: 1px solid #eee;
   padding: 10px;
   height: 20%;
   display: inline-block;
