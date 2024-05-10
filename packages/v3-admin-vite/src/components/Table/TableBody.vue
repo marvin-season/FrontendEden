@@ -4,6 +4,7 @@ import {TableContext} from "@/components/Table/utils";
 import {TableProps} from "@/components/Table/index.vue";
 import {RecycleScroller} from 'vue-virtual-scroller';
 import TreeRow from "@/components/Table/TreeRow.vue";
+import TableRow from "@/components/Table/TableRow.vue";
 
 defineOptions({
   name: 'TableContent',
@@ -41,11 +42,11 @@ const handleVisible = (e) => {
     key-field="id"
     v-slot="{ item }"
   >
-    <TreeRow class="row" :row-data="item" :id="`row-${item.id}`">
+    <TableRow class="row" :row-data="item" :id="`row-${item.id}`">
       <template #default="{column, row}">
         <slot :row="row" :column="column"></slot>
       </template>
-    </TreeRow>
+    </TableRow>
   </RecycleScroller>
   <TreeRow v-if="context?.treeData" v-for="item in context?.treeData" :key="item?.id" class="row" :row-data="item" :id="`row-${item?.id}`">
     <template #default="{column, row}">
