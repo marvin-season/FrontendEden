@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {inject, provide, reactive} from "vue";
-import {TableContext, TableEvent} from "@/components/Table/utils";
+import {TableContext, TableEventProvider} from "@/components/Table/utils";
 import {TableProps} from "@/components/Table/index.vue";
 // @ts-ignore
 import {RecycleScroller} from 'vue-virtual-scroller';
@@ -11,13 +11,21 @@ defineOptions({
   name: 'TableContent',
 });
 
-const expandScope = reactive<{ row: any }>({row: {}});
+const expandScope = reactive<{ rows: Set<any>, row: any }>({row: {}, rows: new Set()});
 const context = inject<TableProps<any>>(TableContext);
 
-provide(TableEvent, {
+// 注入点击所在行的数据和事件
+provide(TableEventProvider, {
+  expandScope,
   clickRow: (rowData: any) => {
     console.log("🚀 => ", rowData)
     expandScope.row = rowData;
+
+    if (expandScope.rows.has(rowData)) {
+      expandScope.rows.delete(rowData);
+    } else {
+      expandScope.rows.add(rowData);
+    }
   }
 })
 
@@ -48,7 +56,7 @@ provide(TableEvent, {
             <slot :row="row" :column="column"></slot>
           </template>
         </TableRow>
-        <slot v-if="expandScope.row?.id === item.id" name="expand" v-bind="expandScope"></slot>
+        <slot v-if="expandScope.rows.has(item)" name="expand" v-bind="expandScope"></slot>
       </template>
     </div>
   </template>
