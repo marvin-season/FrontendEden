@@ -13,26 +13,27 @@ const context = inject<TableProps<any>>(TableContextProvider);
 </script>
 
 <template>
-  <div class="row header">
-    <span class="meta" v-for="(meta, index) in context?.column" :style="{width: meta.width || '150px'}">
+  <div class="goat_row goat_header">
+    <span class="goat_meta" v-for="(meta, index) in context?.column" :style="{width: meta.width || '150px'}">
       {{ meta.title }}
     </span>
   </div>
 </template>
 
 <style scoped lang="scss">
-.row {
-  padding: 10px;
+.goat_row {
+  white-space: nowrap;
 }
 
-.header {
-  background-color: #efefef;
+.goat_header {
 }
 
-.meta {
+.goat_meta {
   display: inline-block;
   font-size: 14px;
   color: #232323;
   font-weight: bold;
+  padding: 10px;
+  background-color: #efefef;
 }
 </style>

@@ -36,6 +36,11 @@ const handleLog = console.log
 
 const column: TableColumnProps[] = [
   {
+    title: '展开',
+    dataIndex: '',
+    type: "expand"
+  },
+  {
     title: '名称',
     dataIndex: 'username',
     editable: true
@@ -52,37 +57,34 @@ const column: TableColumnProps[] = [
     dataIndex: '',
     type: "operator"
   },
-  {
-    title: '展开',
-    dataIndex: '',
-    type: "expand"
-  },
 ]
 
 
 </script>
 
 <template>
-  <GoatTable :column="column" :edit-row-data="editRowData" :data="tableData">
-    <template #op="scope">
-      <div v-if="scope.column.type === 'operator'">
-        <ElButton type="danger" @click="handleDelete(scope)">删除</ElButton>
-        <ElButton type="success" @click="handleUpdate(scope)">修改</ElButton>
-      </div>
+  <div>
+    <GoatTable :column="column" :edit-row-data="editRowData" :data="tableData" width="800px">
+      <template #op="scope">
+        <div v-if="scope.column.type === 'operator'">
+          <ElButton type="danger" @click="handleDelete(scope)">删除</ElButton>
+          <ElButton type="success" @click="handleUpdate(scope)">修改</ElButton>
+        </div>
 
-    </template>
-    <template #expand="{row}">
-      <el-descriptions border size="small" direction="vertical">
-        <el-descriptions-item :span="12" label="角色">
-          <el-tag>{{ row.roles }}</el-tag>
-        </el-descriptions-item>
-        <el-descriptions-item width="200" label="ID">{{ row.id }}</el-descriptions-item>
-        <el-descriptions-item width="200" label="用户名称">{{ row.username }}</el-descriptions-item>
-        <el-descriptions-item width="200" label="联系电话">{{ row.phone }}</el-descriptions-item>
-        <el-descriptions-item width="200" label="创建时间">{{ row.createTime }}</el-descriptions-item>
-      </el-descriptions>
-    </template>
-  </GoatTable>
+      </template>
+      <template #expand="{row}">
+        <el-descriptions border size="small" direction="vertical">
+          <el-descriptions-item :span="12" label="角色">
+            <el-tag>{{ row.roles }}</el-tag>
+          </el-descriptions-item>
+          <el-descriptions-item width="200" label="ID">{{ row.id }}</el-descriptions-item>
+          <el-descriptions-item width="200" label="用户名称">{{ row.username }}</el-descriptions-item>
+          <el-descriptions-item width="200" label="联系电话">{{ row.phone }}</el-descriptions-item>
+          <el-descriptions-item width="200" label="创建时间">{{ row.createTime }}</el-descriptions-item>
+        </el-descriptions>
+      </template>
+    </GoatTable>
+  </div>
 </template>
 
 <style scoped lang="scss">

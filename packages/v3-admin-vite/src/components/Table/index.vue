@@ -23,6 +23,7 @@ export interface TableProps<T extends Record<string, any>> {
   editRowData?: T; // 可编辑的行
   treeData?: TreeData<T>[];
   enableVirtual?: boolean;
+  width?: string;
 }
 
 defineOptions({
@@ -35,7 +36,7 @@ const props = defineProps<TableProps<any>>();
 </script>
 
 <template>
-  <div class="table">
+  <div class="goat_table" :style="{width: props.width}">
     <TableContextProvider v-bind="props">
       <TableHeader></TableHeader>
       <TableBody>
@@ -51,10 +52,11 @@ const props = defineProps<TableProps<any>>();
 </template>
 
 <style scoped lang="scss">
-.table {
+.goat_table {
   background-color: #fff;
   padding: 40px 20px;
   border-radius: 2px;
   border: 1px solid #eee;
+  overflow: auto !important;
 }
 </style>

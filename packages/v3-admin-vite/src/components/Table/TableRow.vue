@@ -20,7 +20,7 @@ const handleClickRow = () => {
 
 <template>
   <div @click="handleClickRow">
-    <div class="meta" v-for="(meta, index) in context?.column" :key="index"
+    <div class="goat_meta" v-for="(meta, index) in context?.column" :key="index"
          :style="{width: meta.width || '150px'}">
 
       <el-input
@@ -40,13 +40,13 @@ const handleClickRow = () => {
 
 <style scoped lang="scss">
 
-.meta {
+.goat_meta {
   display: inline-block;
   font-size: 14px;
   color: #555;
 }
 
 .expand {
-
+  font-size: 20px;
 }
 </style>

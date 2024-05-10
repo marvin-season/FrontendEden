@@ -43,7 +43,7 @@ provide(TableEventProvider, {
       key-field="id"
       v-slot="{ item }"
     >
-      <TableRow class="row" :row-data="item" :id="`row-${item.id}`">
+      <TableRow class="goat_row" :row-data="item" :id="`row-${item.id}`">
         <template #default="{column, row}">
           <slot :row="row" :column="column"></slot>
         </template>
@@ -51,7 +51,7 @@ provide(TableEventProvider, {
     </RecycleScroller>
     <div v-else>
       <template v-for="item in context?.data" :key="item?.id">
-        <TableRow class="row" :row-data="item" :id="`row-${item.id}`">
+        <TableRow class="goat_row" :row-data="item" :id="`row-${item.id}`">
           <template #default="{column, row}">
             <slot :row="row" :column="column"></slot>
           </template>
@@ -64,7 +64,7 @@ provide(TableEventProvider, {
 
   <div>
     <template v-for="item in context?.treeData" :key="item?.id">
-      <TreeRow v-if="context?.treeData" class="row" :row-data="item" :id="`row-${item?.id}`">
+      <TreeRow v-if="context?.treeData" class="goat_row" :row-data="item" :id="`row-${item?.id}`">
         <template #default="scope">
           <slot v-bind="scope"></slot>
         </template>
@@ -79,10 +79,11 @@ provide(TableEventProvider, {
   height: 400px;
 }
 
-.row {
+.goat_row {
   padding: 10px;
   height: 20%;
-  display: block;
+  display: inline-block;
+  white-space: nowrap;
 }
 
 </style>

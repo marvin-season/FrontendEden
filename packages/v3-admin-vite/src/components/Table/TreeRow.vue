@@ -21,8 +21,8 @@ const handleCollapse = () => {
 </script>
 
 <template>
-  <div class="tree">
-    <div flex gap-2>
+  <div class="goat_tree">
+    <div class="goat_flex">
       <span v-if="rowData.children" @click="handleCollapse">
         <span v-if="collapse">-</span>
         <span v-else>+</span>
@@ -45,7 +45,11 @@ const handleCollapse = () => {
 </template>
 
 <style scoped lang="scss">
-.tree {
+.goat_flex {
+  display: flex;
+}
+
+.goat_tree {
   padding: 10px 0;
 }
 </style>
