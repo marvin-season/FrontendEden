@@ -28,10 +28,6 @@ const handleLog = console.log
 
 const column: TableColumnProps[] = [
   {
-    title: 'ID',
-    dataIndex: 'id',
-  },
-  {
     title: '名称',
     dataIndex: 'username',
     editable: true
@@ -42,10 +38,6 @@ const column: TableColumnProps[] = [
     width: '250px',
     editable: true
 
-  },
-  {
-    title: '创建时间',
-    dataIndex: 'createTime',
   },
   {
     title: '操作',
@@ -71,8 +63,16 @@ const column: TableColumnProps[] = [
       </div>
 
     </template>
-    <template #expand="scope">
-      <button style="z-index: 99992; position: relative" @click="handleLog(scope)">AAA</button>
+    <template #expand="{row}">
+      <el-descriptions border size="small" direction="vertical">
+        <el-descriptions-item :span="12" label="角色">
+          <el-tag>{{ row.roles }}</el-tag>
+        </el-descriptions-item>
+        <el-descriptions-item width="200" label="ID">{{ row.id }}</el-descriptions-item>
+        <el-descriptions-item width="200" label="用户名称">{{ row.username }}</el-descriptions-item>
+        <el-descriptions-item width="200" label="联系电话">{{ row.phone }}</el-descriptions-item>
+        <el-descriptions-item width="200" label="创建时间">{{ row.createTime }}</el-descriptions-item>
+      </el-descriptions>
     </template>
   </GoatTable>
 </template>
