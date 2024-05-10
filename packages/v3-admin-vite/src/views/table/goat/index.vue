@@ -8,8 +8,8 @@ const tableData = ref<GetTableData[]>([]);
 const editRowData = ref<GetTableData>();
 
 getTableDataApi({size: 10, currentPage: 1}).then((res) => res?.data?.list).then((list: any) => {
-  list[0].children = [list[0], list[1], list[2]];
-  console.log("🚀 => ", list)
+  // list[0].children = [list[0], list[1], list[2]];
+  // console.log("🚀 => ", list)
   tableData.value = list;
 })
 defineOptions({
@@ -24,6 +24,7 @@ const handleUpdate = (data: { row: GetTableData }) => {
   console.log("🚀 => ", data)
 }
 
+const handleLog = console.log
 
 const column: TableColumnProps[] = [
   {
@@ -51,18 +52,27 @@ const column: TableColumnProps[] = [
     dataIndex: '',
     type: "operator"
   },
+  {
+    title: '展开',
+    dataIndex: '',
+    type: "expand"
+  },
 ]
 
 
 </script>
 
 <template>
-  <GoatTable :column="column" :edit-row-data="editRowData" :tree-data="tableData">
+  <GoatTable :column="column" :edit-row-data="editRowData" :data="tableData">
     <template #op="scope">
       <div v-if="scope.column.type === 'operator'">
         <ElButton type="danger" @click="handleDelete(scope)">删除</ElButton>
         <ElButton type="success" @click="handleUpdate(scope)">修改</ElButton>
       </div>
+
+    </template>
+    <template #expand="scope">
+      <button style="z-index: 99992; position: relative" @click="handleLog(scope)">AAA</button>
     </template>
   </GoatTable>
 </template>

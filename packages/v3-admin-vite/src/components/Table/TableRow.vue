@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {inject} from "vue";
-import {TableContext} from "@/components/Table/utils";
+import {TableContext, TableEvent} from "@/components/Table/utils";
 import {TableProps} from "@/components/Table/index.vue";
 
 defineOptions({
@@ -12,6 +12,7 @@ const {rowData} = defineProps<{
 }>();
 
 const context = inject<TableProps<any>>(TableContext);
+const tableEvent = inject<any>(TableEvent)
 const handleClickRow = () => {
 
 }
@@ -27,9 +28,8 @@ const handleClickRow = () => {
         v-if="!meta.type && meta.editable && context?.editRowData?.id === rowData?.id"
         v-model="rowData[meta.dataIndex]">
       </el-input>
-
+      <span class="expand" v-else-if="meta.type === 'expand'" @click="tableEvent?.clickRow(rowData)">+</span>
       <span v-else>{{ rowData[meta.dataIndex] }}</span>
-
       <slot :row="rowData" :column="meta"></slot>
     </div>
   </div>
@@ -42,5 +42,9 @@ const handleClickRow = () => {
   display: inline-block;
   font-size: 14px;
   color: #555;
+}
+
+.expand {
+
 }
 </style>

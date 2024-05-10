@@ -21,7 +21,8 @@ export interface TableProps<T extends Record<string, any>> {
   data?: T[];
   column: TableColumnProps[];
   editRowData?: T; // 可编辑的行
-  treeData?: TreeData<T>[]
+  treeData?: TreeData<T>[];
+  enableVirtual?: boolean;
 }
 
 defineOptions({
@@ -40,6 +41,9 @@ const props = defineProps<TableProps<any>>();
       <TableBody>
         <template #default="scope">
           <slot name="op" v-bind="scope"></slot>
+        </template>
+        <template #expand="scope">
+          <slot name="expand" v-bind="scope"></slot>
         </template>
       </TableBody>
     </TableContext>

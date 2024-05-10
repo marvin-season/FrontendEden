@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import {inject, ref, watchEffect} from "vue";
-import {TableContext} from "@/components/Table/utils";
+import {inject, provide, reactive} from "vue";
+import {TableContext, TableEvent} from "@/components/Table/utils";
 import {TableProps} from "@/components/Table/index.vue";
+// @ts-ignore
 import {RecycleScroller} from 'vue-virtual-scroller';
 import TreeRow from "@/components/Table/TreeRow.vue";
 import TableRow from "@/components/Table/TableRow.vue";
@@ -10,49 +11,59 @@ defineOptions({
   name: 'TableContent',
 });
 
-
+const expandScope = reactive<{ row: any }>({row: {}});
 const context = inject<TableProps<any>>(TableContext);
 
-const visibleData = ref<TableProps<any>['data']>([])
-
-watchEffect(() => {
-  const len = context?.visibleLen;
-  console.log("🚀 => ", len)
-  if (len) {
-    let startIndex = 0;
-
-    visibleData.value = context.data.slice(startIndex, len);
-    console.log("🚀 => ", visibleData.value)
+provide(TableEvent, {
+  clickRow: (rowData: any) => {
+    console.log("🚀 => ", rowData)
+    expandScope.row = rowData;
   }
 })
 
-const handleVisible = (e) => {
-  console.log("🚀 => ", e)
-}
 </script>
 
 <template>
-  <RecycleScroller
-    v-if="context?.data"
-    @visible="handleVisible"
-    class="scroller"
-    :items="context?.data"
-    :min-item-size="40"
-    :buffer="400"
-    key-field="id"
-    v-slot="{ item }"
-  >
-    <TableRow class="row" :row-data="item" :id="`row-${item.id}`">
-      <template #default="{column, row}">
-        <slot :row="row" :column="column"></slot>
+  <template v-if="context?.data">
+
+    <RecycleScroller
+      v-if="context?.enableVirtual"
+      class="scroller"
+      :items="context?.data"
+      :min-item-size="40"
+      :buffer="400"
+      key-field="id"
+      v-slot="{ item }"
+    >
+      <TableRow class="row" :row-data="item" :id="`row-${item.id}`">
+        <template #default="{column, row}">
+          <slot :row="row" :column="column"></slot>
+        </template>
+      </TableRow>
+    </RecycleScroller>
+    <div v-else>
+      <template v-for="item in context?.data" :key="item?.id">
+        <TableRow class="row" :row-data="item" :id="`row-${item.id}`">
+          <template #default="{column, row}">
+            <slot :row="row" :column="column"></slot>
+          </template>
+        </TableRow>
+        <slot v-if="expandScope.row?.id === item.id" name="expand" v-bind="expandScope"></slot>
       </template>
-    </TableRow>
-  </RecycleScroller>
-  <TreeRow v-if="context?.treeData" v-for="item in context?.treeData" :key="item?.id" class="row" :row-data="item" :id="`row-${item?.id}`">
-    <template #default="scope">
-      <slot v-bind="scope"></slot>
+    </div>
+  </template>
+
+
+  <div>
+    <template v-for="item in context?.treeData" :key="item?.id">
+      <TreeRow v-if="context?.treeData" class="row" :row-data="item" :id="`row-${item?.id}`">
+        <template #default="scope">
+          <slot v-bind="scope"></slot>
+        </template>
+      </TreeRow>
     </template>
-  </TreeRow>
+  </div>
+
 </template>
 
 <style scoped lang="scss">
