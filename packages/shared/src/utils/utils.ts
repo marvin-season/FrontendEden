@@ -46,7 +46,13 @@ export const handleScroll: (selector: string, options: ScrollIntoViewOptions) =>
     targets[targets.length - 1]?.scrollIntoView(options)
 };
 
-export const sleep = async (timeout: number) => new Promise((resolve) => setTimeout(resolve, timeout));
+export const sleep = async (timeout: number) => new Promise((resolve) => {
+    const timerId = setTimeout(() => {
+        resolve(true)
+        console.log("🚀 => clear timer ", timerId)
+        clearTimeout(timerId);
+    }, timeout)
+});
 
 /**
  *

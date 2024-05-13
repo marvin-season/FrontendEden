@@ -9,7 +9,7 @@
     "./dist"
   ],
   "scripts": {
-    "dev": "vite --host --port=10001",
+    "dev": "tsc && vite build --watch",
     "build": "tsc && vite build"
   },
   "dependencies": {
