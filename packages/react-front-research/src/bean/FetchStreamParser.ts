@@ -1,5 +1,6 @@
 export class FetchStreamParser {
     utf8Decoder = new TextDecoder("utf-8");
+
     async* readAsGenerator(reader: ReadableStreamDefaultReader<any>) {
         let {value: chunk, done: readerDone} = await reader.read();
 
@@ -45,5 +46,28 @@ export class FetchStreamParser {
         } catch (e) {
             console.log("序列化失败", e);
         }
+    };
+
+    async asyncParseLine(lineStr: string, onParse: (data: any) => void, parser = (str: string) => str.replace(/^data:\s*/, "")) {
+        return new Promise(async (resolve, reject) => {
+            if (!/^data:\s*/.test(lineStr)) {
+                console.warn(lineStr, "is not expected line string");
+                reject(lineStr + "is not expected line string");
+                return;
+            }
+            try {
+                const data = JSON.parse(parser(lineStr)) as any;
+                if (data) {
+                    setTimeout(() => {
+                        onParse(data);
+                        resolve(true);
+                    })
+                }
+            } catch (e) {
+                console.log("序列化失败", e);
+                reject("序列化失败");
+            }
+        })
+
     };
 }

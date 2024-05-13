@@ -11,6 +11,10 @@ import ScrollPanel from "@/pages/ScrollPanel";
 import ReactResearchPanel from "@/pages/ReactResearchPanel";
 import PerformChunksPanel from "@/pages/PerformChunksPanel";
 import MarkdownPanel from "@/pages/MarkdownPanel";
+import VideoPanel from "@/pages/VideoPanel";
+import AudioPanel from "@/pages/AudioPanel";
+import RaceCondition from "@/pages/RaceCondition";
+import CalendarPanel from "@/pages/CalendarPanel";
 
 export const routes: RouteObject[] = [
     {
@@ -57,6 +61,22 @@ export const routes: RouteObject[] = [
             {
                 path: 'markdown-panel',
                 element: <MarkdownPanel/>
+            },
+            {
+                path: 'video-panel',
+                element: <VideoPanel/>
+            },
+            {
+                path: '音浪',
+                element: <AudioPanel/>
+            },
+            {
+                path: '竞态条件',
+                element: <RaceCondition/>
+            },
+            {
+                path: '日历',
+                element: <CalendarPanel/>
             },
         ]
     }
