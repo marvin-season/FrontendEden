@@ -1,16 +1,14 @@
 import {FC, useEffect} from "react";
-import {useChat} from "@/pages/ChatPanel/useChat.ts";
-import {Chat} from "@/components/chat";
-import {groupRenderLayout} from "@/pages/ChatPanel/groupRender.tsx";
+import {useChatV2} from "@/pages/ChatPanel/useChatV2.ts";
+import {ChatV2 as Chat} from "@/components/chatv2";
 
 const ChatPanel: FC = () => {
-    const chatProps = useChat();
+    const chatProps = useChatV2();
 
     useEffect(() => {
-        fetch('/v2/chat').then()
     }, []);
 
-    return <Chat {...chatProps} renderChatItemLayout={groupRenderLayout}/>;
+    return <Chat {...chatProps}/>;
 }
 
 export default ChatPanel
