@@ -43,5 +43,5 @@ export interface ChatV2Props {
     renderChatItemLayout?: (chatList: ChatItem[], renderAnswerPanel?: renderAnswerPanelType, renderQuestionPanel?: renderQuestionPanelType) => ReactElement;
     onSend?: (value: string) => void;
     onSelectedFile?: (files: FileList) => void;
-    onReload?: (chatItem: ChatItem) => void,
+    onReload?: (answer: Answer) => void,
 }

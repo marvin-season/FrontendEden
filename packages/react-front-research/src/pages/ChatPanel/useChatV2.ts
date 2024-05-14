@@ -11,15 +11,21 @@ export const useChatV2 = (): ChatV2Props => {
 
 
     const handleChatResponse = (chatItem?: ChatItem) => {
+        console.log("🚀  ", chatItem)
         generateRandomTextWithCallback(({content, id}) => {
             setChatList(draft => {
                 const lastChatItem = draft.at(-1);
                 if (lastChatItem) {
-                    lastChatItem.answers.push({
-                        id,
-                        content,
-                        createTime: moment().format(format)
-                    })
+                    const lastChatItemAnswer = lastChatItem.answers.find(item => item.id === id);
+                    if (lastChatItemAnswer) {
+                        lastChatItemAnswer.content += content;
+                    } else {
+                        lastChatItem.answers.push({
+                            id,
+                            content,
+                            createTime: moment().format(format)
+                        })
+                    }
                 }
 
             })
