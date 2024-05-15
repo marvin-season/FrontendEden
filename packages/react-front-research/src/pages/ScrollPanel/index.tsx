@@ -1,6 +1,5 @@
 import './index.css'
 import {useState} from "react";
-import {Button} from "@root/react-ui";
 
 const ScrollPanel = () => {
     const [count, setCount] = useState(0)
@@ -16,7 +15,6 @@ const ScrollPanel = () => {
 
 
     return <div className={'flex'}>
-        <Button/>
         <div className={'container'}>
             <div className='page page1'>
                 <div className={'canvas'}></div>
