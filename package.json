@@ -3,8 +3,8 @@
   "private": true,
   "workspaces": [],
   "scripts": {
-    "dev": "pnpm --filter @root/react-front-research --filter @root/shared --parallel dev",
-    "dev_lerna": "lerna run --scope @root/js-based --scope @root/shared dev",
+    "dev": "pnpm --filter @root/react-front-research --filter @root/shared --filter @root/react-ui --parallel dev",
+    "dev_lerna": "lerna run --scope @root/react-front-research --scope @root/react-ui --parallel dev",
     "build": "tsc && vite build",
     "preview": "vite preview"
   },
