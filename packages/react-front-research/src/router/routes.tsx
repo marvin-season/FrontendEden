@@ -27,43 +27,39 @@ export const routes: RouteObject[] = [
                 element: <Index/>,
             },
             {
-                path: 'blob-file-buffer',
+                path: 'Blob文件测试',
                 element: <FilePage/>
             },
             {
-                path: 'comp-rerender',
-                element: <CompReRender/>
-            },
-            {
-                path: 'chat-panel',
+                path: '聊天室',
                 element: <ChatPanel/>
             },
             {
-                path: 'emoji-panel',
+                path: '一个 emoji',
                 element: <EmojiPanel/>
             },
             {
-                path: 'worker-panel',
+                path: 'Worker',
                 element: <WorkerPanel/>
             },
             {
-                path: 'scroll-panel',
+                path: '页面滚动',
                 element: <ScrollPanel/>
             },
             {
-                path: 'react-research-panel',
+                path: 'react研究',
                 element: <ReactResearchPanel/>
             },
             {
-                path: 'perform-chunks-panel',
+                path: '性能测试',
                 element: <PerformChunksPanel/>
             },
             {
-                path: 'markdown-panel',
+                path: 'markdown',
                 element: <MarkdownPanel/>
             },
             {
-                path: 'video-panel',
+                path: '视频下载测试',
                 element: <VideoPanel/>
             },
             {
