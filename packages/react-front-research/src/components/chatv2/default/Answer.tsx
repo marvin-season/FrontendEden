@@ -14,6 +14,6 @@ const AnswerMemo = memo<{ answer: Answer }>(({answer}) => {
             </div>
         </Flex>
     </>
-}, (prevProps, nextProps) => prevProps.answer === nextProps.answer && prevProps.showReload === nextProps.showReload);
+}, (prevProps, nextProps) => prevProps.answer === nextProps.answer);
 
 export default AnswerMemo

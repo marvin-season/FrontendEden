@@ -29,9 +29,7 @@ export const defaultAnswerPanelRender = (answers: Answer[]) => {
             answers.map((answer, index) => {
                 return <AnswerMemo
                     answer={answer}
-                    key={index}
-                    showReload={index === answers.length - 1}
-                    onReload={onReload}/>
+                    key={index}/>
             })
         }
         {answers.at(-1) && <ReloadOutlined className={'text-sm text-sky-400'} onClick={() => {
