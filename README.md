@@ -1,6 +1,6 @@
 # front-based
 ## 说明
-这是一个mono-repo，使用pnpm管理，当然你可以看到lerna的身影，但是他没多大用了（pnpm可以替代他）
+这是一个mono-repo，使用pnpm管理，当然你可以看到lerna的身影，但是使用pnpm就可以满足需求
 
 切换分支
 ```shell
