@@ -14,7 +14,7 @@ export default defineConfig({
     plugins: [
         react(),
         libInjectCss(),
-        dts({include: ['lib'], exclude: ['src']}),
+        dts({include: ['lib'], exclude: ['src']}) as any,
     ],
     server: {
         port: 10006,
