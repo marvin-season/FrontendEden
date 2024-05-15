@@ -1,41 +1,18 @@
 import {Outlet, useNavigate} from "react-router-dom";
-import styled from 'styled-components'
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import {routes} from "@/router/routes.tsx";
+import {Breadcrumb, Layout, Menu} from 'antd'
 
-const LayoutContainer = styled.div`
-  display: flex;
-  justify-content: flex-start;
-  height: 100vh;
-  width: 100vw;
-  overflow: auto;
-  box-sizing: border-box;
-  gap: 10px;
-`
 
-const NavItem = styled.div<{ selected: boolean }>`
-  cursor: pointer;
-  width: 200px;
-  padding: 4px;
-  border-radius: 8px;
-  font-size: 16px;
-
-  color: ${({selected}) => selected ? 'blue' : 'black'};
-`
-
-const Nav = styled.div`
-  width: 200px;
-  padding: 10px;
-  border-right: 1px solid #aaa;
-`
-
-const Layout = () => {
+const MyLayout = () => {
+    const [collapsed, setCollapsed] = useState(false)
     const navigate = useNavigate();
-    const [currentIndex, setCurrentIndex] = useState(0)
-    const navs: { label: string | undefined; onClick: Function }[] = []
-    routes.flatMap(route => route.children).forEach(item => {
+    const navs: any[] = []
+    routes.flatMap(route => route.children).forEach((item, index) => {
         if (item) {
             navs.push({
+                key: index + 1.,
+                title: item.path,
                 label: item.path,
                 onClick: () => {
                     navigate(`/${item.path}`);
@@ -44,32 +21,33 @@ const Layout = () => {
         }
     })
 
-    useEffect(() => {
-        const index = parseInt(sessionStorage.getItem('routerCurrentIndex') || '0');
-        setCurrentIndex(index)
-    }, []);
-
     return <>
-        <LayoutContainer>
-            <Nav>
-                {
-                    navs.map(({onClick, label}, index) =>
-                        <NavItem
-                            key={index}
-                            selected={currentIndex === index}
-                            onClick={() => {
-                                setCurrentIndex(index)
-                                sessionStorage.setItem('routerCurrentIndex', index.toString())
-                                onClick()
-                            }}>{label}
-                        </NavItem>)
-                }
-            </Nav>
-            <div style={{flex: 1, overflow: "auto"}}>
-                <Outlet/>
-            </div>
-        </LayoutContainer>
+        <Layout style={{height: '100vh'}}>
+            <Layout.Sider theme={'light'} collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
+                <div>LOGO</div>
+                <Menu theme="light" defaultSelectedKeys={['1']} mode="inline" items={navs} onSelect={console.log}/>
+            </Layout.Sider>
+            <Layout>
+                <Layout.Header style={{padding: 0, background: '#fff'}}/>
+                <Layout.Content style={{margin: '0 16px'}}>
+                    <Breadcrumb style={{margin: '16px 0'}}>
+
+                    </Breadcrumb>
+                    <div
+                        style={{
+                            padding: 24,
+                            height: '100%'
+                        }}
+                    >
+                        <Outlet/>
+                    </div>
+                </Layout.Content>
+                <Layout.Footer style={{textAlign: 'center'}}>
+                    Ant Design ©{new Date().getFullYear()} Created by Ant UED
+                </Layout.Footer>
+            </Layout>
+        </Layout>
     </>
 }
 
-export default Layout
+export default MyLayout

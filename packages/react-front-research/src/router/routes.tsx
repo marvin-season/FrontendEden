@@ -24,7 +24,7 @@ export const routes: RouteObject[] = [
             {
                 path: 'index',
                 index: true,
-                element: <Index/>
+                element: <Index/>,
             },
             {
                 path: 'blob-file-buffer',
