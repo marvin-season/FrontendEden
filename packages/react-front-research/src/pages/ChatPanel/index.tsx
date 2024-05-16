@@ -1,12 +1,9 @@
-import {FC, useEffect} from "react";
+import {FC} from "react";
 import {useChatV2} from "@/pages/ChatPanel/useChatV2.ts";
-import {ChatV2 as Chat} from "@/components/chatv2";
+import {Chat} from "@root/react-ui";
 
 const ChatPanel: FC = () => {
     const chatProps = useChatV2();
-
-    useEffect(() => {
-    }, []);
 
     return <Chat {...chatProps}/>;
 }
