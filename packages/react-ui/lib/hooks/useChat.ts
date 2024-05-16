@@ -1,17 +1,15 @@
 import {nanoid} from "nanoid";
 import {useImmer} from "use-immer";
 import moment from "moment";
-import {IAnswer, ChatItem, ChatProps, IMessage, ISendApi} from "@/types";
+import {ChatItem, ChatProps, IAnswer, ISendApi} from "@/types";
 
 const format = 'YYYY-MM-DD HH:mm:ss';
 
-export const useChat = <T extends IMessage>(sendApi: ISendApi): ChatProps => {
+export const useChat = (sendApi: ISendApi): ChatProps => {
     const [chatList, setChatList] = useImmer<ChatItem[]>([]);
 
     const sendMessage = (params: {}) => {
-        sendApi<typeof params, T>({
-            params,
-            onData: (message) => {
+        sendApi(params, (message) => {
                 setChatList(draft => {
                     const lastChatItem = draft.at(-1);
                     if (lastChatItem) {
@@ -25,7 +23,7 @@ export const useChat = <T extends IMessage>(sendApi: ISendApi): ChatProps => {
 
                 })
             }
-        })
+        )
     }
 
     const onSelectedFile = (files: FileList) => {

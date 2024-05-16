@@ -49,11 +49,10 @@ export interface ChatProps {
     onReload?: (answer: IAnswer) => void,
 }
 
-export interface ISendParams<T, P> {
-    params: T,
-    onData: (r: P) => void,
-}
 
-export type ISendApi = <T = {}, P = {}>(params: ISendParams<T, P>) => void;
+export type ISendApi = <T = {}>(
+    params: T,
+    onData: (message: IMessage) => void
+) => void;
 
 
