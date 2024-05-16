@@ -1,5 +1,5 @@
 import React from "react";
-import {Answer, ChatProps, Question} from "../types.ts";
+import {Answer, ChatProps, Question} from "@/types/chat.tsx";
 import AnswerMemo from "./Answer.tsx";
 import QuestionMemo from "./Question.tsx";
 import {useChatContext} from "../context/ChatContext.tsx";

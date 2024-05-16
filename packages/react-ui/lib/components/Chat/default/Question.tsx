@@ -1,5 +1,5 @@
 import React, {memo} from "react";
-import {Question} from "../types.ts";
+import {Question} from "@/types/chat.tsx";
 import {Flex} from "antd";
 
 const QuestionMemo = memo<{ question: Question }>(({question}) => {

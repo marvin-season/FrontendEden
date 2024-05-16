@@ -1,5 +1,5 @@
 import React, {FC} from "react";
-import {ChatProps} from "./types.ts";
+import {ChatProps} from "@/types/chat.tsx";
 import {ChatContext} from "./context/ChatContext.tsx";
 import {ChatList, UserInput, UseSelectedImage} from "./default/DefaultLayout.tsx";
 import {

@@ -8,7 +8,7 @@ import {glob} from "glob";
 import {fileURLToPath} from 'node:url'
 import {extname, relative, resolve} from 'path'
 
-console.log("🚀  ", resolve(__dirname, 'lib/main.ts'))
+console.log("🚀  ", resolve(__dirname, 'lib'))
 // https://vitejs.dev/config/
 export default defineConfig({
     plugins: [
@@ -19,6 +19,11 @@ export default defineConfig({
     server: {
         port: 10006,
         host: true
+    },
+    resolve: {
+        alias: {
+            '@': resolve(__dirname, 'lib'),
+        }
     },
     build: {
         lib: {

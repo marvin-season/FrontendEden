@@ -1,6 +1,6 @@
 import {Flex} from "antd";
 import React, {memo} from "react";
-import {Answer} from "../types.ts";
+import {Answer} from "@/types/chat.tsx";
 
 const AnswerMemo = memo<{ answer: Answer }>(({answer}) => {
     console.log("🚀 AnswerMemo ", answer.content)

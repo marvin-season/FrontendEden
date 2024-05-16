@@ -1,12 +1,13 @@
 import {nanoid} from "nanoid";
 import {generateRandomTextWithCallback} from "@/utils/ContentGenerator.ts";
 import {useImmer} from "use-immer";
-import {Answer, ChatItem, ChatV2Props} from "@/components/chatv2/types.ts";
 import moment from "moment";
+import {Answer, ChatItem} from "@root/react-ui/lib/types/chat.tsx";
+import {ChatProps} from "@root/react-ui/";
 
 const format = 'YYYY-MM-DD HH:mm:ss';
 
-export const useChatV2 = (): ChatV2Props => {
+export const useChatV2 = (): ChatProps => {
     const [chatList, setChatList] = useImmer<ChatItem[]>([]);
 
 
