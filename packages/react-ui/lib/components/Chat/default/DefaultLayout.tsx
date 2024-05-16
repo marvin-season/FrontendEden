@@ -42,10 +42,3 @@ export const UserInput = () => {
 
     </Flex>
 }
-
-
-export const UseSelectedImage = () => {
-    return <>
-
-    </>
-}

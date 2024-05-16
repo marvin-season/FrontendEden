@@ -1,7 +1,7 @@
 import React, {FC} from "react";
 import {ChatProps} from "@/types/chat.tsx";
 import {ChatContext} from "./context/ChatContext.tsx";
-import {ChatList, UserInput, UseSelectedImage} from "./default/DefaultLayout.tsx";
+import {ChatList, UserInput} from "./default/DefaultLayout.tsx";
 import {
     defaultAnswerPanelRender,
     defaultLinerLayoutRender,
@@ -20,7 +20,7 @@ export const Chat: FC<ChatProps> = (props) => {
             <Flex vertical={true} className={'h-2/3 overflow-y-auto border-slate-200 p-4 border rounded-lg'}>
                 <ChatList/>
             </Flex>
-            <UseSelectedImage/>
+            LOGO
             <UserInput/>
         </Flex>
     </ChatContext.Provider>
