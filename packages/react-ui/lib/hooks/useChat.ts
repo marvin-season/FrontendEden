@@ -1,7 +1,7 @@
 import {nanoid} from "nanoid";
 import {useImmer} from "use-immer";
 import moment from "moment";
-import {Answer, ChatItem, ChatProps, IMessage, ISendApi} from "@/types";
+import {IAnswer, ChatItem, ChatProps, IMessage, ISendApi} from "@/types";
 
 const format = 'YYYY-MM-DD HH:mm:ss';
 
@@ -36,7 +36,7 @@ export const useChat = <T extends IMessage>(sendApi: ISendApi): ChatProps => {
             }
         }
     }
-    const onReload = (answer: Answer) => {
+    const onReload = (answer: IAnswer) => {
         sendMessage(answer);
     }
     const onSend = (value: string) => {

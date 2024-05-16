@@ -1,5 +1,5 @@
 import React from "react";
-import {Answer, ChatProps, Question} from "@/types/chat.tsx";
+import {ChatProps, IAnswer, IQuestion} from "@/types/chat.tsx";
 import AnswerMemo from "./Answer.tsx";
 import QuestionMemo from "./Question.tsx";
 import {useChatContext} from "../context/ChatContext.tsx";
@@ -22,7 +22,7 @@ export const defaultLinerLayoutRender: ChatProps['renderChatItemLayout'] = (chat
     </div>
 
 
-export const defaultAnswerPanelRender = (answers: Answer[]) => {
+export const defaultAnswerPanelRender = (answers: IAnswer[]) => {
     const {onReload} = useChatContext();
     return <>
         {
@@ -33,13 +33,13 @@ export const defaultAnswerPanelRender = (answers: Answer[]) => {
             })
         }
         {answers.at(-1) && <ReloadOutlined className={'text-sm text-sky-400'} onClick={() => {
-            onReload?.(answers.at(-1) as Answer)
+            onReload?.(answers.at(-1) as IAnswer)
         }}/>}
     </>
 }
 
 
-export const defaultQuestionPanelRender = (questions: Question[]) => {
+export const defaultQuestionPanelRender = (questions: IQuestion[]) => {
     return <>
         {
             questions.map((question, index) => {

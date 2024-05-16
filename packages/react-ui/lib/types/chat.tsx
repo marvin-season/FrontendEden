@@ -1,42 +1,42 @@
 import {ReactElement} from "react";
 
 
-export interface BaseContent {
+export interface IBaseContent {
 
 }
 
-export interface QuestionContent extends BaseContent {
+export interface IQuestionContent extends IBaseContent {
 
 }
 
-export interface AnswerContent extends BaseContent {
+export interface IAnswerContent extends IBaseContent {
 
 }
 
 export interface IMessage {
     id: string,
-    content: string | BaseContent,
+    content: string | IBaseContent,
     createTime: string,
 }
 
 
-export interface Question extends IMessage {
-    content: string | QuestionContent;
+export interface IQuestion extends IMessage {
+    content: string | IQuestionContent;
 }
 
-export interface Answer extends IMessage {
-    content: string | AnswerContent,
+export interface IAnswer extends IMessage {
+    content: string | IAnswerContent,
 }
 
 export interface ChatItem {
-    questions: Question[];
-    answers: Answer[]
+    questions: IQuestion[];
+    answers: IAnswer[]
 }
 
 
-export type renderAnswerPanelType = (answers: Answer[]) => ReactElement;
+export type renderAnswerPanelType = (answers: IAnswer[]) => ReactElement;
 
-export type renderQuestionPanelType = (question: Question[]) => ReactElement;
+export type renderQuestionPanelType = (question: IQuestion[]) => ReactElement;
 
 export interface ChatProps {
     title?: string;
@@ -46,7 +46,7 @@ export interface ChatProps {
     renderChatItemLayout?: (chatList: ChatItem[], renderAnswerPanel?: renderAnswerPanelType, renderQuestionPanel?: renderQuestionPanelType) => ReactElement;
     onSend?: (value: string) => void;
     onSelectedFile?: (files: FileList) => void;
-    onReload?: (answer: Answer) => void,
+    onReload?: (answer: IAnswer) => void,
 }
 
 export interface ISendParams<T, P> {
