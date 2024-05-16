@@ -13,15 +13,18 @@ export interface AnswerContent extends BaseContent {
 
 }
 
-export interface Question {
-    id: string;
-    createTime: string;
+export interface IMessage {
+    id: string,
+    content: string | BaseContent,
+    createTime: string,
+}
+
+
+export interface Question extends IMessage {
     content: string | QuestionContent;
 }
 
-export interface Answer {
-    id: string;
-    createTime: string;
+export interface Answer extends IMessage {
     content: string | AnswerContent,
 }
 
@@ -46,5 +49,11 @@ export interface ChatProps {
     onReload?: (answer: Answer) => void,
 }
 
+export interface ISendParams<T, P> {
+    params: T,
+    onData: (r: P) => void,
+}
 
-export type CallbackFunc = (callback: (params: { content: string, id: string }) => void) => void
+export type ISendApi = <T = {}, P = {}>(params: ISendParams<T, P>) => void;
+
+

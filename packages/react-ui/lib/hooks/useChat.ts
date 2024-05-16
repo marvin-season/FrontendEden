@@ -1,32 +1,30 @@
 import {nanoid} from "nanoid";
 import {useImmer} from "use-immer";
 import moment from "moment";
-import {Answer, CallbackFunc, ChatItem, ChatProps} from "@/types";
+import {Answer, ChatItem, ChatProps, IMessage, ISendApi} from "@/types";
 
 const format = 'YYYY-MM-DD HH:mm:ss';
 
-export const useChat = (callback: CallbackFunc): ChatProps => {
+export const useChat = <T extends IMessage>(sendApi: ISendApi): ChatProps => {
     const [chatList, setChatList] = useImmer<ChatItem[]>([]);
 
-
-    const handleChatResponse = (answer?: Answer) => {
-        callback(({content, id}) => {
-            setChatList(draft => {
-                const lastChatItem = draft.at(-1);
-                if (lastChatItem) {
-                    const lastChatItemAnswer = lastChatItem.answers.find(item => item.id === id);
-                    if (lastChatItemAnswer) {
-                        lastChatItemAnswer.content += content;
-                    } else {
-                        lastChatItem.answers.push({
-                            id,
-                            content,
-                            createTime: moment().format(format)
-                        })
+    const sendMessage = (params: {}) => {
+        sendApi<typeof params, T>({
+            params,
+            onData: (message) => {
+                setChatList(draft => {
+                    const lastChatItem = draft.at(-1);
+                    if (lastChatItem) {
+                        const lastChatItemAnswer = lastChatItem.answers.find(item => item.id === message.id);
+                        if (lastChatItemAnswer) {
+                            lastChatItemAnswer.content += message.content as string;
+                        } else {
+                            lastChatItem.answers.push(message)
+                        }
                     }
-                }
 
-            })
+                })
+            }
         })
     }
 
@@ -39,7 +37,7 @@ export const useChat = (callback: CallbackFunc): ChatProps => {
         }
     }
     const onReload = (answer: Answer) => {
-        handleChatResponse(answer);
+        sendMessage(answer);
     }
     const onSend = (value: string) => {
         setChatList(draft => {
@@ -54,7 +52,7 @@ export const useChat = (callback: CallbackFunc): ChatProps => {
                 answers: []
             })
         })
-        handleChatResponse()
+        sendMessage({value})
     }
 
     return {
