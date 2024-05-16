@@ -2,8 +2,7 @@ import {nanoid} from "nanoid";
 import {generateRandomTextWithCallback} from "@/utils/ContentGenerator.ts";
 import {useImmer} from "use-immer";
 import moment from "moment";
-import {Answer, ChatItem} from "@root/react-ui/lib/types/chat.tsx";
-import {ChatProps} from "@root/react-ui/";
+import {Answer, ChatItem, ChatProps} from "@root/react-ui/";
 
 const format = 'YYYY-MM-DD HH:mm:ss';
 
