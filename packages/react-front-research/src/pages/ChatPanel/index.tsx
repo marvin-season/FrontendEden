@@ -1,11 +1,11 @@
 import {FC} from "react";
-import {useChatV2} from "@/pages/ChatPanel/useChatV2.ts";
-import {Chat} from "@root/react-ui";
+import {Chat, useChat} from "@root/react-ui";
+import {generateRandomTextWithCallback} from "@/utils/ContentGenerator.ts";
 
 const ChatPanel: FC = () => {
-    const chatProps = useChatV2();
+    const chatProps = useChat(generateRandomTextWithCallback);
 
     return <Chat {...chatProps}/>;
 }
 
-export default ChatPanel
+export default ChatPanel;

@@ -45,3 +45,6 @@ export interface ChatProps {
     onSelectedFile?: (files: FileList) => void;
     onReload?: (answer: Answer) => void,
 }
+
+
+export type CallbackFunc = (callback: (params: { content: string, id: string }) => void) => void

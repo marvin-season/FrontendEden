@@ -1,18 +1,16 @@
 import {nanoid} from "nanoid";
-import {generateRandomTextWithCallback} from "@/utils/ContentGenerator.ts";
 import {useImmer} from "use-immer";
 import moment from "moment";
-import type {Types} from "@root/react-ui";
+import {Answer, CallbackFunc, ChatItem, ChatProps} from "@/types";
 
 const format = 'YYYY-MM-DD HH:mm:ss';
 
-export const useChatV2 = (): Types.ChatProps => {
-    const [chatList, setChatList] = useImmer<Types.ChatItem[]>([]);
+export const useChat = (callback: CallbackFunc): ChatProps => {
+    const [chatList, setChatList] = useImmer<ChatItem[]>([]);
 
 
-    const handleChatResponse = (answer?: Types.Answer) => {
-        console.log("🚀  ", answer)
-        generateRandomTextWithCallback(({content, id}) => {
+    const handleChatResponse = (answer?: Answer) => {
+        callback(({content, id}) => {
             setChatList(draft => {
                 const lastChatItem = draft.at(-1);
                 if (lastChatItem) {
@@ -40,7 +38,7 @@ export const useChatV2 = (): Types.ChatProps => {
             }
         }
     }
-    const onReload = (answer: Types.Answer) => {
+    const onReload = (answer: Answer) => {
         handleChatResponse(answer);
     }
     const onSend = (value: string) => {
