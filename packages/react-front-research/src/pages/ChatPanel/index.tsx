@@ -1,5 +1,5 @@
 import {FC, useCallback} from "react";
-import {Chat, useChat} from "@root/react-ui";
+import {Chat, Types, useChat} from "@root/react-ui";
 import {PostChat} from "@root/shared";
 import {Flex, Typography} from "antd";
 import {generateRandomTextWithCallback} from "@/utils/ContentGenerator.ts";
@@ -17,7 +17,7 @@ const ChatPanel: FC = () => {
                 <Typography>这是一个自定义布局</Typography>
             </Flex>
             {
-                chatList.map((chatItem, index) => {
+                chatList.map((chatItem: Types.ChatItem, index: number) => {
                     return <div key={index}>
                         {
                             QuestionLayout && <QuestionLayout questions={chatItem.questions}/>
