@@ -2,6 +2,7 @@ import {ReactElement} from "react";
 import {DefaultChatLayout} from "@/components/Chat/default/DefaultChatLayout.tsx";
 import {DefaultAnswerLayout} from "@/components/Chat/default/DefaultAnswerLayout.tsx";
 import {DefaultQuestionLayout} from "@/components/Chat/default/DefaultQuestionLayout.tsx";
+import {ChatStatus} from "@/constant";
 
 export interface IBaseContent {
 
@@ -49,6 +50,8 @@ export type renderQuestionPanelType = (question: IQuestion[]) => ReactElement;
 
 export interface ChatProps {
     title?: string;
+    status?: ChatStatus;
+    onStop?: () => void;
     chatList: ChatItem[];
     AnswerLayout?: AnswerLayoutType<typeof DefaultAnswerLayout>;
     QuestionLayout?: QuestionLayoutType<typeof DefaultQuestionLayout>;
@@ -61,7 +64,8 @@ export interface ChatProps {
 
 export type ISendApi = <T = {}>(
     params: T,
-    onData: (message: IMessage) => void
+    onData: (message: IMessage) => void,
+    onFinish?: (message?: IMessage) => void,
 ) => void;
 
 

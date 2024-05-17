@@ -6,10 +6,10 @@ function generateRandomNumber(n: number) {
 }
 
 export function generateRandomTextWithCallback(
-    onTextGenerated: (text: { id: string; content: string }) => void
+    onTextGenerated: (text?: { id: string; content: string }) => void
 ) {
     // const count = generateRandomNumber(10);
-    const count = 2;
+    const count = 3;
     const id = nanoid();
     let index = 0;
 
@@ -20,8 +20,9 @@ export function generateRandomTextWithCallback(
             index++;
         } else {
             clearInterval(t);
+            onTextGenerated()
         }
-    }, 30);
+    }, 500);
 
     return t;
 }

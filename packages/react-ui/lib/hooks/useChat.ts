@@ -2,28 +2,32 @@ import {nanoid} from "nanoid";
 import {useImmer} from "use-immer";
 import moment from "moment";
 import {ChatItem, ChatProps, IAnswer, ISendApi} from "@/types";
+import {useEffect, useState} from "react";
+import {ChatStatus} from "@/constant";
 
 const format = 'YYYY-MM-DD HH:mm:ss';
 
-export const useChat = (sendApi: ISendApi): ChatProps => {
+export const useChat = (invokeHandle: { invoke: ISendApi, stop: Function }): ChatProps => {
     const [chatList, setChatList] = useImmer<ChatItem[]>([]);
+    const [chatStatus, setChatStatus] = useState<ChatProps['status']>(ChatStatus.Idle)
 
     const sendMessage = (params: {}) => {
-        sendApi(params, (message) => {
-                setChatList(draft => {
-                    const lastChatItem = draft.at(-1);
-                    if (lastChatItem) {
-                        const lastChatItemAnswer = lastChatItem.answers.find(item => item.id === message.id);
-                        if (lastChatItemAnswer) {
-                            lastChatItemAnswer.content += message.content as string;
-                        } else {
-                            lastChatItem.answers.push(message)
-                        }
+        invokeHandle.invoke(params, (message) => {
+            setChatList(draft => {
+                const lastChatItem = draft.at(-1);
+                if (lastChatItem) {
+                    const lastChatItemAnswer = lastChatItem.answers.find(item => item.id === message.id);
+                    if (lastChatItemAnswer) {
+                        lastChatItemAnswer.content += message.content as string;
+                    } else {
+                        lastChatItem.answers.push(message)
                     }
+                }
 
-                })
-            }
-        )
+            })
+        }, () => {
+            setChatStatus(ChatStatus.Idle);
+        })
     }
 
     const onSelectedFile = (files: FileList) => {
@@ -38,6 +42,7 @@ export const useChat = (sendApi: ISendApi): ChatProps => {
         sendMessage(answer);
     }
     const onSend = (value: string) => {
+        setChatStatus(ChatStatus.Loading);
         setChatList(draft => {
             draft.push({
                 questions: [
@@ -53,11 +58,24 @@ export const useChat = (sendApi: ISendApi): ChatProps => {
         sendMessage({value})
     }
 
+    const onStop = () => {
+        setChatStatus(ChatStatus.Idle);
+        invokeHandle.stop();
+    }
+
+    useEffect(() => {
+        return () => {
+            invokeHandle.stop();
+        }
+    }, []);
+
     return {
         chatList,
         onReload,
         onSend,
-        onSelectedFile
+        onSelectedFile,
+        status: chatStatus,
+        onStop
     }
 
 }

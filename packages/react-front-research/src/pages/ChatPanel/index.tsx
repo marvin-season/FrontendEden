@@ -31,16 +31,25 @@ const ChatPanel: FC = () => {
         </div>
     }, [])
 
-    const chatProps = useChat((p, onData) => {
-        // postChat.send({params: {}, onData});
-        generateRandomTextWithCallback(({id, content}) => {
-            onData({
-                id: id,
-                content,
-                createTime: ''
+    const chatProps = useChat({
+        invoke: (p, onData, onFinish) => {
+            // postChat.send({params: {}, onData});
+            generateRandomTextWithCallback((message) => {
+                if (message) {
+                    onData({
+                        id: message.id,
+                        content: message.content,
+                        createTime: ''
+                    })
+                } else {
+                    onFinish?.()
+                }
             })
-        })
 
+        }, stop: () => {
+            console.log("🚀  stop",)
+            // postChat.abort();
+        }
     });
 
     return <Chat {...chatProps} ChatLayout={ChatLayout}/>;
