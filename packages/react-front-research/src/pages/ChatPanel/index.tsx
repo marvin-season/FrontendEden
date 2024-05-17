@@ -1,7 +1,8 @@
-import {FC} from "react";
+import React, {FC, useCallback} from "react";
 import {Chat, useChat} from "@root/react-ui";
 import {PostChat} from "@root/shared";
-import moment from "moment";
+import {Flex, Typography} from "antd";
+import {generateRandomTextWithCallback} from "@/utils/ContentGenerator.ts";
 
 const params = {
     "inputs": {},
@@ -71,28 +72,40 @@ const postChat = PostChat.getInstance({
 });
 
 
-const transform = () => {
-
-}
-
-console.log("🚀  ", postChat)
 const ChatPanel: FC = () => {
-    const chatProps = useChat((p, onData) => {
-        postChat.send({
-            params,
-            onData: ({message_id, answer}, isDone, isFirstMessage) => {
-                console.log("🚀  ", isDone, isFirstMessage)
-                onData({
-                    id: message_id,
-                    createTime: moment().format('YYYY'),
-                    content: answer
+
+    const ChatLayout: FC<any> = useCallback(({chatList, QuestionLayout, AnswerLayout}) => {
+        return <div>
+            <Flex style={{position: "sticky"}}>
+                <Typography>这是一个自定义布局</Typography>
+            </Flex>
+            {
+                chatList.map((chatItem, index) => {
+                    return <div key={index}>
+                        {
+                            QuestionLayout && <QuestionLayout questions={chatItem.questions}/>
+                        }
+                        {
+                            AnswerLayout && <AnswerLayout answers={chatItem.answers} onReload={chatProps.onReload}/>
+                        }
+                    </div>
                 })
             }
+        </div>
+    }, [])
+
+    const chatProps = useChat((p, onData) => {
+        generateRandomTextWithCallback(({id, content}) => {
+            onData({
+                id: id,
+                content,
+                createTime: ''
+            })
         })
-        console.log("🚀  ", postChat)
+
     });
 
-    return <Chat {...chatProps}/>;
+    return <Chat {...chatProps} ChatLayout={ChatLayout}/>;
 }
 
 export default ChatPanel;
