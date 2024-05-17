@@ -24,9 +24,6 @@
   },
   "devDependencies": {
     "@ant-design/icons": "^5.3.5",
-    "antd": "^5.15.4",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",
     "@typescript-eslint/eslint-plugin": "^7.2.0",
@@ -39,5 +36,8 @@
     "typescript": "^5.2.2",
     "vite": "^5.2.0",
     "vite-plugin-lib-inject-css": "^2.1.1"
+  },
+  "dependencies": {
+    "@uiw/react-markdown-preview": "^4.1.13"
   }
 }

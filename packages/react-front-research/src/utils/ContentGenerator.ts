@@ -9,7 +9,7 @@ export function generateRandomTextWithCallback(
     onTextGenerated: (text?: { id: string; content: string }) => void
 ) {
     // const count = generateRandomNumber(10);
-    const count = 3;
+    const count = 7;
     const id = nanoid();
     let index = 0;
 
@@ -29,9 +29,9 @@ export function generateRandomTextWithCallback(
 
 export function generateRandomSentence(wordsLength = 2) {
     const words = [
-        "天气晴朗",
-        "春风拂面天气晴朗",
-        "万物复苏",
+        "\n## RAG **测试**",
+        "\n## RAG **测试**",
+        "\n## RAG **测试**",
     ];
 
     // 随机生成句子长度
