@@ -17,7 +17,6 @@ export class PostChat {
     private params: constructorParamsTypes
 
     public static getInstance(params?: constructorParamsTypes): PostChat {
-        console.log("🚀  ", PostChat[Symbol.hasInstance])
         if (!PostChat.instance) {
             PostChat.instance = new PostChat(params)
         }
