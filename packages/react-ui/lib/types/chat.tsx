@@ -1,5 +1,5 @@
 import {ReactElement} from "react";
-import {DefaultChatLayout} from "@/components/Chat/default/DefaultLayout.tsx";
+import {DefaultChatLayout} from "@/components/Chat/default/DefaultChatLayout.tsx";
 
 
 export interface IBaseContent {

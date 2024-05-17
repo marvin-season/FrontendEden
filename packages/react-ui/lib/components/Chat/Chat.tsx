@@ -1,9 +1,11 @@
 import React, {FC} from "react";
 import {ChatProps} from "@/types/chat.tsx";
 import {ChatContext} from "./context/ChatContext.tsx";
-import {ChatList, DefaultChatLayout, UserInput} from "./default/DefaultLayout.tsx";
 import {Flex} from "antd";
 import {defaultAnswerPanelRender, defaultQuestionPanelRender} from "@/components/Chat/default/DefaultRender.tsx";
+import {DefaultChatLayout} from "@/components/Chat/default/DefaultChatLayout.tsx";
+import {UserInput} from "@/components/Chat/default/UserInput.tsx";
+import {ChatList} from "@/components/Chat/default/ChatList.tsx";
 
 
 export const Chat: FC<ChatProps> = ({
