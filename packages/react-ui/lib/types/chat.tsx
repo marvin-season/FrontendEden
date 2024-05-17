@@ -35,7 +35,7 @@ export interface ChatItem {
 }
 
 
-type ChatLayoutType<T extends typeof DefaultChatLayout> = T;
+export type ChatLayoutType<T extends typeof DefaultChatLayout> = T;
 
 export type onReloadFunc = (answer: IAnswer) => void;
 
