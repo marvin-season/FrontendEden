@@ -57,7 +57,7 @@ export class PostChat {
                 redirect: "follow",
                 method: "POST",
                 body: JSON.stringify({
-                    ...this.params,
+                    ...this.params.params,
                     response_mode: "streaming"
                 })
             }).then(async response => {
