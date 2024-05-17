@@ -1,13 +1,41 @@
-import React, {useState} from "react";
+import React, {FC, useState} from "react";
 import {useChatContext} from "../context/ChatContext.tsx";
 import {Button, Flex, Input, message} from "antd";
+import {ChatItem, renderAnswerPanelType, renderQuestionPanelType} from "@/types";
 
 
 export function ChatList() {
-    const {chatList, renderAnswerPanel, renderQuestionPanel, renderChatItemLayout} = useChatContext();
+    const {chatList, renderAnswerPanel, renderQuestionPanel, ChatLayout} = useChatContext();
     return <>
         {
-            renderChatItemLayout?.(chatList, renderAnswerPanel, renderQuestionPanel)
+            ChatLayout && <ChatLayout
+                chatList={chatList}
+                renderAnswerPanel={renderAnswerPanel}
+                renderQuestionPanel={renderQuestionPanel}/>
+        }
+
+    </>;
+}
+
+export const DefaultChatLayout: FC<{
+    chatList: ChatItem[],
+    renderAnswerPanel?: renderAnswerPanelType,
+    renderQuestionPanel?: renderQuestionPanelType
+}> = ({chatList, renderAnswerPanel, renderQuestionPanel}) => {
+    const {onReload} = useChatContext();
+
+    return <>
+        {
+            chatList.map((chatItem, index) => {
+                return <div key={index}>
+                    {
+                        renderQuestionPanel?.(chatItem.questions)
+                    }
+                    {
+                        renderAnswerPanel?.(chatItem.answers, onReload)
+                    }
+                </div>
+            })
         }
     </>;
 }

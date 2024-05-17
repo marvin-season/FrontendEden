@@ -4,22 +4,6 @@ import AnswerMemo from "./Answer.tsx";
 import QuestionMemo from "./Question.tsx";
 import {ReloadOutlined} from "@ant-design/icons";
 
-export const defaultLinerLayoutRender: ChatProps['renderChatItemLayout'] = (chatList, renderAnswer, renderQuestion) =>
-    <div>
-        {
-            chatList.map((chatItem, index) => {
-                return <div key={index}>
-                    {
-                        renderQuestion?.(chatItem.questions)
-                    }
-                    {
-                        renderAnswer?.(chatItem.answers, )
-                    }
-                </div>
-            })
-        }
-    </div>
-
 
 export const defaultAnswerPanelRender = (answers: IAnswer[], onReload: ChatProps['onReload']) => {
     return <>
