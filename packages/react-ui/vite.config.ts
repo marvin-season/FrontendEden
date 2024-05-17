@@ -32,7 +32,10 @@ export default defineConfig({
         },
         copyPublicDir: false,
         rollupOptions: {
-            external: ['react', 'react/jsx-runtime', 'antd', '@ant-design/icons', '@uiw/react-markdown-preview'],
+            external: (id) => {
+                return ['react', 'react/jsx-runtime', 'antd', '@ant-design/icons', '@uiw/react-markdown-preview', 'nanoid', 'use-immer', 'moment'
+                ].includes(id)
+            },
             input: Object.fromEntries(
                 glob.sync('lib/**/*.{ts,tsx}').map(file => [
                     // The name of the entry point
