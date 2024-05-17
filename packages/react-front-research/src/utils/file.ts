@@ -1,8 +1,7 @@
-import {FetchStreamParser} from "@/bean/FetchStreamParser.ts";
-import {sleep} from "@root/shared";
+import {sleep, StreamParser} from "@root/shared";
 
 export function readLines(filePath: string, callback: (data: any) => void) {
-    const fetchStreamParser = new FetchStreamParser();
+    const fetchStreamParser = new StreamParser();
     // 此处无法直接使用 Node.js 提供的 fs 模块
     // 你需要使用浏览器支持的文件读取方法，例如 FileReader API
     // 这里给出的是一个简单的示例，实际情况需要根据具体需求进行调整

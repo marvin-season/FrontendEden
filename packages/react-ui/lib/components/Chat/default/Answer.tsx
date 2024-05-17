@@ -3,7 +3,6 @@ import React, {memo} from "react";
 import {IAnswer} from "@/types/chat.tsx";
 
 const AnswerMemo = memo<{ answer: IAnswer }>(({answer}) => {
-    console.log("🚀 AnswerMemo ", answer.content)
     return <>
         <Flex gap={6} className={'p-2'} justify={"flex-start"}>
             <div
