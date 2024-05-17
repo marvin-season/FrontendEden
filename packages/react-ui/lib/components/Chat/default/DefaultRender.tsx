@@ -1,7 +1,7 @@
 import React from "react";
 import {ChatProps, IAnswer, IQuestion} from "@/types/chat.tsx";
-import AnswerMemo from "./Answer.tsx";
-import QuestionMemo from "./Question.tsx";
+import Answer from "./Answer.tsx";
+import Question from "./Question.tsx";
 import {ReloadOutlined} from "@ant-design/icons";
 
 
@@ -9,7 +9,7 @@ export const defaultAnswerPanelRender = (answers: IAnswer[], onReload: ChatProps
     return <>
         {
             answers.map((answer, index) => {
-                return <AnswerMemo
+                return <Answer
                     answer={answer}
                     key={index}/>
             })
@@ -25,7 +25,7 @@ export const defaultQuestionPanelRender = (questions: IQuestion[]) => {
     return <>
         {
             questions.map((question, index) => {
-                return <QuestionMemo question={question} key={index}></QuestionMemo>
+                return <Question question={question} key={index}></Question>
             })
         }
     </>

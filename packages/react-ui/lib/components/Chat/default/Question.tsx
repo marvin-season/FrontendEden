@@ -2,7 +2,7 @@ import React, {memo} from "react";
 import {IQuestion} from "@/types/chat.tsx";
 import {Flex} from "antd";
 
-const QuestionMemo = memo<{ question: IQuestion }>(({question}) => {
+const Question = memo<{ question: IQuestion }>(({question}) => {
     return <>
         <Flex className={'p-2'} justify={"flex-end"}>
             <Flex vertical={true} gap={2} align={'end'}
@@ -20,4 +20,4 @@ const QuestionMemo = memo<{ question: IQuestion }>(({question}) => {
 })
 
 
-export default QuestionMemo;
+export default Question;

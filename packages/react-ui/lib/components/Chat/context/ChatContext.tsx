@@ -5,7 +5,7 @@ export const ChatContext = createContext<ChatProps>({
     chatList: [],
     renderQuestionPanel: () => <></>,
     renderAnswerPanel: () => <></>,
-    renderChatItemLayout: () => <></>
+    ChatLayout: () => <></>
 })
 
 export const useChatContext = () => {
