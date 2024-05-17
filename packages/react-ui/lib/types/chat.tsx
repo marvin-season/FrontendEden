@@ -33,8 +33,9 @@ export interface ChatItem {
     answers: IAnswer[]
 }
 
+export type onReloadFunc = (answer: IAnswer) => void;
 
-export type renderAnswerPanelType = (answers: IAnswer[]) => ReactElement;
+export type renderAnswerPanelType = (answers: IAnswer[], onReload?: onReloadFunc) => ReactElement;
 
 export type renderQuestionPanelType = (question: IQuestion[]) => ReactElement;
 
@@ -46,7 +47,7 @@ export interface ChatProps {
     renderChatItemLayout?: (chatList: ChatItem[], renderAnswerPanel?: renderAnswerPanelType, renderQuestionPanel?: renderQuestionPanelType) => ReactElement;
     onSend?: (value: string) => void;
     onSelectedFile?: (files: FileList) => void;
-    onReload?: (answer: IAnswer) => void,
+    onReload?: onReloadFunc,
 }
 
 

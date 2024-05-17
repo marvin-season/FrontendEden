@@ -2,7 +2,6 @@ import React from "react";
 import {ChatProps, IAnswer, IQuestion} from "@/types/chat.tsx";
 import AnswerMemo from "./Answer.tsx";
 import QuestionMemo from "./Question.tsx";
-import {useChatContext} from "../context/ChatContext.tsx";
 import {ReloadOutlined} from "@ant-design/icons";
 
 export const defaultLinerLayoutRender: ChatProps['renderChatItemLayout'] = (chatList, renderAnswer, renderQuestion) =>
@@ -14,7 +13,7 @@ export const defaultLinerLayoutRender: ChatProps['renderChatItemLayout'] = (chat
                         renderQuestion?.(chatItem.questions)
                     }
                     {
-                        renderAnswer?.(chatItem.answers)
+                        renderAnswer?.(chatItem.answers, )
                     }
                 </div>
             })
@@ -22,8 +21,7 @@ export const defaultLinerLayoutRender: ChatProps['renderChatItemLayout'] = (chat
     </div>
 
 
-export const defaultAnswerPanelRender = (answers: IAnswer[]) => {
-    const {onReload} = useChatContext();
+export const defaultAnswerPanelRender = (answers: IAnswer[], onReload: ChatProps['onReload']) => {
     return <>
         {
             answers.map((answer, index) => {
