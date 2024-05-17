@@ -3,8 +3,8 @@ import {ChatProps} from "@/types/chat.tsx";
 
 export const ChatContext = createContext<ChatProps>({
     chatList: [],
-    renderQuestionPanel: () => <></>,
-    renderAnswerPanel: () => <></>,
+    QuestionLayout: () => <></>,
+    AnswerLayout: () => <></>,
     ChatLayout: () => <></>
 })
 

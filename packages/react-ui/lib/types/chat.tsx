@@ -1,6 +1,7 @@
 import {ReactElement} from "react";
 import {DefaultChatLayout} from "@/components/Chat/default/DefaultChatLayout.tsx";
-
+import {DefaultAnswerLayout} from "@/components/Chat/default/DefaultAnswerLayout.tsx";
+import {DefaultQuestionLayout} from "@/components/Chat/default/DefaultQuestionLayout.tsx";
 
 export interface IBaseContent {
 
@@ -34,8 +35,11 @@ export interface ChatItem {
     answers: IAnswer[]
 }
 
-
 export type ChatLayoutType<T extends typeof DefaultChatLayout> = T;
+
+export type AnswerLayoutType<T extends typeof DefaultAnswerLayout> = T;
+
+export type QuestionLayoutType<T extends typeof DefaultQuestionLayout> = T;
 
 export type onReloadFunc = (answer: IAnswer) => void;
 
@@ -46,8 +50,8 @@ export type renderQuestionPanelType = (question: IQuestion[]) => ReactElement;
 export interface ChatProps {
     title?: string;
     chatList: ChatItem[];
-    renderAnswerPanel?: renderAnswerPanelType;
-    renderQuestionPanel?: renderQuestionPanelType;
+    AnswerLayout?: AnswerLayoutType<typeof DefaultAnswerLayout>;
+    QuestionLayout?: QuestionLayoutType<typeof DefaultQuestionLayout>;
     ChatLayout?: ChatLayoutType<typeof DefaultChatLayout>;
     onSend?: (value: string) => void;
     onSelectedFile?: (files: FileList) => void;
