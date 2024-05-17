@@ -2,24 +2,52 @@ import {StreamParser} from "./StreamParser";
 
 type onDataFunc = (messageInfo: any, isDone: boolean, isFirstMessage: boolean) => void;
 type onErrorFunc = (message: any, code?: number) => void;
+type constructorParamsTypes = {
+    url?: string;
+    params?: any;
+    onData?: onDataFunc;
+    onError?: onErrorFunc;
+    controller?: AbortController;
+}
 
 export class PostChat {
     private static streamParser = new StreamParser();
     private asyncIterator: AsyncGenerator<string, void> | null = null;
+    private static instance: PostChat;
+    private params: constructorParamsTypes
 
+    public static getInstance(params?: constructorParamsTypes): PostChat {
+        console.log("🚀  ", PostChat[Symbol.hasInstance])
+        if (!PostChat.instance) {
+            PostChat.instance = new PostChat(params)
+        }
+        return PostChat.instance;
 
-    constructor(public url: string, public params: any, public onData: onDataFunc, public onError?: onErrorFunc, public controller?: AbortController) {
+    }
+
+    private constructor(params?: constructorParamsTypes) {
+        this.params = params
     }
 
     abort() {
-        this.controller?.abort();
-        this.onError?.(999)
+        this.params.controller?.abort();
+        this.params.onError?.(999)
     }
 
-    post() {
+    send(params?: constructorParamsTypes) {
+        if (params) {
+            this.params = {
+                ...this.params,
+                ...params
+            };
+        }
+        if (!this.params) {
+            throw new Error('请提供参数')
+        }
+
         try {
-            fetch(this.url, {
-                signal: this.controller?.signal,
+            fetch(this.params.url, {
+                signal: this.params.controller?.signal,
                 mode: "cors",
                 credentials: "include",
                 headers: new Headers({
@@ -40,7 +68,7 @@ export class PostChat {
                 }
             });
         } catch (e) {
-            this.onError?.(e)
+            this.params.onError?.(e)
         }
 
         return this
@@ -52,7 +80,7 @@ export class PostChat {
         }
         for await (const lineStr of this.asyncIterator) {
             await PostChat.streamParser.asyncParseLine(lineStr, lineData => {
-                this.onData(lineData, false, false);
+                this.params.onData(lineData, false, false);
             }).catch((e) => {
                 console.error(e)
             });
