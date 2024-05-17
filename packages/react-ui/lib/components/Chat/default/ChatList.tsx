@@ -3,9 +3,10 @@ import React from "react";
 
 export function ChatList() {
     const {chatList, QuestionLayout, AnswerLayout, ChatLayout} = useChatContext();
+
     return <>
         {
-            ChatLayout && <ChatLayout chatList={chatList}/>
+            ChatLayout && <ChatLayout chatList={chatList} QuestionLayout={QuestionLayout} AnswerLayout={AnswerLayout}/>
         }
 
     </>;

@@ -4,7 +4,6 @@ import Question from "./Question.tsx";
 
 
 export const DefaultQuestionLayout: FC<{ questions: IQuestion[] }> = ({questions}) => {
-    console.log("🚀  ", questions)
     return <>
         {
             questions.map((question, index) => {

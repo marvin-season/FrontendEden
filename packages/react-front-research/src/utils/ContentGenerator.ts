@@ -9,7 +9,7 @@ export function generateRandomTextWithCallback(
     onTextGenerated: (text: { id: string; content: string }) => void
 ) {
     // const count = generateRandomNumber(10);
-    const count = 20;
+    const count = 2;
     const id = nanoid();
     let index = 0;
 
@@ -26,20 +26,11 @@ export function generateRandomTextWithCallback(
     return t;
 }
 
-export function generateRandomSentence(wordsLength = 5) {
+export function generateRandomSentence(wordsLength = 2) {
     const words = [
         "天气晴朗",
-        "春风拂面",
+        "春风拂面天气晴朗",
         "万物复苏",
-        "生机盎然",
-        "鸟语花香",
-        "四季轮回",
-        "岁月静好",
-        "山高水长",
-        "风景如画",
-        "岁月静好",
-        "欢声笑语",
-        "琴瑟和鸣",
     ];
 
     // 随机生成句子长度

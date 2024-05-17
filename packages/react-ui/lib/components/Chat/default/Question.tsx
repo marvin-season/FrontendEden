@@ -17,7 +17,7 @@ const Question = memo<{ question: IQuestion }>(({question}) => {
             </Flex>
         </Flex>
     </>
-})
+}, (prevProps, nextProps) => prevProps.question === nextProps.question);
 
 
 export default Question;
