@@ -70,4 +70,17 @@ export class StreamParser {
         })
 
     };
+
+    syncParseLine(lineStr: string, parser = (str: string) => str.replace(/^data:\s*/, "")) {
+        if (!/^data:\s*/.test(lineStr)) {
+            console.warn(lineStr, "is not expected line string");
+            return;
+        }
+        try {
+            return JSON.parse(parser(lineStr)) as any;
+        } catch (e) {
+            console.log("序列化失败", e);
+        }
+
+    };
 }
