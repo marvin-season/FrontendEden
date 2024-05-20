@@ -46,7 +46,6 @@ export type ChatActionParams = { params: Record<string, any> }
 export interface ChatProps {
     title?: string;
     status?: ChatStatus;
-    onStop?: () => void;
     chatList: ChatItem[];
     AnswerLayout?: AnswerLayoutType<typeof DefaultAnswerLayout>;
     QuestionLayout?: QuestionLayoutType<typeof DefaultQuestionLayout>;
