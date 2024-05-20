@@ -41,7 +41,6 @@ export type AnswerLayoutType<T extends typeof DefaultAnswerLayout> = T;
 
 export type QuestionLayoutType<T extends typeof DefaultQuestionLayout> = T;
 
-export type ChatActionParams = { params: Record<string, any> }
 
 export interface ChatProps {
     title?: string;
@@ -52,7 +51,7 @@ export interface ChatProps {
     ChatLayout?: ChatLayoutType<typeof DefaultChatLayout>;
 
     // action
-    onAction: (actionType: ChatActionType, actionParams?: ChatActionParams) => void;
+    onAction: (actionType: ChatActionType, actionParams: Record<string, any>) => void;
 }
 
 

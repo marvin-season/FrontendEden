@@ -18,7 +18,7 @@ export const DefaultAnswerLayout: FC<{ answers: IAnswer[], onAction: ChatProps['
             })
         }
         {answers.at(-1) && <ReloadOutlined className={'text-sm text-sky-400'} onClick={() => {
-            onAction(ChatActionType.ReloadMessage, {params: answers.at(-1) as IAnswer})
+            onAction(ChatActionType.ReloadMessage, {answer: answers.at(-1) as IAnswer})
         }}/>}
     </>
 }

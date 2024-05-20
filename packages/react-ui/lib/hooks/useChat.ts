@@ -73,11 +73,14 @@ export const useChat = (invokeHandle: { invoke: ISendApi, stop: Function }): Cha
         chatList,
         status: chatStatus,
         onAction: (actionType, actionParams) => {
+            console.log("🚀  ", actionType, actionParams);
             if (actionType === ChatActionType.SendMessage) {
-                onSend(actionParams?.params.value);
+                onSend(actionParams.value);
             } else if (actionType === ChatActionType.SelectFile) {
             } else if (actionType === ChatActionType.StopGenerate) {
                 onStop();
+            } else if (actionType === ChatActionType.ReloadMessage) {
+                onReload(actionParams.answer);
             }
         }
     }

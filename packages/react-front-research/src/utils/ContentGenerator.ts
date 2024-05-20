@@ -30,8 +30,8 @@ export function generateRandomTextWithCallback(
 export function generateRandomSentence(wordsLength = 2) {
     const words = [
         "\n**测试**",
-        "\n## RAG **测试**",
-        "\n## RAG **测试**",
+        "RAG **测试**",
+        "RAG **测试**",
     ];
 
     // 随机生成句子长度

@@ -30,7 +30,7 @@ export const Chat: FC<ChatProps> =
                     <ChatList/>
                     {restProps.status === ChatStatus.Loading && <div className={styles.loading}>
                         <Button type={'primary'}
-                                onClick={() => restProps.onAction(ChatActionType.StopGenerate)}>
+                                onClick={() => restProps.onAction(ChatActionType.StopGenerate, {})}>
                             停止生成
                         </Button>
                     </div>

@@ -9,7 +9,7 @@ export const UserInput = () => {
 
     const handleSend = () => {
         if (value.trim().length > 0) {
-            onAction(ChatActionType.SendMessage, {params: {value}});
+            onAction(ChatActionType.SendMessage, {value});
             setValue('')
         } else {
             message.info('消息不能为空').then()

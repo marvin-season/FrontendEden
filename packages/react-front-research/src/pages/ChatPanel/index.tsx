@@ -23,7 +23,7 @@ const ChatPanel: FC = () => {
                             QuestionLayout && <QuestionLayout questions={chatItem.questions}/>
                         }
                         {
-                            AnswerLayout && <AnswerLayout answers={chatItem.answers} onReload={chatProps.onReload}/>
+                            AnswerLayout && <AnswerLayout answers={chatItem.answers} onAction={chatProps.onAction}/>
                         }
                     </div>
                 })
