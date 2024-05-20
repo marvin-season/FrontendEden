@@ -29,7 +29,7 @@ export function generateRandomTextWithCallback(
 
 export function generateRandomSentence(wordsLength = 2) {
     const words = [
-        "\n## RAG **测试**",
+        "\n**测试**",
         "\n## RAG **测试**",
         "\n## RAG **测试**",
     ];

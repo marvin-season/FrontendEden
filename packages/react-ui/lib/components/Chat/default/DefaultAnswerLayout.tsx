@@ -2,10 +2,11 @@ import {ChatProps, IAnswer} from "@/types";
 import Answer from "@/components/Chat/default/Answer.tsx";
 import {ReloadOutlined} from "@ant-design/icons";
 import React, {FC} from "react";
+import {ChatActionType} from "@/constant";
 
-export const DefaultAnswerLayout: FC<{ answers: IAnswer[], onReload: ChatProps['onReload'] }>
+export const DefaultAnswerLayout: FC<{ answers: IAnswer[], onAction: ChatProps['onAction'] }>
     = ({
-           onReload,
+           onAction,
            answers
        }) => {
     return <>
@@ -17,7 +18,7 @@ export const DefaultAnswerLayout: FC<{ answers: IAnswer[], onReload: ChatProps['
             })
         }
         {answers.at(-1) && <ReloadOutlined className={'text-sm text-sky-400'} onClick={() => {
-            onReload?.(answers.at(-1) as IAnswer)
+            onAction(ChatActionType.ReloadMessage, {params: answers.at(-1) as IAnswer})
         }}/>}
     </>
 }

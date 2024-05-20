@@ -3,3 +3,13 @@ export enum ChatStatus {
     Idle,
     Typing
 }
+
+/**
+ * Chat组件的Action
+ */
+export enum ChatActionType {
+    SendMessage,
+    ReloadMessage,
+    SelectFile,
+    StopGenerate
+}

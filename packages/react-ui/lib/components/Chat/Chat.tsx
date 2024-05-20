@@ -8,7 +8,7 @@ import {UserInput} from "@/components/Chat/default/UserInput.tsx";
 import {ChatList} from "@/components/Chat/default/ChatList.tsx";
 import {DefaultAnswerLayout} from "@/components/Chat/default/DefaultAnswerLayout.tsx";
 import styles from "./styles.module.css";
-import {ChatStatus} from "@/constant";
+import {ChatActionType, ChatStatus} from "@/constant";
 
 export const Chat: FC<ChatProps> =
     ({
@@ -29,7 +29,10 @@ export const Chat: FC<ChatProps> =
                       className={'h-2/3 overflow-y-auto border-slate-200 p-4 border rounded-lg relative'}>
                     <ChatList/>
                     {restProps.status === ChatStatus.Loading && <div className={styles.loading}>
-                        <Button type={'primary'} onClick={restProps.onStop}>停止生成</Button>
+                        <Button type={'primary'}
+                                onClick={() => restProps.onAction(ChatActionType.StopGenerate)}>
+                            停止生成
+                        </Button>
                     </div>
                     }
                 </Flex>

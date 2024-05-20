@@ -1,14 +1,15 @@
 import React, {useState} from "react";
 import {useChatContext} from "@/components/Chat/context/ChatContext.tsx";
 import {Button, Flex, Input, message} from "antd";
+import {ChatActionType} from "@/constant";
 
 export const UserInput = () => {
     const [value, setValue] = useState<string>('');
-    const {onSelectedFile, onSend} = useChatContext();
+    const {onAction} = useChatContext();
 
     const handleSend = () => {
         if (value.trim().length > 0) {
-            onSend?.(value);
+            onAction(ChatActionType.SendMessage, {params: {value}});
             setValue('')
         } else {
             message.info('消息不能为空').then()

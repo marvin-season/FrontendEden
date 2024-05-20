@@ -5,7 +5,8 @@ export const ChatContext = createContext<ChatProps>({
     chatList: [],
     QuestionLayout: () => <></>,
     AnswerLayout: () => <></>,
-    ChatLayout: () => <></>
+    ChatLayout: () => <></>,
+    onAction: console.log
 })
 
 export const useChatContext = () => {

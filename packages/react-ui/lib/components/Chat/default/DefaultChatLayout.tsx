@@ -9,14 +9,14 @@ export const DefaultChatLayout: FC<Pick<ChatProps, 'QuestionLayout' | 'AnswerLay
            QuestionLayout,
            AnswerLayout
        }) => {
-    const {onReload} = useChatContext();
+    const {onAction} = useChatContext();
     return <div>
         <Flex>内置的布局</Flex>
         {
             chatList.map((chatItem, index) => {
                 return <div key={index}>
                     {QuestionLayout && <QuestionLayout questions={chatItem.questions}/>}
-                    {AnswerLayout && <AnswerLayout answers={chatItem.answers} onReload={onReload}/>}
+                    {AnswerLayout && <AnswerLayout answers={chatItem.answers} onAction={onAction}/>}
                 </div>
             })
         }

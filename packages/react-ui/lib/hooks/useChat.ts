@@ -3,7 +3,7 @@ import {useImmer} from "use-immer";
 import moment from "moment";
 import {ChatItem, ChatProps, IAnswer, ISendApi} from "@/types";
 import {useEffect, useState} from "react";
-import {ChatStatus} from "@/constant";
+import {ChatActionType, ChatStatus} from "@/constant";
 
 const format = 'YYYY-MM-DD HH:mm:ss';
 
@@ -71,11 +71,15 @@ export const useChat = (invokeHandle: { invoke: ISendApi, stop: Function }): Cha
 
     return {
         chatList,
-        onReload,
-        onSend,
-        onSelectedFile,
         status: chatStatus,
-        onStop
+        onAction: (actionType, actionParams) => {
+            if (actionType === ChatActionType.SendMessage) {
+                onSend(actionParams?.params.value);
+            } else if (actionType === ChatActionType.SelectFile) {
+            } else if (actionType === ChatActionType.StopGenerate) {
+                onStop();
+            }
+        }
     }
 
 }

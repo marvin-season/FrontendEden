@@ -1,8 +1,7 @@
-import {ReactElement} from "react";
 import {DefaultChatLayout} from "@/components/Chat/default/DefaultChatLayout.tsx";
 import {DefaultAnswerLayout} from "@/components/Chat/default/DefaultAnswerLayout.tsx";
 import {DefaultQuestionLayout} from "@/components/Chat/default/DefaultQuestionLayout.tsx";
-import {ChatStatus} from "@/constant";
+import {ChatActionType, ChatStatus} from "@/constant";
 
 export interface IBaseContent {
 
@@ -42,11 +41,7 @@ export type AnswerLayoutType<T extends typeof DefaultAnswerLayout> = T;
 
 export type QuestionLayoutType<T extends typeof DefaultQuestionLayout> = T;
 
-export type onReloadFunc = (answer: IAnswer) => void;
-
-export type renderAnswerPanelType = (answers: IAnswer[], onReload?: onReloadFunc) => ReactElement;
-
-export type renderQuestionPanelType = (question: IQuestion[]) => ReactElement;
+export type ChatActionParams = { params: Record<string, any> }
 
 export interface ChatProps {
     title?: string;
@@ -56,9 +51,9 @@ export interface ChatProps {
     AnswerLayout?: AnswerLayoutType<typeof DefaultAnswerLayout>;
     QuestionLayout?: QuestionLayoutType<typeof DefaultQuestionLayout>;
     ChatLayout?: ChatLayoutType<typeof DefaultChatLayout>;
-    onSend?: (value: string) => void;
-    onSelectedFile?: (files: FileList) => void;
-    onReload?: onReloadFunc,
+
+    // action
+    onAction: (actionType: ChatActionType, actionParams?: ChatActionParams) => void;
 }
 
 
