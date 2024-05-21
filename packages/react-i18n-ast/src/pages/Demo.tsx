@@ -1,17 +1,18 @@
-import {Input} from 'antd';
-
+import { useTranslation } from 'react-i18next';
+import { Input } from 'antd';
 export default function Demo() {
-    const name = '咕咕鸡';
-    const habit = '跑步';
-    const description = `${name} 是个boy`;
-    return (
-        <>
-            <h2>关于</h2>
+  const {
+    t
+  } = useTranslation();
+  const name = t("咕咕鸡");
+  const habit = t("跑步");
+  const description = `${name}${t("是个boy")}`;
+  return <>
+            <h2>{t("关于")}</h2>
             <p>
-                 {`我的名字：${name}`}, 我的兴趣： {habit + '网球'}
+                 {`${t("我的名字：")}${name}`}, {t("我的兴趣")}{habit + t("网球")}
             </p>
             <p>{description}</p>
-            <Input placeholder='请输入你的年龄'/>
-        </>
-    );
+            <Input placeholder={t("请输入你的年龄")} />
+        </>;
 }
