@@ -1,30 +1,113 @@
-# React + TypeScript + Vite
+# i18n
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
+## 安装依赖
+```json
+{
+  "devDependencies": {
+    "i18next": "^23.11.5",
+    "i18next-browser-languagedetector": "^8.0.0",
+    "i18next-http-backend": "^2.5.2",
+    "react-i18next": "^14.1.1",
+  }
 }
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+## 基本配置
+
+根目录下新增配置文件 i18n.ts
+```ts
+import i18n from 'i18next';
+import {initReactI18next} from 'react-i18next';
+import LanguageDetector from 'i18next-browser-languagedetector';
+import moment from "moment";
+import Backend from 'i18next-http-backend';
+
+i18n
+    .use(Backend)
+    // 检测用户当前使用的语言
+    // 文档: https://github.com/i18next/i18next-browser-languageDetector
+    .use(LanguageDetector)
+    // 注入 react-i18next 实例
+    .use(initReactI18next)
+    // 初始化 i18next
+    // 配置参数的文档: https://www.i18next.com/overview/configuration-options
+    .init({
+        debug: true,
+        fallbackLng: 'en',
+        interpolation: {
+            escapeValue: false,
+        }
+    });
+
+i18n.services.formatter?.add('DD/MM/YYYY', (value) => {
+    return moment(value).format('DD/MM/YYYY')
+})
+
+i18n.services.formatter?.add('YYYY-MM-DD', (value) => {
+    return moment(value).format('YYYY-MM-DD')
+})
+export default i18n;
+
+```
+
+## 使用
+
+```tsx
+import {useTranslation} from "react-i18next";
+
+const Demo = () => {
+    const { t } = useTranslation()
+    return <>
+        { t('你好') }
+    </>
+}
+```
+
+在public 目录下创建 locales/en/translation.json,locales/zh/translation.json (i18next-http-backend：约定的名称)
+
+**zh/translation.json**
+```json
+{
+  "你好": "hello"
+}
+
+```
+
+执行程序，可以看到映射结果
+
+
+## 语言切换
+```tsx
+const lngs: any = {
+    en: {nativeName: 'English'},
+    zh: {nativeName: '中文'}
+};
+
+<select onChange={(evt) => {
+    i18n.changeLanguage(evt.target.value).then()
+}}>
+    {Object.keys(lngs).map((lng) => (
+        <option key={lng} value={lng} label={lngs[lng].nativeName}
+                style={{fontWeight: i18n.resolvedLanguage === lng ? 'bold' : 'normal'}}/>
+    ))}
+</select>
+```
+
+
+## babel 自动化扫描生成 文件
+**依赖文件**
+
+```json
+{
+  "@babel/core": "^7.24.5",
+  "@babel/generator": "^7.24.5",
+  "@babel/parser": "^7.24.5",
+  "@babel/traverse": "^7.24.5",
+  "@babel/types": "^7.24.5",
+}
+
+```
+
+**编写脚本**
+
+[setup.babel.js](./setup.babel.js)
