@@ -10,11 +10,14 @@ const t = types;
 const generate = generator.default;
 const traverse = traverser.default;
 
+const chineseCollection = {
+    // 在遍历过程中会动态添加键值对
+};
 
 const srcPath = path.resolve('src/pages/Demo.tsx');
-
+const outputPath = "./public/locales/zh/translation.json"
 const includeSpace = v => /[\f\r\t\n\s]/.test(v);
-const includesChinese = v => /^[\u4e00-\u9fa5]+/g.test(v);
+const includesChinese = v => /[\u4e00-\u9fa5]+/g.test(v);
 const extractChinese = str => str.match(/[\u4e00-\u9fa5]+/g)
 
 const code = fs.readFileSync(srcPath, 'utf8');
@@ -41,12 +44,14 @@ traverse(ast, {
                 path.replaceWith(t.jsxExpressionContainer(t.stringLiteral(node.value)))
                 return
             } else {
-                path.replaceWithSourceString('t("' + node.value + '")')
+                const trimValue = node.value.trim()
+                console.log("🚀  StringLiteral", trimValue, node.value)
+                chineseCollection[trimValue] = trimValue
+                path.replaceWithSourceString('t("' + trimValue + '")')
             }
         }
         path.skip()
-    },
-    JSXText(path) {
+    }, JSXText(path) {
         const {node, parent} = path;
         const {value} = node;
         if (includesChinese(node.value)) {
@@ -69,8 +74,7 @@ traverse(ast, {
 
         }
         path.skip()
-    },
-    // 模版字符串
+    }, // 模版字符串
     TemplateLiteral: function (path) {
         const {node} = path;
         // expressions 表达式
@@ -87,53 +91,42 @@ traverse(ast, {
         let enCountExpressions = 0;
         quasis.forEach((node, index) => {
             const {
-                value: {raw},
-                tail,
+                value: {raw}, tail,
             } = node;
             if (!includesChinese(raw)) {
                 return;
             } else {
+                console.log("🚀  TemplateLiteral", raw)
                 let newCall = t.stringLiteral(raw);
                 expressions.splice(index + enCountExpressions, 0, newCall);
                 enCountExpressions++;
                 node.value = {
-                    raw: '',
-                    cooked: '',
+                    raw: '', cooked: '',
                 };
                 // 每增添一个表达式都需要变化原始节点,并新增下一个字符节点
-                quasis.push(
-                    t.templateElement(
-                        {
-                            raw: '',
-                            cooked: '',
-                        },
-                        false,
-                    ),
-                );
+                quasis.push(t.templateElement({
+                    raw: '', cooked: '',
+                }, false,),);
             }
         });
         quasis[quasis.length - 1].tail = true;
         return
-    },
-    ReturnStatement(path) {
+    }, ReturnStatement(path) {
         const {node, parent, parentPath} = path;
         const {body} = parent;
-        body.unshift(
-            babelParser.parse('const { t } = useTranslation()').program.body[0],
-        );
-    },
-    Program(path) {
+        body?.unshift(babelParser.parse('const { t } = useTranslation()').program.body[0],);
+    }, Program(path) {
         const {node} = path;
         const {body} = node;
 
-        body.unshift(babelParser.parse("import { useTranslation } from 'react-i18next'", {sourceType: 'module'}).program.body[0])
-    },
-    ImportDeclaration(path) {
+        body?.unshift(babelParser.parse("import { useTranslation } from 'react-i18next'", {sourceType: 'module'}).program.body[0])
+    }, ImportDeclaration(path) {
         const {node} = path;
         const {body} = node;
     }
 });
 
 const output = generate(ast);
-// fs.writeFileSync('Demo_.tsx', output.code);
+fs.writeFileSync(srcPath, output.code);
 console.log(output.code);
+fs.writeFileSync(outputPath, JSON.stringify(chineseCollection, null, 2), 'utf8');

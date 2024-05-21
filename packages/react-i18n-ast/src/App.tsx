@@ -1,5 +1,5 @@
-import {Trans, useTranslation} from 'react-i18next';
-import moment from "moment";
+import Demo from "./pages/Demo.tsx";
+import i18n from "i18next";
 
 const lngs: any = {
     en: {nativeName: 'English'},
@@ -7,7 +7,6 @@ const lngs: any = {
 };
 
 function App() {
-    const {t, i18n} = useTranslation();
     return (
         <div>
             <header>
@@ -20,23 +19,7 @@ function App() {
                     ))}
                 </select>
             </header>
-            <main>
-                <p>
-                    {t('welcome')}
-                </p>
-                <div>
-                    <Trans i18nKey="key1">
-                        = <span></span>
-                    </Trans>
-                </div>
-                <p>
-                    {t('currentTime', {time: moment().format('MM/DD/YYYY')})}
-                </p>
-
-                <Trans i18nKey="author">
-                    作者是: <span></span>
-                </Trans>
-            </main>
+            <Demo/>
         </div>
     );
 }

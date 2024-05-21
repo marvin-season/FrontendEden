@@ -1,6 +1,10 @@
 {
-  "welcome": "welcome to my website",
-  "author": "Author is：<1>code</1>",
-  "currentTime": "currentTime {{time, DD/MM/YYYY}}",
-  "key1": "key1-value"
+  "咕咕鸡": "gugu ji",
+  "跑步": "run",
+  "是个boy": "is A boy",
+  "关于": "About",
+  "网球": "net ball",
+  "我的名字：": "my name",
+  "我的兴趣": "hobby",
+  "请输入你的年龄": "please input your age"
 }

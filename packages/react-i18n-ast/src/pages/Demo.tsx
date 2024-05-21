@@ -8,7 +8,7 @@ export default function Demo() {
         <>
             <h2>关于</h2>
             <p>
-                我的名字： {name}, 我的兴趣： {habit + '网球'}
+                 {`我的名字：${name}`}, 我的兴趣： {habit + '网球'}
             </p>
             <p>{description}</p>
             <Input placeholder='请输入你的年龄'/>
