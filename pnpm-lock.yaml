@@ -163,9 +163,6 @@ importers:
 
   packages/react-i18n-ast:
     dependencies:
-      i18next-http-backend:
-        specifier: ^2.5.2
-        version: 2.5.2
       react:
         specifier: ^18.2.0
         version: 18.2.0
@@ -218,6 +215,9 @@ importers:
       i18next-browser-languagedetector:
         specifier: ^8.0.0
         version: 8.0.0
+      i18next-http-backend:
+        specifier: ^2.5.2
+        version: 2.5.2
       react-i18next:
         specifier: ^14.1.1
         version: 14.1.1(i18next@23.11.5)(react-dom@18.2.0)(react@18.2.0)
@@ -5791,7 +5791,7 @@ packages:
       node-fetch: 2.7.0
     transitivePeerDependencies:
       - encoding
-    dev: false
+    dev: true
 
   /cross-spawn@7.0.3:
     resolution: {integrity: sha512-iRDPJKUPVEND7dHPO8rkbOnPpyDygcDFtWjpeWNCgy8WP2rXcxXL8TskReQl6OrB2G7+UJrags1q15Fudc7G6w==}
@@ -7909,7 +7909,7 @@ packages:
       cross-fetch: 4.0.0
     transitivePeerDependencies:
       - encoding
-    dev: false
+    dev: true
 
   /i18next@23.11.5:
     resolution: {integrity: sha512-41pvpVbW9rhZPk5xjCX2TPJi2861LEig/YRhUkY+1FQ2IQPS0bKUDYnEqY8XPPbB48h1uIwLnP9iiEfuSl20CA==}
@@ -10368,7 +10368,7 @@ packages:
         optional: true
     dependencies:
       whatwg-url: 5.0.0
-    dev: false
+    dev: true
 
   /node-gyp-build@4.8.0:
     resolution: {integrity: sha512-u6fs2AEUljNho3EYTJNBfImO5QTo/J/1Etd+NVdCj7qWKUSN/bSLkZwhDv7I+w/MSC6qJ4cknepkAYykDdK8og==}
