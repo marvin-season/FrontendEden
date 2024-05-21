@@ -1,0 +1,6 @@
+{
+  "welcome": "welcome to my website",
+  "author": "Author is：<1>code</1>",
+  "currentTime": "currentTime {{time, DD/MM/YYYY}}",
+  "key1": "key1-value"
+}

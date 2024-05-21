@@ -1,35 +1,44 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import {Trans, useTranslation} from 'react-i18next';
+import moment from "moment";
+
+const lngs: any = {
+    en: {nativeName: 'English'},
+    zh: {nativeName: '中文'}
+};
 
 function App() {
-  const [count, setCount] = useState(0)
+    const {t, i18n} = useTranslation();
+    return (
+        <div>
+            <header>
+                <select onChange={(evt) => {
+                    i18n.changeLanguage(evt.target.value).then()
+                }}>
+                    {Object.keys(lngs).map((lng) => (
+                        <option key={lng} value={lng} label={lngs[lng].nativeName}
+                                style={{fontWeight: i18n.resolvedLanguage === lng ? 'bold' : 'normal'}}/>
+                    ))}
+                </select>
+            </header>
+            <main>
+                <p>
+                    {t('welcome')}
+                </p>
+                <div>
+                    <Trans i18nKey="key1">
+                        = <span></span>
+                    </Trans>
+                </div>
+                <p>
+                    {t('currentTime', {time: moment().format('MM/DD/YYYY')})}
+                </p>
 
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+                <Trans i18nKey="author">
+                    作者是: <span></span>
+                </Trans>
+            </main>
+        </div>
+    );
 }
 
-export default App
+export default App;
