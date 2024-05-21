@@ -2,8 +2,6 @@ import fs from 'fs';
 import path from 'path';
 import XLSX from 'xlsx';
 
-console.log("🚀  ", XLSX)
-
 // 定义输入 XLSX 文件路径和输出 JSON 文件路径
 const inputFilePath = path.resolve('./public/locales/zh/translation.xlsx');
 const outputJsonFilePath = path.resolve('./public/locales/zh/output.json');
