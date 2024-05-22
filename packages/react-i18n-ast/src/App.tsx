@@ -1,5 +1,6 @@
 import Demo from "./pages/Demo.tsx";
 import i18n from "i18next";
+import {Page1} from "./pages/Page1.tsx";
 
 const lngs: any = {
     en: {nativeName: 'English'},
@@ -20,6 +21,7 @@ function App() {
                 </select>
             </header>
             <Demo/>
+            <Page1/>
         </div>
     );
 }

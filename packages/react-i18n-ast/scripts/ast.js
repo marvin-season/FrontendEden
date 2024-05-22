@@ -5,6 +5,8 @@ import types from '@babel/types';
 import fs from 'fs';
 import path from 'path';
 
+const args = process.argv.slice(2);
+
 const t = types;
 
 const generate = generator.default;
@@ -14,8 +16,8 @@ const chineseCollection = {
     // 在遍历过程中会动态添加键值对
 };
 
-const srcPath = path.resolve('src/pages/Demo.tsx');
-const outputPath = "./public/locales/zh/translation.json"
+const srcPath = path.resolve(args[0] || 'src/pages/Demo.tsx');
+const outputPath = path.resolve(args[1] || "public/locales/zh/translation.json")
 const includeSpace = v => /[\f\r\t\n\s]/.test(v);
 const includesChinese = v => /[\u4e00-\u9fa5]+/g.test(v);
 const extractChinese = str => str.match(/[\u4e00-\u9fa5]+/g)
@@ -127,6 +129,6 @@ traverse(ast, {
 });
 
 const output = generate(ast);
-fs.writeFileSync(srcPath, output.code);
-console.log(output.code);
+// fs.writeFileSync(srcPath, output.code);
 fs.writeFileSync(outputPath, JSON.stringify(chineseCollection, null, 2), 'utf8');
+console.log(output.code);
