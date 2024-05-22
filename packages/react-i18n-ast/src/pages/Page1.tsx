@@ -1,9 +1,9 @@
-import {name} from '../utils'
-
 export const Page1 = () => {
-    const address = "武汉";
+    const ele = <>
+        {'hi'}
+    </>
+
     return <>
-        {name}
-        {address}
+        {ele}
     </>
 }

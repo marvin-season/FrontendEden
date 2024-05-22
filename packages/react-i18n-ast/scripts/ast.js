@@ -27,7 +27,11 @@ const code = fs.readFileSync(srcPath, 'utf8');
 let ast = babelParser.parse(code, {
     sourceType: 'module', // default: "script"
     plugins: ['typescript', 'jsx'],
+    ranges: false,
+    loc: false,
+    tokens: false
 });
+fs.writeFileSync("./ast.json", JSON.stringify(ast, null, 2));
 
 // fs.writeFileSync('./demo.ast.json', JSON.stringify(ast, null, 2));
 
@@ -127,8 +131,7 @@ traverse(ast, {
         const {body} = node;
     }
 });
-
-const output = generate(ast);
+// const output = generate(ast);
 // fs.writeFileSync(srcPath, output.code);
-fs.writeFileSync(outputPath, JSON.stringify(chineseCollection, null, 2), 'utf8');
-console.log(output.code);
+// fs.writeFileSync(outputPath, JSON.stringify(chineseCollection, null, 2), 'utf8');
+// console.log(output.code);
