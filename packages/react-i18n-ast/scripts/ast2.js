@@ -91,15 +91,24 @@ traverse(ast, {
     },
     TemplateLiteral: function (path) {
         const {node} = path;
-        const {expressions, spaceStr} = node;
-
+        // expressions 表达式
+        // quasis 表示表达式中的间隙字符串, 每个表达式中间都必须有quasis, 同时首尾也必须是quasis,其中末尾元素需要是tail = true
+        // 其中 quasis: {
+        //    value: 值, 如果为‘’,一般表示给表达式的占位符
+        //     tail: 是否为末尾
+        // }
+        const {expressions, quasis} = node;
+        // todo 获取所有quasis中value 不为空和数字的, 如果不为末尾,记录前面有几个''
+        // 生成函数, 插入expressions数组中, 修改quasis节点value为空
+        // 如果字符串为最后一个节点,还需要生成一个空白的节点
+        let hasTail = false;
         let enCountExpressions = 0;
-        spaceStr.forEach((node, index) => {
+        quasis.forEach((node, index) => {
             const {
                 value: {raw}, tail,
             } = node;
             if (!includesChinese(raw)) {
-
+                return;
             } else {
                 console.log("🚀  TemplateLiteral", raw)
                 let newCall = t.stringLiteral(raw);
@@ -109,12 +118,13 @@ traverse(ast, {
                     raw: '', cooked: '',
                 };
                 // 每增添一个表达式都需要变化原始节点,并新增下一个字符节点
-                spaceStr.push(t.templateElement({
+                quasis.push(t.templateElement({
                     raw: '', cooked: '',
                 }, false,),);
             }
         });
-        spaceStr[spaceStr.length - 1].tail = true;
+        quasis[quasis.length - 1].tail = true;
+        return
     },
     ReturnStatement(path) {
         const {parent, node} = path

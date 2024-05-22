@@ -1,1 +1,1 @@
-node ./ast2.js ../src/pages/Page2.tsx ../src/pages/Page2.json
+node ./ast2.js ../src/pages/Page3.tsx ../src/pages/Page3.json
