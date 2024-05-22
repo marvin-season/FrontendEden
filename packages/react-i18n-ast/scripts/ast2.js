@@ -35,7 +35,6 @@ let ast = babelParser.parse(code, {
 traverse(ast, {
     StringLiteral(path) {
         const {parent, node} = path;
-        debugger
         if (includesChinese(node.value)) {
             if (t.isJSXAttribute(parent)) {
                 // path.skip()
@@ -58,6 +57,25 @@ traverse(ast, {
             }
         });
     },
+    JSXText(path) {
+        const {node, parent} = path;
+        const {value} = node;
+        if (includesChinese(node.value)) {
+            if (!includeSpace(node.value)) {
+                path.replaceWith(t.jsxExpressionContainer(t.stringLiteral(node.value)))
+            } else {
+                const newAstNode = []
+                let chineseArr = extractChinese(node.value)
+                chineseArr.forEach(str => {
+                    let preIndex = node.value.indexOf(str)
+                    newAstNode.push(t.jSXText(node.value.slice(0, preIndex)))
+                    newAstNode.push(t.jsxExpressionContainer(t.stringLiteral(str)))
+                })
+                path.replaceWithMultiple(newAstNode)
+            }
+        }
+        path.skip()
+    },
     Identifier(path) {
         const {parent, node} = path;
         if (t.isJSXExpressionContainer(parent)) {
@@ -71,6 +89,33 @@ traverse(ast, {
         }
         path.skip()
     },
+    TemplateLiteral: function (path) {
+        const {node} = path;
+        const {expressions, spaceStr} = node;
+
+        let enCountExpressions = 0;
+        spaceStr.forEach((node, index) => {
+            const {
+                value: {raw}, tail,
+            } = node;
+            if (!includesChinese(raw)) {
+
+            } else {
+                console.log("🚀  TemplateLiteral", raw)
+                let newCall = t.stringLiteral(raw);
+                expressions.splice(index + enCountExpressions, 0, newCall);
+                enCountExpressions++;
+                node.value = {
+                    raw: '', cooked: '',
+                };
+                // 每增添一个表达式都需要变化原始节点,并新增下一个字符节点
+                spaceStr.push(t.templateElement({
+                    raw: '', cooked: '',
+                }, false,),);
+            }
+        });
+        spaceStr[spaceStr.length - 1].tail = true;
+    },
     ReturnStatement(path) {
         const {parent, node} = path
         parent?.body?.unshift(babelParser.parse('const { t } = useTranslation()').program.body[0]);
@@ -80,6 +125,7 @@ traverse(ast, {
         node?.body?.unshift(babelParser.parse("import { useTranslation } from 'react-i18next'", {sourceType: 'module'}).program.body[0])
     }
 });
+
 const output = generate(ast);
 fs.writeFileSync(srcPath, output.code);
 fs.writeFileSync(outputPath, JSON.stringify(chineseCollection, null, 2), 'utf8');
