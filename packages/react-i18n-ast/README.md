@@ -93,6 +93,8 @@ const lngs: any = {
 </select>
 ```
 
+# AST
+[AST详见这里](./AST_i18n.md)
 
 ## babel 自动化扫描生成 文件
 **依赖文件**
