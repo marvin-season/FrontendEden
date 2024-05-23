@@ -47,7 +47,17 @@ i18n 是 "internationalization"（国际化）的简写，其中 "i" 和 "n" 之
 
 
 项目发展后期，代码文件众多，手动加入i18n是一个纯体力活，能不能使用ast，将源代码转为AST，并对特征节点进行修改，然后反编译生成目标代码（嵌入i18n功能的代码）?
+## AST解析所需依赖文件
+```json
+{
+  "@babel/core": "^7.24.5",
+  "@babel/generator": "^7.24.5",
+  "@babel/parser": "^7.24.5",
+  "@babel/traverse": "^7.24.5",
+  "@babel/types": "^7.24.5",
+}
 
+```
 ## 一个AST的例子
 
 ### 源码

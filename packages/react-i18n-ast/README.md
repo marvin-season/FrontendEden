@@ -95,21 +95,3 @@ const lngs: any = {
 
 # AST
 [AST详见这里](./AST_i18n.md)
-
-## babel 自动化扫描生成 文件
-**依赖文件**
-
-```json
-{
-  "@babel/core": "^7.24.5",
-  "@babel/generator": "^7.24.5",
-  "@babel/parser": "^7.24.5",
-  "@babel/traverse": "^7.24.5",
-  "@babel/types": "^7.24.5",
-}
-
-```
-
-**编写脚本**
-
-[setup.babel.js](./setup.babel.js)
