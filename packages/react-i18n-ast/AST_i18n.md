@@ -112,19 +112,19 @@ return <>...</>
 
 **总揽**，其中**JSXText** 在这里是换行字符
 
-![image-20240522140408261](/Users/marvin010528/Documents/AST_i18n.assets/image-20240522140408261.png)
+![image-20240522140408261](./public/assets/image-20240522140408261.png)
 
 **{ address }**
 
-![image-20240522140544049](/Users/marvin010528/Documents/AST_i18n.assets/image-20240522140544049.png)
+![image-20240522140544049](./public/assets/image-20240522140544049.png)
 
 **{'东湖'}**
 
-![image-20240522141517120](/Users/marvin010528/Documents/AST_i18n.assets/image-20240522141517120.png)
+![image-20240522141517120](./public/assets/image-20240522141517120.png)
 
 **{ renderFn }**
 
-![image-20240522140712782](/Users/marvin010528/Documents/AST_i18n.assets/image-20240522140712782.png)
+![image-20240522140712782](./public/assets/image-20240522140712782.png)
 
 那么对于**标签**呢？
 
@@ -134,7 +134,7 @@ return <>...</>
 </div>
 ```
 
-![image-20240522141638019](/Users/marvin010528/Documents/AST_i18n.assets/image-20240522141638019.png)
+![image-20240522141638019](./public/assets/image-20240522141638019.png)
 
 
 
