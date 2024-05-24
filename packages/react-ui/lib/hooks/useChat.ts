@@ -11,7 +11,7 @@ export const useChat = (invokeHandle: { invoke: ISendApi, stop: Function }): Cha
     const [chatList, setChatList] = useImmer<ChatItem[]>([]);
     const [chatStatus, setChatStatus] = useState<ChatProps['status']>(ChatStatus.Idle)
 
-    const sendMessage = (params: {}) => {
+    const sendMessage = (params: { value: string }) => {
         invokeHandle.invoke(params, (message) => {
             setChatList(draft => {
                 const lastChatItem = draft.at(-1);
@@ -39,7 +39,7 @@ export const useChat = (invokeHandle: { invoke: ISendApi, stop: Function }): Cha
         }
     }
     const onReload = (answer: IAnswer) => {
-        sendMessage(answer);
+        sendMessage({...answer, value: ''});
     }
     const onSend = (value: string) => {
         setChatStatus(ChatStatus.Loading);

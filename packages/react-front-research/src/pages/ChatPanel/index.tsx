@@ -2,8 +2,6 @@ import {FC, useCallback} from "react";
 import {Chat, Types, useChat} from "@root/react-ui";
 import {Flex, Typography} from "antd";
 import {getStream} from "@/pages/ChatPanel/mock/readable_mock.ts";
-import {stringToObjectTransformer} from "@/pages/ChatPanel/CustomTransformStream.ts";
-const stringTrans = new TransformStream(stringToObjectTransformer)
 
 const ChatPanel: FC = () => {
 
@@ -28,19 +26,24 @@ const ChatPanel: FC = () => {
     }, [])
 
     const chatProps = useChat({
-        invoke: async (params, onData, onFinish) => {
-            console.log("🚀  ", 'invoke')
-            const reader = getStream().pipeThrough(stringTrans).getReader();
-
-            while (true) {
-                const {done, value} = await reader.read();
-                if (done) {
+        invoke: (params, onData, onFinish) => {
+            getStream(params.value)
+                .pipeThrough(new TransformStream({
+                    transform(chunk, controller) {
+                        const data = JSON.parse(chunk)
+                        controller.enqueue(data)
+                    },
+                }))
+                .pipeTo(new WritableStream({
+                    write(chunk) {
+                        onData(chunk)
+                    },
+                }))
+                .then(() => {
                     onFinish?.()
-                    break
-                } else onData({...value, createTime: ''})
-            }
-        }, stop: () => {
-            console.log("🚀  stop",)
+                })
+        },
+        stop: () => {
         }
     });
 

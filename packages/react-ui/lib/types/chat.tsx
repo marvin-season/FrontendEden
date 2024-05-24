@@ -55,8 +55,8 @@ export interface ChatProps {
 }
 
 
-export type ISendApi = <T = {}>(
-    params: T,
+export type ISendApi = (
+    params: { value: string, [_: string]: any },
     onData: (message: IMessage) => void,
     onFinish?: (message?: IMessage) => void,
 ) => void;
