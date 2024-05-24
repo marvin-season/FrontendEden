@@ -7,7 +7,7 @@ export const getStream = <T>(data = 'may i help you') => new ReadableStream<T>({
     pull: async (controller) => {
         console.log("🚀  pull",)
         for (const value of data) {
-            await sleep(1000)
+            await sleep(100)
             controller.enqueue(JSON.stringify({
                 id: 1,
                 content: value
@@ -19,7 +19,7 @@ export const getStream = <T>(data = 'may i help you') => new ReadableStream<T>({
 
 })
 
-export const composeStream = <T>(stream: ReadableStream<string>, onData: (data: T) => void, onFinish?: (data?: T) => void) => {
+export const composeStream = <T>(stream: ReadableStream<string>, onMessage: (message: T) => void, onFinish?: (message?: T) => void) => {
     stream
         .pipeThrough(new TransformStream({
             transform(chunk, controller) {
@@ -28,9 +28,7 @@ export const composeStream = <T>(stream: ReadableStream<string>, onData: (data: 
             },
         }))
         .pipeTo(new WritableStream({
-            write(chunk) {
-                onData(chunk)
-            },
+            write: onMessage
         }))
         .then(() => {
             onFinish?.()

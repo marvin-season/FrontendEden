@@ -5,8 +5,8 @@ import {composeStream, getStream} from "@/pages/ChatPanel/mock/readable_mock.ts"
 const ChatPanel: FC = () => {
 
     const chatProps = useChat({
-        invoke: (params, onData, onFinish) => {
-            composeStream<Types.IMessage>(getStream<string>(params.value), onData, onFinish)
+        invoke: (params, onMessage, onFinish) => {
+            composeStream<Types.IMessage>(getStream<string>(params.value), onMessage, onFinish)
         },
         stop: () => {
         }
