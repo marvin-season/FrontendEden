@@ -21,6 +21,6 @@ export const getStream = () => new CustomReadableStream<{ content: string, id: s
 ], async (controller, data) => {
     for (const value of data) {
         await sleep(50)
-        controller.enqueue(value);
+        controller.enqueue(JSON.stringify(value));
     }
 })
