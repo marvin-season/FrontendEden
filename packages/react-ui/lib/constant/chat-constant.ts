@@ -13,3 +13,8 @@ export enum ChatActionType {
     SelectFile,
     StopGenerate
 }
+export enum MessageType {
+    Normal,
+    Loading,
+    Error
+}

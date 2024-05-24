@@ -3,7 +3,7 @@ import {useImmer} from "use-immer";
 import moment from "moment";
 import {ChatItem, ChatProps, IAnswer, ISendApi} from "@/types";
 import {useEffect, useState} from "react";
-import {ChatActionType, ChatStatus} from "@/constant";
+import {ChatActionType, ChatStatus, MessageType} from "@/constant";
 
 const format = 'YYYY-MM-DD HH:mm:ss';
 
@@ -12,6 +12,26 @@ export const useChat = (invokeHandle: { invoke: ISendApi, stop: Function }): Cha
     const [chatStatus, setChatStatus] = useState<ChatProps['status']>(ChatStatus.Idle)
 
     const sendMessage = (params: { value: string }) => {
+        setChatStatus(ChatStatus.Loading);
+        setChatList(draft => {
+            draft.push({
+                questions: [
+                    {
+                        id: nanoid(),
+                        content: params.value,
+                        createTime: moment().format(format),
+                    }
+                ],
+                answers: [
+                    {
+                        id: nanoid(),
+                        content: '',
+                        createTime: moment().format(format),
+                        type: MessageType.Loading
+                    }
+                ]
+            })
+        })
         invokeHandle.invoke(params, (message) => {
             setChatList(draft => {
                 const lastChatItem = draft.at(-1);
@@ -27,6 +47,14 @@ export const useChat = (invokeHandle: { invoke: ISendApi, stop: Function }): Cha
             })
         }, () => {
             setChatStatus(ChatStatus.Idle);
+        }).then(() => {
+            console.log("🚀 会话建立，消息生成中");
+            setChatList(draft => {
+                const chatItem = draft.at(-1);
+                if (chatItem) {
+                    chatItem.answers = chatItem.answers.filter(item => item.type != MessageType.Loading)
+                }
+            })
         })
     }
 
@@ -42,19 +70,6 @@ export const useChat = (invokeHandle: { invoke: ISendApi, stop: Function }): Cha
         sendMessage({...answer, value: ''});
     }
     const onSend = (value: string) => {
-        setChatStatus(ChatStatus.Loading);
-        setChatList(draft => {
-            draft.push({
-                questions: [
-                    {
-                        id: nanoid(),
-                        content: value,
-                        createTime: moment().format(format),
-                    }
-                ],
-                answers: []
-            })
-        })
         sendMessage({value})
     }
 

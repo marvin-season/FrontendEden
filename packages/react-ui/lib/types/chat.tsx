@@ -1,7 +1,7 @@
 import {DefaultChatLayout} from "@/components/Chat/default/DefaultChatLayout.tsx";
 import {DefaultAnswerLayout} from "@/components/Chat/default/DefaultAnswerLayout.tsx";
 import {DefaultQuestionLayout} from "@/components/Chat/default/DefaultQuestionLayout.tsx";
-import {ChatActionType, ChatStatus} from "@/constant";
+import {ChatActionType, ChatStatus, MessageType} from "@/constant";
 
 export interface IBaseContent {
 
@@ -19,6 +19,7 @@ export interface IMessage {
     id: string,
     content: string | IBaseContent,
     createTime: string,
+    type?: MessageType
 }
 
 
@@ -59,6 +60,6 @@ export type ISendApi = (
     params: { value: string, [_: string]: any },
     onMessage: (message: IMessage) => void,
     onFinish?: (message?: IMessage) => void,
-) => void;
+) => Promise<void>;
 
 
