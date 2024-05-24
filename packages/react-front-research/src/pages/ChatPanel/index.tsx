@@ -27,7 +27,7 @@ const ChatPanel: FC = () => {
 
     const chatProps = useChat({
         invoke: (params, onData, onFinish) => {
-            getStream(params.value)
+            getStream<string>(params.value)
                 .pipeThrough(new TransformStream({
                     transform(chunk, controller) {
                         const data = JSON.parse(chunk)
