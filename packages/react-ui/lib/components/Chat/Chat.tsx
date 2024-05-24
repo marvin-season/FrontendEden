@@ -1,7 +1,7 @@
 import React, {FC} from "react";
 import {ChatProps} from "@/types/chat.tsx";
 import {ChatContext} from "./context/ChatContext.tsx";
-import {Button, Flex} from "antd";
+import {Button, Flex, Divider} from "antd";
 import {DefaultQuestionLayout} from "@/components/Chat/default/DefaultQuestionLayout.tsx";
 import {DefaultChatLayout} from "@/components/Chat/default/DefaultChatLayout.tsx";
 import {UserInput} from "@/components/Chat/default/UserInput.tsx";
@@ -36,7 +36,7 @@ export const Chat: FC<ChatProps> =
                     </div>
                     }
                 </Flex>
-                LOGO
+                <Divider></Divider>
                 <UserInput/>
             </Flex>
         </ChatContext.Provider>

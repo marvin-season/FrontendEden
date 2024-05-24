@@ -63,7 +63,9 @@ export const useChat = (invokeHandle: { invoke: ISendApi, stop: Function }): Cha
             const file = files[index]
             if (file) {
                 const url = URL.createObjectURL(file);
+                console.log("🚀  ", url)
             }
+
         }
     }
     const onReload = (answer: IAnswer) => {
@@ -92,6 +94,7 @@ export const useChat = (invokeHandle: { invoke: ISendApi, stop: Function }): Cha
             if (actionType === ChatActionType.SendMessage) {
                 onSend(actionParams.value);
             } else if (actionType === ChatActionType.SelectFile) {
+                onSelectedFile(actionParams.files);
             } else if (actionType === ChatActionType.StopGenerate) {
                 onStop();
             } else if (actionType === ChatActionType.ReloadMessage) {

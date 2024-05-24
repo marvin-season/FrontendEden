@@ -2,6 +2,8 @@ import React, {useState} from "react";
 import {useChatContext} from "@/components/Chat/context/ChatContext.tsx";
 import {Button, Flex, Input, message} from "antd";
 import {ChatActionType} from "@/constant";
+import {UploadOutlined} from "@ant-design/icons";
+import {FileSelector} from "@/components/Chat/default/FileSelector.tsx";
 
 export const UserInput = () => {
     const [value, setValue] = useState<string>('');
@@ -16,7 +18,11 @@ export const UserInput = () => {
         }
     }
     return <Flex align={"center"} gap={6}>
-        {/*<FileSelector onChange={onSelectedFile}><UploadOutlined className={'text-xl text-cyan-700'}/></FileSelector>*/}
+        <FileSelector
+            onChange={(files) => {
+                onAction(ChatActionType.SelectFile, {files})
+            }}><UploadOutlined className={'text-xl text-cyan-700'}/>
+        </FileSelector>
         <Input
             value={value}
             onKeyUp={e => {
