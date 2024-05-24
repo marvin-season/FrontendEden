@@ -18,3 +18,21 @@ export const getStream = <T>(data = 'may i help you') => new ReadableStream<T>({
     cancel: console.log,
 
 })
+
+export const composeStream = <T>(stream: ReadableStream<string>, onData: (data: T) => void, onFinish?: (data?: T) => void) => {
+    stream
+        .pipeThrough(new TransformStream({
+            transform(chunk, controller) {
+                const data = JSON.parse(chunk)
+                controller.enqueue(data)
+            },
+        }))
+        .pipeTo(new WritableStream({
+            write(chunk) {
+                onData(chunk)
+            },
+        }))
+        .then(() => {
+            onFinish?.()
+        })
+}

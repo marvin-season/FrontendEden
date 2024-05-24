@@ -1,7 +1,7 @@
 import {FC, useCallback} from "react";
 import {Chat, Types, useChat} from "@root/react-ui";
 import {Flex, Typography} from "antd";
-import {getStream} from "@/pages/ChatPanel/mock/readable_mock.ts";
+import {composeStream, getStream} from "@/pages/ChatPanel/mock/readable_mock.ts";
 
 const ChatPanel: FC = () => {
 
@@ -27,21 +27,7 @@ const ChatPanel: FC = () => {
 
     const chatProps = useChat({
         invoke: (params, onData, onFinish) => {
-            getStream<string>(params.value)
-                .pipeThrough(new TransformStream({
-                    transform(chunk, controller) {
-                        const data = JSON.parse(chunk)
-                        controller.enqueue(data)
-                    },
-                }))
-                .pipeTo(new WritableStream({
-                    write(chunk) {
-                        onData(chunk)
-                    },
-                }))
-                .then(() => {
-                    onFinish?.()
-                })
+            composeStream<Types.IMessage>(getStream<string>(params.value), onData, onFinish)
         },
         stop: () => {
         }
