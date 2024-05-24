@@ -1,12 +1,8 @@
 export class CustomReadableStream<T> extends ReadableStream<T> {
-    constructor(data: T, generator?: (controller: ReadableStreamDefaultController, data: T) => void) {
+    constructor(data: T[], generator: (controller: ReadableStreamDefaultController, data: T[]) => Promise<void>) {
         super({
-            start(controller) {
-                if (generator) {
-                    generator(controller, data);
-                } else {
-                    controller.enqueue(data);
-                }
+            async start(controller) {
+                await generator(controller, data);
                 controller.close();
             }
         });
