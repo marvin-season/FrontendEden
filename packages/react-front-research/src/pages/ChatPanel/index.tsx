@@ -1,14 +1,14 @@
 import {FC} from "react";
-import {Chat, Types, useChat} from "@marvin/react-ai";
-import {composeStream, getStream} from "@/pages/ChatPanel/mock/readable_mock.ts";
-import {sleep} from "@marvin/shared";
+import {Chat, useChat} from "@marvin/react-ai";
+import {composeStream, getStream} from "@/pages/ChatPanel/mock/azure-mock.ts";
+
 
 const ChatPanel: FC = () => {
 
     const chatProps = useChat({
         invoke: async (params, onMessage, onFinish) => {
-            await sleep(3000);
-            composeStream<Types.IMessage>(getStream<string>(params.value), onMessage, onFinish)
+            const stream = await getStream();
+            stream && composeStream(stream, onMessage, onFinish)
         },
         stop: () => {
         }
