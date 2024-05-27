@@ -1,5 +1,5 @@
 import {FC} from "react";
-import {Chat, Types, useChat} from "../../../../react-ai";
+import {Chat, Types, useChat} from "@marvin/react-ai";
 import {composeStream, getStream} from "@/pages/ChatPanel/mock/readable_mock.ts";
 import {sleep} from "@marvin/shared";
 
