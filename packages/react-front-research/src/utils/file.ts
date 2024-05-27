@@ -1,4 +1,4 @@
-import {sleep, StreamParser} from "@root/shared";
+import {sleep, StreamParser} from "@marvin/shared";
 
 export function readLines(filePath: string, callback: (data: any) => void) {
     const fetchStreamParser = new StreamParser();

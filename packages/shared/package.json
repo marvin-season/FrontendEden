@@ -1,5 +1,5 @@
 {
-  "name": "@root/shared",
+  "name": "@marvin/shared",
   "private": true,
   "version": "1.0.0",
   "type": "module",

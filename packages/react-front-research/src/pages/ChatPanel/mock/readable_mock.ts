@@ -1,4 +1,4 @@
-import {sleep} from "@root/shared";
+import {sleep} from "@marvin/shared";
 
 export const getStream = <T>(data = 'may i help you') => new ReadableStream<T>({
     start: () => {

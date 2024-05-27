@@ -1,6 +1,6 @@
 import './index.css'
 import {useState} from "react";
-import {Button} from "@root/react-ui";
+import {Button} from "@marvin/react-ui";
 
 const ScrollPanel = () => {
     const [count, setCount] = useState(0)

@@ -1,6 +1,6 @@
 import {MockRequestType, MockResponseType} from "@/type";
 import {request} from "@/utils/service.ts";
-import {sleep} from "@root/shared";
+import {sleep} from "@marvin/shared";
 
 export const exampleApi = async (params: MockRequestType): Promise<MockResponseType> => {
     const res = await fetch('/api/example/mock');

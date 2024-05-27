@@ -1,10 +1,10 @@
 {
-  "name": "root",
+  "name": "marvin",
   "private": true,
   "workspaces": [],
   "scripts": {
-    "dev": "pnpm --filter @root/react-front-research --filter @root/shared --filter @root/react-ui --parallel dev",
-    "dev_lerna": "lerna run --scope @root/react-front-research --scope @root/react-ui --parallel dev",
+    "dev": "pnpm --filter @marvin/react-front-research --filter @marvin/shared --filter @marvin/react-ui --parallel dev",
+    "dev_lerna": "lerna run --scope @marvin/react-front-research --scope @marvin/react-ui --parallel dev",
     "build": "tsc && vite build",
     "preview": "vite preview"
   },

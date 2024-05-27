@@ -1,7 +1,7 @@
 import {FC} from "react";
-import {Chat, Types, useChat} from "@root/react-ui";
+import {Chat, Types, useChat} from "@marvin/react-ui";
 import {composeStream, getStream} from "@/pages/ChatPanel/mock/readable_mock.ts";
-import {sleep} from "@root/shared";
+import {sleep} from "@marvin/shared";
 
 const ChatPanel: FC = () => {
 
