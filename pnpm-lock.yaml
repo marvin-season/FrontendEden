@@ -73,14 +73,75 @@ importers:
 
   packages/js-based: {}
 
+  packages/react-ai:
+    dependencies:
+      react:
+        specifier: ^18.2.0
+        version: 18.2.0
+      react-dom:
+        specifier: ^18.2.0
+        version: 18.2.0(react@18.2.0)
+    devDependencies:
+      '@ant-design/icons':
+        specifier: ^5.3.5
+        version: 5.3.5(react-dom@18.2.0)(react@18.2.0)
+      '@types/react':
+        specifier: ^18.2.66
+        version: 18.3.2
+      '@types/react-dom':
+        specifier: ^18.2.22
+        version: 18.3.0
+      '@typescript-eslint/eslint-plugin':
+        specifier: ^7.2.0
+        version: 7.3.1(@typescript-eslint/parser@7.3.1)(eslint@8.57.0)(typescript@5.4.3)
+      '@typescript-eslint/parser':
+        specifier: ^7.2.0
+        version: 7.3.1(eslint@8.57.0)(typescript@5.4.3)
+      '@uiw/react-markdown-preview':
+        specifier: ^4.1.13
+        version: 4.2.2(@types/react@18.3.2)(react-dom@18.2.0)(react@18.2.0)
+      '@vitejs/plugin-react':
+        specifier: ^4.2.1
+        version: 4.2.1(vite@5.2.6)
+      antd:
+        specifier: ^5.15.4
+        version: 5.15.4(moment@2.30.1)(react-dom@18.2.0)(react@18.2.0)
+      eslint:
+        specifier: ^8.57.0
+        version: 8.57.0
+      eslint-plugin-react-hooks:
+        specifier: ^4.6.0
+        version: 4.6.0(eslint@8.57.0)
+      eslint-plugin-react-refresh:
+        specifier: ^0.4.6
+        version: 0.4.7(eslint@8.57.0)
+      glob:
+        specifier: ^10.3.15
+        version: 10.3.15
+      typescript:
+        specifier: ^5.2.2
+        version: 5.4.3
+      use-immer:
+        specifier: ^0.9.0
+        version: 0.9.0(immer@10.0.4)(react@18.2.0)
+      vite:
+        specifier: ^5.2.0
+        version: 5.2.6(@types/node@20.11.30)(sass@1.72.0)
+      vite-plugin-dts:
+        specifier: ^2.2.0
+        version: 2.3.0(vite@5.2.6)
+      vite-plugin-lib-inject-css:
+        specifier: ^2.1.1
+        version: 2.1.1(vite@5.2.6)
+
   packages/react-front-research:
     dependencies:
       '@ant-design/icons':
         specifier: ^5.3.5
         version: 5.3.5(react-dom@18.2.0)(react@18.2.0)
-      '@marvin/react-ui':
+      '@marvin/react-ai':
         specifier: workspace:^1.0.0
-        version: link:../react-ui
+        version: link:../react-ai
       '@marvin/shared':
         specifier: workspace:^1.0.0
         version: link:../shared
@@ -285,67 +346,6 @@ importers:
       vite:
         specifier: ^5.1.4
         version: 5.1.4(@types/node@20.11.22)
-
-  packages/react-ui:
-    dependencies:
-      react:
-        specifier: ^18.2.0
-        version: 18.2.0
-      react-dom:
-        specifier: ^18.2.0
-        version: 18.2.0(react@18.2.0)
-    devDependencies:
-      '@ant-design/icons':
-        specifier: ^5.3.5
-        version: 5.3.5(react-dom@18.2.0)(react@18.2.0)
-      '@types/react':
-        specifier: ^18.2.66
-        version: 18.3.2
-      '@types/react-dom':
-        specifier: ^18.2.22
-        version: 18.3.0
-      '@typescript-eslint/eslint-plugin':
-        specifier: ^7.2.0
-        version: 7.3.1(@typescript-eslint/parser@7.3.1)(eslint@8.57.0)(typescript@5.4.3)
-      '@typescript-eslint/parser':
-        specifier: ^7.2.0
-        version: 7.3.1(eslint@8.57.0)(typescript@5.4.3)
-      '@uiw/react-markdown-preview':
-        specifier: ^4.1.13
-        version: 4.2.2(@types/react@18.3.2)(react-dom@18.2.0)(react@18.2.0)
-      '@vitejs/plugin-react':
-        specifier: ^4.2.1
-        version: 4.2.1(vite@5.2.6)
-      antd:
-        specifier: ^5.15.4
-        version: 5.15.4(moment@2.30.1)(react-dom@18.2.0)(react@18.2.0)
-      eslint:
-        specifier: ^8.57.0
-        version: 8.57.0
-      eslint-plugin-react-hooks:
-        specifier: ^4.6.0
-        version: 4.6.0(eslint@8.57.0)
-      eslint-plugin-react-refresh:
-        specifier: ^0.4.6
-        version: 0.4.7(eslint@8.57.0)
-      glob:
-        specifier: ^10.3.15
-        version: 10.3.15
-      typescript:
-        specifier: ^5.2.2
-        version: 5.4.3
-      use-immer:
-        specifier: ^0.9.0
-        version: 0.9.0(immer@10.0.4)(react@18.2.0)
-      vite:
-        specifier: ^5.2.0
-        version: 5.2.6(@types/node@20.11.30)(sass@1.72.0)
-      vite-plugin-dts:
-        specifier: ^2.2.0
-        version: 2.3.0(vite@5.2.6)
-      vite-plugin-lib-inject-css:
-        specifier: ^2.1.1
-        version: 2.1.1(vite@5.2.6)
 
   packages/shared:
     devDependencies:
@@ -3522,7 +3522,7 @@ packages:
   /@types/react-dom@18.2.19:
     resolution: {integrity: sha512-aZvQL6uUbIJpjZk4U8JZGbau9KDeAwMfmhyWorxgBkqDIEf6ROjRozcmPIicqsUwPUjbkDfHKgGee1Lq65APcA==}
     dependencies:
-      '@types/react': 18.2.61
+      '@types/react': 18.3.2
     dev: true
 
   /@types/react-dom@18.3.0:
@@ -4322,7 +4322,7 @@ packages:
   /@vitest/snapshot@1.4.0:
     resolution: {integrity: sha512-saAFnt5pPIA5qDGxOHxJ/XxhMFKkUSBJmVt5VgDsAqPTX6JP326r5C/c9UuCMPoXNzuudTPsYDZCoJ5ilpqG2A==}
     dependencies:
-      magic-string: 0.30.8
+      magic-string: 0.30.10
       pathe: 1.1.2
       pretty-format: 29.7.0
     dev: true
@@ -7320,6 +7320,7 @@ packages:
 
   /glob@7.1.4:
     resolution: {integrity: sha512-hkLPepehmnKk41pUGm3sYxoFs/umurYfYJCerbXEyFIWcAzvpipAgVkBqqT9RBKMGjnq6kMuyYwha6csxbiM1A==}
+    deprecated: Glob versions prior to v9 are no longer supported
     dependencies:
       fs.realpath: 1.0.0
       inflight: 1.0.6
@@ -7331,6 +7332,7 @@ packages:
 
   /glob@7.2.3:
     resolution: {integrity: sha512-nFR0zLpU2YCaRxwoCJvL6UvCH2JFyFVIvwTLsIf21AuHlMskA1hhTdk+LlYJtOlYt9v6dvszD2BGRqBL+iQK9Q==}
+    deprecated: Glob versions prior to v9 are no longer supported
     dependencies:
       fs.realpath: 1.0.0
       inflight: 1.0.6
@@ -7342,6 +7344,7 @@ packages:
   /glob@8.1.0:
     resolution: {integrity: sha512-r8hpEjiQEYlF2QU0df3dS+nxxSIreXQS1qRhMJM0Q5NDdR386C7jb7Hwwod8Fgiuex+k0GFjgft18yvxm5XoCQ==}
     engines: {node: '>=12'}
+    deprecated: Glob versions prior to v9 are no longer supported
     dependencies:
       fs.realpath: 1.0.0
       inflight: 1.0.6
@@ -7357,7 +7360,7 @@ packages:
       fs.realpath: 1.0.0
       minimatch: 8.0.4
       minipass: 4.2.8
-      path-scurry: 1.10.1
+      path-scurry: 1.11.1
     dev: true
 
   /globals@11.12.0:
@@ -11053,14 +11056,6 @@ packages:
 
   /path-parse@1.0.7:
     resolution: {integrity: sha512-LDJzPVEEEPR+y48z93A0Ed0yXb8pAByGWo/k5YYdYgpY2/2EsOsksJrq7lOHxryrVOn1ejG6oAp8ahvOIQD8sw==}
-    dev: true
-
-  /path-scurry@1.10.1:
-    resolution: {integrity: sha512-MkhCqzzBEpPvxxQ71Md0b1Kk51W01lrYvlMzSUaIzNsODdd7mqhiimSZlr+VegAz5Z6Vzt9Xg2ttE//XBhH3EQ==}
-    engines: {node: '>=16 || 14 >=14.17'}
-    dependencies:
-      lru-cache: 10.2.0
-      minipass: 7.0.4
     dev: true
 
   /path-scurry@1.11.1:
