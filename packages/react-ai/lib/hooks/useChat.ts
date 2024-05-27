@@ -12,7 +12,7 @@ export const useChat = (invokeHandle: { invoke: IInvoke, stop: Function }): Chat
     const [chatStatus, setChatStatus] = useState<ChatProps['status']>(ChatStatus.Idle);
 
     // 发送消息任务(可能包含异步操作)
-    const sendTask = async (params: any) => {
+    const executeSendTask = async (params: any) => {
         setChatStatus(ChatStatus.Loading);
         setChatList(draft => {
             draft.push({
@@ -36,7 +36,7 @@ export const useChat = (invokeHandle: { invoke: IInvoke, stop: Function }): Chat
     }
 
     // 接收消息任务(可能包含异步操作)
-    const receiveTask = async (params: any) => {
+    const executeReceiveTask = async (params: any) => {
         await invokeHandle.invoke(params, (message) => {
             setChatList(draft => {
                 const lastChatItem = draft.at(-1);
@@ -64,8 +64,8 @@ export const useChat = (invokeHandle: { invoke: IInvoke, stop: Function }): Chat
     }
 
     const sendMessage = async (params: { value: string }) => {
-        await sendTask(params);
-        await receiveTask(params);
+        await executeSendTask(params);
+        await executeReceiveTask(params);
         return '消息发送成功'
     }
 
@@ -88,6 +88,8 @@ export const useChat = (invokeHandle: { invoke: IInvoke, stop: Function }): Chat
     useEffect(() => {
         return () => {
             invokeHandle.stop();
+            setChatList([]);
+            setChatStatus(ChatStatus.Idle);
         }
     }, []);
 
