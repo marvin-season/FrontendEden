@@ -1,17 +1,18 @@
 import {nanoid} from "nanoid";
 import {useImmer} from "use-immer";
 import moment from "moment";
-import {ChatItem, ChatProps, IAnswer, ISendApi} from "@/types";
+import {ChatItem, ChatProps, IInvoke} from "@/types";
 import {useEffect, useState} from "react";
 import {ChatActionType, ChatStatus, MessageType} from "@/constant";
 
 const format = 'YYYY-MM-DD HH:mm:ss';
 
-export const useChat = (invokeHandle: { invoke: ISendApi, stop: Function }): ChatProps => {
+export const useChat = (invokeHandle: { invoke: IInvoke, stop: Function }): ChatProps => {
     const [chatList, setChatList] = useImmer<ChatItem[]>([]);
-    const [chatStatus, setChatStatus] = useState<ChatProps['status']>(ChatStatus.Idle)
+    const [chatStatus, setChatStatus] = useState<ChatProps['status']>(ChatStatus.Idle);
 
-    const sendMessage = (params: { value: string }) => {
+    // 发送消息任务(可能包含异步操作)
+    const sendTask = async (params: any) => {
         setChatStatus(ChatStatus.Loading);
         setChatList(draft => {
             draft.push({
@@ -32,7 +33,11 @@ export const useChat = (invokeHandle: { invoke: ISendApi, stop: Function }): Cha
                 ]
             })
         })
-        invokeHandle.invoke(params, (message) => {
+    }
+
+    // 接收消息任务(可能包含异步操作)
+    const receiveTask = async (params: any) => {
+        await invokeHandle.invoke(params, (message) => {
             setChatList(draft => {
                 const lastChatItem = draft.at(-1);
                 if (lastChatItem) {
@@ -47,15 +52,21 @@ export const useChat = (invokeHandle: { invoke: ISendApi, stop: Function }): Cha
             })
         }, () => {
             setChatStatus(ChatStatus.Idle);
-        }).then(() => {
-            console.log("🚀 会话建立，消息生成中");
-            setChatList(draft => {
-                const chatItem = draft.at(-1);
-                if (chatItem) {
-                    chatItem.answers = chatItem.answers.filter(item => item.type != MessageType.Loading)
-                }
-            })
         })
+
+        console.log("🚀 会话建立，消息生成中");
+        setChatList(draft => {
+            const chatItem = draft.at(-1);
+            if (chatItem) {
+                chatItem.answers = chatItem.answers.filter(item => item.type != MessageType.Loading)
+            }
+        })
+    }
+
+    const sendMessage = async (params: { value: string }) => {
+        await sendTask(params);
+        await receiveTask(params);
+        return '消息发送成功'
     }
 
     const onSelectedFile = (files: FileList) => {
@@ -67,12 +78,6 @@ export const useChat = (invokeHandle: { invoke: ISendApi, stop: Function }): Cha
             }
 
         }
-    }
-    const onReload = (answer: IAnswer) => {
-        sendMessage({...answer, value: ''});
-    }
-    const onSend = (value: string) => {
-        sendMessage({value})
     }
 
     const onStop = () => {
@@ -92,13 +97,13 @@ export const useChat = (invokeHandle: { invoke: ISendApi, stop: Function }): Cha
         onAction: (actionType, actionParams) => {
             console.log("🚀  ", actionType, actionParams);
             if (actionType === ChatActionType.SendMessage) {
-                onSend(actionParams.value);
+                sendMessage({value: actionParams.value}).then(console.log)
             } else if (actionType === ChatActionType.SelectFile) {
                 onSelectedFile(actionParams.files);
             } else if (actionType === ChatActionType.StopGenerate) {
                 onStop();
             } else if (actionType === ChatActionType.ReloadMessage) {
-                onReload(actionParams.answer);
+                sendMessage({...actionParams.answer, value: actionParams.answer.content}).then(console.log);
             }
         }
     }

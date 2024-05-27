@@ -56,7 +56,7 @@ export interface ChatProps {
 }
 
 
-export type ISendApi = (
+export type IInvoke = (
     params: { value: string, [_: string]: any },
     onMessage: (message: IMessage) => void,
     onFinish?: (message?: IMessage) => void,
