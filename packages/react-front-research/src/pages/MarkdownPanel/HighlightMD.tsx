@@ -36,17 +36,7 @@ const mdText =
     "\n" +
     "**调用示例**"
 
-const pText = "**调用示例**\n" +
-    "\n" +
-    "```python\n" +
-    "from smartvision.pipline.pipline_process import pipeline\n" +
-    "video_path = ['/data/video/demo.mp4']\n" +
-    "func = pipeline(task=\"split-video\")\n" +
-    "print(func(video_path))\n" +
-    "```\n" +
-    "\n" +
-    "### text-to-image\n" +
-    "**介绍**\n"
+const pText = mdText
 
 export const HighlightMD = () => {
     const [source, setSource] = useState<string>('');
@@ -59,7 +49,7 @@ export const HighlightMD = () => {
 
     useEffect(() => {
         console.log("🚀  startIndex, endIndex", startIndex, endIndex);
-        if (startIndex != endIndex) {
+        if (false && startIndex != endIndex) {
             let isCodeFrame = false;
             const finalText = mdArr.map((text, index) => {
                 if (index >= startIndex && index < endIndex) {
@@ -88,7 +78,7 @@ export const HighlightMD = () => {
     return <>
         <MarkdownPreview source={source} components={{
             table: (props, context) => {
-                // console.log("🚀  table", props, context)
+                console.log("🚀  table", props, context)
                 return <table>{props.children}</table>
             }
         }}/>
