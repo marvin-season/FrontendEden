@@ -1,9 +1,6 @@
-import React, {useEffect} from "react";
+import React from "react";
 
 function App() {
-    useEffect(() => {
-        fetch('https://demo.com/user').then()
-    }, []);
     return (
         <>
         </>
