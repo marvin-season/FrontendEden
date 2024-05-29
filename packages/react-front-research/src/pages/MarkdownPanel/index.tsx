@@ -2,6 +2,7 @@ import {Tabs, TabsProps} from "antd";
 
 import {EditableMD} from './EditableMD.tsx'
 import {HighlightMD} from './HighlightMD.tsx'
+import {HLMarked} from "@/pages/MarkdownPanel/HLMarked.tsx";
 
 const items: TabsProps['items'] = [
     {
@@ -17,7 +18,7 @@ const items: TabsProps['items'] = [
     {
         key: '3',
         label: 'Tab 3',
-        children: 'Content of Tab Pane 3',
+        children: <HLMarked/>,
     },
 ];
 const MarkdownPanel = () => {
