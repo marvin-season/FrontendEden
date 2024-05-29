@@ -23,7 +23,7 @@ const items: TabsProps['items'] = [
 ];
 const MarkdownPanel = () => {
     return <>
-        <Tabs items={items}>
+        <Tabs defaultActiveKey={'3'} items={items}>
         </Tabs>
     </>
 }
