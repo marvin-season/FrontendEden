@@ -93,7 +93,7 @@ const getRender = () => {
     } as RendererObject
 
 }
-const r = '入参为视频或音频\n输出为台词内容\n以及起止时间段的'
+const r = '入参为视频或音频输出为台词内容以及起止时间段的'
 export const HLMarked = () => {
     const [s, setS] = useState('## 输出为台词内容？')
     console.log("🚀  r.length, s.length", r.length, s.length)
@@ -114,7 +114,7 @@ export const HLMarked = () => {
         parse();
     }, [startIndex, endIndex]);
 
-    return <Flex>
+    return <Flex style={{whiteSpace: "pre"}}>
         <button onClick={event => {
             setS('### text-to-image');
             renderIndex = 0;
