@@ -16,24 +16,44 @@ const marked = new Marked(
         }
     })
 );
+const getIntersection = (array1: [number, number], array2: [number, number]) => {
+    console.log("🚀  ", array1, array2);
+    // 获取每个数组的最小值和最大值
+    const min1 = Math.min(...array1);
+    const max1 = Math.max(...array1);
+    const min2 = Math.min(...array2);
+    const max2 = Math.max(...array2);
+
+    // 计算交集范围
+    const minIntersection = Math.max(min1, min2);
+    const maxIntersection = Math.min(max1, max2);
+
+    // 检查是否存在交集范围
+    if (minIntersection <= maxIntersection) {
+        console.log(`交集范围: [${minIntersection}, ${maxIntersection}]`);
+        return [minIntersection, maxIntersection]
+    } else {
+        console.log('没有交集范围');
+        return [-1, -1]
+    }
+}
 
 const doPlugins = (startIndex: number, endIndex: number) => marked.use({
     renderer: {
         text(text: string): string {
             console.log("🚀  text", text, startIndex, endIndex)
             renderIndex += text.length;
-            if (isInRange(renderIndex - text.length, startIndex, endIndex)) {
-                return `<mark>${text}</mark>`;
+            const [start, end] = getIntersection([renderIndex - text.length, renderIndex], [startIndex, endIndex]);
+
+            if (start < end) {
+                const mark = `<mark>${text.substring(start, end)}</mark>`;
+                return text.substring(0, start) + mark + text.substring(end);
             }
             return text;
         }
     },
 });
 
-
-const isInRange = (index: number, startIndex: number, endIndex: number) => {
-    return index >= startIndex && index < endIndex
-}
 
 const getRender = () => {
     return {
@@ -73,21 +93,10 @@ const getRender = () => {
     } as RendererObject
 
 }
-const r = '### text-to-image\n' +
-    '**介绍**\n' +
-    '\n' +
-    '## 我们支持哪些任务？\n' +
-    '\n' +
-    '### split-video\n' +
-    '\n' +
-    '**介绍**\n' +
-    '\n' +
-    '入参为视频或音频，输出为台词内容以及起止时间段的json schema\n' +
-    '\n' +
-    '**参数列表**'
-
+const r = '入参为视频或音频\n输出为台词内容\n以及起止时间段的'
 export const HLMarked = () => {
-    const [s, setS] = useState('入参为视频或音频，输出为台词内容以及起止时间段的json schema\n')
+    const [s, setS] = useState('## 输出为台词内容？')
+    console.log("🚀  r.length, s.length", r.length, s.length)
 
     const [html_, setHtml_] = useState('')
     const [startIndex, endIndex] = useHighlightInfoMD(r, s);
