@@ -11,7 +11,7 @@ const marked = new Marked(
         }
     })
 );
-const range = [0, 2];
+const range = [0, 10];
 let renderIndex = 0;
 
 const isInRange = (index: number, startIndex: number, endIndex: number) => {
@@ -55,16 +55,17 @@ const getRender = () => {
             });
         },
         code(text: string, infostring: string): string {
-            return getCoreFunc({
-                text,
-                type: "code",
-                raw: infostring,
-                result: `<pre><code class="hljs language-${infostring}">${text}</code></pre>`
+            const code = `<code class="hljs language-${infostring}">${text}</code>`;
 
-            });
+            renderIndex += text.length;
+            if (isInRange(renderIndex - text.length, range[0], range[1])) {
+                return `<pre style="border: #4f0 1px solid">${code}</pre>`;
+            }
+            return `<pre>${code}</pre>`;
         },
         codespan(text: string): string {
-            return `<span class="aaa">${text}</span>`;
+            console.log("🚀 codespan ", text)
+            return `<span class="">${text}</span>`;
         }
 
 
@@ -79,15 +80,26 @@ marked.use({
 
 const r = marked.parse('**调用示例**\n' +
     '\n' +
-    '```python\n' +
-    'from smartvision.pipline.pipline_process import pipeline\n' +
-    'video_path = [\'/data/video/demo.mp4\']\n' +
-    'func = pipeline(task="split-video")\n' +
-    'print(func(video_path))\n' +
-    '```\n' +
+    '```js\n' +
+    'const useHighlightInfoMD = (mdArr: string[], t: string) => {\n' +
+    '    const pText = t.replace(regex, "");\n' +
+    '    const pTextArr = t.split(textSplitRegex);\n' +
+    '    console.log("🚀  mdArr pTextArr", {mdArr, pTextArr})\n' +
     '\n' +
-    '### text-to-image\n' +
-    '**介绍**');
+    '    let mdEndIndex = 0;\n' +
+    '    let accText = "";\n' +
+    '    // left => right\n' +
+    '    while (mdEndIndex < mdArr.length) {\n' +
+    '        const text = mdArr[mdEndIndex];\n' +
+    '        accText += text.replace(regex, "");\n' +
+    '        const index = accText.indexOf(pText);\n' +
+    '        if (pText.length > 0 && index > -1) {\n' +
+    '            return [mdEndIndex - pTextArr.length + 1, mdEndIndex + 1]\n' +
+    '        }\n' +
+    '        mdEndIndex += 1;\n' +
+    '    }\n' +
+    '    return [0, 0]\n' +
+    '}\n');
 
 
 console.log("🚀  result", r);
@@ -95,7 +107,6 @@ console.log("🚀  result", r);
 export const HLMarked = () => {
 
     return <>
-        <iframe srcDoc={r as string}></iframe>
-        {/*<div dangerouslySetInnerHTML={{__html: r}}></div>*/}
+        <div style={{background: "#fff", padding: "20px"}} dangerouslySetInnerHTML={{__html: r}}></div>
     </>
 }
