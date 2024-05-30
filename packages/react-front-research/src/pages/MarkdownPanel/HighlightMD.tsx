@@ -86,7 +86,7 @@ export const HighlightMD = () => {
 }
 
 
-const useHighlightInfoMD = (mdArr: string[], t: string) => {
+export const useHighlightInfoMD = (mdArr: string[], t: string) => {
     const pText = t.replace(regex, "");
     const pTextArr = t.split(textSplitRegex);
     console.log("🚀  mdArr pTextArr", {mdArr, pTextArr})
