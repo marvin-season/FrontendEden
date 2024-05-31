@@ -19,14 +19,15 @@ pnpm add ts-node  typescript @types/node --save-dev
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "outDir": "./dist"
+    "outDir": "./dist",
+    "moduleResolution": "NodeNext"
   },
   "include": ["src"],
   "exclude": ["node_modules"],
   "ts-node": {
     "transpileOnly": true,
     "compilerOptions": {
-      "module": "commonjs"
+      "module": "NodeNext"
     }
   }
 }
@@ -46,7 +47,7 @@ pnpm add ts-node  typescript @types/node --save-dev
 ```json
 {
   "type": "module",
-  "module": "commonjs"
+  "module": "commonjs",
   "dev": "ts-node src/index.ts"
 }
 ```
