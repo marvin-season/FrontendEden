@@ -1,23 +1,57 @@
 <!doctype html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <title>Contents</title>
-        <meta content="width=device-width, initial-scale=1" name="viewport">
-    </head>
-    <body>
-        <h1 id="hello-world">Hello World</h1>
-        <h2 id="table-of-content">Table of Content</h2>
-        <ul>
-            <li><a href="#install">Install</a></li>
-            <li><a href="#use">Use</a></li>
-            <li><a href="#license">License</a></li>
-        </ul>
-        <h2 id="install">Install</h2>
-        <p>A <strong>example</strong>.</p>
-        <h2 id="use">Use</h2>
-        <p>More <code>text</code>.</p>
-        <h2 id="license">License</h2>
-        <p>MIT</p>
-    </body>
+  <head>
+    <meta charset="utf-8">
+    <title>example</title>
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+  </head>
+  <body>
+    <style>
+          table {
+            border-collapse: collapse;
+            width: 100%;
+          }
+          th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+          }
+        </style>
+    <h1>Hello World</h1>
+    <p><strong>参数列表</strong></p>
+    <table>
+      <thead>
+        <tr>
+          <th>pipline args</th>
+          <th>required</th>
+          <th>type</th>
+          <th>remarks</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>task</td>
+          <td>true</td>
+          <td>str</td>
+          <td>任务名称</td>
+        </tr>
+        <tr>
+          <td>model</td>
+          <td>false</td>
+          <td>str</td>
+          <td>模型本地地址或仓库地址（用户名/仓库名称）</td>
+        </tr>
+        <tr>
+          <td>device</td>
+          <td>false</td>
+          <td>str</td>
+          <td>cpu / gpu</td>
+        </tr>
+      </tbody>
+    </table>
+    <p><span style="color: green">Hi</span></p>
+    <p>A <strong>example</strong>.</p>
+    <h4>Use</h4>
+    <p>More <code>text</code>.</p>
+  </body>
 </html>
