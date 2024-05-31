@@ -5,7 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "dev": "ts-node-esm src/index.ts"
+    "dev": "ts-node-esm src/ast/index.ts"
   },
   "keywords": [],
   "author": "",

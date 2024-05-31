@@ -1,15 +1,11 @@
-import type {Literal, Node, Parent} from 'unist'
+import {unified} from 'unified'
+import remarkParse from 'remark-parse'
+import remarkRehype from 'remark-rehype'
+import rehypeStringify from 'rehype-stringify'
+import {stream} from "unified-stream";
 
-const node: Node = {
-    data: undefined, position: undefined, type: ""
-
-}
-const literal: Literal = {
-    data: undefined, position: undefined, type: "", value: undefined
-
-}
-
-const parent: Parent = {
-    children: [],
-    type: ""
-}
+const processor = unified()
+    .use(remarkParse)
+    .use(remarkRehype)
+    .use(rehypeStringify)
+console.log("🚀  ", String(processor.processSync('# hello')))
