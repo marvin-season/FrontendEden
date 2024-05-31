@@ -5,12 +5,14 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "ts-node-esm src/index.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/hast": "^3.0.4",
+    "@types/mdast": "^4.0.4",
     "rehype-document": "^7.0.3",
     "rehype-format": "^5.0.0",
     "rehype-remark": "^10.0.0",
@@ -23,8 +25,14 @@
     "retext-english": "^5.0.0",
     "retext-indefinite-article": "^5.0.0",
     "to-vfile": "^8.0.0",
+    "ts-node": "^10.9.2",
     "unified": "^11.0.4",
     "unified-stream": "^3.0.0",
     "vfile-reporter": "^8.1.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.12.13",
+    "@types/unist": "^3.0.2",
+    "typescript": "^5.4.5"
   }
 }
