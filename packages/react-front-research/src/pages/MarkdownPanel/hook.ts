@@ -2,7 +2,12 @@ const regex = /[^\u4e00-\u9fa5a-zA-Z0-9]/g;
 const textSplitRegex = /\n+/;
 const headerRegex = /^(#{0,5})\s*(.+)$/gm;
 
-export const useHighlightInfoMD = (raw: string, search: string) => {
+// 获取高亮位置的算法存在问题（不精准）
+
+export const useHighlightInfoMD = (raw: string, search: string, isMock = true) => {
+    if (isMock) {
+            return [0, 1]
+    }
 
     const getRawIndexRange = (startArrIndex: number, endArrIndex: number) => {
         let startIndex = 0, endIndex = 0;
