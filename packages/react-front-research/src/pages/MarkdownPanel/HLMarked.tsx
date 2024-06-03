@@ -55,44 +55,6 @@ const doPlugins = (startIndex: number, endIndex: number) => marked.use({
 });
 
 
-const getRender = () => {
-    return {
-        // heading(text: string, level: number, raw: string): string {
-        //     console.log("🚀  heading", text)
-        //     return `<h${level}>${text}</h${level}>`
-        // },
-        // paragraph(text: string): string {
-        //     console.log("🚀  paragraph", text)
-        //     return `<p>${text}</p>`
-        // },
-        // strong(text: string): string {
-        //     console.log("🚀  strong", text)
-        //     return `<strong>${text}</strong>`
-        // },
-        // code(text: string, infostring: string): string {
-        //     const code = `<code class="hljs language-${infostring}">${text}</code>`;
-        //
-        //     if (isInRange(renderIndex - text.length, range[0], range[1])) {
-        //         return `<pre style="border: #4f0 1px solid">${code}</pre>`;
-        //     }
-        //     return `<pre>${code}</pre>`;
-        // },
-        // codespan(text: string): string {
-        //     console.log("🚀 codespan ", text)
-        //     return `<span class="">${text}</span>`;
-        // },
-        // text(text: string): string {
-        //     console.log("🚀  text", text)
-        //     renderIndex += text.length;
-        //     if (isInRange(renderIndex - text.length, range[0], range[1])) {
-        //         return `<mark>${text}</mark>`;
-        //     }
-        //     return text;
-        // }
-
-    } as RendererObject
-
-}
 const convertToArray = (str: string) => {
     return str.split('').map((str, index) => {
         return {
