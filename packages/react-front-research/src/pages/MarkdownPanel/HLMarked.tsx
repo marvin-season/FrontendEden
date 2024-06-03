@@ -1,9 +1,9 @@
-import {Marked, RendererObject} from "marked";
+import {Marked} from "marked";
 import {markedHighlight} from "marked-highlight";
 import hljs from 'highlight.js';
 import {Flex} from "antd";
 import {useEffect, useMemo, useState} from "react";
-import {useHighlightInfo} from "@/pages/MarkdownPanel/hook.ts";
+import {regex, useHighlightInfo} from "@/pages/MarkdownPanel/hook.ts";
 
 let renderIndex = 0;
 
@@ -41,14 +41,19 @@ const getIntersection = (array1: [number, number], array2: [number, number]) => 
 const doPlugins = (startIndex: number, endIndex: number) => marked.use({
     renderer: {
         text(text: string): string {
-            console.log("🚀  text", text, startIndex, endIndex)
-            renderIndex += text.length;
+            console.log("🚀  text", text, startIndex, endIndex);
+            const len = text.replace(regex, '').length
+            renderIndex += len;
             const [start, end] = getIntersection([renderIndex - text.length, renderIndex], [startIndex, endIndex]);
-
+            console.log("🚀  ", start - renderIndex + text.length, end - renderIndex + text.length);
+            const relativeStartIndex = start - renderIndex + len;
+            const relativeEndIndex = end - renderIndex + len;
             if (start < end) {
-                const mark = `<mark>${text.substring(start, end)}</mark>`;
-                return text.substring(0, start) + mark + text.substring(end);
+                const mark = `<mark>${text.substring(relativeStartIndex, relativeEndIndex)}</mark>`;
+                text = text.substring(0, relativeStartIndex) + mark + text.substring(relativeEndIndex);
             }
+
+            console.log("🚀  ", text)
             return text;
         }
     },
@@ -63,9 +68,10 @@ const convertToArray = (str: string) => {
         }
     })
 }
-const r = '入参为视频或音频输出\n为.台词内容以及起止时间段的'
+const r =
+    '\n入参为视频或音频'
 export const HLMarked = () => {
-    const [s, setS] = useState('频输出\n为台词内')
+    const [s, setS] = useState('或音频')
     console.log("🚀  r.length, s.length", r.length, s.length)
 
     const [html_, setHtml_] = useState('')
@@ -84,6 +90,7 @@ export const HLMarked = () => {
     }, [s]);
 
     useEffect(() => {
+        return
         highlight(rawArray, searchArray).then(([startIndex, endIndex]) => {
             console.log("🚀  ", startIndex, endIndex)
             if (startIndex != endIndex) {
@@ -96,10 +103,19 @@ export const HLMarked = () => {
 
     }, [rawArray, searchArray]);
 
-    return <Flex style={{whiteSpace: "pre"}}>
+    return <Flex style={{whiteSpace: "none"}}>
         <button onClick={event => {
-            setS('入参为视频或音频输出\n为.台词内容以及起');
-            renderIndex = 0;
+            // setS('入参为视频或音频输出\n为.台词内容以及起');
+            // renderIndex = 0;
+            highlight(rawArray, searchArray).then(([startIndex, endIndex]) => {
+                console.log("🚀  ", startIndex, endIndex)
+                if (startIndex != endIndex) {
+                    doPlugins(startIndex, endIndex);
+                }
+                parse();
+            }).catch(() => {
+                parse();
+            })
         }}>b
         </button>
         <div style={{background: "#fff", padding: "20px"}} dangerouslySetInnerHTML={{__html: html_}}></div>
