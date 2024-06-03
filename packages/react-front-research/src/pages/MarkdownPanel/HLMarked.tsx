@@ -44,15 +44,13 @@ const doPlugins = (startIndex: number, endIndex: number) => marked.use({
             const len = text.replace(regex, '').length;
             renderIndex += len;
             const [start, end] = getIntersection([renderIndex - len, renderIndex], [startIndex, endIndex]);
-            console.log("🚀  ", start - renderIndex + len, end - renderIndex + len);
-            const relativeStartIndex = start - renderIndex + len;
-            const relativeEndIndex = end - renderIndex + len;
+
             if (start < end) {
+                const relativeStartIndex = start - renderIndex + len;
+                const relativeEndIndex = end - renderIndex + len;
                 const mark = `<mark>${text.substring(relativeStartIndex, relativeEndIndex)}</mark>`;
                 text = text.substring(0, relativeStartIndex) + mark + text.substring(relativeEndIndex);
             }
-
-            console.log("🚀  ", text)
             return text;
         }
     },
