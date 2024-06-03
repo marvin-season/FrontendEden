@@ -90,7 +90,6 @@ export const HLMarked = () => {
     }, [s]);
 
     useEffect(() => {
-        return
         highlight(rawArray, searchArray).then(([startIndex, endIndex]) => {
             if (startIndex != endIndex) {
                 doPlugins(startIndex, endIndex);
@@ -104,17 +103,17 @@ export const HLMarked = () => {
 
     return <Flex style={{whiteSpace: "none"}}>
         <button onClick={event => {
-            // setS('入参为视频或音频输出\n为.台词内容以及起');
-            // renderIndex = 0;
-            highlight(rawArray, searchArray).then(([startIndex, endIndex]) => {
-                console.log("🚀  ", startIndex, endIndex)
-                if (startIndex != endIndex) {
-                    doPlugins(startIndex, endIndex);
-                }
-                parse();
-            }).catch(() => {
-                parse();
-            })
+            setS('视频或音频');
+            renderIndex = 0;
+            // highlight(rawArray, searchArray).then(([startIndex, endIndex]) => {
+            //     console.log("🚀  ", startIndex, endIndex)
+            //     if (startIndex != endIndex) {
+            //         doPlugins(startIndex, endIndex);
+            //     }
+            //     parse();
+            // }).catch(() => {
+            //     parse();
+            // })
         }}>b
         </button>
         <div style={{background: "#fff", padding: "20px"}} dangerouslySetInnerHTML={{__html: html_}}></div>
