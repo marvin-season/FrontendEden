@@ -17,7 +17,6 @@ const marked = new Marked(
     })
 );
 const getIntersection = (array1: [number, number], array2: [number, number]) => {
-    console.log("🚀  ", array1, array2);
     // 获取每个数组的最小值和最大值
     const min1 = Math.min(...array1);
     const max1 = Math.max(...array1);
@@ -30,10 +29,9 @@ const getIntersection = (array1: [number, number], array2: [number, number]) => 
 
     // 检查是否存在交集范围
     if (minIntersection <= maxIntersection) {
-        console.log(`交集范围: [${minIntersection}, ${maxIntersection}]`);
+        console.log(`交集范围: [${minIntersection}, ${maxIntersection})`);
         return [minIntersection, maxIntersection]
     } else {
-        console.log('没有交集范围');
         return [-1, -1]
     }
 }
@@ -44,16 +42,16 @@ const doPlugins = (startIndex: number, endIndex: number) => marked.use({
             console.log("🚀 text ", text)
             const len = text.replace(regex, '').length;
             renderIndex += len;
-            const [start, end] = getIntersection([renderIndex - len, renderIndex], [startIndex, endIndex]);
+            const [offsetStart, offsetEnd] = getIntersection([renderIndex - len, renderIndex], [startIndex, endIndex]);
 
-            if (start < end) {
+            if (offsetStart < offsetEnd) {
                 // 真子集，不用切分
-                if (start >= startIndex && end <= endIndex) {
+                if (offsetStart >= startIndex && offsetEnd <= endIndex) {
                     return `<span style="color: blueviolet">${text}</span>`
                 }
 
-                const relativeStartIndex = start - renderIndex + len;
-                const relativeEndIndex = end - renderIndex + len;
+                const relativeStartIndex = offsetStart - renderIndex + len;
+                const relativeEndIndex = offsetEnd - renderIndex + len;
                 const mark = `<span style="color: blueviolet">${text.substring(relativeStartIndex, relativeEndIndex)}</span>`;
                 return text.substring(0, relativeStartIndex) + mark + text.substring(relativeEndIndex);
             }
@@ -63,12 +61,7 @@ const doPlugins = (startIndex: number, endIndex: number) => marked.use({
 });
 
 
-const r = '\n' +
-    '计划安排\n' +
-    '\n' +
-    '+ 吃饭\n' +
-    '+ 睡觉\n' +
-    '+ 打豆豆'
+const r = '*豆*\n1232'
 export const HLMarked = () => {
     const [inputValue, setInputValue] = useState('')
     const [s, setS] = useState(r)
