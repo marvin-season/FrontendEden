@@ -52,7 +52,7 @@ const doPlugins = (startIndex: number, endIndex: number) => marked.use({
             if (start < end) {
                 const relativeStartIndex = start - renderIndex + len;
                 const relativeEndIndex = end - renderIndex + len;
-                const mark = `<mark>${text.substring(relativeStartIndex, relativeEndIndex)}</mark>`;
+                const mark = `<span style="color: blueviolet">${text.substring(relativeStartIndex, relativeEndIndex)}</span>`;
                 text = text.substring(0, relativeStartIndex) + mark + text.substring(relativeEndIndex);
             }
             return text;
