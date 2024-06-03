@@ -40,20 +40,22 @@ const getIntersection = (array1: [number, number], array2: [number, number]) => 
 
 const doPlugins = (startIndex: number, endIndex: number) => marked.use({
     renderer: {
-        code(code: string, language: string | undefined, escaped: boolean): string {
-            console.log("🚀  ", language, code, escaped)
-            return `<pre><code class="hljs language-${language}">${code}</code></pre>`
-        },
         text(text: string): string {
+            console.log("🚀 text ", text)
             const len = text.replace(regex, '').length;
             renderIndex += len;
             const [start, end] = getIntersection([renderIndex - len, renderIndex], [startIndex, endIndex]);
 
             if (start < end) {
+                // 真子集，不用切分
+                if (start >= startIndex && end <= endIndex) {
+                    return `<span style="color: blueviolet">${text}</span>`
+                }
+
                 const relativeStartIndex = start - renderIndex + len;
                 const relativeEndIndex = end - renderIndex + len;
                 const mark = `<span style="color: blueviolet">${text.substring(relativeStartIndex, relativeEndIndex)}</span>`;
-                text = text.substring(0, relativeStartIndex) + mark + text.substring(relativeEndIndex);
+                return text.substring(0, relativeStartIndex) + mark + text.substring(relativeEndIndex);
             }
             return text;
         }
