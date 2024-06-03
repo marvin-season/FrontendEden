@@ -3,7 +3,7 @@ import {markedHighlight} from "marked-highlight";
 import hljs from 'highlight.js';
 import {Flex} from "antd";
 import {useEffect, useMemo, useState} from "react";
-import {regex, useHighlightInfo} from "@/pages/MarkdownPanel/hook.ts";
+import {convertToArray, regex, useHighlightInfo} from "./hook.ts";
 
 let renderIndex = 0;
 
@@ -59,14 +59,6 @@ const doPlugins = (startIndex: number, endIndex: number) => marked.use({
 });
 
 
-const convertToArray = (str: string) => {
-    return str.replace(regex, '').split('').map((str, index) => {
-        return {
-            index,
-            str
-        }
-    })
-}
 const r = '**介绍**\n' +
     '\n' +
     '入参为视频或音频'

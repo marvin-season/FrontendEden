@@ -4,12 +4,21 @@ type HLArrayType = {
     index: number
 }
 
+export const convertToArray = (str: string) => {
+    return str.replace(regex, '').split('').map((str, index) => {
+        return {
+            index,
+            str
+        }
+    })
+}
+
 export const useHighlightInfo = () => {
 
     const highlight = async (rawArr: HLArrayType[], searchArr: HLArrayType[]) => {
         console.log("🚀  ", {rawArr, searchArr})
         return new Promise<[number, number]>((resolve, reject) => {
-            const searchText = searchArr.map(item => item.str).join('').replace(regex, "");
+            const searchText = searchArr.map(item => item.str).join('');
             let mdEndIndex = 0;
             let accText = "";
             // left => right
