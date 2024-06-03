@@ -17,7 +17,6 @@ export const getIntersection = (array1: [number, number], array2: [number, numbe
 
     // 检查是否存在交集范围
     if (minIntersection <= maxIntersection) {
-        console.log(`交集范围: [${minIntersection}, ${maxIntersection})`);
         return [minIntersection, maxIntersection]
     } else {
         return [-1, -1]

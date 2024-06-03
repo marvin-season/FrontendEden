@@ -17,11 +17,11 @@ async function enableMocking() {
 
 enableMocking().then(() => {
     ReactDOM.createRoot(document.getElementById('root')!).render(
-        // <React.StrictMode>
+        <React.StrictMode>
             <Providers>
                 <App/>
             </Providers>
-        // </React.StrictMode>,
+        </React.StrictMode>,
     )
 })
 

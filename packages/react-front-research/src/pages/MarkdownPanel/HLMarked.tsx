@@ -17,16 +17,24 @@ const marked = new Marked(
     })
 );
 
+const uninstallPlugin = () => marked.use({
+    renderer: {
+        text(text: string): string {
+            return text
+        },
+        link(href: string, t, text: string): string {
+            return text
+        }
+    }
+})
 
-const doPlugins = (startIndex: number, endIndex: number) => marked.use({
+const installPlugins = (startIndex: number, endIndex: number) => marked.use({
     renderer: {
         link(href: string, title: string | null | undefined, text: string): string {
-            console.log("🚀 href ", href, title, text)
             renderedIndex += href.length
             return text
         },
         text(text: string): string {
-            console.log("🚀  ", text)
             const len = text.replace(regex, '').length;
             const [offsetStart, offsetEnd] = getIntersection([renderedIndex, renderedIndex + len], [startIndex, endIndex]);
 
@@ -44,7 +52,31 @@ const doPlugins = (startIndex: number, endIndex: number) => marked.use({
 });
 
 
-const r = '[百度一下](https://baidu.com)你好'
+const r = '## 我们支持哪些任务？\n' +
+    '\n' +
+    '### split-video\n' +
+    '\n' +
+    '**介绍**\n' +
+    '\n' +
+    '入参为视频或音频，输出为台词内容以及起止时间段的json schema\n' +
+    '\n' +
+    '*参数列表*\n' +
+    '\n' +
+    '| pipline args | required | type | remarks                                   |\n' +
+    '| ------------ | -------- | ---- | ----------------------------------------- |\n' +
+    '| task         | true     | str  | 任务名称                                  |\n' +
+    '| model        | false    | str  | 模型本地地址或仓库地址（用户名/仓库名称） |\n' +
+    '| device       | false    | str  | cpu / gpu                                 |\n' +
+    '\n' +
+    '**调用示例**\n' +
+    '\n' +
+    '计划安排\n' +
+    '\n' +
+    '+ 吃饭\n' +
+    '+ 睡觉\n' +
+    '+ 打豆豆\n' +
+    '  - 小企鹅\n' +
+    '    * 小猫咪'
 export const HLMarked = () => {
     const [inputValue, setInputValue] = useState('')
     const [s, setS] = useState(r)
@@ -67,14 +99,17 @@ export const HLMarked = () => {
     useEffect(() => {
         return () => {
             renderedIndex = 0;
-            setS('');
+            uninstallPlugin();
         }
     }, []);
 
     useEffect(() => {
         highlight(rawArray, searchArray).then(([startIndex, endIndex]) => {
+            console.log("🚀  ", startIndex, endIndex)
             if (startIndex != endIndex) {
-                doPlugins(startIndex, endIndex);
+                installPlugins(startIndex, endIndex);
+            } else {
+                uninstallPlugin();
             }
             parse();
         }).catch(() => {
