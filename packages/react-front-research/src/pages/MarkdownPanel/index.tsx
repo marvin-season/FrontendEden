@@ -6,19 +6,19 @@ import {HLMarked} from "@/pages/MarkdownPanel/HLMarked.tsx";
 
 const items: TabsProps['items'] = [
     {
+        key: '3',
+        label: 'marked 高亮',
+        children: <HLMarked/>,
+    },
+    {
         key: '1',
-        label: 'Tab 1',
+        label: 'SHIT HL_MD',
         children: <HighlightMD/>,
     },
     {
         key: '2',
         label: 'Tab 2',
         children: <EditableMD/>,
-    },
-    {
-        key: '3',
-        label: 'Tab 3',
-        children: <HLMarked/>,
     },
 ];
 const MarkdownPanel = () => {
