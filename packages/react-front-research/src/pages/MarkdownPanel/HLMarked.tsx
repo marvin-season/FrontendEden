@@ -63,15 +63,12 @@ const doPlugins = (startIndex: number, endIndex: number) => marked.use({
 });
 
 
-const r = '**参数列表**\n' +
+const r = '\n' +
+    '计划安排\n' +
     '\n' +
-    '| pipline args | required | type | remarks                                   |\n' +
-    '| ------------ | -------- | ---- | ----------------------------------------- |\n' +
-    '| task         | true     | str  | 任务名称                                  |\n' +
-    '| model        | false    | str  | 模型本地地址或仓库地址（用户名/仓库名称） |\n' +
-    '| device       | false    | str  | cpu / gpu                                 |\n' +
-    '\n' +
-    '**调用示例**'
+    '+ 吃饭\n' +
+    '+ 睡觉\n' +
+    '+ 打豆豆'
 export const HLMarked = () => {
     const [inputValue, setInputValue] = useState('')
     const [s, setS] = useState(r)
