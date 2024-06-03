@@ -1,7 +1,7 @@
 import {Marked} from "marked";
 import {markedHighlight} from "marked-highlight";
 import hljs from 'highlight.js';
-import {Flex} from "antd";
+import {Flex, Input} from "antd";
 import {useEffect, useMemo, useState} from "react";
 import {convertToArray, regex, useHighlightInfo} from "./hook.ts";
 
@@ -63,6 +63,7 @@ const r = '**介绍**\n' +
     '\n' +
     '入参为视频或音频'
 export const HLMarked = () => {
+    const [inputValue, setInputValue] = useState('')
     const [s, setS] = useState(r)
     console.log("🚀  r.length, s.length", r.length, s.length)
 
@@ -93,21 +94,15 @@ export const HLMarked = () => {
 
     }, [rawArray, searchArray]);
 
-    return <Flex style={{whiteSpace: "none"}}>
-        <button onClick={event => {
-            setS('视频或音频');
-            renderIndex = 0;
-            // highlight(rawArray, searchArray).then(([startIndex, endIndex]) => {
-            //     console.log("🚀  ", startIndex, endIndex)
-            //     if (startIndex != endIndex) {
-            //         doPlugins(startIndex, endIndex);
-            //     }
-            //     parse();
-            // }).catch(() => {
-            //     parse();
-            // })
-        }}>b
-        </button>
+    return <Flex style={{whiteSpace: "none"}} vertical>
+        <Flex>
+            <Input.TextArea value={inputValue} onChange={e => setInputValue(e.target.value)}/>
+            <button onClick={event => {
+                setS(inputValue || '视频或音频');
+                renderIndex = 0;
+            }}>b
+            </button>
+        </Flex>
         <div style={{background: "#fff", padding: "20px"}} dangerouslySetInnerHTML={{__html: html_}}></div>
     </Flex>
 }
