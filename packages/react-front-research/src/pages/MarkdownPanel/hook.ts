@@ -1,4 +1,4 @@
-export const regex = /[\n*#|｜\s]/g;
+export const regex = /[\n*#|｜\s`]/g;
 type HLArrayType = {
     str: string;
     index: number

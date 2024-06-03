@@ -40,6 +40,10 @@ const getIntersection = (array1: [number, number], array2: [number, number]) => 
 
 const doPlugins = (startIndex: number, endIndex: number) => marked.use({
     renderer: {
+        code(code: string, language: string | undefined, escaped: boolean): string {
+            console.log("🚀  ", language, code, escaped)
+            return `<pre><code class="hljs language-${language}">${code}</code></pre>`
+        },
         text(text: string): string {
             const len = text.replace(regex, '').length;
             renderIndex += len;
@@ -57,15 +61,14 @@ const doPlugins = (startIndex: number, endIndex: number) => marked.use({
 });
 
 
-const r = '**参数列表**\n' +
+const r = '**调用示例**\n' +
     '\n' +
-    '| pipline args | required | type | remarks                                   |\n' +
-    '| ------------ | -------- | ---- | ----------------------------------------- |\n' +
-    '| task         | true     | str  | 任务名称                                  |\n' +
-    '| model        | false    | str  | 模型本地地址或仓库地址（用户名/仓库名称） |\n' +
-    '| device       | false    | str  | cpu / gpu                                 |\n' +
-    '\n' +
-    '**调用示例**'
+    '```python\n' +
+    'from smartvision.pipline.pipline_process import pipeline\n' +
+    'video_path = [\'/data/video/demo.mp4\']\n' +
+    'func = pipeline(task="split-video")\n' +
+    'print(func(video_path))\n' +
+    '```'
 export const HLMarked = () => {
     const [inputValue, setInputValue] = useState('')
     const [s, setS] = useState(r)
