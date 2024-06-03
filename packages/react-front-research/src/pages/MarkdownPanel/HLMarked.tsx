@@ -2,8 +2,8 @@ import {Marked, RendererObject} from "marked";
 import {markedHighlight} from "marked-highlight";
 import hljs from 'highlight.js';
 import {Flex} from "antd";
-import {useEffect, useState} from "react";
-import {useHighlightInfoMD} from "@/pages/MarkdownPanel/hook.ts";
+import {useEffect, useMemo, useState} from "react";
+import {useHighlightInfo} from "@/pages/MarkdownPanel/hook.ts";
 
 let renderIndex = 0;
 
@@ -93,30 +93,50 @@ const getRender = () => {
     } as RendererObject
 
 }
-const r = '入参为视频或音频输出为台词内容以及起止时间段的'
+const convertToArray = (str: string) => {
+    return str.split('').map((str, index) => {
+        return {
+            index,
+            str
+        }
+    })
+}
+const r = '入参为视频或音频输出\n为.台词内容以及起止时间段的'
 export const HLMarked = () => {
-    const [s, setS] = useState('## 输出为台词内容？')
+    const [s, setS] = useState('频输出\n为台词内')
     console.log("🚀  r.length, s.length", r.length, s.length)
 
     const [html_, setHtml_] = useState('')
-    const [startIndex, endIndex] = useHighlightInfoMD(r, s);
+    const {highlight} = useHighlightInfo();
     const parse = () => {
         const rs = marked.parse(r);
-        console.log("🚀 rs ", rs)
         setHtml_(rs as string)
     }
 
+    const rawArray = useMemo(() => {
+        return convertToArray(r)
+    }, [r]);
+
+    const searchArray = useMemo(() => {
+        return convertToArray(s)
+    }, [s]);
+
     useEffect(() => {
-        console.log("🚀  ", startIndex, endIndex)
-        if (startIndex != endIndex) {
-            doPlugins(startIndex, endIndex);
-        }
-        parse();
-    }, [startIndex, endIndex]);
+        highlight(rawArray, searchArray).then(([startIndex, endIndex]) => {
+            console.log("🚀  ", startIndex, endIndex)
+            if (startIndex != endIndex) {
+                doPlugins(startIndex, endIndex);
+            }
+            parse();
+        }).catch(() => {
+            parse();
+        })
+
+    }, [rawArray, searchArray]);
 
     return <Flex style={{whiteSpace: "pre"}}>
         <button onClick={event => {
-            setS('### text-to-image');
+            setS('入参为视频或音频输出\n为.台词内容以及起');
             renderIndex = 0;
         }}>b
         </button>

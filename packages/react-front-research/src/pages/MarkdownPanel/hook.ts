@@ -1,50 +1,33 @@
 const regex = /[^\u4e00-\u9fa5a-zA-Z0-9]/g;
-const textSplitRegex = /\n+/;
-const headerRegex = /^(#{0,5})\s*(.+)$/gm;
+type HLArrayType = {
+    str: string;
+    index: number
+}
 
-// 获取高亮位置的算法存在问题（不精准）
+export const useHighlightInfo = () => {
 
-export const useHighlightInfoMD = (raw: string, search: string, isMock = true) => {
-    if (isMock) {
-            return [0, 1]
-    }
-
-    const getRawIndexRange = (startArrIndex: number, endArrIndex: number) => {
-        let startIndex = 0, endIndex = 0;
-        rawArr.forEach((item, index) => {
-
-            if (index <= startArrIndex) {
-                startIndex += item.length
-                endIndex += item.length
-
+    const highlight = async (rawArr: HLArrayType[], searchArr: HLArrayType[]) => {
+        return new Promise<[number, number]>((resolve, reject) => {
+            const searchText = searchArr.map(item => item.str).join('').replace(regex, "");
+            let mdEndIndex = 0;
+            let accText = "";
+            // left => right
+            while (mdEndIndex < rawArr.length) {
+                const current = rawArr[mdEndIndex];
+                accText += current.str.replace(regex, "");
+                const index = accText.indexOf(searchText);
+                if (searchText.length > 0 && index > -1) {
+                    console.log("🚀  ", mdEndIndex - searchArr.length + 1, mdEndIndex + 1)
+                    resolve([mdEndIndex - searchArr.length + 1, mdEndIndex + 1])
+                    return
+                }
+                mdEndIndex += 1;
             }
-            if (index <= endArrIndex) {
-                endIndex += item.length
-            }
+            resolve([0, 0])
         })
-        return [startIndex, endIndex];
     }
 
-    const pText = search.replace(regex, "");
-    const searchArr = search.split(textSplitRegex);
-    const rawArr = raw.split(textSplitRegex);
-    console.log("🚀  arr", {rawArr, searchArr})
-
-    let mdEndIndex = 0;
-    let accText = "";
-    // left => right
-    while (mdEndIndex < rawArr.length) {
-        const text = rawArr[mdEndIndex];
-        accText += text.replace(regex, "");
-        const index = accText.indexOf(pText);
-        if (pText.length > 0 && index > -1) {
-            console.log("🚀  ", mdEndIndex - searchArr.length + 1, mdEndIndex + 1)
-            return getRawIndexRange(mdEndIndex - searchArr.length + 1, mdEndIndex + 1)
-            // return [mdEndIndex - searchArr.length + 1, mdEndIndex + 1]
-        }
-        mdEndIndex += 1;
+    return {
+        highlight,
     }
-
-
-    return [0, 0]
 }
