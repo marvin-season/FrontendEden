@@ -41,11 +41,10 @@ const getIntersection = (array1: [number, number], array2: [number, number]) => 
 const doPlugins = (startIndex: number, endIndex: number) => marked.use({
     renderer: {
         text(text: string): string {
-            console.log("🚀  text", text, startIndex, endIndex);
-            const len = text.replace(regex, '').length
+            const len = text.replace(regex, '').length;
             renderIndex += len;
-            const [start, end] = getIntersection([renderIndex - text.length, renderIndex], [startIndex, endIndex]);
-            console.log("🚀  ", start - renderIndex + text.length, end - renderIndex + text.length);
+            const [start, end] = getIntersection([renderIndex - len, renderIndex], [startIndex, endIndex]);
+            console.log("🚀  ", start - renderIndex + len, end - renderIndex + len);
             const relativeStartIndex = start - renderIndex + len;
             const relativeEndIndex = end - renderIndex + len;
             if (start < end) {
@@ -61,17 +60,18 @@ const doPlugins = (startIndex: number, endIndex: number) => marked.use({
 
 
 const convertToArray = (str: string) => {
-    return str.split('').map((str, index) => {
+    return str.replace(regex, '').split('').map((str, index) => {
         return {
             index,
             str
         }
     })
 }
-const r =
-    '\n入参为视频或音频'
+const r = '**介绍**\n' +
+    '\n' +
+    '入参为视频或音频'
 export const HLMarked = () => {
-    const [s, setS] = useState('或音频')
+    const [s, setS] = useState(r)
     console.log("🚀  r.length, s.length", r.length, s.length)
 
     const [html_, setHtml_] = useState('')
@@ -92,7 +92,6 @@ export const HLMarked = () => {
     useEffect(() => {
         return
         highlight(rawArray, searchArray).then(([startIndex, endIndex]) => {
-            console.log("🚀  ", startIndex, endIndex)
             if (startIndex != endIndex) {
                 doPlugins(startIndex, endIndex);
             }
