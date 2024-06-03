@@ -5,7 +5,7 @@ const regex = /[^\u4e00-\u9fa5a-zA-Z0-9]/g;
 const textSplitRegex = /\n+/;
 const headerRegex = /^(#{0,5})\s*(.+)$/gm;
 
-const mdText =
+const rawText =
     "**调用示例**\n" +
     "\n" +
     "```python\n" +
@@ -36,33 +36,36 @@ const mdText =
     "\n" +
     "**调用示例**"
 
-const pText = mdText
+const searchText =    "**介绍**\n" +
+    "\n" +
+    "入参为视频或音频，输出为台词内容以及起止时间段的json schema\n" +
+    "\n"
 
 export const HighlightMD = () => {
     const [source, setSource] = useState<string>('');
 
     const mdArr = useMemo(() => {
-        return mdText.split(textSplitRegex)
-    }, [mdText]);
+        return rawText.split(textSplitRegex)
+    }, [rawText]);
 
-    const [startIndex, endIndex] = useHighlightInfoMD(mdArr, pText);
+    const [startIndex, endIndex] = useHighlightInfoMD(mdArr, searchText);
 
     useEffect(() => {
         console.log("🚀  startIndex, endIndex", startIndex, endIndex);
-        if (false && startIndex != endIndex) {
+        if (startIndex != endIndex) {
             let isCodeFrame = false;
             const finalText = mdArr.map((text, index) => {
                 if (index >= startIndex && index < endIndex) {
-                    // if (isMarkdownTableRow(text)) {
-                    //     return text;
-                    // }
-                    // if (/^```.*$/.test(text)) {
-                    //     isCodeFrame = !isCodeFrame;
-                    //     return text;
-                    // }
+                    if (isMarkdownTableRow(text)) {
+                        return text;
+                    }
+                    if (/^```.*$/.test(text)) {
+                        isCodeFrame = !isCodeFrame;
+                        return text;
+                    }
                     return isCodeFrame ? text : text.replace(headerRegex, (match, hx, content) => {
                         console.log("🚀  matched", match)
-                        return `${hx} <span style="color:green;">${content}</span>`;
+                        return `${hx} <span style="color: blueviolet;">${content}</span>`;
                     })
                 }
                 return text
@@ -70,7 +73,7 @@ export const HighlightMD = () => {
             console.log("🚀  finalText", finalText);
             setSource(finalText)
         } else {
-            setSource(mdText);
+            setSource(rawText);
         }
     }, [startIndex, endIndex]);
 
@@ -87,7 +90,7 @@ export const HighlightMD = () => {
 
 
 export const useHighlightInfoMD = (mdArr: string[], t: string) => {
-    const pText = t.replace(regex, "");
+    const searchText = t.replace(regex, "");
     const pTextArr = t.split(textSplitRegex);
     console.log("🚀  mdArr pTextArr", {mdArr, pTextArr})
 
@@ -97,8 +100,8 @@ export const useHighlightInfoMD = (mdArr: string[], t: string) => {
     while (mdEndIndex < mdArr.length) {
         const text = mdArr[mdEndIndex];
         accText += text.replace(regex, "");
-        const index = accText.indexOf(pText);
-        if (pText.length > 0 && index > -1) {
+        const index = accText.indexOf(searchText);
+        if (searchText.length > 0 && index > -1) {
             return [mdEndIndex - pTextArr.length + 1, mdEndIndex + 1]
         }
         mdEndIndex += 1;
