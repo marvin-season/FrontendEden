@@ -61,18 +61,18 @@ const doPlugins = (startIndex: number, endIndex: number) => marked.use({
 });
 
 
-const r = '**调用示例**\n' +
+const r = '**参数列表**\n' +
     '\n' +
-    '```python\n' +
-    'from smartvision.pipline.pipline_process import pipeline\n' +
-    'video_path = [\'/data/video/demo.mp4\']\n' +
-    'func = pipeline(task="split-video")\n' +
-    'print(func(video_path))\n' +
-    '```'
+    '| pipline args | required | type | remarks                                   |\n' +
+    '| ------------ | -------- | ---- | ----------------------------------------- |\n' +
+    '| task         | true     | str  | 任务名称                                  |\n' +
+    '| model        | false    | str  | 模型本地地址或仓库地址（用户名/仓库名称） |\n' +
+    '| device       | false    | str  | cpu / gpu                                 |\n' +
+    '\n' +
+    '**调用示例**'
 export const HLMarked = () => {
     const [inputValue, setInputValue] = useState('')
     const [s, setS] = useState(r)
-    console.log("🚀  r.length, s.length", r.length, s.length)
 
     const [html_, setHtml_] = useState('')
     const {highlight} = useHighlightInfo();
@@ -88,6 +88,13 @@ export const HLMarked = () => {
     const searchArray = useMemo(() => {
         return convertToArray(s)
     }, [s]);
+
+    useEffect(() => {
+        return () => {
+            renderIndex = 0;
+            setS('');
+        }
+    }, []);
 
     useEffect(() => {
         highlight(rawArray, searchArray).then(([startIndex, endIndex]) => {
