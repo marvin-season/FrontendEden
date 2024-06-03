@@ -124,7 +124,7 @@ export const HLMarked = () => {
             <button onClick={event => {
                 setS(inputValue || '视频或音频');
                 renderedIndex = 0;
-            }}>b
+            }}>search
             </button>
         </Flex>
         <div style={{background: "#fff", padding: "20px"}} dangerouslySetInnerHTML={{__html: html_}}></div>

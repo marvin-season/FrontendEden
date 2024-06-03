@@ -1,4 +1,5 @@
 import MarkdownPreview from '@uiw/react-markdown-preview'
+import {Button, Flex, Input} from 'antd';
 import {useEffect, useMemo, useState} from "react";
 
 const regex = /[^\u4e00-\u9fa5a-zA-Z0-9]/g;
@@ -36,12 +37,10 @@ const rawText =
     "\n" +
     "**调用示例**"
 
-const searchText =    "**介绍**\n" +
-    "\n" +
-    "入参为视频或音频，输出为台词内容以及起止时间段的json schema\n" +
-    "\n"
 
 export const HighlightMD = () => {
+    const [inputValue, setInputValue] = useState('')
+    const [searchText, setSearchText] = useState('')
     const [source, setSource] = useState<string>('');
 
     const mdArr = useMemo(() => {
@@ -79,12 +78,22 @@ export const HighlightMD = () => {
 
 
     return <>
-        <MarkdownPreview source={source} components={{
-            table: (props, context) => {
-                console.log("🚀  table", props, context)
-                return <table>{props.children}</table>
-            }
-        }}/>
+        <Flex style={{whiteSpace: "none"}} vertical>
+            <Flex>
+                <Input.TextArea value={inputValue} onChange={e => setInputValue(e.target.value)}/>
+                <Button onClick={event => {
+                    setSearchText(inputValue || '视频或音频');
+                }}>search
+                </Button>
+            </Flex>
+            <MarkdownPreview source={source} components={{
+                table: (props, context) => {
+                    console.log("🚀  table", props, context)
+                    return <table>{props.children}</table>
+                }
+            }}/>
+        </Flex>
+
     </>
 }
 
