@@ -16,7 +16,7 @@ const marked = new Marked(
         }
     })
 );
-const getIntersection = (array1: [number, number], array2: [number, number]) => {
+export const getIntersection = (array1: [number, number], array2: [number, number]) => {
     // 获取每个数组的最小值和最大值
     const min1 = Math.min(...array1);
     const max1 = Math.max(...array1);
