@@ -35,7 +35,7 @@ export const convertToArray = (str: string) => {
 export const useHighlightInfo = () => {
 
     const highlight = async (rawArr: HLArrayType[], searchArr: HLArrayType[]) => {
-        console.log("🚀  ", {rawArr, searchArr})
+        // console.log("🚀  ", {rawArr, searchArr})
         return new Promise<[number, number]>((resolve, reject) => {
             const searchText = searchArr.map(item => item.str).join('');
             let accText = "";
@@ -51,7 +51,7 @@ export const useHighlightInfo = () => {
                 accText += current.str;
                 const index = accText.indexOf(searchText.replace(regex, ''));
                 if (searchText.length > 0 && index > -1) {
-                    console.log("🚀  accText", accText)
+                    // console.log("🚀  accText", accText)
                     // rawArr[i].index + 1 - searchArr.length 当searchArray和原文不完全一致时（过滤掉了md语法） 这种简单的计算方法会导致精度问题
                     resolve([rawArr[i].index + 1 - searchArr.length, rawArr[i].index + 1])
                     return
