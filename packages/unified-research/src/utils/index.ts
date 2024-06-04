@@ -38,23 +38,21 @@ export const useHighlightInfo = () => {
         console.log("🚀  ", {rawArr, searchArr})
         return new Promise<[number, number]>((resolve, reject) => {
             const searchText = searchArr.map(item => item.str).join('');
-            let mdEndIndex = -1;
             let accText = "";
             // left => right
-            while (mdEndIndex <= rawArr.length - 1) {
-                mdEndIndex += 1;
+            for (let i = 0; i < rawArr.length; i++) {
+                const current = rawArr[i];
 
-                const current = rawArr[mdEndIndex];
-
-                if (!current || regex.test(current.str)) {
-                    console.log("🚀  ", current)
+                if (regex.test(current.str)) {
+                    regex.lastIndex = 0
                     continue
                 }
 
                 accText += current.str;
-                const index = accText.indexOf(searchText);
+                const index = accText.indexOf(searchText.replace(regex, ''));
                 if (searchText.length > 0 && index > -1) {
-                    resolve([mdEndIndex + 1 - searchArr.length, mdEndIndex + 1])
+                    console.log("🚀  accText", accText)
+                    resolve([rawArr[i].index + 1 - searchArr.length, rawArr[i].index + 1])
                     return
                 }
             }

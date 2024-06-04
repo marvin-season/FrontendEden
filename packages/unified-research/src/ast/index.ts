@@ -13,7 +13,7 @@ import rehypeDocument from "rehype-document";
 import {getHighlightInfo} from "./md-utils.js";
 
 const vFile = readSync('example.md', {encoding: 'utf8'});
-getHighlightInfo(vFile.value as string, '入参为视频或音频').then(([startIndex, endIndex]) => {
+getHighlightInfo(vFile.value as string, '+ 小猫咪').then(([startIndex, endIndex]) => {
     console.log("🚀  ", {startIndex, endIndex})
 
     const processor = unified()
