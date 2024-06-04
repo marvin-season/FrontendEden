@@ -13,8 +13,7 @@ import rehypeDocument from "rehype-document";
 import {getHighlightInfo} from "./md-utils.js";
 
 const vFile = readSync('example.md', {encoding: 'utf8'});
-getHighlightInfo(vFile.value as string, '任务？\n\n' +
-    '### split-video').then(([startIndex, endIndex]) => {
+getHighlightInfo(vFile.value as string, '就是一个simple demo').then(([startIndex, endIndex]) => {
     console.log("🚀  ", {startIndex, endIndex})
 
     const processor = unified()

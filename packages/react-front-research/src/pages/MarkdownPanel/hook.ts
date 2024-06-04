@@ -24,7 +24,7 @@ export const getIntersection = (array1: [number, number], array2: [number, numbe
 }
 
 export const convertToArray = (str: string) => {
-    return str.split('').map((str, index) => {
+    return str.replace(regex, '').split('').map((str, index) => {
         return {
             index,
             str
@@ -45,10 +45,6 @@ export const useHighlightInfo = () => {
                 mdEndIndex += 1;
 
                 const current = rawArr[mdEndIndex];
-                if (regex.test(current.str)) {
-                    console.log("🚀  ", current.str)
-                    continue
-                }
 
                 accText += current.str;
                 const index = accText.indexOf(searchText);
