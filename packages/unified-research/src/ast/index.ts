@@ -10,31 +10,38 @@ import rehypeRaw from "rehype-raw";
 import {addStyles} from "../plugins/addStyle.js";
 import rehypeFormat from "rehype-format";
 import rehypeDocument from "rehype-document";
+import {getHighlightInfo} from "./md-utils.js";
 
-const processor = unified()
-    .use(remarkParse)
-    .use(remarkGfm)
-    .use(remarkText)
-    .use(remarkCode)
-    .use(remarkRehype, {allowDangerousHtml: true})
-    .use(rehypeRaw)
-    .use(addStyles)
-    .use(rehypeDocument)
-    .use(rehypeFormat)
-    .use(rehypeStringify, {allowDangerousHtml: true})
+const vFile = readSync('example.md', {encoding: 'utf8'});
+getHighlightInfo(vFile.value as string, '入参为视频或音频').then(([startIndex, endIndex]) => {
+    console.log("🚀  ", {startIndex, endIndex})
+
+    const processor = unified()
+        .use(remarkParse)
+        .use(remarkGfm)
+        .use(remarkText, {startIndex, endIndex})
+        .use(remarkCode)
+        .use(remarkRehype, {allowDangerousHtml: true})
+        .use(rehypeRaw)
+        .use(addStyles)
+        .use(rehypeDocument)
+        .use(rehypeFormat)
+        .use(rehypeStringify, {allowDangerousHtml: true})
 
 // console.log("🚀  ", String(processor.processSync('# hello')))
 
-processor
-    .process(readSync('example.md', {encoding: 'utf8'}))
-    .then(
-        (file) => {
-            file.extname = '.html'
-            writeSync(file)
-        },
-        (error) => {
-            throw error
-        }
-    )
+    processor
+        .process(vFile)
+        .then(
+            (file) => {
+                file.extname = '.html'
+                writeSync(file)
+            },
+            (error) => {
+                throw error
+            }
+        )
+
+})
 
 

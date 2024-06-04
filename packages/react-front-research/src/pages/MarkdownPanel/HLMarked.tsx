@@ -35,7 +35,7 @@ const installPlugins = (startIndex: number, endIndex: number) => marked.use({
             return text
         },
         text(text: string): string {
-            const len = text.replace(regex, '').length;
+            const len = text.length;
             const [offsetStart, offsetEnd] = getIntersection([renderedIndex, renderedIndex + len], [startIndex, endIndex]);
 
             if (offsetStart < offsetEnd) {

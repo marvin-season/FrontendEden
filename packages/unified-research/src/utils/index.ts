@@ -41,12 +41,13 @@ export const useHighlightInfo = () => {
             let mdEndIndex = -1;
             let accText = "";
             // left => right
-            while (mdEndIndex < rawArr.length) {
+            while (mdEndIndex <= rawArr.length - 1) {
                 mdEndIndex += 1;
 
                 const current = rawArr[mdEndIndex];
-                if (regex.test(current.str)) {
-                    console.log("🚀  ", current.str)
+
+                if (!current || regex.test(current.str)) {
+                    console.log("🚀  ", current)
                     continue
                 }
 
