@@ -1,6 +1,6 @@
 // 插件添加样式标签
 export function addStyles() {
-    return (tree) => {
+    return (tree: any) => {
         tree.children.unshift({
             type: 'element',
             tagName: 'style',
