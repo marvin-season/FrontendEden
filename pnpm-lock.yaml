@@ -406,6 +406,9 @@ importers:
       remark-gfm:
         specifier: ^4.0.0
         version: 4.0.0
+      remark-html:
+        specifier: ^16.0.1
+        version: 16.0.1
       remark-parse:
         specifier: ^11.0.0
         version: 11.0.0
@@ -4048,6 +4051,9 @@ packages:
   hast-util-raw@9.0.3:
     resolution: {integrity: sha512-ICWvVOF2fq4+7CMmtCPD5CM4QKjPbHpPotE6+8tDooV0ZuyJVUzHsrNX+O5NaRbieTf0F7FfeBOMAwi6Td0+yQ==}
 
+  hast-util-sanitize@5.0.1:
+    resolution: {integrity: sha512-IGrgWLuip4O2nq5CugXy4GI2V8kx4sFVy5Hd4vF7AR2gxS0N9s7nEAVUyeMtZKZvzrxVsHt73XdTsno1tClIkQ==}
+
   hast-util-select@5.0.5:
     resolution: {integrity: sha512-QQhWMhgTFRhCaQdgTKzZ5g31GLQ9qRb1hZtDPMqQaOhpLBziWcshUS0uCR5IJ0U1jrK/mxg35fmcq+Dp/Cy2Aw==}
 
@@ -6600,6 +6606,9 @@ packages:
   remark-github-blockquote-alert@1.2.1:
     resolution: {integrity: sha512-qNf2mSAoZgh3Cl23/9Y1L7S4Kbf9NsdHvYK398ab/52yEsDPDU5I4cuTcgDRrdIX7Ltc6RK+KCLRtWkbFnL6Dg==}
     engines: {node: '>=16'}
+
+  remark-html@16.0.1:
+    resolution: {integrity: sha512-B9JqA5i0qZe0Nsf49q3OXyGvyXuZFDzAP2iOFLEumymuYJITVpiH1IgsTEwTpdptDmZlMDMWeDmSawdaJIGCXQ==}
 
   remark-parse@10.0.2:
     resolution: {integrity: sha512-3ydxgHa/ZQzG8LvC7jTXccARYDcRld3VfcgIIFs7bI6vbRSxJJmzgLEIIoYKyrfhaY+ujuWaf/PJiMZXoiCXgw==}
@@ -12579,6 +12588,12 @@ snapshots:
       web-namespaces: 2.0.1
       zwitch: 2.0.4
 
+  hast-util-sanitize@5.0.1:
+    dependencies:
+      '@types/hast': 3.0.4
+      '@ungap/structured-clone': 1.2.0
+      unist-util-position: 5.0.0
+
   hast-util-select@5.0.5:
     dependencies:
       '@types/hast': 2.3.10
@@ -16117,6 +16132,14 @@ snapshots:
   remark-github-blockquote-alert@1.2.1:
     dependencies:
       unist-util-visit: 5.0.0
+
+  remark-html@16.0.1:
+    dependencies:
+      '@types/mdast': 4.0.4
+      hast-util-sanitize: 5.0.1
+      hast-util-to-html: 9.0.1
+      mdast-util-to-hast: 13.1.0
+      unified: 11.0.4
 
   remark-parse@10.0.2:
     dependencies:
