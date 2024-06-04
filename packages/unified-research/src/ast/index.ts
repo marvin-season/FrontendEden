@@ -13,16 +13,14 @@ import rehypeDocument from "rehype-document";
 import {getHighlightInfo} from "./md-utils.js";
 
 const vFile = readSync('example.md', {encoding: 'utf8'});
-getHighlightInfo(vFile.value as string, '输出为台词内容以及起止时间段的json schema\n' +
-    '\n' +
-    '参数列表').then(([startIndex, endIndex]) => {
+getHighlightInfo(vFile.value as string, '[Kuiper belt](https://en.wikipedia.org/wiki/Kuiper_belt)').then(([startIndex, endIndex]) => {
     console.log("🚀  ", {startIndex, endIndex})
 
     const processor = unified()
         .use(remarkParse)
         .use(remarkGfm)
         .use(remarkText, {startIndex, endIndex})
-        .use(remarkRehype, {allowDangerousHtml: true})
+        .use(remarkRehype, {allowDangerousHtml: true })
         .use(addStyles)
         .use(rehypeDocument)
         .use(rehypeFormat)

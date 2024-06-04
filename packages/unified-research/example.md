@@ -9,8 +9,9 @@ const useHighlightInfoMD = (mdArr: string[], t: string) => {
 ### text-to-image
 **介绍**
 
-[介绍](就是一个simple demo)
+[simple_demo](simple-demo).
 
+[Kuiper belt](https://en.wikipedia.org/wiki/Kuiper_belt).
 ## 我们支持哪些任务？
 
 ### split-video
