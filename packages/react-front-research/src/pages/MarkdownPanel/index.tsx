@@ -3,7 +3,7 @@ import {Tabs, TabsProps} from "antd";
 import {EditableMD} from './EditableMD.tsx'
 import {HighlightMDShit, UiwMarkdownByPlugin} from "@/pages/MarkdownPanel/uiw-markdown/index.tsx";
 import {HLMarked} from "@/pages/MarkdownPanel/marked/HLMarked.tsx";
-import {ReactRemarkMD} from "@/pages/MarkdownPanel/react-reamark-md";
+import {ReactRemarkMD} from "@/pages/MarkdownPanel/react-remark-md";
 
 const items: TabsProps['items'] = [
     {

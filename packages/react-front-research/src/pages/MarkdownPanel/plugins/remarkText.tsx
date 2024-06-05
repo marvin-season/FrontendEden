@@ -1,7 +1,8 @@
 import {visit} from "unist-util-visit";
 import {getIntersection} from "@/pages/MarkdownPanel/utils";
+import {HLInfoType} from "@/pages/MarkdownPanel/types.ts";
 
-export const remarkText = ({startIndex, endIndex}: { startIndex: number; endIndex: number }) => {
+export const remarkText = ({startIndex, endIndex}: HLInfoType) => {
     console.log("🚀  startIndex, endIndex", startIndex, endIndex)
     return function (tree: any) {
         visit(tree, 'text', (node, index, parent) => {
