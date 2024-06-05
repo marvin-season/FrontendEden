@@ -1,44 +1,19 @@
 import MarkdownPreview from '@uiw/react-markdown-preview'
 import {Button, Flex, Input} from 'antd';
 import {useEffect, useMemo, useState} from "react";
+import {source} from "@/pages/MarkdownPanel/mocks/markdown-source.ts";
 
 const regex = /[^\u4e00-\u9fa5a-zA-Z0-9]/g;
 const textSplitRegex = /\n+/;
 const headerRegex = /^(#{0,5})\s*(.+)$/gm;
 
-const rawText =
-    "**调用示例**\n" +
-    "\n" +
-    "```python\n" +
-    "from smartvision.pipline.pipline_process import pipeline\n" +
-    "video_path = ['/data/video/demo.mp4']\n" +
-    "func = pipeline(task=\"split-video\")\n" +
-    "print(func(video_path))\n" +
-    "```\n" +
-    "\n" +
-    "### text-to-image\n" +
-    "**介绍**\n" +
-    "\n" +
-    "## 我们支持哪些任务？\n" +
-    "\n" +
-    "### split-video\n" +
-    "\n" +
-    "**介绍**\n" +
-    "\n" +
-    "入参为视频或音频，输出为台词内容以及起止时间段的json schema\n" +
-    "\n" +
-    "**参数列表**\n" +
-    "\n" +
-    "| pipline args | required | type | remarks                                   |\n" +
-    "| ------------ | -------- | ---- | ----------------------------------------- |\n" +
-    "| task         | true     | str  | 任务名称                                  |\n" +
-    "| model        | false    | str  | 模型本地地址或仓库地址（用户名/仓库名称） |\n" +
-    "| device       | false    | str  | cpu / gpu                                 |\n" +
-    "\n" +
-    "**调用示例**"
+const rawText = source
 
-
-export const HighlightMD = () => {
+/**
+ * 一个垃圾实现：及其不精准
+ * @constructor
+ */
+export const HighlightMDShit = () => {
     const [inputValue, setInputValue] = useState('')
     const [searchText, setSearchText] = useState('')
     const [source, setSource] = useState<string>('');

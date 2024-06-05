@@ -1,9 +1,8 @@
 import {Tabs, TabsProps} from "antd";
 
 import {EditableMD} from './EditableMD.tsx'
-import {HighlightMD} from './HighlightMD.tsx'
-import {HLMarked} from "@/pages/MarkdownPanel/HLMarked.tsx";
-import UiwMarkdown from "@/pages/MarkdownPanel/uiw-markdown";
+import {HighlightMDShit, UiwMarkdownByPlugin} from "@/pages/MarkdownPanel/uiw-markdown/index.tsx";
+import {HLMarked} from "@/pages/MarkdownPanel/marked/HLMarked.tsx";
 
 const items: TabsProps['items'] = [
     {
@@ -14,12 +13,12 @@ const items: TabsProps['items'] = [
     {
         key: '1',
         label: 'SHIT HL_MD',
-        children: <HighlightMD/>,
+        children: <HighlightMDShit/>,
     },
     {
         key: '4',
-        label: 'UiwMarkdown',
-        children: <UiwMarkdown/>,
+        label: 'UiwMarkdownByPlugin',
+        children: <UiwMarkdownByPlugin/>,
     },
     {
         key: '2',

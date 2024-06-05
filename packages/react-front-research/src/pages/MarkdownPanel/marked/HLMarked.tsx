@@ -3,7 +3,7 @@ import {markedHighlight} from "marked-highlight";
 import hljs from 'highlight.js';
 import {Flex, Input} from "antd";
 import {useEffect, useMemo, useState} from "react";
-import {convertToArray, getIntersection, regex, useHighlightInfo} from "./hook.ts";
+import {convertToArray, getIntersection, regex, useHighlightInfo} from "../hooks/implict-highlight-algorithm.ts";
 
 let renderedIndex = 0;
 
