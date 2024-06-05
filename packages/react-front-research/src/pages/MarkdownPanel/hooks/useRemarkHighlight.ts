@@ -1,27 +1,46 @@
 import {useRemark} from "react-remark";
 import {remarkText} from "@/pages/MarkdownPanel/plugins/remarkText.tsx";
 import {useHighlightInfo} from "@/pages/MarkdownPanel/hooks/accurate-highlight-algorithm.ts";
-import {useState} from "react";
 import {HLInfoType} from "@/pages/MarkdownPanel/types.ts";
 import {convertToArray} from "@/pages/MarkdownPanel/utils";
+import {useGetState} from "ahooks";
+import {useEffect} from "react";
 
-export const useRemarkHighlight = () => {
+/**
+ * setHighlightInfo 后 不触发重新渲染
+ * remarkPlugins 添加了html元素被隐藏
+ * @param source
+ */
+export const useRemarkHighlight = (source: string) => {
     const {highlight} = useHighlightInfo();
 
-
-    const [highlightInfo, setHighlightInfo] = useState<HLInfoType>({
-        startIndex: -1,
-        endIndex: -1,
+    const [highlightInfo, setHighlightInfo, getHighlightInfo] = useGetState<HLInfoType>({
+        startIndex: 2,
+        endIndex: 6
     });
 
     const [reactContent, setSource] = useRemark({
-        remarkPlugins: [[remarkText, highlightInfo]],
+        remarkPlugins: highlightInfo ? [[remarkText, highlightInfo]] : [],
+        remarkToRehypeOptions: {
+            allowDangerousHtml: true
+        },
     })
 
+    useEffect(() => {
+        setSource(source)
+        highlight(convertToArray(source), convertToArray('任务')).then(([a, b]) => {
+            console.log("🚀  ", a, b)
+            setHighlightInfo({
+                startIndex: a,
+                endIndex: b
+            })
+
+        })
+    }, [source]);
 
     return {
         reactContent,
-        highlight: (source: string, target: string) => {
+        highlight: (target: string) => {
             setSource(source);
             highlight(convertToArray(source), convertToArray(target)).then(([a, b]) => {
                 console.log("🚀  ", a, b)
@@ -29,6 +48,7 @@ export const useRemarkHighlight = () => {
                     startIndex: a,
                     endIndex: b
                 })
+
             })
         }
     }
