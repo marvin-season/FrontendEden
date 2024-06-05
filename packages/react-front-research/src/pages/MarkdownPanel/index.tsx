@@ -3,6 +3,7 @@ import {Tabs, TabsProps} from "antd";
 import {EditableMD} from './EditableMD.tsx'
 import {HighlightMDShit, UiwMarkdownByPlugin} from "@/pages/MarkdownPanel/uiw-markdown/index.tsx";
 import {HLMarked} from "@/pages/MarkdownPanel/marked/HLMarked.tsx";
+import {ReactRemarkMD} from "@/pages/MarkdownPanel/react-reamark-md";
 
 const items: TabsProps['items'] = [
     {
@@ -21,6 +22,11 @@ const items: TabsProps['items'] = [
         children: <UiwMarkdownByPlugin/>,
     },
     {
+        key: '5',
+        label: 'react-mark',
+        children: <ReactRemarkMD/>,
+    },
+    {
         key: '2',
         label: '可编辑MD',
         children: <EditableMD/>,
@@ -28,7 +34,7 @@ const items: TabsProps['items'] = [
 ];
 const MarkdownPanel = () => {
     return <>
-        <Tabs defaultActiveKey={'4'} items={items}>
+        <Tabs defaultActiveKey={'5'} items={items}>
         </Tabs>
     </>
 }
