@@ -1,4 +1,5 @@
 import {regex} from "@/pages/MarkdownPanel/utils";
+import {HLArrayType} from "@/pages/MarkdownPanel/types.ts";
 
 export const useHighlightInfo = () => {
     const highlight = async (rawArr: HLArrayType[], searchArr: HLArrayType[]) => {
