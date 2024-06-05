@@ -1,10 +1,9 @@
-import React, {FC, useEffect, useRef} from "react";
+import React, {FC, useRef} from "react";
 import MarkdownEditor from "@uiw/react-markdown-editor";
 import MarkdownPreview from '@uiw/react-markdown-preview'
 import {useKey} from "react-use";
 import {useGetState} from "ahooks";
 import "./index.css"
-import {theme} from "antd";
 
 const Markdown: FC<{
     markdown?: string;
