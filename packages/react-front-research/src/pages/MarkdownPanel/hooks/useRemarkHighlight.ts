@@ -1,11 +1,11 @@
 import {useRemark} from "react-remark";
 import {remarkText} from "@/pages/MarkdownPanel/plugins/remarkText.tsx";
 import {useHighlightInfo} from "@/pages/MarkdownPanel/hooks/accurate-highlight-algorithm.ts";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import {HLInfoType} from "@/pages/MarkdownPanel/types.ts";
 import {convertToArray} from "@/pages/MarkdownPanel/utils";
 
-export const useRemarkHighlight = (source: string, target: string) => {
+export const useRemarkHighlight = () => {
     const {highlight} = useHighlightInfo();
 
 
@@ -19,14 +19,12 @@ export const useRemarkHighlight = (source: string, target: string) => {
     })
 
 
-    useEffect(() => {
-        setSource(source);
-    }, []);
-
     return {
         reactContent,
-        highlight: () => {
+        highlight: (source: string, target: string) => {
+            setSource(source);
             highlight(convertToArray(source), convertToArray(target)).then(([a, b]) => {
+                console.log("🚀  ", a, b)
                 setHighlightInfo({
                     startIndex: a,
                     endIndex: b
