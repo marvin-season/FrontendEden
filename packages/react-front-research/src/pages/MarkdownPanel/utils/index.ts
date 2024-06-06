@@ -63,7 +63,7 @@ export const highlightV1 = async (rawArr: HLArrayType[], searchArr: HLArrayType[
 
 export const getHighlightInfo = (s1: string, s2: string) => highlightV1(convertToArray(s1), convertToArray(s2))
 
-function splitBy(s1: string, splitter: RegExp) {
+export function splitBy(s1: string, splitter: RegExp) {
     const matchesIt = [...s1.matchAll(splitter)];
     let index = 0
     console.log("🚀  ", matchesIt);
@@ -100,9 +100,10 @@ function splitBy(s1: string, splitter: RegExp) {
 }
 
 export const getHighlightInfoV2 = (s1: string, s2: string) => {
-    const s1Slice = splitBy(s1, splitter);
     const s2_ = s2.replace(regex, '')
+    const s1Slice = splitBy(s1, splitter);
     const s2Slice = splitBy(s2, splitter);
+    console.log("🚀  s1Slice", s1Slice);
     console.log("🚀  s2Slice", s2Slice);
 
     const acc = {
