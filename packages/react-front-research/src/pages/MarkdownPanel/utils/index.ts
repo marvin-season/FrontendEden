@@ -1,6 +1,7 @@
 import {HLArrayType, SpliceType} from "@/pages/MarkdownPanel/types.ts";
 
 export const regex = /[\[\]\\()\n*#|｜\-+\s`]/g;
+export const regexV2 = /[\[\]\\()\n*#|｜\-+\s`]/g;
 
 export const splitter = /\n+/g
 
@@ -106,8 +107,8 @@ export const highlightV2 = (s1Slice: SpliceType[], s2Slice: SpliceType[], s2: st
 
     for (let i = 0; i < s1Slice.length; i++) {
         const current = s1Slice[i];
-        if (regex.test(current.value)) {
-            regex.lastIndex = 0;
+        if (regexV2.test(current.value)) {
+            regexV2.lastIndex = 0;
             continue
         }
 
@@ -136,5 +137,5 @@ export const highlightV2 = (s1Slice: SpliceType[], s2Slice: SpliceType[], s2: st
 export const getHighlightInfoV2 = (s1: string, s2: string) => {
     const s1Slice = splitBy(s1, splitter);
     const s2Slice = splitBy(s2, splitter);
-    return highlightV2(s1Slice, s2Slice, s2.replace(regex, ''))
+    return highlightV2(s1Slice, s2Slice, s2.replace(regexV2, ''))
 }
