@@ -14,7 +14,7 @@ test('字符串匹配', async () => {
 })
 
 test('字符串匹配v2', async () => {
-    const result = getHighlightInfoV2('hi\n\nworld\nb!', 'world\n\nb');
+    const result = getHighlightInfoV2('#标题\nhi\n\nworld\nb!\n@', 'i\nworld\n\nb');
     console.log("🚀  ", result)
-    expect(result).toEqual([])
+    expect(result).toEqual({startSlice: {}, endSlice: {}})
 })

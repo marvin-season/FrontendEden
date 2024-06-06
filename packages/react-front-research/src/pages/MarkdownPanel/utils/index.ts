@@ -67,10 +67,10 @@ function splitBy(s1: string, splitter: RegExp) {
     const matchesIt = [...s1.matchAll(splitter)];
     let index = 0
     console.log("🚀  ", matchesIt);
-    const sliceInfo: any[] = []
+    const sliceInfo: { value: string, index: { start: number, end: number } }[] = []
     matchesIt.forEach(item => {
         sliceInfo.push({
-            item: s1.substring(index, item.index),
+            value: s1.substring(index, item.index),
             index: {
                 start: index,
                 end: item.index
@@ -79,7 +79,7 @@ function splitBy(s1: string, splitter: RegExp) {
 
         const matchesEndIndex = item.index + item[0].length;
         sliceInfo.push({
-            item: s1.substring(item.index, matchesEndIndex),
+            value: s1.substring(item.index, matchesEndIndex),
             index: {
                 start: item.index,
                 end: matchesEndIndex
@@ -90,7 +90,7 @@ function splitBy(s1: string, splitter: RegExp) {
     })
 
     sliceInfo.push({
-        item: s1.substring(index),
+        value: s1.substring(index),
         index: {
             start: index,
             end: s1.length
@@ -101,9 +101,39 @@ function splitBy(s1: string, splitter: RegExp) {
 
 export const getHighlightInfoV2 = (s1: string, s2: string) => {
     const s1Slice = splitBy(s1, splitter);
+    const s2_ = s2.replace(regex, '')
     const s2Slice = splitBy(s2, splitter);
-    console.log("🚀  s1Slice", s1Slice);
     console.log("🚀  s2Slice", s2Slice);
 
-    return []
+    const acc = {
+        value: ''
+    }
+
+    for (let i = 0; i < s1Slice.length; i++) {
+        const current = s1Slice[i];
+        if (regex.test(current.value)) {
+            regex.lastIndex = 0;
+            continue
+        }
+
+        acc.value += current.value;
+        let indexOf = acc.value.indexOf(s2_)
+        if (indexOf > -1) {
+            // 在s1 中的切片信息
+            const startSlice = s1Slice[i - s2Slice.length + 1];
+            const endSlice = current;
+            // 精确匹配
+            // s2中的两头的切片
+            const head = s2Slice[0];
+            const tail = s2Slice[s2Slice.length - 1];
+            // 上述s1,s2偏移信息
+            const left = startSlice.value.indexOf(head.value)
+            const right = endSlice.value.length - endSlice.value.indexOf(tail.value) - tail.value.length
+            startSlice.index.start += left;
+            endSlice.index.end -= right;
+            return [startSlice.index.start + left, endSlice.index.start + right, {startSlice, endSlice}]
+        }
+    }
+
+    return [-1, -1, {}]
 }
