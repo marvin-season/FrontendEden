@@ -107,12 +107,12 @@ export const highlightV2 = (s1Slice: SpliceType[], s2Slice: SpliceType[], s2: st
 
     for (let i = 0; i < s1Slice.length; i++) {
         const current = s1Slice[i];
-        if (regexV2.test(current.value)) {
-            regexV2.lastIndex = 0;
+        if (splitter.test(current.value)) {
+            splitter.lastIndex = 0;
             continue
         }
 
-        acc.value += current.value;
+        acc.value += current.value.replace(regexV2, '');
         let indexOf = acc.value.indexOf(s2)
         if (indexOf > -1) {
             // 在s1 中的切片信息
@@ -124,10 +124,10 @@ export const highlightV2 = (s1Slice: SpliceType[], s2Slice: SpliceType[], s2: st
             const tail = s2Slice[s2Slice.length - 1];
             // 上述s1,s2偏移信息
             const left = startSlice.value.indexOf(head.value)
-            const right = endSlice.value.length - endSlice.value.indexOf(tail.value) - tail.value.length + 1
+            const right = endSlice.value.length - endSlice.value.indexOf(tail.value) - tail.value.length
 
             console.log("🚀  ", {startSlice, endSlice})
-            return [startSlice.index.start + left, endSlice.index.start + right, {startSlice, endSlice}]
+            return [startSlice.index.start + left, endSlice.index.end - right, {startSlice, endSlice}]
         }
     }
 

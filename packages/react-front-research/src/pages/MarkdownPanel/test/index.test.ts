@@ -14,13 +14,21 @@ test('字符串匹配', async () => {
 })
 
 test('字符串匹配v2', async () => {
-    const result = getHighlightInfoV2('#标题\nhi\n\nworld\nb!\n@', 'i\nworld\n\nb');
+    const result = getHighlightInfoV2('**调用示例**\n' +
+        '\n' +
+        '### text-to-image\n' +
+        '\n' +
+        '**介绍**', '调用示例\n\ntext-to-image');
     console.log("🚀  ", result)
     // expect(result).toEqual({startSlice: {}, endSlice: {}})
 })
 
 test('字符串切片测试', () => {
-    const result = splitBy('#标题\nhi\n\nworld\nb!\n@', splitter)
+    const result = splitBy('**调用示例**\n' +
+        '\n' +
+        '### text-to-image\n' +
+        '\n' +
+        '**介绍**', splitter)
     console.log("🚀  ", result)
     // expect(result).toEqual({startSlice: {}, endSlice: {}})
 })
