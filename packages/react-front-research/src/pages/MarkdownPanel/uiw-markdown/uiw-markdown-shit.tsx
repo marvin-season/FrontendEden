@@ -1,7 +1,7 @@
 import MarkdownPreview from '@uiw/react-markdown-preview'
-import {Button, Flex, Input} from 'antd';
 import {useEffect, useMemo, useState} from "react";
 import {source} from "@/pages/MarkdownPanel/mocks/markdown-source.ts";
+import {MarkdownContainer} from "@/pages/MarkdownPanel/components/MarkdownContainer.tsx";
 
 const regex = /[^\u4e00-\u9fa5a-zA-Z0-9]/g;
 const textSplitRegex = /\n+/;
@@ -53,22 +53,10 @@ export const HighlightMDShit = () => {
 
 
     return <>
-        <Flex style={{whiteSpace: "none"}} vertical>
-            <Flex>
-                <Input.TextArea value={inputValue} onChange={e => setInputValue(e.target.value)}/>
-                <Button onClick={event => {
-                    setSearchText(inputValue || '视频或音频');
-                }}>search
-                </Button>
-            </Flex>
-            <MarkdownPreview source={source} components={{
-                table: (props, context) => {
-                    console.log("🚀  table", props, context)
-                    return <table>{props.children}</table>
-                }
-            }}/>
-        </Flex>
-
+        <MarkdownContainer onHL={() => {
+        }} onSource={setSource} onSearch={setSearchText}>
+            <MarkdownPreview source={source}/>
+        </MarkdownContainer>
     </>
 }
 
