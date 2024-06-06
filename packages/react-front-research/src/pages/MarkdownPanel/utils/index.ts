@@ -66,7 +66,6 @@ export const getHighlightInfo = (s1: string, s2: string) => highlightV1(convertT
 export function splitBy(s1: string, splitter: RegExp) {
     const matchesIt = [...s1.matchAll(splitter)];
     let index = 0
-    console.log("🚀  ", matchesIt);
     const sliceInfo: { value: string, index: { start: number, end: number } }[] = []
     matchesIt.forEach(item => {
         sliceInfo.push({
@@ -103,8 +102,8 @@ export const getHighlightInfoV2 = (s1: string, s2: string) => {
     const s2_ = s2.replace(regex, '')
     const s1Slice = splitBy(s1, splitter);
     const s2Slice = splitBy(s2, splitter);
-    console.log("🚀  s1Slice", s1Slice);
-    console.log("🚀  s2Slice", s2Slice);
+    // console.log("🚀  s1Slice", s1Slice);
+    // console.log("🚀  s2Slice", s2Slice);
 
     const acc = {
         value: ''
@@ -129,9 +128,9 @@ export const getHighlightInfoV2 = (s1: string, s2: string) => {
             const tail = s2Slice[s2Slice.length - 1];
             // 上述s1,s2偏移信息
             const left = startSlice.value.indexOf(head.value)
-            const right = endSlice.value.length - endSlice.value.indexOf(tail.value) - tail.value.length
-            startSlice.index.start += left;
-            endSlice.index.end -= right;
+            const right = endSlice.value.length - endSlice.value.indexOf(tail.value) - tail.value.length + 1
+
+            console.log("🚀  ", {startSlice, endSlice})
             return [startSlice.index.start + left, endSlice.index.start + right, {startSlice, endSlice}]
         }
     }
