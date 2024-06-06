@@ -8,10 +8,11 @@ type MarkdownContainerProps = {
     children: ReactElement,
     onHL: (params: HLInfoType) => void,
     onSource: (source: string) => void
+    onSearch?: (value: string) => void
 };
 export const MarkdownContainer:
     FC<MarkdownContainerProps>
-    = ({children, onHL, onSource}) => {
+    = ({children, onHL, onSource, onSearch}) => {
 
     const [source, setSource] = useState('')
     const [inputValue, setInputValue] = useState('');
@@ -30,13 +31,18 @@ export const MarkdownContainer:
             <Flex style={{position: 'sticky', top: '0', width: '100%'}}>
                 <Input.TextArea value={inputValue} onChange={e => setInputValue(e.target.value)}/>
                 <button onClick={event => {
-                    getHighlightInfo(source, inputValue).then(([startIndex, endIndex]) => {
-                        console.log("🚀  ", startIndex, endIndex)
-                        onHL({
-                            startIndex,
-                            endIndex
+                    if (onSearch) {
+                        onSearch(inputValue);
+                    } else {
+                        getHighlightInfo(source, inputValue).then(([startIndex, endIndex]) => {
+                            console.log("🚀  ", startIndex, endIndex)
+                            onHL({
+                                startIndex,
+                                endIndex
+                            })
                         })
-                    })
+                    }
+
                 }}>search
                 </button>
             </Flex>
