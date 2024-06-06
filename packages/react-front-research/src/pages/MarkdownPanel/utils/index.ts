@@ -1,4 +1,4 @@
-import {HLArrayType} from "@/pages/MarkdownPanel/types.ts";
+import {HLArrayType, SpliceType} from "@/pages/MarkdownPanel/types.ts";
 
 export const regex = /[\[\]\\()\n*#|｜\-+\s`]/g;
 
@@ -63,10 +63,11 @@ export const highlightV1 = async (rawArr: HLArrayType[], searchArr: HLArrayType[
 
 export const getHighlightInfo = (s1: string, s2: string) => highlightV1(convertToArray(s1), convertToArray(s2))
 
+
 export function splitBy(s1: string, splitter: RegExp) {
     const matchesIt = [...s1.matchAll(splitter)];
     let index = 0
-    const sliceInfo: { value: string, index: { start: number, end: number } }[] = []
+    const sliceInfo: SpliceType[] = []
     matchesIt.forEach(item => {
         sliceInfo.push({
             value: s1.substring(index, item.index),
@@ -98,13 +99,7 @@ export function splitBy(s1: string, splitter: RegExp) {
     return sliceInfo
 }
 
-export const getHighlightInfoV2 = (s1: string, s2: string) => {
-    const s2_ = s2.replace(regex, '')
-    const s1Slice = splitBy(s1, splitter);
-    const s2Slice = splitBy(s2, splitter);
-    // console.log("🚀  s1Slice", s1Slice);
-    // console.log("🚀  s2Slice", s2Slice);
-
+export const highlightV2 = (s1Slice: SpliceType[], s2Slice: SpliceType[], s2: string) => {
     const acc = {
         value: ''
     }
@@ -117,7 +112,7 @@ export const getHighlightInfoV2 = (s1: string, s2: string) => {
         }
 
         acc.value += current.value;
-        let indexOf = acc.value.indexOf(s2_)
+        let indexOf = acc.value.indexOf(s2)
         if (indexOf > -1) {
             // 在s1 中的切片信息
             const startSlice = s1Slice[i - s2Slice.length + 1];
@@ -136,4 +131,10 @@ export const getHighlightInfoV2 = (s1: string, s2: string) => {
     }
 
     return [-1, -1, {}]
+}
+
+export const getHighlightInfoV2 = (s1: string, s2: string) => {
+    const s1Slice = splitBy(s1, splitter);
+    const s2Slice = splitBy(s2, splitter);
+    return highlightV2(s1Slice, s2Slice, s2.replace(regex, ''))
 }
