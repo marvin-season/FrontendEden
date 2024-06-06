@@ -1,10 +1,9 @@
 import {useEffect, useState} from "react";
 import MarkdownPreview from '@uiw/react-markdown-preview'
-import {getHighlightInfo} from "@/pages/MarkdownPanel/utils";
 import {remarkText} from "@/pages/MarkdownPanel/plugins/remarkText.tsx";
 import {HLInfoType} from "@/pages/MarkdownPanel/types.ts";
-import {Flex, Input} from "antd";
 import {useDownload} from "@/hook/useDownload.ts";
+import {MarkdownContainer} from "@/pages/MarkdownPanel/components/MarkdownContainer.tsx";
 
 export const UiwMarkdownByPlugin = () => {
 
@@ -23,23 +22,10 @@ export const UiwMarkdownByPlugin = () => {
         download('/example.md').then(console.log)
     }, []);
 
-    return <Flex style={{whiteSpace: "none", overflow: 'auto', height: '500px', position: "relative"}} vertical>
-        <Flex style={{position: 'sticky', top: '0', width: '100%'}}>
-            <Input.TextArea value={inputValue} onChange={e => setInputValue(e.target.value)}/>
-            <button onClick={event => {
-                getHighlightInfo(source, inputValue).then(([startIndex, endIndex]) => {
-                    console.log("🚀  ", startIndex, endIndex)
-                    setHighlightInfo({
-                        startIndex,
-                        endIndex
-                    })
-                })
-            }}>search
-            </button>
-        </Flex>
+    return <MarkdownContainer onSource={setSource} onHL={setHighlightInfo}>
         <MarkdownPreview
             source={source}
             remarkPlugins={[[remarkText, highlightInfo]]}>
         </MarkdownPreview>
-    </Flex>
+    </MarkdownContainer>
 }
