@@ -4,6 +4,8 @@ import {EditableMD} from './EditableMD.tsx'
 import {HighlightMDShit, UiwMarkdownByPlugin} from "@/pages/MarkdownPanel/uiw-markdown/index.tsx";
 import {HLMarked} from "@/pages/MarkdownPanel/marked/HLMarked.tsx";
 import {ReactRemarkMD} from "@/pages/MarkdownPanel/react-remark-md";
+import {useDownload} from "@/hook/useDownload.ts";
+import {useEffect} from "react";
 
 const items: TabsProps['items'] = [
     {

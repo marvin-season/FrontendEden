@@ -1,10 +1,10 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import MarkdownPreview from '@uiw/react-markdown-preview'
-import {source} from "@/pages/MarkdownPanel/mocks/markdown-source.ts";
 import {getHighlightInfo} from "@/pages/MarkdownPanel/utils";
 import {remarkText} from "@/pages/MarkdownPanel/plugins/remarkText.tsx";
 import {HLInfoType} from "@/pages/MarkdownPanel/types.ts";
 import {Flex, Input} from "antd";
+import {useDownload} from "@/hook/useDownload.ts";
 
 export const UiwMarkdownByPlugin = () => {
 
@@ -13,7 +13,15 @@ export const UiwMarkdownByPlugin = () => {
         endIndex: -1
     });
 
-    const [inputValue, setInputValue] = useState('')
+    const [source, setSource] = useState('')
+
+    const [inputValue, setInputValue] = useState('');
+    const {download} = useDownload(console.log, async blob => {
+        setSource(await blob.text())
+    });
+    useEffect(() => {
+        download('/example.md').then(console.log)
+    }, []);
 
     return <Flex style={{whiteSpace: "none", overflow: 'auto', height: '500px', position: "relative"}} vertical>
         <Flex style={{position: 'sticky', top: '0', width: '100%'}}>
