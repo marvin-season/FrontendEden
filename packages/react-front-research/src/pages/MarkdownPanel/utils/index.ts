@@ -2,6 +2,8 @@ import {HLArrayType} from "@/pages/MarkdownPanel/types.ts";
 
 export const regex = /[\[\]\\()\n*#|｜\-+\s`]/g;
 
+export const splitter = /\n+/g
+
 export const getIntersection = (array1: [number, number], array2: [number, number]) => {
     // 获取每个数组的最小值和最大值
     const min1 = Math.min(...array1);
@@ -60,3 +62,48 @@ export const highlightV1 = async (rawArr: HLArrayType[], searchArr: HLArrayType[
 
 
 export const getHighlightInfo = (s1: string, s2: string) => highlightV1(convertToArray(s1), convertToArray(s2))
+
+function splitBy(s1: string, splitter: RegExp) {
+    const matchesIt = [...s1.matchAll(splitter)];
+    let index = 0
+    console.log("🚀  ", matchesIt);
+    const sliceInfo: any[] = []
+    matchesIt.forEach(item => {
+        sliceInfo.push({
+            item: s1.substring(index, item.index),
+            index: {
+                start: index,
+                end: item.index
+            }
+        })
+
+        const matchesEndIndex = item.index + item[0].length;
+        sliceInfo.push({
+            item: s1.substring(item.index, matchesEndIndex),
+            index: {
+                start: item.index,
+                end: matchesEndIndex
+            }
+        })
+
+        index = matchesEndIndex;
+    })
+
+    sliceInfo.push({
+        item: s1.substring(index),
+        index: {
+            start: index,
+            end: s1.length
+        }
+    })
+    return sliceInfo
+}
+
+export const getHighlightInfoV2 = (s1: string, s2: string) => {
+    const s1Slice = splitBy(s1, splitter);
+    const s2Slice = splitBy(s2, splitter);
+    console.log("🚀  s1Slice", s1Slice);
+    console.log("🚀  s2Slice", s2Slice);
+
+    return []
+}
