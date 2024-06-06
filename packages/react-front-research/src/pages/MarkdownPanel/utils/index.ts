@@ -135,7 +135,11 @@ export const highlightV2 = (s1Slice: SpliceType[], s2Slice: SpliceType[], s2: st
 }
 
 export const getHighlightInfoV2 = (s1: string, s2: string) => {
-    const s1Slice = splitBy(s1, splitter);
-    const s2Slice = splitBy(s2, splitter);
-    return highlightV2(s1Slice, s2Slice, s2.replace(regexV2, ''))
+    return new Promise<any>(resolve => {
+        setTimeout(() => {
+            const s1Slice = splitBy(s1, splitter);
+            const s2Slice = splitBy(s2, splitter);
+            resolve(highlightV2(s1Slice, s2Slice, s2.replace(regexV2, '')))
+        })
+    })
 }

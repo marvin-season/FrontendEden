@@ -4,9 +4,9 @@
 
 **介绍**
 
-[simple_demo](simple-demo).
+[simple_demo](simple-demo)
 
-[Kuiper belt](https://en.wikipedia.org/wiki/Kuiper_belt).
+[Kuiper belt](https://en.wikipedia.org/wiki/Kuiper_belt)
 
 ## 我们支持哪些任务？
 

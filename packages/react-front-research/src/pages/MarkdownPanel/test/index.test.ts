@@ -14,7 +14,7 @@ test('字符串匹配', async () => {
 })
 
 test('字符串匹配v2', async () => {
-    const result = getHighlightInfoV2('**调用示例**\n' +
+    const result = await getHighlightInfoV2('**调用示例**\n' +
         '\n' +
         '### text-to-image\n' +
         '\n' +
