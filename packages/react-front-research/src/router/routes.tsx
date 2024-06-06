@@ -22,12 +22,12 @@ export const routes: RouteObject[] = [
         Component: Layout,
         children: [
             {
-                path: 'index',
+                path: '首页',
                 index: true,
                 element: <Index/>,
             },
             {
-                path: 'Blob文件测试',
+                path: '文件测试',
                 element: <FilePage/>
             },
             {
@@ -35,7 +35,7 @@ export const routes: RouteObject[] = [
                 element: <ChatPanel/>
             },
             {
-                path: '一个 emoji',
+                path: '表情包',
                 element: <EmojiPanel/>
             },
             {
@@ -47,7 +47,7 @@ export const routes: RouteObject[] = [
                 element: <ScrollPanel/>
             },
             {
-                path: 'react研究',
+                path: 'React学习',
                 element: <ReactResearchPanel/>
             },
             {
@@ -55,7 +55,7 @@ export const routes: RouteObject[] = [
                 element: <PerformChunksPanel/>
             },
             {
-                path: 'markdown',
+                path: 'Markdown',
                 element: <MarkdownPanel/>
             },
             {

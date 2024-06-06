@@ -5,7 +5,7 @@ import {Breadcrumb, Layout, Menu} from 'antd'
 
 
 const MyLayout = () => {
-    const [collapsed, setCollapsed] = useState(false)
+    const [collapsed, setCollapsed] = useState(true)
     const navigate = useNavigate();
     const navs: any[] = []
     routes.flatMap(route => route.children).forEach((item, index) => {
@@ -23,7 +23,7 @@ const MyLayout = () => {
 
     return <>
         <Layout style={{height: '100vh'}}>
-            <Layout.Sider theme={'light'} collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
+            <Layout.Sider width={'150px'} theme={'light'} collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
                 <div>LOGO</div>
                 <Menu theme="light" defaultSelectedKeys={['1']} mode="inline" items={navs} onSelect={console.log}/>
             </Layout.Sider>

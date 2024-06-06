@@ -1,8 +1,7 @@
 import {useRemark} from "react-remark";
 import {remarkText} from "@/pages/MarkdownPanel/plugins/remarkText.tsx";
-import {useHighlightInfo} from "@/pages/MarkdownPanel/hooks/accurate-highlight-algorithm.ts";
 import {HLInfoType} from "@/pages/MarkdownPanel/types.ts";
-import {convertToArray} from "@/pages/MarkdownPanel/utils";
+import {getHighlightInfo} from "@/pages/MarkdownPanel/utils";
 import {useGetState} from "ahooks";
 import {useEffect} from "react";
 
@@ -12,9 +11,8 @@ import {useEffect} from "react";
  * @param source
  */
 export const useRemarkHighlight = (source: string) => {
-    const {highlight} = useHighlightInfo();
 
-    const [highlightInfo, setHighlightInfo, getHighlightInfo] = useGetState<HLInfoType>({
+    const [highlightInfo, setHighlightInfo] = useGetState<HLInfoType>({
         startIndex: 2,
         endIndex: 6
     });
@@ -27,8 +25,8 @@ export const useRemarkHighlight = (source: string) => {
     })
 
     useEffect(() => {
-        setSource(source)
-        highlight(convertToArray(source), convertToArray('任务')).then(([a, b]) => {
+        setSource(source);
+        getHighlightInfo(source, '任务').then(([a, b]) => {
             console.log("🚀  ", a, b)
             setHighlightInfo({
                 startIndex: a,
@@ -42,8 +40,7 @@ export const useRemarkHighlight = (source: string) => {
         reactContent,
         highlight: (target: string) => {
             setSource(source);
-            highlight(convertToArray(source), convertToArray(target)).then(([a, b]) => {
-                console.log("🚀  ", a, b)
+            getHighlightInfo(source, target).then(([a, b]) => {
                 setHighlightInfo({
                     startIndex: a,
                     endIndex: b
