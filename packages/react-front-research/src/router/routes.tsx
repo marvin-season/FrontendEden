@@ -3,7 +3,6 @@ import Layout from "@/layout";
 import Index from "@/pages/Index";
 import FilePage from "@/pages/FilePage";
 import React from "react";
-import CompReRender from "@/pages/CompReRender";
 import ChatPanel from "@/pages/ChatPanel";
 import EmojiPanel from "@/pages/EmojiPanel";
 import {WorkerPanel} from "@/pages/WorkerPanel";
@@ -15,6 +14,7 @@ import VideoPanel from "@/pages/VideoPanel";
 import AudioPanel from "@/pages/AudioPanel";
 import RaceCondition from "@/pages/RaceCondition";
 import CalendarPanel from "@/pages/CalendarPanel";
+import ReactFlowPanel from "@/pages/ReactFlowPanel";
 
 export const routes: RouteObject[] = [
     {
@@ -73,6 +73,10 @@ export const routes: RouteObject[] = [
             {
                 path: '日历',
                 element: <CalendarPanel/>
+            },
+            {
+                path: 'ReactFlow',
+                element: <ReactFlowPanel/>
             },
         ]
     }

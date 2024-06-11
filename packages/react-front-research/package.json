@@ -30,6 +30,7 @@
     "react-player": "^2.15.1",
     "react-remark": "^2.1.0",
     "react-router-dom": "^6.21.1",
+    "reactflow": "^11.11.3",
     "reflect-metadata": "^0.2.1",
     "styled-components": "^6.1.3",
     "unist-util-visit": "^5.0.0",
