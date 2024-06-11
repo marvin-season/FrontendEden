@@ -1,6 +1,13 @@
 // sum.test.js
 import {expect, test} from 'vitest'
-import {getHighlightInfo, getHighlightInfoV2, getIntersection, splitBy, splitter} from "@/pages/MarkdownPanel/utils";
+import {
+    getHighlightInfo,
+    getHighlightInfoV2,
+    getHighlightInfoV3,
+    getIntersection,
+    splitBy,
+    splitter
+} from "@/pages/MarkdownPanel/utils";
 
 test('交集', () => {
     expect(getIntersection([1, 3], [2, 4])).toEqual([2, 3])
@@ -15,6 +22,16 @@ test('字符串匹配', async () => {
 
 test('字符串匹配v2', async () => {
     const result = await getHighlightInfoV2('**调用示例**\n' +
+        '\n' +
+        '### text-to-image\n' +
+        '\n' +
+        '**介绍**', '调用示例\n\ntext-to-image');
+    console.log("🚀  ", result)
+    // expect(result).toEqual({startSlice: {}, endSlice: {}})
+})
+
+test('字符串匹配v3', async () => {
+    const result = await getHighlightInfoV3('**调用示例**\n' +
         '\n' +
         '### text-to-image\n' +
         '\n' +

@@ -2,6 +2,7 @@ import {HLArrayType, SpliceType} from "@/pages/MarkdownPanel/types.ts";
 
 export const regex = /[\[\]\\()\n*#|｜\-+\s`]/g;
 export const regexV2 = /[\[\]\\()\n*#|｜\-+\s`]/g;
+export const regexV3 = /[\[\]\\()\n*#|｜\-+\s`]/g;
 
 export const splitter = /\n+/g
 
@@ -140,6 +141,67 @@ export const getHighlightInfoV2 = (s1: string, s2: string) => {
             const s1Slice = splitBy(s1, splitter);
             const s2Slice = splitBy(s2, splitter);
             resolve(highlightV2(s1Slice, s2Slice, s2.replace(regexV2, '')))
+        })
+    })
+}
+
+export function splitStringByLength(input: string, length = 8) {
+    let result = [];
+    let startIndex = 0;
+
+    while (startIndex < input.length) {
+        let endIndex = Math.min(startIndex + length - 1, input.length - 1);
+        result.push({
+            value: input.slice(startIndex, endIndex + 1),
+            index: {
+                start: startIndex,
+                end: endIndex
+            }
+        });
+        startIndex += length;
+    }
+
+    return result;
+}
+
+export const highlightV3 = (s1Slice: SpliceType[], s2Slice: SpliceType[], s2: string) => {
+    const acc = {
+        leftToRightValue: '',
+        rightToLeftValue: '',
+    }
+
+    // 从左往右
+    for (let i = 0; i < s1Slice.length; i++) {
+        const current = s1Slice[i];
+
+        acc.leftToRightValue += current.value.replace(regexV3, '');
+        let indexOf = acc.leftToRightValue.indexOf(s2)
+
+        if (indexOf > -1) {
+            // 从右往左
+            for (let j = i; j >= 0; j--) {
+                acc.rightToLeftValue = s1Slice[j]?.value.replace(regexV3, '') + acc.rightToLeftValue;
+                let indexOf = acc.rightToLeftValue.indexOf(s2)
+                if (indexOf > -1) {
+                    // 在s1 中的切片信息
+                    const startSlice = s1Slice[j];
+                    const endSlice = current;
+                    return [startSlice.index.start, endSlice.index.end, {startSlice, endSlice}]
+                }
+            }
+
+        }
+    }
+
+    return [-1, -1, {}]
+}
+
+export const getHighlightInfoV3 = (s1: string, s2: string) => {
+    return new Promise<any>(resolve => {
+        setTimeout(() => {
+            const s1Slice = splitStringByLength(s1);
+            const s2Slice = splitStringByLength(s2);
+            resolve(highlightV3(s1Slice, s2Slice, s2.replace(regexV3, '')))
         })
     })
 }
