@@ -1,7 +1,7 @@
 import {useRemark} from "react-remark";
 import {remarkText} from "@/pages/MarkdownPanel/plugins/remarkText.tsx";
 import {HLInfoType} from "@/pages/MarkdownPanel/types.ts";
-import {getHighlightInfo} from "@/pages/MarkdownPanel/utils";
+import {getHighlightInfo} from "@/pages/MarkdownPanel/algorithm";
 import {useGetState} from "ahooks";
 import {useEffect} from "react";
 

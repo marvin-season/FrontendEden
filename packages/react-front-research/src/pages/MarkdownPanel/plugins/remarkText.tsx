@@ -1,5 +1,5 @@
 import {visit} from "unist-util-visit";
-import {getIntersection} from "@/pages/MarkdownPanel/utils";
+import {getIntersection} from "@/pages/MarkdownPanel/algorithm";
 import {HLInfoType} from "@/pages/MarkdownPanel/types.ts";
 
 export const remarkText = ({startIndex, endIndex}: HLInfoType) => {

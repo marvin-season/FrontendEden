@@ -1,7 +1,7 @@
 import {Flex, Input} from "antd";
 import {FC, ReactElement, useEffect, useState} from "react";
 import {HLInfoType} from "@/pages/MarkdownPanel/types.ts";
-import {getHighlightInfo, getHighlightInfoV2} from "@/pages/MarkdownPanel/utils";
+import {getHighlightInfo, getHighlightInfoV2} from "@/pages/MarkdownPanel/algorithm";
 import {useDownload} from "@/hook/useDownload.ts";
 
 type MarkdownContainerProps = {
@@ -22,7 +22,7 @@ export const MarkdownContainer:
         onSource(text)
     });
     useEffect(() => {
-        download('/example.md').then(console.log)
+        download('markdown_hl.md').then(console.log)
     }, []);
 
 
