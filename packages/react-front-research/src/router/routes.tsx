@@ -1,8 +1,7 @@
 import {RouteObject} from "react-router-dom";
 import Layout from "@/layout";
-import Index from "@/pages/Index";
 import FilePage from "@/pages/FilePage";
-import React from "react";
+import React, {FC, lazy, Suspense} from "react";
 import ChatPanel from "@/pages/ChatPanel";
 import EmojiPanel from "@/pages/EmojiPanel";
 import {WorkerPanel} from "@/pages/WorkerPanel";
@@ -15,6 +14,7 @@ import AudioPanel from "@/pages/AudioPanel";
 import RaceCondition from "@/pages/RaceCondition";
 import CalendarPanel from "@/pages/CalendarPanel";
 import ReactFlowPanel from "@/pages/ReactFlowPanel";
+import Index from "@/pages/Index";
 
 export const routes: RouteObject[] = [
     {

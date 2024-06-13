@@ -14,14 +14,14 @@ export default function () {
 
     return <div style={{height: '600px'}}>
         <ReactFlow nodeTypes={nodeTypes}
-                   nodes={nodes}
+                   // nodes={nodes}
                    edges={edges}
-                   onNodesChange={changes => setNodes(prevState => applyNodeChanges(changes, prevState))}
-                   onEdgesChange={changes => setEdges(prevState => applyEdgeChanges(changes, prevState))}
-                   onConnect={connection => {
-                       const edge = {...connection, type: 'custom-edge'};
-                       setEdges((eds) => addEdge(edge, eds));
-                   }}
+                   // onNodesChange={changes => setNodes(prevState => applyNodeChanges(changes, prevState))}
+                   // onEdgesChange={changes => setEdges(prevState => applyEdgeChanges(changes, prevState))}
+                   // onConnect={connection => {
+                   //     const edge = {...connection, type: 'custom-edge'};
+                   //     setEdges((eds) => addEdge(edge, eds));
+                   // }}
                    fitView
                    style={rfStyle}>
             <Background/>
