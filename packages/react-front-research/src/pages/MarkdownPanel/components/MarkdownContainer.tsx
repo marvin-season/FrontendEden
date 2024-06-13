@@ -1,7 +1,7 @@
 import {Flex, Input} from "antd";
 import {FC, ReactElement, useEffect, useState} from "react";
 import {HLInfoType} from "@/pages/MarkdownPanel/types.ts";
-import {getHighlightInfo, getHighlightInfoV2} from "@/pages/MarkdownPanel/algorithm";
+import {getHighlightInfo, getHighlightInfoV2, getHighlightInfoV3} from "@/pages/MarkdownPanel/algorithm";
 import {useDownload} from "@/hook/useDownload.ts";
 
 type MarkdownContainerProps = {
@@ -34,7 +34,7 @@ export const MarkdownContainer:
                     if (onSearch) {
                         onSearch(inputValue);
                     } else {
-                        getHighlightInfoV2(source, inputValue).then(([startIndex, endIndex]) => {
+                        getHighlightInfoV3(source, inputValue).then(([startIndex, endIndex]) => {
                             console.log("🚀  ", startIndex, endIndex)
                             onHL({
                                 startIndex,

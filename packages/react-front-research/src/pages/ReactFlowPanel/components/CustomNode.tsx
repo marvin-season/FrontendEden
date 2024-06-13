@@ -1,18 +1,18 @@
 import {Handle, NodeProps, Position} from "reactflow";
 import {FC} from "react";
 
-const CustomNode: FC<NodeProps> = ({data}) => {
+const CustomNode: FC<NodeProps> = (props) => {
+    console.log("🚀  ", props)
     return (
         <>
-            <Handle type="target" position={Position.Top}/>
             <div style={{background: '#fff'}}>
-                {data.label}
+                {props.data.title}
             </div>
-            <Handle type="source" position={Position.Bottom} id="a"/>
+            <Handle type="source"  position={Position.Bottom} id="source"/>
             <Handle
                 type="target"
                 position={Position.Bottom}
-                id="b"
+                id="target"
                 style={{left: 0}}
             />
         </>
