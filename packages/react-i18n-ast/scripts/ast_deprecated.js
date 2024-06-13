@@ -24,19 +24,19 @@ const extractChinese = str => str.match(/[\u4e00-\u9fa5]+/g)
 
 const code = fs.readFileSync(srcPath, 'utf8');
 
-let ast = babelParser.parse(code, {
+let ast_deprecated = babelParser.parse(code, {
     sourceType: 'module', // default: "script"
     plugins: ['typescript', 'jsx'],
     ranges: false,
     loc: false,
     tokens: false
 });
-fs.writeFileSync("./ast.json", JSON.stringify(ast, null, 2));
+fs.writeFileSync("./ast.json", JSON.stringify(ast_deprecated, null, 2));
 
 // fs.writeFileSync('./demo.ast.json', JSON.stringify(ast, null, 2));
 
 // transform the ast
-traverse(ast, {
+traverse(ast_deprecated, {
     StringLiteral(path) {
         const {node, parent} = path;
         // console.log("🚀  ", node, parent)

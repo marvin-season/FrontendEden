@@ -124,7 +124,6 @@ traverse(ast, {
             }
         });
         quasis[quasis.length - 1].tail = true;
-        return
     },
     ReturnStatement(path) {
         const {parent, node} = path
