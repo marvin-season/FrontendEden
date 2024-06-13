@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import XLSX from 'xlsx';
 
-const jsonFilePath = path.resolve('./public/locales/zh/translation.json');
+const jsonFilePath = path.resolve('../public/locales/zh/translation.json');
 const jsonData = fs.readFileSync(jsonFilePath, 'utf8');
 const jsonObject = JSON.parse(jsonData);
 
@@ -15,7 +15,7 @@ for (const key in jsonObject) {
 const workbook = XLSX.utils.book_new();
 const worksheet = XLSX.utils.aoa_to_sheet(data);
 XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
-const outputFilePath = path.resolve('./public/locales/zh/translation.xlsx');
+const outputFilePath = path.resolve('../public/locales/zh/translation.xlsx');
 XLSX.writeFile(workbook, outputFilePath);
 console.log(`XLSX 文件已导出到: ${outputFilePath}`);
 
