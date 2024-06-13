@@ -21,7 +21,7 @@ const chineseCollection = {
 
 const stringSets = new Set();
 
-const srcPath = path.resolve(args[0] || '../src/pages/Page2.tsx');
+const srcPath = path.resolve(args[0] || '../src/pages/Demo.tsx');
 const outputPath = path.resolve(args[1] || "../public/locales/zh/translation.json")
 const code = fs.readFileSync(srcPath, 'utf8');
 
@@ -29,8 +29,8 @@ let ast = babelParser.parse(code, {
     sourceType: 'module', // default: "script"
     plugins: ['typescript', 'jsx'],
 });
-// fs.writeFileSync("./ast.json", JSON.stringify(ast, null, 2));
-
+// 写入原文件
+fs.writeFileSync(srcPath.replace('.tsx', '.raw.tsx'), code);
 // transform the ast
 traverse(ast, {
     StringLiteral(path) {
@@ -42,9 +42,8 @@ traverse(ast, {
                 path.replaceWith(t.jsxExpressionContainer(t.stringLiteral(node.value)))
                 return
             } else {
-                chineseCollection[node.value] = node.value
+                chineseCollection[node.value] = node.value + '[chinese]'
                 path.replaceWithSourceString('t("' + node.value + '")')
-                console.log("🤪StringLiteral ", chineseCollection[node.value])
                 parent.id?.name && stringSets.add(parent.id.name);
             }
         }
@@ -108,7 +107,6 @@ traverse(ast, {
                 value: {raw}, tail,
             } = node;
             if (!includesChinese(raw)) {
-                return;
             } else {
                 console.log("🚀  TemplateLiteral", raw)
                 let newCall = t.stringLiteral(raw);
@@ -136,7 +134,9 @@ traverse(ast, {
 });
 
 const output = generate(ast);
+// 写入更改后的文件
 fs.writeFileSync(srcPath, output.code);
+// json文件
 fs.writeFileSync(outputPath, JSON.stringify(chineseCollection, null, 2), 'utf8');
 console.log(output.code);
 console.log("🚀  ", stringSets)

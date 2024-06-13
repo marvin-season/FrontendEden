@@ -1,6 +1,6 @@
 import {name} from '../utils'
 
-export const Page2 = () => {
+export const Demo = () => {
     const address = "武汉";
     const renderFn = () => <>
         renderFn jsx
