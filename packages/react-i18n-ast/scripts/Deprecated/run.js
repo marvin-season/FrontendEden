@@ -9,7 +9,9 @@ const includeSpace = v => /[\f\r\t\n\s]/.test(v);
 const includesChinese = v => /[\u4e00-\u9fa5]+/g.test(v);
 const extractChinese = str => str.match(/[\u4e00-\u9fa5]+/g);
 
-
+/**
+ * @deprecated 重构为CodeWalker的插件
+ */
 const traverseAST = (traverse, ast, {chineseCollection, stringSets, t}) => {
     traverse(ast, {
         StringLiteral(path) {
