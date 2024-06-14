@@ -11,10 +11,14 @@ export const i18nTransformPlugin = {
     run: ({ast, config}) => {
         const chineseCollection = {};
         const stringSets = new Set();
+        // const assignmentExpression = {};
 
         traverse.default(ast, {
             StringLiteral(path) {
                 const {parent, node} = path;
+                // if(parent.type === 'AssignmentExpression') {
+                //     assignmentExpression[parent.left.property.name] = node.value;
+                // }
                 if (includesChinese(node.value)) {
                     if (t.isJSXAttribute(parent)) {
                         // path.skip()
