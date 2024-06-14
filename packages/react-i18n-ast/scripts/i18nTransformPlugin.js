@@ -9,7 +9,6 @@ const extractChinese = str => str.match(/[\u4e00-\u9fa5]+/g);
 
 export const i18nTransformPlugin = {
     run: ({ast, config}) => {
-        console.log("🚀  config", config)
         const chineseCollection = {};
         const stringSets = new Set();
 
@@ -65,7 +64,7 @@ export const i18nTransformPlugin = {
                     const name = `${node.name}_${Date.now()}`
                     chineseCollection[name] = `{{${node.name}}}`
                     path.replaceWithSourceString(`t('${name}', {${node.name}})`)
-                    console.log("☀️Identifier ", chineseCollection[name])
+                    // console.log("☀️Identifier ", chineseCollection[name])
                 }
                 path.skip()
             },
@@ -103,7 +102,6 @@ export const i18nTransformPlugin = {
                 node?.body?.unshift(babelParser.parse("import { useTranslation } from 'react-i18next'", {sourceType: 'module'}).program.body[0])
             }
         });
-        console.log("🚀  this", this)
         config.chineseCollection = chineseCollection;
     }
 

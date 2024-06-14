@@ -30,11 +30,14 @@ class CodeWalker {
 }
 
 
-const codeWalker = new CodeWalker({src: '../src/pages/Demo.tsx'})
-    .use(i18nTransformPlugin)
-    .use(i18nCodeGeneratePlugin)
-    .use({
-        run: ({ast, config}) => {
-            console.log("🚀  config", config)
-        }
-    });
+export const getCodeWalker = (src) => {
+    return new CodeWalker({src})
+        .use(i18nTransformPlugin)
+        .use(i18nCodeGeneratePlugin)
+        .use({
+            run({config}) {
+                console.log("🚀  正在写入文件: \n", config.src)
+                console.log(config.transformed.code);
+            }
+        })
+}
