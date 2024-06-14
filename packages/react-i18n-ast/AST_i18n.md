@@ -159,4 +159,4 @@ traverse(ast, {
 
 
 ## 自动化脚本
-[点击查看 ast.js](./scripts/ast2.js)
+[点击查看 CodeWalker](./scripts/CodeWalker)
