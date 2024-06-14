@@ -30,7 +30,7 @@ class CodeWalker {
 }
 
 
-export const getCodeWalker = (src) => {
+export const getCodeWalker = (src, effective = false) => {
     return new CodeWalker({src})
         .use(i18nTransformPlugin)
         .use(i18nCodeGeneratePlugin)
@@ -38,6 +38,7 @@ export const getCodeWalker = (src) => {
             run({config}) {
                 console.log("🚀  正在写入文件: \n", config.src)
                 console.log(config.transformed.code);
+                effective && fs.writeFileSync(config.src, config.transformed.code);
             }
         })
 }
