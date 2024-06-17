@@ -1,8 +1,22 @@
-{
-  "中文": "中文[chinese]",
-  "武汉": "武汉[chinese]",
-  "name_1718280133437": "{{name}}",
-  "address_1718280133438": "{{address}}",
-  "我的名字：": "我的名字：[chinese]",
-  "东湖": "东湖[chinese]"
-}
+[
+  {
+    "path": "./src/App.tsx",
+    "collections": {
+      "中文": "中文[chinese]"
+    }
+  },
+  {
+    "path": "./src/main.tsx",
+    "collections": {}
+  },
+  {
+    "path": "src/pages/Demo.tsx",
+    "collections": {
+      "武汉": "武汉[chinese]",
+      "name_1718616759880": "{{name}}",
+      "address_1718616759881": "{{address}}",
+      "我的名字：": "我的名字：[chinese]",
+      "东湖": "东湖[chinese]"
+    }
+  }
+]

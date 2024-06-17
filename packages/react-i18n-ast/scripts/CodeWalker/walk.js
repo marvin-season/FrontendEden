@@ -4,7 +4,7 @@ import {getCodeWalker} from "./CodeWalker.js";
 
 const args = process.argv.slice(2);
 
-const dir = args[0] || '../src';
+const dir = args[0] || 'src';
 const chineseCollections = []
 
 const walk = (dir, parentRoute, deep) => {
@@ -20,7 +20,7 @@ const walk = (dir, parentRoute, deep) => {
         } else if (/\.(tsx|jsx)$/.test(file)) {
             const path = parentRoute + '/' + file;
 
-            const codeWalker = getCodeWalker(path);
+            const codeWalker = getCodeWalker(path, false);
             codeWalker.use({
                 run({config}) {
                     config.chineseCollection && chineseCollections.push({
@@ -36,4 +36,4 @@ const walk = (dir, parentRoute, deep) => {
 walk(dir, dir, 0);
 console.log("🚀  chineseCollections", chineseCollections)
 // console.log("🚀  chineseCollections", chineseCollections)
-// fs.writeFileSync("../public/locales/zh/translation.json", JSON.stringify(chineseCollections, null, 2), 'utf8');
+fs.writeFileSync("public/locales/zh/translation.json", JSON.stringify(chineseCollections, null, 2), 'utf8');
