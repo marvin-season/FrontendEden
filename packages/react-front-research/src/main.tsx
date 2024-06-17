@@ -2,6 +2,10 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import {Providers} from "@/providers";
 import App from "@/App.tsx";
+import {cs} from './plugins/CoreSystem'
+
+console.log("🚀  ", cs)
+console.log(cs.process('hi-i-am'));
 
 async function enableMocking() {
     if (process.env.NODE_ENV !== 'development') {
