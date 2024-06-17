@@ -1,5 +1,5 @@
 export interface Plugin<T> {
-    (system: CoreSystem, config: T): <P>(system: CoreSystem, input: P) => void | P;
+    (system: CoreSystem, config: T): (system: CoreSystem, input: unknown) => void | unknown;
 }
 
 export class CoreSystem {
@@ -12,7 +12,7 @@ export class CoreSystem {
     }
 
 
-    process<P>(input: P) {
+    process(input: unknown) {
 
         let i = 0;
         let output = input;
@@ -31,12 +31,12 @@ export class CoreSystem {
 export const cs = new CoreSystem()
     .use((system, {separator}) => {
         return (system, input) => {
-            return input.split(separator)
+            return (<string>input).split(separator)
         }
     }, {separator: '-'})
     .use((system, config) => {
         return (system, input) => {
-            return input.join(config.glue)
+            return (<[]>input).join(config.glue)
         }
     }, {glue: '#'})
 
