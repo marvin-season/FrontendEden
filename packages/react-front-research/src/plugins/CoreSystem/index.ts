@@ -1,19 +1,18 @@
-export interface Plugin {
-    (system: CoreSystem, config: any): (system: CoreSystem, input: any) => void | any;
+export interface Plugin<T> {
+    (system: CoreSystem, config: T): <P>(system: CoreSystem, input: P) => void | P;
 }
 
 export class CoreSystem {
 
-    attaches: [Plugin, Record<string, any>?][] = []
+    attaches: [Plugin<any>, any?][] = []
 
-    use(plugin: Plugin, config?: Record<string, any>) {
-
+    use<T>(plugin: Plugin<T>, config?: T) {
         this.attaches.push([plugin, config]);
         return this;
     }
 
 
-    process(input: any) {
+    process<P>(input: P) {
 
         let i = 0;
         let output = input;
@@ -41,6 +40,7 @@ export const cs = new CoreSystem()
         }
     }, {glue: '#'})
 
+cs.process('hi-i-am')
 
 
 
