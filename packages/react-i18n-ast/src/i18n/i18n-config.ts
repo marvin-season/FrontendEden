@@ -2,8 +2,7 @@ import i18n from 'i18next';
 import {initReactI18next} from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 import moment from "moment";
-import Backend from 'i18next-http-backend';
-import {resources} from "./src/i18n";
+import {resources} from "./resources.ts";
 
 i18n
     // 检测用户当前使用的语言
