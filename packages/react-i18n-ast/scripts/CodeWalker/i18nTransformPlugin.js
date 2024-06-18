@@ -9,7 +9,7 @@ const extractChinese = str => str.match(/[\u4e00-\u9fa5]+/g);
 
 export const i18nTransformPlugin = {
     run: ({ast, config}) => {
-        const chineseCollection = {};
+        const chineseCollections = [];
         const stringSets = new Set();
         // const assignmentExpression = {};
 
@@ -26,9 +26,16 @@ export const i18nTransformPlugin = {
                         path.replaceWith(t.jsxExpressionContainer(t.stringLiteral(node.value)))
                         return
                     } else {
-                        chineseCollection[node.value] = node.value + '[chinese]'
-                        path.replaceWithSourceString('t("' + node.value + '")')
-                        parent.id?.name && stringSets.add(parent.id.name);
+                        const timestamp =  Date.now();
+                        const collection = {
+                            id: '_' + timestamp + '_' + node.value,
+                            var: '_' + timestamp + '_' + node.value,
+                            zh: node.value,
+                            en: ''
+                        };
+                        chineseCollections.push(collection)
+                        path.replaceWithSourceString('t("' + collection.var + '")')
+                        // parent.id?.name && stringSets.add(parent.id.name);
                     }
                 }
                 path.skip()
@@ -36,7 +43,7 @@ export const i18nTransformPlugin = {
             ImportDeclaration(path) {
                 path.node.specifiers.forEach((specifier) => {
                     if (t.isImportSpecifier(specifier) || t.isImportDefaultSpecifier(specifier) || t.isImportNamespaceSpecifier(specifier)) {
-                        specifier.local.name && stringSets.add(specifier.local.name)
+                        // specifier.local.name && stringSets.add(specifier.local.name)
                     }
                 });
             },
@@ -66,7 +73,12 @@ export const i18nTransformPlugin = {
                         return
                     }
                     const name = `${node.name}_${Date.now()}`
-                    chineseCollection[name] = `{{${node.name}}}`
+                    chineseCollections.push({
+                        id: '',
+                        var: name,
+                        zh: '',
+                        en: ''
+                    })
                     path.replaceWithSourceString(`t('${name}', {${node.name}})`)
                     // console.log("☀️Identifier ", chineseCollection[name])
                 }
@@ -106,7 +118,7 @@ export const i18nTransformPlugin = {
                 node?.body?.unshift(babelParser.parse("import { useTranslation } from 'react-i18next'", {sourceType: 'module'}).program.body[0])
             }
         });
-        config.chineseCollection = chineseCollection;
+        config.chineseCollections = chineseCollections;
     }
 
 }

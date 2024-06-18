@@ -23,9 +23,9 @@ const walk = (dir, parentRoute, deep) => {
             const codeWalker = getCodeWalker(path, false);
             codeWalker.use({
                 run({config}) {
-                    config.chineseCollection && chineseCollections.push({
+                    config.chineseCollections && chineseCollections.push({
                         path,
-                        collections: config.chineseCollection
+                        collections: config.chineseCollections
                     })
                 }
             });
@@ -35,5 +35,4 @@ const walk = (dir, parentRoute, deep) => {
 
 walk(dir, dir, 0);
 console.log("🚀  chineseCollections", chineseCollections)
-// console.log("🚀  chineseCollections", chineseCollections)
 fs.writeFileSync("public/locales/zh/translation.json", JSON.stringify(chineseCollections, null, 2), 'utf8');
