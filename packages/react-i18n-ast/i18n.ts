@@ -3,9 +3,9 @@ import {initReactI18next} from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 import moment from "moment";
 import Backend from 'i18next-http-backend';
+import {resources} from "./src/i18n";
 
 i18n
-    .use(Backend)
     // 检测用户当前使用的语言
     // 文档: https://github.com/i18next/i18next-browser-languageDetector
     .use(LanguageDetector)
@@ -18,7 +18,8 @@ i18n
         fallbackLng: 'en',
         interpolation: {
             escapeValue: false,
-        }
+        },
+        resources
     });
 
 i18n.services.formatter?.add('DD/MM/YYYY', (value) => {
