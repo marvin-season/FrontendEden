@@ -22,7 +22,11 @@ const flatResource: (FlatResourceType & {
 
 const initResources = {
     en: {
-        translation: {}
+        translation: {
+            '你   .好': {
+                '他': 'ni-啊ao-ta'
+            }
+        }
     },
     zh: {
         translation: {}
