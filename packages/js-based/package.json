@@ -4,10 +4,13 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "dev": "ts-node-esm ./src/index.ts"
   },
   "dependencies": {
 
   },
   "devDependencies": {
+    "typescript": "^5.2.2",
+    "ts-node": "^10.9.2"
   }
 }
