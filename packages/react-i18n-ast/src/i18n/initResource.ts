@@ -1,12 +1,16 @@
 export const initResources = {
     en: {
         translation: {
-            '你   .好': {
-                '他': 'ni-啊ao-ta'
+            'you.ok': {
+                'he': 'he is ok !'
             }
         }
     },
     zh: {
-        translation: {}
+        translation: {
+            '你   .好': {
+                '他': '他好'
+            }
+        }
     },
 };

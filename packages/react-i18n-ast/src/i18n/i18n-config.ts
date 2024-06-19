@@ -29,4 +29,3 @@ i18n.services.formatter?.add('YYYY-MM-DD', (value) => {
     return moment(value).format('YYYY-MM-DD')
 })
 export default i18n;
-console.log('你   .好.他',i18n.t('你   .好.他'));
