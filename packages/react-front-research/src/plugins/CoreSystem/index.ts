@@ -3,7 +3,7 @@ export interface Plugin<T> {
 }
 
 export class CoreSystem {
-
+    data: Record<string, any> = {};
     attaches: [Plugin<any>, any?][] = []
 
     use<T>(plugin: Plugin<T>, config?: T) {
@@ -27,20 +27,6 @@ export class CoreSystem {
         return output;
     }
 }
-
-export const cs = new CoreSystem()
-    .use((system, {separator}) => {
-        return (system, input) => {
-            return (<string>input).split(separator)
-        }
-    }, {separator: '-'})
-    .use((system, config) => {
-        return (system, input) => {
-            return (<[]>input).join(config.glue)
-        }
-    }, {glue: '#'})
-
-cs.process('hi-i-am')
 
 
 
