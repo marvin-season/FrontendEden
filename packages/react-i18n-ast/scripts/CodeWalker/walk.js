@@ -20,7 +20,7 @@ const walk = (dir, parentRoute, deep) => {
         } else if (/\.(tsx|jsx)$/.test(file)) {
             const path = parentRoute + '/' + file;
 
-            const codeWalker = getCodeWalker(path, false);
+            const codeWalker = getCodeWalker(path, true);
             codeWalker.use({
                 run({config}) {
                     config.chineseCollections && chineseCollections.push({
@@ -34,5 +34,4 @@ const walk = (dir, parentRoute, deep) => {
 }
 
 walk(dir, dir, 0);
-console.log("🚀  chineseCollections", chineseCollections)
-fs.writeFileSync("./translation.json", JSON.stringify(chineseCollections, null, 2), 'utf8');
+fs.writeFileSync("./src/i18n/translations.json", JSON.stringify(chineseCollections, null, 2), 'utf8');

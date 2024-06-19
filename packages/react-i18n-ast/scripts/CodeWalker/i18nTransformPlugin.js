@@ -115,11 +115,11 @@ export const i18nTransformPlugin = {
             },
             ReturnStatement(path) {
                 const {parent, node} = path
-                parent?.body?.unshift(babelParser.parse('const { t } = useTranslation()').program.body[0]);
+                // parent?.body?.unshift(babelParser.parse('const { t } = useTranslation()').program.body[0]);
             },
             Program(path) {
                 const {parent, node} = path
-                node?.body?.unshift(babelParser.parse("import { useTranslation } from 'react-i18next'", {sourceType: 'module'}).program.body[0])
+                node?.body?.unshift(babelParser.parse("import {t} from 'i18next';", {sourceType: 'module'}).program.body[0])
             }
         });
         config.chineseCollections = chineseCollections;
