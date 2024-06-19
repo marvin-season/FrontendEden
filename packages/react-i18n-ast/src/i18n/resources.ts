@@ -1,47 +1,29 @@
+import {initResources} from "./initResource.ts";
+import translations from './translations.json';
+import lodash from 'lodash-es'
+
 type FlatResourceType = {
     [k in keyof typeof initResources]: string;
 };
 
-const flatResource: (FlatResourceType & {
+
+const handelReduceResources = (arr: (FlatResourceType & {
     id: string,
-    var: string,
-})[] = [
-    {
-        id: '1',
-        var: 'welcome',
-        zh: '欢迎',
-        en: 'Welcome'
-    },
-    {
-        id: '2',
-        var: 'hi',
-        zh: '你好',
-        en: 'Hello'
-    }
-]
-
-const initResources = {
-    en: {
-        translation: {
-            '你   .好': {
-                '他': 'ni-啊ao-ta'
-            }
-        }
-    },
-    zh: {
-        translation: {}
-    },
-};
-
-const reduceResources = flatResource.reduce((prev, cur) => {
+    spec: string,
+})[], init: typeof initResources) => arr.reduce((prev, cur) => {
     Object.keys(cur).forEach((k) => {
         const key = k as keyof typeof initResources;
         if (prev[key]) {
-            Object.assign(prev[key].translation, {[cur.var]: cur[key]})
+            Object.assign(prev[key].translation, {[cur.spec]: cur[key]})
         }
     })
 
     return prev
-}, initResources);
+}, init);
 
-export const resources = reduceResources
+
+const translationsResources = translations.map(translation => handelReduceResources(translation.collections, initResources))
+const mergeResources = lodash.merge({}, ...translationsResources);
+console.log("🚀  mergeResources", mergeResources)
+
+export const resources = mergeResources

@@ -20,8 +20,7 @@ function App() {
                     ))}
                 </select>
             </header>
-
-            <IndexPage/>
+            <Demo></Demo>
         </div>
     );
 }

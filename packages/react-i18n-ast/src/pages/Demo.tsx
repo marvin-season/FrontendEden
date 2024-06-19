@@ -1,4 +1,6 @@
-import {name} from '../utils'
+import {name} from '../utils';
+import {t} from 'i18next';
+
 
 export const Demo = () => {
     const address = "武汉";
