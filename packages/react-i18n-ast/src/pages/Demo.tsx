@@ -1,22 +1,24 @@
+import {t} from 'i18next';
 import {name} from '../utils';
 
+console.log('武汉', t("武汉"));
+
 export const Demo = () => {
-    const address = "武汉";
+    const address = t("武汉");
     const renderFn = () => <>
         renderFn jsx
-    </>
-
-    const ele = <>ele jsx</>
+    </>;
+    const ele = <>ele jsx</>;
     return <>
         <p>{name}</p>
         <p>{address}</p>
         <p>
-            {`我的名字：${name}`}
+            {`${t("我的名字：")}${name}`}
         </p>
         <div>
-            <p>{'东湖'}</p>
+            <p>{t("东湖")}</p>
         </div>
         <p>{renderFn()}</p>
         <p>{ele}</p>
-    </>
-}
+    </>;
+};

@@ -1,9 +1,11 @@
-import {useTranslation} from "react-i18next";
+import {t} from "i18next";
+
+console.log('武汉', t("武汉"));
+
 
 export const IndexPage = () => {
-    const {t} = useTranslation();
     return (<>
-        {t('你   .好.他')}
+        {t("武汉")}
     </>)
 }
 IndexPage.displayName = '首页'

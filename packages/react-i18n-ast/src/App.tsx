@@ -1,6 +1,6 @@
-import {Demo} from "./pages/Demo.tsx";
 import i18n from "i18next";
 import {IndexPage} from "./pages/Index";
+import {Demo} from "./pages/Demo.tsx";
 
 const lngs: any = {
     en: {nativeName: 'English'},
@@ -16,11 +16,11 @@ function App() {
                 }}>
                     {Object.keys(lngs).map((lng) => (
                         <option key={lng} value={lng} label={lngs[lng].nativeName}
-                                style={{fontWeight: i18n.resolvedLanguage === lng ? 'bold' : 'normal'}}/>
+                                style={{fontWeight: i18n.resolvedLanguage === lng ? 'bolder' : 'normal'}}/>
                     ))}
                 </select>
             </header>
-            <Demo></Demo>
+            <Demo/>
         </div>
     );
 }
