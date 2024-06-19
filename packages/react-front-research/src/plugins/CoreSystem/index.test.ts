@@ -4,16 +4,19 @@ import {test} from "vitest";
 const cs = new CoreSystem()
     .use((system, {separator}) => {
         return (system, input) => {
+            system.data.separator = separator;
             return (<string>input).split(separator)
         }
     }, {separator: '-'})
-    .use((system, config) => {
+    .use((system, {glue}) => {
         return (system, input) => {
-            return (<[]>input).join(config.glue)
+            system.data.glue = glue;
+            return (<[]>input).join(glue)
         }
     }, {glue: '#'})
 
 
-test('CoreSystem', () => {
-    console.log(cs.process('hi-i-am'));
+test('CoreSystem', async () => {
+    const data = await cs.process('hi-i-am');
+    console.log(cs, data);
 })

@@ -12,19 +12,20 @@ export class CoreSystem {
     }
 
 
-    process(input: unknown) {
+    async process(input: unknown) {
 
         let i = 0;
         let output = input;
 
         do {
+            // pipe: input => output as input => output
             const [plugin, config] = this.attaches[i];
             output = plugin(this, config)(this, output) || output;
             i += 1;
 
         } while (i >= 0 && i < this.attaches.length);
 
-        return output;
+        return Promise.resolve(output);
     }
 }
 
