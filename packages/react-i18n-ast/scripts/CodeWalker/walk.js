@@ -35,4 +35,4 @@ const walk = (dir, parentRoute, deep) => {
 
 walk(dir, dir, 0);
 console.log("🚀  chineseCollections", chineseCollections)
-fs.writeFileSync("public/locales/zh/translation.json", JSON.stringify(chineseCollections, null, 2), 'utf8');
+fs.writeFileSync("./translation.json", JSON.stringify(chineseCollections, null, 2), 'utf8');
