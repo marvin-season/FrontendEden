@@ -31,8 +31,8 @@ export const i18nTransformPlugin = {
                         const collection = {
                             id: nanoid(),
                             spec: node.value,
-                            zh: node.value,
-                            en: ''
+                            zh: node.value + 'zh',
+                            en: node.value + 'en'
                         };
                         chineseCollections.push(collection)
                         path.replaceWithSourceString('t("' + collection.spec + '")')

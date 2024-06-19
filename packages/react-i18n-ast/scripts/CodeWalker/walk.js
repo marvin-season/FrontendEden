@@ -6,6 +6,7 @@ const args = process.argv.slice(2);
 
 const dir = args[0] || 'src';
 const chineseCollections = []
+const excludesFile = ['App.tsx', 'main.tsx']
 
 const walk = (dir, parentRoute, deep) => {
     if (deep >= 2) {
@@ -18,6 +19,9 @@ const walk = (dir, parentRoute, deep) => {
         if (stat.isDirectory()) {
             walk(filePath, path.join(parentRoute, file), deep + 1);
         } else if (/\.(tsx|jsx)$/.test(file)) {
+            if (excludesFile.includes(file)) {
+                return
+            }
             const path = parentRoute + '/' + file;
 
             const codeWalker = getCodeWalker(path, true);
