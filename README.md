@@ -26,7 +26,7 @@ cd [项目所在路径] && npm run dev
 
 ```yaml
 packages:
-  js-advanced: js高级特性验证使用（web.js）
+  js-ts-based: js/ts特性验证
   shared: js相关api手写，以及相关工具类（node.js）
   react-ai: 搭建的一个全新的ai相关的组件库
   react-front-research: react开发相关调研
