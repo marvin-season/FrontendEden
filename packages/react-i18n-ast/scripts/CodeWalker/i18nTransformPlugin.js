@@ -1,6 +1,7 @@
 import babelParser from "@babel/parser";
 import traverse from "@babel/traverse";
 import types from '@babel/types';
+import {nanoid} from "nanoid";
 
 const t = types;
 const includeSpace = v => /[\f\r\t\n\s]/.test(v);
@@ -26,15 +27,15 @@ export const i18nTransformPlugin = {
                         path.replaceWith(t.jsxExpressionContainer(t.stringLiteral(node.value)))
                         return
                     } else {
-                        const timestamp =  Date.now();
+                        const timestamp = Date.now();
                         const collection = {
-                            id: '_' + timestamp + '_' + node.value,
-                            var: '_' + timestamp + '_' + node.value,
+                            id: nanoid(),
+                            spec: node.value,
                             zh: node.value,
                             en: ''
                         };
                         chineseCollections.push(collection)
-                        path.replaceWithSourceString('t("' + collection.var + '")')
+                        path.replaceWithSourceString('t("' + collection.spec + '")')
                         // parent.id?.name && stringSets.add(parent.id.name);
                     }
                 }
@@ -72,15 +73,18 @@ export const i18nTransformPlugin = {
                     if (!stringSets.has(node.name)) {
                         return
                     }
-                    const name = `${node.name}_${Date.now()}`
-                    chineseCollections.push({
-                        id: '',
-                        var: name,
-                        zh: '',
-                        en: ''
-                    })
-                    path.replaceWithSourceString(`t('${name}', {${node.name}})`)
-                    // console.log("☀️Identifier ", chineseCollection[name])
+                    /**
+                     * const name = `${node.name}_${Date.now()}`
+                     *    chineseCollections.push({
+                     *     id: '',
+                     *     spec: name,
+                     *     zh: '',
+                     *     en: ''
+                     *     })
+                     *     path.replaceWithSourceString(`t('${name}', {${node.name}})`)
+                     *    console.log("☀️Identifier ", chineseCollection[name])
+                     *
+                     */
                 }
                 path.skip()
             },

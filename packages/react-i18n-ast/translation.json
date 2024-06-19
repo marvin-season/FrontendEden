@@ -3,8 +3,8 @@
     "path": "./src/App.tsx",
     "collections": [
       {
-        "id": "_1718777725995_中文",
-        "var": "_1718777725995_中文",
+        "id": "0rupiG1ezevC_H5QxYaHj",
+        "spec": "中文",
         "zh": "中文",
         "en": ""
       }
@@ -18,20 +18,20 @@
     "path": "src/pages/Demo.tsx",
     "collections": [
       {
-        "id": "_1718777726003_武汉",
-        "var": "_1718777726003_武汉",
+        "id": "hGLu3qwiN2lEwEV_Yhsbx",
+        "spec": "武汉",
         "zh": "武汉",
         "en": ""
       },
       {
-        "id": "_1718777726004_我的名字：",
-        "var": "_1718777726004_我的名字：",
+        "id": "rINwFc5na0HWLXEDcbsrW",
+        "spec": "我的名字：",
         "zh": "我的名字：",
         "en": ""
       },
       {
-        "id": "_1718777726004_东湖",
-        "var": "_1718777726004_东湖",
+        "id": "B2UC-1rKlLem32RjN_-Nv",
+        "spec": "东湖",
         "zh": "东湖",
         "en": ""
       }
