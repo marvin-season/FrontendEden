@@ -1,8 +1,7 @@
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import MarkdownPreview from '@uiw/react-markdown-preview'
 import {remarkText} from "@/pages/MarkdownPanel/plugins/remarkText.tsx";
 import {HLInfoType} from "@/pages/MarkdownPanel/types.ts";
-import {useDownload} from "@/hook/useDownload.ts";
 import {MarkdownContainer} from "@/pages/MarkdownPanel/components/MarkdownContainer.tsx";
 
 export const UiwMarkdownByPlugin = () => {
@@ -13,14 +12,6 @@ export const UiwMarkdownByPlugin = () => {
     });
 
     const [source, setSource] = useState('')
-
-    const [inputValue, setInputValue] = useState('');
-    const {download} = useDownload(console.log, async blob => {
-        setSource(await blob.text())
-    });
-    useEffect(() => {
-        download('/example.md').then(console.log)
-    }, []);
 
     return <MarkdownContainer onSource={setSource} onHL={setHighlightInfo}>
         <MarkdownPreview
