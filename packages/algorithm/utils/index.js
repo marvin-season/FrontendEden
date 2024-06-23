@@ -14,3 +14,13 @@ export const createLinkedList = (array = [1, 2, 3]) => {
     }
     return head;
 }
+
+export const linkedListLoggers = (head) => {
+    let current = head;
+    let r = ''
+    while (current) {
+        r += current.value + ' -> '
+        current = current.next
+    }
+    console.log("🚀  ", r + 'null')
+}

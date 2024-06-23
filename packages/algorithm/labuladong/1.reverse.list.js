@@ -1,16 +1,16 @@
 /**
- * 使用递归技巧反转链表
+ * @description 递归思维：反转链表
+ *
+ *  拆解为子问题，找到base case
  */
 
-import {createLinkedList} from "../utils/index.js"
+import {createLinkedList, linkedListLoggers} from "../utils/index.js"
 
-const linkedList = createLinkedList([1, 2, 3, 4]);
+const linkedList = createLinkedList([1, 2, 3, 4, 5, 6]);
 console.log("🚀  ", linkedList)
 
 /**
  * 反转整个链表
- * @param head
- * @returns {*}
  */
 export const reverseLinkList = (head) => {
     if (!head.next) {
@@ -21,7 +21,9 @@ export const reverseLinkList = (head) => {
     head.next = null;
     return last
 }
-
+/**
+ * 反转链表前N个节点
+ */
 let successor = null;
 export const reverseLinkListN = (head, n) => {
     // base case: 反转前1个节点
@@ -36,6 +38,9 @@ export const reverseLinkListN = (head, n) => {
     return last
 }
 
+/**
+ * 反转链表的一部分
+ */
 export const reverseLinkListBetween = (head, m, n) => {
     // base case：m = 1
     if (m === 1) {
@@ -46,4 +51,4 @@ export const reverseLinkListBetween = (head, m, n) => {
     return head
 }
 
-console.log("🚀  ", reverseLinkListBetween(linkedList, 2, 3));
+linkedListLoggers(reverseLinkListBetween(linkedList, 2, 4))
