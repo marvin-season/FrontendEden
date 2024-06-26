@@ -1,9 +1,8 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import {resolve} from 'path';
-import generateRoutesPlugin from "./plugins/vite-plugin-generate-routes";
 export default defineConfig({
-  plugins: [react(), generateRoutesPlugin()],
+  plugins: [react()],
   optimizeDeps:{
     esbuildOptions:{
       target: 'esnext'
