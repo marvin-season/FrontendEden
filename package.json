@@ -11,7 +11,8 @@
   "devDependencies": {
     "@types/lodash": "^4.14.202",
     "lerna": "^6.6.2",
-    "md5 ": "link:@types/md5 "
+    "md5 ": "link:@types/md5 ",
+    "vite-plugin-pages": "^0.32.3"
   },
   "dependencies": {
     "ahooks": "^3.7.10",
