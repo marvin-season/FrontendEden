@@ -1,7 +1,7 @@
 import MarkdownPreview from '@uiw/react-markdown-preview'
 import {useEffect, useMemo, useState} from "react";
-import {source} from "@/pages/MarkdownPanel/mocks/markdown-source.ts";
-import {MarkdownContainer} from "@/pages/MarkdownPanel/components/MarkdownContainer.tsx";
+import {source} from "@/pages/markdown-page/mocks/markdown-source.ts";
+import {MarkdownContainer} from "@/pages/markdown-page/components/MarkdownContainer.tsx";
 
 const regex = /[^\u4e00-\u9fa5a-zA-Z0-9]/g;
 const textSplitRegex = /\n+/;

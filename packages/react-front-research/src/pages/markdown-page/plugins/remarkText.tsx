@@ -1,6 +1,6 @@
 import {visit} from "unist-util-visit";
-import {getIntersection} from "@/pages/MarkdownPanel/algorithm";
-import {HLInfoType} from "@/pages/MarkdownPanel/types.ts";
+import {getIntersection} from "@/pages/markdown-page/algorithm";
+import {HLInfoType} from "@/pages/markdown-page/types.ts";
 
 export const remarkText = ({startIndex, endIndex}: HLInfoType) => {
     console.log("🚀  startIndex, endIndex", startIndex, endIndex)

@@ -27,5 +27,5 @@ s2 = "xbx2xc";
 
 编译和反编译的中间可以自定义transform，transform中可以拿到节点的信息
 
-[详见unified插件](../src/pages/MarkdownPanel/plugins/remarkText.tsx)
+[详见unified插件](../src/pages/markdown-page/plugins/remarkText.tsx)
 

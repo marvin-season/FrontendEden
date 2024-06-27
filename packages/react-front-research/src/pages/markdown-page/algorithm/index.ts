@@ -1,4 +1,4 @@
-import {HLArrayType, SpliceType} from "@/pages/MarkdownPanel/types.ts";
+import {HLArrayType, SpliceType} from "@/pages/markdown-page/types.ts";
 
 export const regex = /[\[\]\\()\n*#|｜\-+\s`]/g;
 export const regexV2 = /[\[\]\\()\n*#|｜\-+\s`]/g;

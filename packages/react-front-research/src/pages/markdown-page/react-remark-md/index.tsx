@@ -1,5 +1,5 @@
-import {useRemarkHighlight} from "@/pages/MarkdownPanel/hooks/useRemarkHighlight.ts";
-import {source} from "@/pages/MarkdownPanel/mocks/markdown-source.ts";
+import {useRemarkHighlight} from "@/pages/markdown-page/hooks/useRemarkHighlight.ts";
+import {source} from "@/pages/markdown-page/mocks/markdown-source.ts";
 import {Flex, Input} from "antd";
 import {useState} from "react";
 

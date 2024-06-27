@@ -28,8 +28,8 @@ export const routes = [
     "element": "<Index />"
   },
   {
-    "path": "MarkdownPanel",
-    "element": "<MarkdownPanel />"
+    "path": "markdown-page",
+    "element": "<markdown-page />"
   },
   {
     "path": "PerformChunksPanel",

@@ -1,7 +1,7 @@
 import {Flex, Input} from "antd";
 import {FC, ReactElement, useState} from "react";
-import {HLInfoType} from "@/pages/MarkdownPanel/types.ts";
-import {getHighlightInfo, getHighlightInfoV3} from "@/pages/MarkdownPanel/algorithm";
+import {HLInfoType} from "@/pages/markdown-page/types.ts";
+import {getHighlightInfo, getHighlightInfoV3} from "@/pages/markdown-page/algorithm";
 import {useDownload} from "@/hook/useDownload.ts";
 
 type MarkdownContainerProps = {

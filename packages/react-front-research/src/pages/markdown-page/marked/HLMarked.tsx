@@ -3,7 +3,7 @@ import {markedHighlight} from "marked-highlight";
 import hljs from 'highlight.js';
 import {useEffect, useMemo, useState} from "react";
 import {convertToArray, getIntersection, useHighlightInfo} from "../hooks/implict-highlight-algorithm.ts";
-import {MarkdownContainer} from "@/pages/MarkdownPanel/components/MarkdownContainer.tsx";
+import {MarkdownContainer} from "@/pages/markdown-page/components/MarkdownContainer.tsx";
 
 let renderedIndex = 0;
 

@@ -7,7 +7,7 @@ import {
     getIntersection,
     splitBy,
     splitter
-} from "@/pages/MarkdownPanel/algorithm";
+} from "@/pages/markdown-page/algorithm";
 
 test('交集', () => {
     expect(getIntersection([1, 3], [2, 4])).toEqual([2, 3])

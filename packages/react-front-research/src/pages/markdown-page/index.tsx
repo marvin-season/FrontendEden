@@ -1,9 +1,9 @@
 import {Tabs, TabsProps} from "antd";
 
 import {EditableMD} from './EditableMD.tsx'
-import {HighlightMDShit, UiwMarkdownByPlugin} from "@/pages/MarkdownPanel/uiw-markdown/index.tsx";
-import {HLMarked} from "@/pages/MarkdownPanel/marked/HLMarked.tsx";
-import {ReactRemarkMD} from "@/pages/MarkdownPanel/react-remark-md";
+import {HighlightMDShit, UiwMarkdownByPlugin} from "@/pages/markdown-page/uiw-markdown/index.tsx";
+import {HLMarked} from "@/pages/markdown-page/marked/HLMarked.tsx";
+import {ReactRemarkMD} from "@/pages/markdown-page/react-remark-md";
 import {useDownload} from "@/hook/useDownload.ts";
 import {useEffect} from "react";
 

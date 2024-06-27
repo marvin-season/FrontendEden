@@ -8,7 +8,7 @@
 // import ScrollPanel from "@/pages/ScrollPanel";
 // import ReactResearchPanel from "@/pages/ReactResearchPanel";
 // import PerformChunksPanel from "@/pages/PerformChunksPanel";
-// import MarkdownPanel from "@/pages/MarkdownPanel";
+// import markdown-page from "@/pages/markdown-page";
 // import VideoPanel from "@/pages/VideoPanel";
 // import AudioPanel from "@/pages/AudioPanel";
 // import RaceCondition from "@/pages/RaceCondition";
@@ -58,7 +58,7 @@ export {default as routes} from '~react-pages';
 //             },
 //             {
 //                 path: 'Markdown',
-//                 element: <MarkdownPanel/>
+//                 element: <markdown-page/>
 //             },
 //             {
 //                 path: '视频下载测试',

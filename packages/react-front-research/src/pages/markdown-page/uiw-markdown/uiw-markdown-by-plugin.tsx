@@ -1,8 +1,8 @@
 import {useState} from "react";
 import MarkdownPreview from '@uiw/react-markdown-preview'
-import {remarkText} from "@/pages/MarkdownPanel/plugins/remarkText.tsx";
-import {HLInfoType} from "@/pages/MarkdownPanel/types.ts";
-import {MarkdownContainer} from "@/pages/MarkdownPanel/components/MarkdownContainer.tsx";
+import {remarkText} from "@/pages/markdown-page/plugins/remarkText.tsx";
+import {HLInfoType} from "@/pages/markdown-page/types.ts";
+import {MarkdownContainer} from "@/pages/markdown-page/components/MarkdownContainer.tsx";
 
 export const UiwMarkdownByPlugin = () => {
 
