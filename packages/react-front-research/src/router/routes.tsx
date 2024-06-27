@@ -1,2 +1,12 @@
+import {RouteObject} from 'react-router-dom';
+import Layout from '@/layout';
 // @ts-ignore
-export {default as routes} from '~react-pages';
+import routes_ from '~react-pages';
+
+export const routes: RouteObject[] = [
+    {
+        path: '/',
+        Component: Layout,
+        children: routes_
+    }
+]

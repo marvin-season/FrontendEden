@@ -8,11 +8,11 @@ export default defineConfig({
     plugins: [react(), Pages({
         dirs: [{
             dir: 'src/pages',
-            filePattern: '**/*Page/index.tsx',
+            filePattern: '**/*-page/index.tsx',
             baseRoute: '/'
         }],
         exclude: ['**/components/*'],
-
+        importMode: 'sync'
     })],
     optimizeDeps: {
         esbuildOptions: {
