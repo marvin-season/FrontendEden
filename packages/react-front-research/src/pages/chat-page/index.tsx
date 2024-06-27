@@ -1,6 +1,6 @@
 import {FC} from "react";
 import {Chat, useChat} from "@marvin/react-ai";
-import {composeStream, getStream} from "@/pages/ChatPanel/mock/azure-mock.ts";
+import {composeStream, getStream} from "./mock/azure-mock.ts";
 
 
 const ChatPanel: FC = () => {
