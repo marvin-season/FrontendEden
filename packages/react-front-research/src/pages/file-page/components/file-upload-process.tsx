@@ -2,7 +2,7 @@ import {useDownload} from "@/hook/useDownload.ts";
 import {Button, Card, Flex, Progress} from "antd";
 import React, {useState} from "react";
 
-export default function Index() {
+export default function FileUploadProcess() {
     const {download, cancel} = useDownload((receivedLength, totalLength) => {
         setDownloadPercent(Math.floor(100 * receivedLength / totalLength));
     }, () => {
