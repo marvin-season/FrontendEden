@@ -29,9 +29,9 @@ const MyLayout = () => {
         <Menu theme="light" defaultSelectedKeys={['1']} mode="inline" items={navs} onSelect={console.log}/>
       </Layout.Sider>
       <Layout>
-        <Layout.Header style={{padding: 0, background: '#fff'}}>Header</Layout.Header>
-        <Layout.Content style={{margin: '0 16px'}}>
-          <Breadcrumb style={{margin: '16px 0'}}>
+        <Layout.Header className={'bg-white'}>Header</Layout.Header>
+        <Layout.Content className={'mx-4'}>
+          <Breadcrumb className={'my-4'}>
             Breadcrumb
           </Breadcrumb>
 
