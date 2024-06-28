@@ -18,11 +18,9 @@ async function enableMocking() {
 enableMocking().then(() => {
   ReactDOM.createRoot(document.getElementById('root')!).render(
     <React.StrictMode>
-      <Suspense fallback={<div>Loading...</div>}>
         <Providers>
           <App/>
         </Providers>
-      </Suspense>
 
     </React.StrictMode>,
   )
