@@ -1,8 +1,8 @@
 import ReactFlow, {addEdge, applyEdgeChanges, applyNodeChanges, Background} from 'reactflow';
 import 'reactflow/dist/style.css';
 import React, {useMemo, useState} from "react";
-import {graph} from "@/pages/ReactFlowPanel/nodes";
-import CustomNode from "@/pages/ReactFlowPanel/components/CustomNode.tsx";
+import {graph} from "@/pages/react-flow-page/nodes";
+import CustomNode from "@/pages/react-flow-page/components/CustomNode.tsx";
 
 const rfStyle = {
     backgroundColor: '#B8CEFF',

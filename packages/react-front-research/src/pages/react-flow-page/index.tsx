@@ -1,5 +1,5 @@
 import {Tabs, TabsProps} from "antd";
-import BaseFlow from "@/pages/ReactFlowPanel/components/BaseFlow.tsx";
+import BaseFlow from "@/pages/react-flow-page/components/BaseFlow.tsx";
 
 const items: TabsProps['items'] = [
     {
