@@ -1,7 +1,6 @@
-import React, {Suspense} from 'react'
+import React from 'react'
 import ReactDOM from 'react-dom/client'
 import {Providers} from "@/providers";
-import App from "@/App.tsx";
 
 async function enableMocking() {
   if (process.env.NODE_ENV !== 'development') {
@@ -18,9 +17,9 @@ async function enableMocking() {
 enableMocking().then(() => {
   ReactDOM.createRoot(document.getElementById('root')!).render(
     <React.StrictMode>
-        <Providers>
-          <App/>
-        </Providers>
+      <Providers>
+        <></>
+      </Providers>
 
     </React.StrictMode>,
   )

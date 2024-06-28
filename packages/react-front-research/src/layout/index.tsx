@@ -22,29 +22,23 @@ const MyLayout = () => {
   })
 
   return <>
-    <Layout style={{height: '100vh'}}>
+    <Layout className={'layout h-screen'}>
       <Layout.Sider width={'150px'} theme={'light'} collapsible collapsed={collapsed}
                     onCollapse={(value) => setCollapsed(value)}>
         <div>LOGO</div>
         <Menu theme="light" defaultSelectedKeys={['1']} mode="inline" items={navs} onSelect={console.log}/>
       </Layout.Sider>
       <Layout>
-        <Layout.Header style={{padding: 0, background: '#fff'}}/>
+        <Layout.Header style={{padding: 0, background: '#fff'}}>Header</Layout.Header>
         <Layout.Content style={{margin: '0 16px'}}>
           <Breadcrumb style={{margin: '16px 0'}}>
-
+            Breadcrumb
           </Breadcrumb>
-          <div
-            style={{
-              padding: 24,
-              height: '100%'
-            }}
-          >
-            <Suspense fallback={<div>Loading...</div>}>
-              <Outlet/>
-            </Suspense>
 
-          </div>
+          <Suspense fallback={<div>Loading...</div>}>
+            <Outlet/>
+          </Suspense>
+
         </Layout.Content>
         <Layout.Footer style={{textAlign: 'center'}}>
           Ant Design ©{new Date().getFullYear()} Created by Ant UED
