@@ -3,14 +3,14 @@ import {request} from "@/utils/service.ts";
 import {sleep} from "@marvin/shared";
 
 export const exampleApi = async (params: MockRequestType): Promise<MockResponseType> => {
-    const res = await fetch('/api/example/mock');
+    const res = await fetch('/mock/example/mock');
     return await res.json();
 }
 
 export const queryApi = async (params: MockRequestType): Promise<MockResponseType> => {
 
     const data = await request<MockResponseType>({
-        url: '/api/example/query',
+        url: '/mock/example/query',
         params
     });
     if (params.name?.length % 2 === 0) {

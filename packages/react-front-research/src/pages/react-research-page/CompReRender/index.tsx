@@ -1,6 +1,5 @@
-import {Comp1} from "@/pages/CompReRender/Comp1.tsx";
+import {Comp1} from "./Comp1.tsx";
 import React, {useState} from "react";
-import {Comp2} from "@/pages/CompReRender/Comp2.tsx";
 
 const CompReRender = () => {
   const [showComp, setShowComp] = useState(false)

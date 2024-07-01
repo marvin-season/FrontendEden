@@ -1,5 +1,5 @@
 import React, {FC, useEffect, useState} from "react";
-import {InnerComp1} from "@/pages/CompReRender/InnerComp1.tsx";
+import {InnerComp1} from "./InnerComp1.tsx";
 
 export const Comp1: FC<{}> = ({}) => {
     const [showComp1, setShowComp1] = useState(false)

@@ -33,10 +33,10 @@ export default defineConfig({
         ws: true,
         changeOrigin: true,
       },
-      '/api_/': {
+      '/mock/': {
         target: 'https://mock.mengxuegu.com/mock/6618fb2ad985433db203dcb9/',
         changeOrigin: true,
-        rewrite: path => path.replace('/api/', '')
+        rewrite: path => path.replace('/mock/', '')
       },
       '/v2/': {
         target: 'http://127.0.0.1:5000',
