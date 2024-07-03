@@ -30,11 +30,7 @@ const MyLayout = () => {
       </Layout.Sider>
       <Layout>
         <Layout.Header className={'bg-white'}>Header</Layout.Header>
-        <Layout.Content className={'mx-4'}>
-          <Breadcrumb className={'my-4'}>
-            Breadcrumb
-          </Breadcrumb>
-
+        <Layout.Content className={'mx-4 overflow-x-auto'}>
           <Suspense fallback={<div>Loading...</div>}>
             <Outlet/>
           </Suspense>

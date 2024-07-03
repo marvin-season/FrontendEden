@@ -11,6 +11,7 @@ export class CustomParagraphNode extends ParagraphNode {
 
   createDOM(config: { disableEvents: boolean | undefined; namespace: string; theme: EditorThemeClasses; }) {
     const dom = super.createDOM(config);
+    // @ts-ignore
     dom.style = "background: green";
     return dom;
   }
