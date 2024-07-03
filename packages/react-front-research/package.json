@@ -9,7 +9,7 @@
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "test": "vitest",
-    "tailwindcss": "tailwindcss -i ./src/input.css -o ./src/output.css --watch"
+    "tailwindcss": "tailwindcss -i ./src/input.css -o ./dist/output.css --watch"
   },
   "dependencies": {
     "@ant-design/icons": "^5.3.5",
