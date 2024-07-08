@@ -1,5 +1,8 @@
+import { List } from "./list";
+
 export default function AccountPage() {
     return <>
-    account
+        <div>Account</div>
+        <List />
     </>
 }
