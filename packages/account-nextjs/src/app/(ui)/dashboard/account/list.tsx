@@ -1,11 +1,18 @@
 "use client";
-import { useAccountList } from "@/app/_hooks/api/account";
+
+import { getAccountList } from "@/app/_service/account";
+import { useEffect, useState } from "react";
 
 export const List = () => {
-    const {data} = useAccountList()
-    return <>
-        {data.map((item) => {
-            return <div className="text-color-500" key={item.id}>{item.name}</div>
+    const [data, setData] = useState([]);
+    useEffect(() => {
+        getAccountList().then(setData)
+    }, [])
+
+    // 一个表格，类似antd的样式
+    return <div className="border-2 rounded-lg p-4">
+        {data.map((item: any) => {
+            return <div className="text-base" key={item.id}>{item.name}</div>
         })}
-    </>
+    </div>
 }
