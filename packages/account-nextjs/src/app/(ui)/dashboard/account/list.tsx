@@ -1,11 +1,11 @@
 "use client";
-import { useEffect } from "react"
+import { useAccountList } from "@/app/_hooks/api/account";
 
 export const List = () => {
-    useEffect(() => {
-        fetch('/api/account/list')
-    }, [])
+    const {data} = useAccountList()
     return <>
-        list
+        {data.map((item) => {
+            return <div className="text-color-500" key={item.id}>{item.name}</div>
+        })}
     </>
 }
