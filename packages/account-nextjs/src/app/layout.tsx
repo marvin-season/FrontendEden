@@ -20,7 +20,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <div className="flex gap-2">
           <div className="w-[120px]">
-            <Link href="/account" className="p-2 bg-blue-500 text-white">Account</Link>
+            <Link href="/dashboard/account" className="p-2 bg-blue-500 text-white">Account</Link>
           </div>
           <div className="flex-1">{children}</div>
         </div>
