@@ -1,7 +1,9 @@
+import {ReactNode} from 'react';
+
 export default function AccountLayout({
     children,
   }: Readonly<{
-    children: React.ReactNode;
+    children: ReactNode;
   }>) {
     return (
       <div id="AccountLayout">
@@ -9,4 +11,3 @@ export default function AccountLayout({
       </div>
     );
   }
-  

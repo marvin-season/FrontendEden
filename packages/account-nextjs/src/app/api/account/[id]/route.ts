@@ -1,9 +1,9 @@
 import prisma from '@/app/lib/prisma';
 
-export async function GET(request: Request, {params}: { params: { id: number } }) {
+export async function GET(request: Request, {params}: { params: { id: string } }) {
   const data = await prisma.account.findFirst({
     where: {
-      id: params.id
+      id: parseInt(params.id)
     }
   });
   return Response.json(data);

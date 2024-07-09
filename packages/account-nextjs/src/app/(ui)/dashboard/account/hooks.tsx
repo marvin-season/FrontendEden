@@ -1,11 +1,12 @@
 import {Button, Card, Descriptions, Flex, Modal, Table} from 'antd';
 import React, {useEffect, useState} from 'react';
-import {getAccountList} from '@/app/_service/account';
+import {getAccountById, getAccountList} from '@/app/_service/account';
+import {Account} from '@/app/_type';
 
 export const useAccountList = () => {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<Account[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [currentData, setCurrentData] = useState<any>(null);
+  const [currentData, setCurrentData] = useState<Account | null>(null);
 
   useEffect(() => {
     getAccountList().then((data) => {
@@ -35,13 +36,16 @@ export const useAccountList = () => {
         <Table dataSource={data}>
           <Table.Column title="ID" dataIndex="id" key="id"/>
           <Table.Column title="名称" dataIndex="name" key="name"/>
-          <Table.Column title="操作" render={(_, record, index) => {
+          <Table.Column title="操作" render={(_, record: Account, index) => {
             return <Flex gap={4}>
-              <Button size={'small'} onClick={() => {
+              <Button loading={false} type={'primary'} onClick={() => {
                 setIsModalOpen(true);
                 setCurrentData(record)
+                getAccountById(record.id).then((data) => {
+                  setCurrentData(data)
+                })
               }}>{'查看'}</Button>
-              <Button size={'small'} onClick={() => {
+              <Button onClick={() => {
               }}>{'隐藏'}</Button>
             </Flex>
           }}></Table.Column>
