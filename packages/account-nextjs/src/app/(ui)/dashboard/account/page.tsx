@@ -1,8 +1,11 @@
-import { List } from "./list";
+"use client";
+
+import {useAccountList} from '@/app/(ui)/dashboard/account/hooks';
 
 export default function AccountPage() {
-    return <>
-        <div>Account</div>
-        <List />
-    </>
+  const {render} = useAccountList();
+  return <>
+    <div>Account</div>
+    {render()}
+  </>
 }

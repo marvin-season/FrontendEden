@@ -23,6 +23,10 @@ dist-ssr
 *.sln
 *.sw?
 
+.env*.local
+.next
+.vercel
+
 public/*.pdf
 public/*.doc
 public/*.docx
