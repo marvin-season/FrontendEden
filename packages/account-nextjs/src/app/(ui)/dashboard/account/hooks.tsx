@@ -1,11 +1,12 @@
 import {Button, Flex, Form, Input, Table} from 'antd';
 import React, {useEffect, useState} from 'react';
-import {getAccountList} from '@/app/_service/account';
+import {createAccount, getAccountList} from '@/app/_service/account';
 import {Account} from '@/app/_type';
 
-export const useAccountForm = (data: Partial<Account>, setData: React.Dispatch<React.SetStateAction<Partial<Account>>>) => {
-  const onFinish = (values: any) => {
-    setData(values as Account)
+export const useAccountForm = (data: Partial<Account>, onConfirm: (value: Partial<Account>) => Promise<void>) => {
+  const onFinish = async (values: Account) => {
+    const result = await createAccount(values).then();
+    await onConfirm(result)
   };
 
   const onFinishFailed = (errorInfo: any) => {
@@ -46,10 +47,13 @@ export const useAccountTableList = ({onEdit}: {
 }) => {
   const [data, setData] = useState<Account[]>([]);
 
+  const refresh = async () => {
+    const data = await getAccountList();
+    setData(data);
+  }
+
   useEffect(() => {
-    getAccountList().then((data) => {
-      setData(data);
-    });
+    refresh().then()
   }, []);
 
   const render = () => {
@@ -74,6 +78,7 @@ export const useAccountTableList = ({onEdit}: {
   return {
     data,
     setData,
-    render
+    render,
+    refresh
   }
 }

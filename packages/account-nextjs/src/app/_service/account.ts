@@ -12,7 +12,7 @@ export const getAccountById = async (id: number) => {
 export const createAccount = async (account: Account) => {
   return await request(`/api/account`, {
     method: 'post',
-    body: JSON.stringify(account),
+    body: JSON.stringify({...account, operator: '马文澍'}),
   });
 };
 

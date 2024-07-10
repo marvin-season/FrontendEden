@@ -11,13 +11,16 @@ export default function AccountPage() {
     name: '测试name'
   });
 
-  const {render: renderTable} = useAccountTableList({
+  const {render: renderTable, refresh} = useAccountTableList({
     onEdit: (data) => {
       setIsFormModalOpen(true);
       setFormData(data)
     }
   });
-  const {render: renderForm} = useAccountForm(formData, setFormData)
+  const {render: renderForm} = useAccountForm(formData, async (data) => {
+    setIsFormModalOpen(false)
+    await refresh();
+  })
 
   useEffect(() => {
     !isFormModalOpen && setFormData({})
