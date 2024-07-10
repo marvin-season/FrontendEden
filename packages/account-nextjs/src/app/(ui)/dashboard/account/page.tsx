@@ -1,11 +1,43 @@
 "use client";
 
-import {useAccountList} from '@/app/(ui)/dashboard/account/hooks';
+import {useAccountForm, useAccountTableList} from '@/app/(ui)/dashboard/account/hooks';
+import {Button, Flex, Modal} from 'antd';
+import React, {useEffect, useState} from 'react';
+import {Account} from '@/app/_type';
 
 export default function AccountPage() {
-  const {render} = useAccountList();
+  const [isFormModalOpen, setIsFormModalOpen] = useState(false);
+  const [formData, setFormData] = useState<Partial<Account>>({
+    name: '测试name'
+  });
+
+  const {render: renderTable} = useAccountTableList({
+    onEdit: (data) => {
+      setIsFormModalOpen(true);
+      setFormData(data)
+    }
+  });
+  const {render: renderForm} = useAccountForm(formData, setFormData)
+
+  useEffect(() => {
+    !isFormModalOpen && setFormData({})
+  }, [isFormModalOpen]);
+
   return <>
-    <div>Account</div>
-    {render()}
+    <Flex justify={'flex-end'} gap={10}>
+      <Button onClick={() => {
+        setIsFormModalOpen(true)
+      }}>添加</Button>
+    </Flex>
+    {renderTable()}
+
+    <Modal title={'form-modal'} open={isFormModalOpen} onClose={() => {
+    }} onOk={() => {
+      setIsFormModalOpen(false)
+    }} onCancel={() => {
+      setIsFormModalOpen(false)
+    }}>
+      {renderForm()}
+    </Modal>
   </>
 }
