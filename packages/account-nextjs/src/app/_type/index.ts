@@ -4,4 +4,5 @@ export interface Account {
   phone: string;
   createdTime?: Date;
   updatedTime?: Date;
+  operator: string;
 }

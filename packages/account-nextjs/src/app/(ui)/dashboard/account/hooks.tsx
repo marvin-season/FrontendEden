@@ -1,48 +1,51 @@
-import {Button, Flex, Form, Input, Table} from 'antd';
-import React, {useEffect, useState} from 'react';
-import {createAccount, getAccountList} from '@/app/_service/account';
-import {Account} from '@/app/_type';
-
+import { Button, Flex, Table } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { createAccount, getAccountList } from '@/app/_service/account';
+import { Account } from '@/app/_type';
+import { Formik, useFormik } from 'formik';
+import { Form, Input, SubmitButton } from 'formik-antd'
 export const useAccountForm = (data: Partial<Account>, onConfirm: (value: Partial<Account>) => Promise<void>) => {
-  const onFinish = async (values: Account) => {
-    const result = await createAccount(values).then();
-    await onConfirm(result)
+  const handleSubmit = async (values: Partial<Account>) => {
+    console.log('values', values);
+    // const result = await createAccount(values).then();
+    // await onConfirm(values)
   };
 
-  const onFinishFailed = (errorInfo: any) => {
-    console.log('Failed:', errorInfo);
-  };
+  const formHandle = useFormik({
+    initialValues: data,
+    onSubmit: handleSubmit
+  })
+
   return {
     render: () => {
       return <>
-        <Form
-          key={data.id}
-          name="basic"
-          initialValues={data}
-          onFinish={onFinish}
-          onFinishFailed={onFinishFailed}
-          autoComplete="off"
+        <Formik
+          onSubmit={handleSubmit}
+          initialValues={{ name: '' }}
         >
-          <Form.Item
-            label="Name"
-            name="name"
-            rules={[{required: true, message: 'Please input your name!'}]}
-          >
-            <Input/>
-          </Form.Item>
-
-          <Form.Item>
-            <Button type="primary" htmlType="submit">
-              Submit
-            </Button>
-          </Form.Item>
-        </Form>
+          {
+            (props) => {
+              return <Form>
+                <Form.Item name="name" label="名称">
+                  <Input name="name" />
+                </Form.Item>
+                <Form.Item name="operator" label="操作人">
+                  <Input name="operator" />
+                </Form.Item>
+                <Form.Item name="phone" label="电话">
+                  <Input name="phone" />
+                </Form.Item>
+                <SubmitButton>提交</SubmitButton>
+              </Form>
+            }
+          }
+        </Formik>
       </>
     }
   }
 }
 
-export const useAccountTableList = ({onEdit}: {
+export const useAccountTableList = ({ onEdit }: {
   onEdit?: (record: Account) => void,
 }) => {
   const [data, setData] = useState<Account[]>([]);
@@ -59,8 +62,8 @@ export const useAccountTableList = ({onEdit}: {
   const render = () => {
     return <>
       <Table dataSource={data}>
-        <Table.Column title="ID" dataIndex="id" key="id"/>
-        <Table.Column title="名称" dataIndex="name" key="name"/>
+        <Table.Column title="ID" dataIndex="id" key="id" />
+        <Table.Column title="名称" dataIndex="name" key="name" />
         <Table.Column title="操作" render={(_, record: Account, index) => {
           return <Flex gap={4}>
             <Button loading={false} type={'primary'} onClick={() => {
