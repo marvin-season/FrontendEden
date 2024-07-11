@@ -1,29 +1,21 @@
 "use client";
 
-import { useAccountForm, useAccountTableList } from '@/app/(ui)/dashboard/account/hooks';
+import { useAccount } from '@/app/(ui)/dashboard/account/hooks';
 import { Button, Flex, Modal } from 'antd';
-import React, { useEffect, useState } from 'react';
-import { Account } from '@/app/_type';
-import { deleteAccountById, saveOrUpdateAccount } from '@/app/_service/account';
+import React, { useEffect } from 'react';
+
+import { AccountTable } from './components/AccountTable';
 
 export default function AccountPage() {
-  const [isFormModalOpen, setIsFormModalOpen] = useState(false);
-  const [formData, setFormData] = useState<Partial<Account>>({
-    name: '测试name'
-  });
-
-  const { render: renderTable, refresh } = useAccountTableList({
-    onEdit: (data) => {
-      setIsFormModalOpen(true);
-      setFormData(data)
-    }
-  });
-  const { render: renderForm } = useAccountForm(formData, async (data) => {
-    await saveOrUpdateAccount(data).then() && await refresh();
-    setIsFormModalOpen(false)
-  }, () => {
-    setIsFormModalOpen(false)
-  })
+  const {
+    renderForm,
+    isFormModalOpen,
+    setIsFormModalOpen,
+    setFormData,
+    data,
+    onEdit,
+    onDelete
+  } = useAccount();
 
   useEffect(() => {
     !isFormModalOpen && setFormData({})
@@ -35,7 +27,8 @@ export default function AccountPage() {
         setIsFormModalOpen(true)
       }}>添加</Button>
     </Flex>
-    {renderTable()}
+
+    <AccountTable data={data} onDelete={onDelete} onEdit={onEdit} />
 
     <Modal title={'form-modal'} open={isFormModalOpen} onClose={() => {
     }} onOk={() => {

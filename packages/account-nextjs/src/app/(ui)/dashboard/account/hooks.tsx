@@ -65,7 +65,7 @@ export const useAccountTableList = ({ onEdit }: {
   const [data, setData] = useState<Account[]>([]);
 
   const refresh = async () => {
-    const data = await getAccountList({ pageSize: 2, pageNumber: 2 });
+    const data = await getAccountList({ pageSize: 6, pageNumber: 1 });
     setData(data);
   }
 
@@ -100,5 +100,54 @@ export const useAccountTableList = ({ onEdit }: {
     setData,
     render,
     refresh
+  }
+}
+
+
+// 封装 Account 所有状态和操作的 hook
+export const useAccount = () => {
+  const [isFormModalOpen, setIsFormModalOpen] = useState(false);
+  const [formData, setFormData] = useState<Partial<Account>>({
+    name: '测试name'
+  });
+  const [data, setData] = useState<Account[]>([]);
+
+  const refresh = async () => {
+    const data = await getAccountList({ pageSize: 6, pageNumber: 1 });
+    setData(data);
+  }
+
+
+  const { render: renderForm } = useAccountForm(formData, async (data) => {
+    await saveOrUpdateAccount(data).then() && await refresh();
+    setIsFormModalOpen(false)
+  }, () => {
+    setIsFormModalOpen(false)
+  })
+
+  useEffect(() => {
+    refresh().then()
+  }, []);
+
+  useEffect(() => {
+    !isFormModalOpen && setFormData({})
+  }, [isFormModalOpen]);
+
+  return {
+    isFormModalOpen,
+    setIsFormModalOpen,
+    formData,
+    setFormData,
+    renderForm,
+    refresh,
+    data,
+    setData,
+    onEdit: (data: Partial<Account>) => {
+      setIsFormModalOpen(true);
+      setFormData(data)
+    },
+    onDelete: async (id: number) => {
+      return await deleteAccountById(id).then() && await refresh();
+    }
   }
 }
