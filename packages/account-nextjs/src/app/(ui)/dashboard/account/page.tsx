@@ -1,9 +1,9 @@
 "use client";
 
-import {useAccountForm, useAccountTableList} from '@/app/(ui)/dashboard/account/hooks';
-import {Button, Flex, Modal} from 'antd';
-import React, {useEffect, useState} from 'react';
-import {Account} from '@/app/_type';
+import { useAccountForm, useAccountTableList } from '@/app/(ui)/dashboard/account/hooks';
+import { Button, Flex, Modal } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { Account } from '@/app/_type';
 
 export default function AccountPage() {
   const [isFormModalOpen, setIsFormModalOpen] = useState(false);
@@ -11,15 +11,19 @@ export default function AccountPage() {
     name: '测试name'
   });
 
-  const {render: renderTable, refresh} = useAccountTableList({
+  const { render: renderTable, refresh } = useAccountTableList({
     onEdit: (data) => {
       setIsFormModalOpen(true);
       setFormData(data)
     }
   });
-  const {render: renderForm} = useAccountForm(formData, async (data) => {
+  const { render: renderForm } = useAccountForm(formData, async (data) => {
     setIsFormModalOpen(false)
     await refresh();
+  }, (a) => {
+    console.log('cancel', a);
+    
+    setIsFormModalOpen(false)
   })
 
   useEffect(() => {
@@ -39,7 +43,7 @@ export default function AccountPage() {
       setIsFormModalOpen(false)
     }} onCancel={() => {
       setIsFormModalOpen(false)
-    }}>
+    }} footer={<></>}>
       {renderForm()}
     </Modal>
   </>

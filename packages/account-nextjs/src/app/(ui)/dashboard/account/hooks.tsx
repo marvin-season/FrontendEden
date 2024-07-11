@@ -1,31 +1,32 @@
 import { Button, Flex, Table } from 'antd';
-import React, { useEffect, useState } from 'react';
-import { createAccount, getAccountList } from '@/app/_service/account';
+import React, { useEffect, useMemo, useState } from 'react';
+import { saveOrUpdateAccount, getAccountList } from '@/app/_service/account';
 import { Account } from '@/app/_type';
-import { Formik, useFormik } from 'formik';
+import { Formik } from 'formik';
 import { Form, Input, SubmitButton } from 'formik-antd'
-export const useAccountForm = (data: Partial<Account>, onConfirm: (value: Partial<Account>) => Promise<void>) => {
-  const handleSubmit = async (values: Partial<Account>) => {
-    console.log('values', values);
-    // const result = await createAccount(values).then();
-    // await onConfirm(values)
-  };
+export const useAccountForm = (data: Partial<Account>, onConfirm: (value: Partial<Account>) => Promise<void>, onCancel: () => void) => {
 
-  const formHandle = useFormik({
-    initialValues: data,
-    onSubmit: handleSubmit
-  })
+  const initialValues: Partial<Account> = useMemo(() => {
+    return data;
+  }, [data])
+
+  const handleSubmit = async (values: Partial<Account>) => {
+    console.log('values', values, data);
+    const result = await saveOrUpdateAccount(values).then();
+    await onConfirm(result)
+  };
 
   return {
     render: () => {
       return <>
         <Formik
+          key={data.id}
           onSubmit={handleSubmit}
-          initialValues={{ name: '' }}
+          initialValues={initialValues}
         >
           {
             (props) => {
-              return <Form>
+              return <Form labelCol={{ span: 4 }} wrapperCol={{ span: 24 }}>
                 <Form.Item name="name" label="名称">
                   <Input name="name" />
                 </Form.Item>
@@ -35,7 +36,13 @@ export const useAccountForm = (data: Partial<Account>, onConfirm: (value: Partia
                 <Form.Item name="phone" label="电话">
                   <Input name="phone" />
                 </Form.Item>
-                <SubmitButton>提交</SubmitButton>
+                <Flex justify='flex-end' gap={10}>
+                  <Button onClick={() => {
+                    props.resetForm();
+                    onCancel();
+                  }}>取消</Button>
+                  <SubmitButton>提交</SubmitButton>
+                </Flex>
               </Form>
             }
           }

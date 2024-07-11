@@ -9,7 +9,7 @@ export const getAccountById = async (id: number) => {
   return await request(`/api/account/${id}`);
 };
 
-export const createAccount = async (account: Account) => {
+export const saveOrUpdateAccount = async (account: Partial<Account>) => {
   return await request(`/api/account`, {
     method: 'post',
     body: JSON.stringify({...account, operator: '马文澍'}),
