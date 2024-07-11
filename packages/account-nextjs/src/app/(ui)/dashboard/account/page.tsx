@@ -16,9 +16,6 @@ export default function AccountPage() {
     onEdit: (data) => {
       setIsFormModalOpen(true);
       setFormData(data)
-    },
-    onDelete: async ({ id }) => {
-      id && await deleteAccountById(id) && await refresh();
     }
   });
   const { render: renderForm } = useAccountForm(formData, async (data) => {

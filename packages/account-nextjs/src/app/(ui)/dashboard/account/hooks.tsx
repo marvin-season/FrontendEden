@@ -1,6 +1,6 @@
 import { Button, Flex, Table, Popconfirm } from 'antd';
 import React, { useEffect, useMemo, useState } from 'react';
-import { saveOrUpdateAccount, getAccountList } from '@/app/_service/account';
+import { saveOrUpdateAccount, getAccountList, deleteAccountById } from '@/app/_service/account';
 import { Account } from '@/app/_type';
 import { Formik } from 'formik';
 import { Form, Input, SubmitButton } from 'formik-antd'
@@ -59,14 +59,13 @@ export const useAccountForm = (data: Partial<Account>, onConfirm: (value: Partia
   }
 }
 
-export const useAccountTableList = ({ onEdit, onDelete }: {
+export const useAccountTableList = ({ onEdit }: {
   onEdit?: (record: Account) => void,
-  onDelete?: (record: Account) => Promise<void>,
 }) => {
   const [data, setData] = useState<Account[]>([]);
 
   const refresh = async () => {
-    const data = await getAccountList({ pageSize: 2, pageNumber: 2});
+    const data = await getAccountList({ pageSize: 2, pageNumber: 2 });
     setData(data);
   }
 
@@ -85,7 +84,7 @@ export const useAccountTableList = ({ onEdit, onDelete }: {
               onEdit?.(record);
             }}>{'编辑'}</Button>
             <Popconfirm title={'确认删除'} onConfirm={async () => {
-              await onDelete?.(record)
+              record.id && await deleteAccountById(record.id) && await refresh();
             }}>
               <Button danger>{'删除'}</Button>
             </Popconfirm>
