@@ -66,7 +66,7 @@ export const useAccountTableList = ({ onEdit, onDelete }: {
   const [data, setData] = useState<Account[]>([]);
 
   const refresh = async () => {
-    const data = await getAccountList();
+    const data = await getAccountList({ pageSize: 2, pageNumber: 2});
     setData(data);
   }
 
