@@ -4,6 +4,14 @@ import { saveOrUpdateAccount, getAccountList } from '@/app/_service/account';
 import { Account } from '@/app/_type';
 import { Formik } from 'formik';
 import { Form, Input, SubmitButton } from 'formik-antd'
+import * as Y from 'yup';
+
+const schema = Y.object({
+  name: Y.string().required('名称不能为空'),
+  operator: Y.string().required('操作人不能为空'),
+  phone: Y.string().required('电话不能为空'),
+})
+
 export const useAccountForm = (data: Partial<Account>, onConfirm: (value: Partial<Account>) => Promise<void>, onCancel: () => void) => {
 
   const initialValues: Partial<Account> = useMemo(() => {
@@ -21,6 +29,7 @@ export const useAccountForm = (data: Partial<Account>, onConfirm: (value: Partia
         <Formik
           key={data.id}
           onSubmit={handleSubmit}
+          validationSchema={schema}
           initialValues={initialValues}
         >
           {
