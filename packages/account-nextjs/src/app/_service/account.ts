@@ -1,3 +1,4 @@
+import { log } from "console";
 import {request} from "../_utils/request";
 import {Account} from '@/app/_type';
 
@@ -12,7 +13,7 @@ export const getAccountById = async (id: number) => {
 export const saveOrUpdateAccount = async (account: Partial<Account>) => {
   return await request(`/api/account`, {
     method: 'post',
-    body: JSON.stringify({...account, operator: '马文澍'}),
+    body: JSON.stringify(account),
   });
 };
 

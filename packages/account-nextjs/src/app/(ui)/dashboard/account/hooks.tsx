@@ -11,7 +11,6 @@ export const useAccountForm = (data: Partial<Account>, onConfirm: (value: Partia
   }, [data])
 
   const handleSubmit = async (values: Partial<Account>) => {
-    console.log('values', values, data);
     const result = await saveOrUpdateAccount(values).then();
     await onConfirm(result)
   };
