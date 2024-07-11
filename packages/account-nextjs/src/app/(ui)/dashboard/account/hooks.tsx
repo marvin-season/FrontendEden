@@ -1,4 +1,4 @@
-import { Button, Flex, Table } from 'antd';
+import { Button, Flex, Table, Popconfirm } from 'antd';
 import React, { useEffect, useMemo, useState } from 'react';
 import { saveOrUpdateAccount, getAccountList } from '@/app/_service/account';
 import { Account } from '@/app/_type';
@@ -61,7 +61,7 @@ export const useAccountForm = (data: Partial<Account>, onConfirm: (value: Partia
 
 export const useAccountTableList = ({ onEdit, onDelete }: {
   onEdit?: (record: Account) => void,
-  onDelete?: (record: Account) => void,
+  onDelete?: (record: Account) => Promise<void>,
 }) => {
   const [data, setData] = useState<Account[]>([]);
 
@@ -84,9 +84,12 @@ export const useAccountTableList = ({ onEdit, onDelete }: {
             <Button loading={false} type={'primary'} onClick={() => {
               onEdit?.(record);
             }}>{'编辑'}</Button>
-            <Button danger onClick={() => {
-              onDelete?.(record)
-            }}>{'删除'}</Button>
+            <Popconfirm title={'确认删除'} onConfirm={async () => {
+              await onDelete?.(record)
+            }}>
+              <Button danger>{'删除'}</Button>
+            </Popconfirm>
+
           </Flex>
         }}></Table.Column>
       </Table>
