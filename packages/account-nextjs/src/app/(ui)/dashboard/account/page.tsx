@@ -4,6 +4,7 @@ import { useAccountForm, useAccountTableList } from '@/app/(ui)/dashboard/accoun
 import { Button, Flex, Modal } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { Account } from '@/app/_type';
+import { deleteAccountById } from '@/app/_service/account';
 
 export default function AccountPage() {
   const [isFormModalOpen, setIsFormModalOpen] = useState(false);
@@ -15,14 +16,15 @@ export default function AccountPage() {
     onEdit: (data) => {
       setIsFormModalOpen(true);
       setFormData(data)
+    },
+    onDelete: async ({ id }) => {
+      id && await deleteAccountById(id) && await refresh();
     }
   });
   const { render: renderForm } = useAccountForm(formData, async (data) => {
     setIsFormModalOpen(false)
     await refresh();
-  }, (a) => {
-    console.log('cancel', a);
-    
+  }, () => {
     setIsFormModalOpen(false)
   })
 

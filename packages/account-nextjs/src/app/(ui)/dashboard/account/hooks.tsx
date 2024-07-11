@@ -60,8 +60,9 @@ export const useAccountForm = (data: Partial<Account>, onConfirm: (value: Partia
   }
 }
 
-export const useAccountTableList = ({ onEdit }: {
+export const useAccountTableList = ({ onEdit, onDelete }: {
   onEdit?: (record: Account) => void,
+  onDelete?: (record: Account) => void,
 }) => {
   const [data, setData] = useState<Account[]>([]);
 
@@ -83,10 +84,10 @@ export const useAccountTableList = ({ onEdit }: {
           return <Flex gap={4}>
             <Button loading={false} type={'primary'} onClick={() => {
               onEdit?.(record);
-
             }}>{'编辑'}</Button>
-            <Button onClick={() => {
-            }}>{'隐藏'}</Button>
+            <Button danger onClick={() => {
+              onDelete?.(record)
+            }}>{'删除'}</Button>
           </Flex>
         }}></Table.Column>
       </Table>
