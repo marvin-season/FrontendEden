@@ -117,13 +117,14 @@ export const useAccount = () => {
     setData(data);
   }
 
-
-  const { render: renderForm } = useAccountForm(formData, async (data) => {
+  const onConfirm = async (data: Partial<Account>) => {
     await saveOrUpdateAccount(data).then() && await refresh();
     setIsFormModalOpen(false)
-  }, () => {
+  }
+
+  const onCancel = () => {
     setIsFormModalOpen(false)
-  })
+  }
 
   useEffect(() => {
     refresh().then()
@@ -138,10 +139,11 @@ export const useAccount = () => {
     setIsFormModalOpen,
     formData,
     setFormData,
-    renderForm,
     refresh,
     data,
     setData,
+    onConfirm,
+    onCancel,
     onEdit: (data: Partial<Account>) => {
       setIsFormModalOpen(true);
       setFormData(data)

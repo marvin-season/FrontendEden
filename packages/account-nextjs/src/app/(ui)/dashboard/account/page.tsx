@@ -5,16 +5,19 @@ import { Button, Flex, Modal } from 'antd';
 import React, { useEffect } from 'react';
 
 import { AccountTable } from './components/AccountTable';
+import { AccountForm } from './components/AccountForm';
 
 export default function AccountPage() {
   const {
-    renderForm,
     isFormModalOpen,
     setIsFormModalOpen,
     setFormData,
+    formData,
     data,
     onEdit,
-    onDelete
+    onDelete,
+    onConfirm,
+    onCancel
   } = useAccount();
 
   useEffect(() => {
@@ -36,7 +39,7 @@ export default function AccountPage() {
     }} onCancel={() => {
       setIsFormModalOpen(false)
     }} footer={<></>}>
-      {renderForm()}
+      <AccountForm data={formData} onConfirm={onConfirm} onCancel={onCancel} />
     </Modal>
   </>
 }
