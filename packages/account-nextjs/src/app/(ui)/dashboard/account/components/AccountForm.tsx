@@ -1,6 +1,6 @@
 import { Button, Flex } from 'antd';
 import React, { FC, useMemo } from 'react';
-import { Account } from '@/app/_type';
+import { Account } from '../types';
 import { Formik } from 'formik';
 import { Form, Input, SubmitButton } from 'formik-antd'
 import * as Y from 'yup';
@@ -13,20 +13,13 @@ const schema = Y.object().shape({
 });
 
 export const AccountForm: FC<{ data: Partial<Account>, onConfirm: (value: Partial<Account>) => Promise<void>, onCancel: () => void }> = ({ data, onConfirm, onCancel }) => {
-    const initialValues: Partial<Account> = useMemo(() => {
-        return data;
-    }, [data])
-
-    const handleSubmit = async (values: Partial<Account>) => {
-        onConfirm(values)
-    }
 
     return <>
         <Formik
             key={data.id}
-            onSubmit={handleSubmit}
+            onSubmit={onConfirm}
             validationSchema={schema}
-            initialValues={initialValues}
+            initialValues={data}
         >
             {
                 (props) => {

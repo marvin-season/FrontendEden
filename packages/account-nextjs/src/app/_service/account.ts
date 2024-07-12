@@ -1,13 +1,11 @@
+import { PaginationProps } from "antd";
 import { request } from "../_utils/request";
-import { Account } from "@/app/_type";
+import { Account } from "../(ui)/dashboard/account/types";
 
 export const getAccountList = async ({
   pageSize,
-  pageNumber,
-}: {
-  pageSize: number;
-  pageNumber: number;
-}) => {
+  current: pageNumber,
+}: PaginationProps) => {
   return await request(
     `/api/account/page?pageSize=${pageSize}&pageNumber=${pageNumber}`
   );

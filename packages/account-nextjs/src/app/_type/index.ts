@@ -1,8 +1,4 @@
-export interface Account {
-  id: number;
-  name: string;
-  phone: string;
-  createdTime?: Date;
-  updatedTime?: Date;
-  operator: string;
+import { PaginationProps } from "antd";
+
+export interface Pagination extends PaginationProps{
 }

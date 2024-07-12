@@ -1,7 +1,7 @@
-import { Button, Flex, Table, Popconfirm } from 'antd';
+import { Button, Flex, Table, Popconfirm, PaginationProps } from 'antd';
 import React, { useEffect, useMemo, useState } from 'react';
 import { saveOrUpdateAccount, getAccountList, deleteAccountById } from '@/app/_service/account';
-import { Account } from '@/app/_type';
+import { Account } from './types';
 import { Formik } from 'formik';
 import { Form, Input, SubmitButton } from 'formik-antd'
 import * as Y from 'yup';
@@ -112,13 +112,19 @@ export const useAccount = () => {
   });
   const [data, setData] = useState<Account[]>([]);
 
-  const refresh = async () => {
-    const data = await getAccountList({ pageSize: 6, pageNumber: 1 });
+  const refresh = async (pagination: PaginationProps) => {
+    const data = await getAccountList(pagination);
     setData(data);
   }
 
+  const [pagination, setPagination] = useState<PaginationProps>({
+    pageSize: 1, current: 1, total: 10, onChange: (page, pageSize) => {
+      refresh({ pageSize, current: page });
+    }
+  });
+
   const onConfirm = async (data: Partial<Account>) => {
-    await saveOrUpdateAccount(data).then() && await refresh();
+    await saveOrUpdateAccount(data).then() && await refresh(pagination);
     setIsFormModalOpen(false)
   }
 
@@ -127,7 +133,7 @@ export const useAccount = () => {
   }
 
   useEffect(() => {
-    refresh().then()
+    refresh(pagination).then()
   }, []);
 
   useEffect(() => {
@@ -142,6 +148,8 @@ export const useAccount = () => {
     refresh,
     data,
     setData,
+    pagination,
+    setPagination,
     onConfirm,
     onCancel,
     onEdit: (data: Partial<Account>) => {

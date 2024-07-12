@@ -1,16 +1,21 @@
 import { Account } from '@prisma/client';
-import { Button, Flex, Table, Popconfirm } from 'antd';
+import { Button, Flex, Table, Popconfirm, Pagination, PaginationProps } from 'antd';
 import { FC } from 'react';
 
 /** 
  * useAccountTableList 中的组件
  **/
-export const AccountTable: FC<{ data: Partial<Account>[], onEdit?: (record: Account) => void, onDelete?: (id: number) => Promise<void> }>
+export const AccountTable: FC<{
+    data: Partial<Account>[],
+    onEdit?: (record: Account) => void,
+    onDelete?: (id: number) => Promise<void>,
+    pagination: PaginationProps
+}>
     =
-    ({ data, onEdit, onDelete }) => {
+    ({ data, pagination, onEdit, onDelete }) => {
 
         return <>
-            <Table dataSource={data}>
+            <Table dataSource={data} pagination={pagination}>
                 <Table.Column title="ID" dataIndex="id" key="id" />
                 <Table.Column title="名称" dataIndex="name" key="name" />
                 <Table.Column title="操作" render={(_, record: Account, index) => {
@@ -27,6 +32,5 @@ export const AccountTable: FC<{ data: Partial<Account>[], onEdit?: (record: Acco
                     </Flex>
                 }}></Table.Column>
             </Table>
-
         </>
     }

@@ -17,7 +17,9 @@ export default function AccountPage() {
     onEdit,
     onDelete,
     onConfirm,
-    onCancel
+    onCancel,
+    setPagination,
+    pagination
   } = useAccount();
 
   useEffect(() => {
@@ -31,7 +33,7 @@ export default function AccountPage() {
       }}>添加</Button>
     </Flex>
 
-    <AccountTable data={data} onDelete={onDelete} onEdit={onEdit} />
+    <AccountTable pagination={pagination} data={data} onDelete={onDelete} onEdit={onEdit} />
 
     <Modal title={'form-modal'} open={isFormModalOpen} onClose={() => {
     }} onOk={() => {
