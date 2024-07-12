@@ -7,9 +7,16 @@ export async function GET(request: Request) {
 
   const skip = (pageNumber - 1) * pageSize;
   const take = pageSize;
-  const feed = await prisma.account.findMany({
+
+  const list = await prisma.account.findMany({
     skip,
     take,
   });
-  return Response.json(feed);
+
+  const total =  await prisma.account.count();
+
+  return Response.json({
+    list,
+    total
+  });
 }

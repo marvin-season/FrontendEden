@@ -113,8 +113,9 @@ export const useAccount = () => {
   const [data, setData] = useState<Account[]>([]);
 
   const refresh = async (pagination: PaginationProps) => {
-    const data = await getAccountList(pagination);
+    const { list: data, total } = await getAccountList(pagination);
     setData(data);
+    setPagination({ ...pagination, total });
   }
 
   const [pagination, setPagination] = useState<PaginationProps>({
