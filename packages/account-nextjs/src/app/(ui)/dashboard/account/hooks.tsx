@@ -112,14 +112,18 @@ export const useAccount = () => {
   });
   const [data, setData] = useState<Account[]>([]);
 
-  const refresh = async (pagination: PaginationProps) => {
-    const { list: data, total } = await getAccountList(pagination);
+  const refresh = async (p: PaginationProps) => {
+    const { list: data, total } = await getAccountList(p);
     setData(data);
     setPagination({ ...pagination, total });
   }
 
   const [pagination, setPagination] = useState<PaginationProps>({
-    pageSize: 1, current: 1, total: 10, onChange: (page, pageSize) => {
+    pageSize: 2,
+    current: 1,
+    onChange: (page, pageSize) => {
+      console.log(page, pageSize);
+      setPagination({ ...pagination, current: page, pageSize });
       refresh({ pageSize, current: page });
     }
   });
@@ -158,7 +162,7 @@ export const useAccount = () => {
       setFormData(data)
     },
     onDelete: async (id: number) => {
-      return await deleteAccountById(id).then() && await refresh();
+      return await deleteAccountById(id).then() && await refresh(pagination);
     }
   }
 }
