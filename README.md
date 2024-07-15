@@ -29,7 +29,7 @@ packages:
   js-ts-based: js/ts特性验证
   shared: js相关api手写，以及相关工具类（node.js）
   react-ai: 搭建的一个全新的ai相关的组件库
-  react-front-research: react开发相关调研
+  react-research: react开发相关学习研究
   express-based: 基于express的node开发环境
   react-pdf-viewer: 基于react-pdf的一个可高亮的库
   react-i18n-ast: ast与i18n
