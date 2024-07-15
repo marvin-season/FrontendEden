@@ -32,7 +32,6 @@ packages:
   react-front-research: react开发相关调研
   express-based: 基于express的node开发环境
   react-pdf-viewer: 基于react-pdf的一个可高亮的库
-  v3-admin-vite: 一个开源的v3管理后台 fork
   react-i18n-ast: ast与i18n
-  unified: 
+  unified: ast util
 ```
