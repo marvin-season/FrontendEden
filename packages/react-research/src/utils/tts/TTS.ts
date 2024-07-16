@@ -96,7 +96,7 @@ export class TTSMonitor {
         }
         let audio = res.data.audio
         let audioBuf = base64ToArrayBuffer(audio)
-        console.log("🚀  message error ws", res, audioBuf)
+        console.log("🚀  message ws", res, audioBuf)
 
         this.player.feed(audioBuf);
       }
