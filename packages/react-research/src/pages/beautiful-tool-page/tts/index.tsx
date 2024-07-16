@@ -6,7 +6,7 @@ const TTS = () => {
   return <>
 
     <Button onClick={() => {
-      tts.send('你好<p>我是小燕<p>很高兴认识你')
+      tts.readAloud('你好<p>我是小燕<p>很高兴认识你').then()
     }}>send</Button>
     <Button onClick={() => {
       tts.getPlayer().pause().then(console.log).catch(console.log)

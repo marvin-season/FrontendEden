@@ -48,11 +48,10 @@ export class TTSMonitor {
     flushTime: 2000
   });
 
-  private text: string = ''
 
   status: 'Running' | 'Idle' = 'Idle';
 
-  send = async (text: string) => {
+  readAloud = async (text: string) => {
     await this.connect();
     if (!this.ws) return;
     let frame = {
@@ -72,6 +71,7 @@ export class TTSMonitor {
     }
     console.log("🚀  ws send ", frame)
     this.ws.send(JSON.stringify(frame))
+    return this.player.continue()
   }
 
   connect = async () => {
