@@ -52,49 +52,8 @@ export class TTSMonitor {
 
   status: 'Running' | 'Idle' = 'Idle';
 
-
-  constructor() {
-    this.ws = new WebSocket(this.wssUrl);
-    this.ws.onopen = this.onopen
-    this.ws.onmessage = this.onmessage
-    this.ws.onerror = this.onerror
-    this.ws.onclose = this.onclose;
-  }
-
-  onopen = () => {
-    console.log("🚀  connect ws")
-  }
-
-  onmessage = (event: MessageEvent) => {
-    const {data} = event
-    if (!this.ws) {
-      console.error('message error: ')
-      return
-    }
-
-    let res = JSON.parse(data)
-
-    if (res.code !== 0) {
-      console.error(`${res.code}: ${res.message}`)
-      this.ws.close()
-      return
-    }
-    let audio = res.data.audio
-    let audioBuf = base64ToArrayBuffer(audio)
-    console.log("🚀  res", res, audioBuf)
-
-    this.player.feed(audioBuf);
-  }
-
-  onerror(error: any) {
-    console.log("🚀  ", "ws error", error)
-  }
-
-  onclose() {
-    console.log("🚀  ", "close ws")
-  }
-
-  send = (text: string) => {
+  send = async (text: string) => {
+    await this.connect();
     if (!this.ws) return;
     let frame = {
       common: {
@@ -113,6 +72,43 @@ export class TTSMonitor {
     }
     console.log("🚀  ws send ", frame)
     this.ws.send(JSON.stringify(frame))
+  }
+
+  connect = async () => {
+    return new Promise((resolve, reject) => {
+      this.ws = new WebSocket(this.wssUrl);
+      this.ws.onopen = () => {
+        resolve(true)
+      }
+
+      this.ws.onmessage = (event: MessageEvent) => {
+        const {data} = event
+        if (!this.ws) {
+          return
+        }
+
+        let res = JSON.parse(data)
+
+        if (res.code !== 0) {
+          console.error(`${res.code}: ${res.message}`)
+          this.ws.close()
+          return
+        }
+        let audio = res.data.audio
+        let audioBuf = base64ToArrayBuffer(audio)
+        console.log("🚀  message error ws", res, audioBuf)
+
+        this.player.feed(audioBuf);
+      }
+      this.ws.onerror = (error) => {
+        console.log("🚀  ", "error ws", error)
+
+      }
+      this.ws.onclose = () => {
+        console.log("🚀  ", "close ws")
+      }
+    })
+
   }
 
   getPlayer() {
