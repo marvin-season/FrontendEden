@@ -28,7 +28,7 @@ const config = {
 }
 
 // 鉴权签名
-function getAuthStr(date) {
+export function getAuthStr(date) {
   let signatureOrigin = `host: ${config.host}\ndate: ${date}\nGET ${config.uri} HTTP/1.1`
   let signatureSha = CryptoJS.HmacSHA256(signatureOrigin, config.apiSecret)
   let signature = CryptoJS.enc.Base64.stringify(signatureSha)
@@ -41,8 +41,9 @@ function getAuthStr(date) {
 let date = (new Date().toUTCString())
 // 设置当前临时状态为初始化
 
-let wssUrl = config.hostUrl + "?authorization=" + getAuthStr(date) + "&date=" + date + "&host=" + config.host
-let ws = new WebSocket(wssUrl)
+export const wssUrl = config.hostUrl + "?authorization=" + getAuthStr(date) + "&date=" + date + "&host=" + config.host
+
+let ws = {} || new WebSocket(wssUrl)
 
 export const player = new PCMPlayer({
   inputCodec: 'Int16',

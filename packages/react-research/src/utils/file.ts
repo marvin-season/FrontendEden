@@ -41,3 +41,17 @@ export const exportFile = (blob: Blob, name: string) => {
     // Remove the link from the body
     document.body.removeChild(link);
 }
+
+
+export function toBase64(text: string) {
+    return window.btoa(unescape(encodeURIComponent(text)));
+}
+
+export function base64ToArrayBuffer(base64: string) {
+    var binaryString = atob(base64);
+    var bytes = new Uint8Array(binaryString.length);
+    for (var i = 0; i < binaryString.length; i++) {
+        bytes[i] = binaryString.charCodeAt(i);
+    }
+    return bytes.buffer;
+}

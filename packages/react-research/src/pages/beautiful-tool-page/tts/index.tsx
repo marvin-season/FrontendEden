@@ -1,15 +1,15 @@
-import {player, send} from '@/utils/tts/tts-ws-node.js'
 import {Button} from 'antd';
+import {TTSMonitor} from '@/utils/tts/TTS.ts'
 
 const TTS = () => {
   return <>
 
     <Button onClick={() => {
-      send();
+      TTSMonitor.getInstance().send('你好<p>我是小燕<p>很高兴认识你')
     }}>send</Button>
     <Button onClick={() => {
-    player.pause().then(console.log).catch(console.log)
-  }}>pause</Button>
+      TTSMonitor.getInstance().pause?.().then(console.log).catch(console.log)
+    }}>pause</Button>
   </>;
 }
 
