@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@ant-design/icons": "^5.3.5",
+    "@headlessui/react": "^2.1.2",
     "@lexical/react": "^0.16.0",
     "@marvin/react-ai": "workspace:^1.0.0",
     "@marvin/shared": "workspace:^1.0.0",
