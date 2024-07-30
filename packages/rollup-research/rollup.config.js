@@ -15,4 +15,9 @@ export default {
   plugins: [
     resolve(), // auto resolve index.js
   ],
+  treeshake: {
+    moduleSideEffects: false,
+    propertyReadSideEffects: false,
+    tryCatchDeoptimization: false,
+  },
 };

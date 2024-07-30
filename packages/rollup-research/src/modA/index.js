@@ -1,3 +1,4 @@
 export const modAFunc = () => {
-  console.log("modA");
+    let a = 'a';
+  console.log("modA", a);
 };
