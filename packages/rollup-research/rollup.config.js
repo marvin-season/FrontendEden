@@ -12,5 +12,7 @@ export default {
       format: "cjs",
     },
   ],
-  plugins: [resolve()],
+  plugins: [
+    resolve(), // auto resolve index.js
+  ],
 };
