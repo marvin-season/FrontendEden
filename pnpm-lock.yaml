@@ -635,6 +635,9 @@ importers:
 
   packages/react-ui:
     dependencies:
+      '@types/node':
+        specifier: ^22.1.0
+        version: 22.1.0
       react:
         specifier: ^18.3.1
         version: 18.3.1
