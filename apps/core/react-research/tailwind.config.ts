@@ -1,1 +1,1 @@
-export * from '@marvin/tailwind-config/tailwind.config.ts'
+export * from '@marvin/tailwind-config'
