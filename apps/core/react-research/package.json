@@ -9,7 +9,7 @@
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "test": "vitest",
-    "tailwindcss": "tailwindcss -i ./src/input.css -o ./dist/output.css --watch"
+    "tailwindcss": "postcss is better than tailwind-cli' && tailwindcss -i ./src/input.css -o ./dist/output.css --watch"
   },
   "dependencies": {
     "@ant-design/icons": "^5.3.5",
@@ -20,6 +20,7 @@
     "@uiw/react-markdown-editor": "^6.1.1",
     "@uiw/react-markdown-preview": "^4.1.13",
     "antd": "^5.15.4",
+    "autoprefixer": "^10.4.20",
     "highlight.js": "^11.9.0",
     "immer": "^10.0.4",
     "lexical": "^0.16.0",
@@ -29,6 +30,7 @@
     "mousetrap": "^1.6.5",
     "pcm-player": "^0.0.18",
     "pdfjs-dist": "3.11.174",
+    "postcss": "^8",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-error-boundary": "^4.0.13",
@@ -54,7 +56,7 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",
     "msw": "^2.3.0",
-    "tailwindcss": "^3.4.3",
+    "tailwindcss": "^3.4.7",
     "typescript": "^5.2.2",
     "vite": "^5.1.4"
   },
