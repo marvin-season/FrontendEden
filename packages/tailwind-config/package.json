@@ -2,15 +2,14 @@
   "name": "@marvin/tailwind-config",
   "version": "1.0.0",
   "description": "",
-  "main": "tailwind.config.ts",
-  "types": "tailwind.config.ts",
+  "type": "module",
+  "private": "false",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
     "autoprefixer": "^10.4.20",
     "postcss": "^8",
-    "tailwind-config": "^0.1.2",
     "tailwindcss": "^3.4.7"
   }
 }
