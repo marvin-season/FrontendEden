@@ -1,6 +1,1 @@
-export default {
-  plugins: {
-    tailwindcss: {},
-    autoprefixer: {},
-  },
-};
+export { default } from "@marvin/tailwind-config/postcss.config.js";
