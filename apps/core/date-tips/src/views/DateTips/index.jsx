@@ -61,7 +61,7 @@ export default function DateTips() {
     return <>
         <DateTipsContext.Provider value={{...mock, editingId, setEditingId}}>
             <div className={'w-[800px] p-[20px]'}>
-                {/*{!editingId && <EditTips/>}*/}
+                {!editingId && <EditTips/>}
                 <TimeLines/>
             </div>
 
