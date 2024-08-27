@@ -7,6 +7,7 @@ export default function TimeLines() {
     const [hoveredTipId, setHoveredTipId] = useState(undefined);
     return (<>
         {tips.map(tip => {
+            const hovered = hoveredTipId === tip.id;
             return <Fragment key={tip.id}>
                 {
                     editingId === tip.id ? <div className={'transition-all'}>
@@ -14,15 +15,16 @@ export default function TimeLines() {
                                 setEditingId(undefined);
                             }}/>
                         </div>
-                        : <div className={'flex flex-col gap-2'}
-                               onMouseEnter={() => setHoveredTipId(tip.id)}
-                               onMouseLeave={() => setHoveredTipId(undefined)}>
-                            <div className={'flex gap-2 justify-between'}>
-                                <div>
-                                    <div className={'text-[15px]'}>{tip.user.name}</div>
-                                    <div className={'text-[15px]'}>{tip.time}</div>
+                        : <div
+                            className={`mb-[20px] transition-all duration-500 flex flex-col p-4 gap-2 bg-white rounded-[9px] ${hovered ? 'h-[140px]' : 'h-[60px]'}`}
+                            onMouseEnter={() => setHoveredTipId(tip.id)}
+                            onMouseLeave={() => setHoveredTipId(undefined)}>
+                            <div className={`flex justify-between`}>
+                                <div className={'flex gap-4'}>
+                                    <div className={''}>{tip.user.name}</div>
+                                    <div className={''}>{tip.time}</div>
                                 </div>
-                                {hoveredTipId === tip.id && (<div>
+                                {hovered && (<div>
                                     <button className={'text-green-500 rounded text-[15px] mr-2'} onClick={() => {
                                         setEditingId(tip.id)
                                     }}>
@@ -33,9 +35,14 @@ export default function TimeLines() {
                                     </button>
                                 </div>)}
                             </div>
-                            <div className={'border rounded-[6px] px-4 py-2'}>
-                                {tip.content}
-                            </div>
+                            <div className={'border-b-[1px]'}></div>
+                            {
+                                hovered && <div
+                                    className={`text-[15px] leading-8 text-gray-500 mt-2  overflow-hidden transition-all duration-1000 text-ellipsis line-clamp-2 ${hovered ? 'opacity-100' : 'opacity-0'}`}>
+                                    {tip.content}
+                                </div>
+                            }
+
                         </div>
                 }
 
