@@ -36,3 +36,4 @@ public/*.docx
 
 prisma
 !prisma/schema.prisma
+storage

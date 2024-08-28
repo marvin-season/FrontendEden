@@ -8,16 +8,21 @@ generator client {
   provider = "prisma-client-js"
 }
 
+// datasource db {
+//   provider = "postgresql"
+//   url      = env("DATABASE_URL")
+// }
+
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider = "sqlite"
+  url      = "file:../storage/sqlite.db"
 }
 
 // Post model represents individual blog posts
 model Post {
-  id        Int       @id @default(autoincrement())
+  id        Int      @id @default(autoincrement())
   title     String
   content   String
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
