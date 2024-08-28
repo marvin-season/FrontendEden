@@ -7,6 +7,7 @@ const logger = (req: Request, res: Response, next: NextFunction) => {
   console.log(`[${time.toLocaleString()}] ${req.method} ${req.url}`);
   console.log(`[${time.toLocaleString()}] body: ${JSON.stringify(req.body)}`);
   console.log(`[${time.toLocaleString()}] params:  ${JSON.stringify(req.params)}`);
+  console.log(`[${time.toLocaleString()}] query:  ${JSON.stringify(req.query)}`);
   console.log("===============================end=============================");
   next();
 };
