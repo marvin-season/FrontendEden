@@ -11,6 +11,10 @@ git checkout -b yourbranch
 ```shell
 pnpm i
 ```
+控制台出现如下安装信息，终止跳过即可
+```text
+nonode_modules/.pnpm/canvas@2.11.2_encoding@0.1.13/node_modules/canvas: Running install script, failed in 7.3s (skipped as optional)
+```
 
 以下命令会启动所有相关的工程
 ```shell
