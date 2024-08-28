@@ -21,7 +21,7 @@ DateTipController.post('/:name', async (req, res) => {
     result = await prisma.dateTip.create({data})
   }
 
-  return res.json({result})
+  return res.json({data: result})
 })
 
 export default DateTipController
