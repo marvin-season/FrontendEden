@@ -3,7 +3,7 @@ import prisma from "../../utils/prisma";
 
 const DateTipController = Router();
 
-DateTipController.get('/', async (req, res) => {
+DateTipController.get('/list', async (req, res) => {
   const data = await prisma.dateTip.findMany()
   return res.json({data})
 })

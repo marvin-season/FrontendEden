@@ -3,10 +3,11 @@ import {Fragment, useState} from "react";
 import EditTips from "./EditTips.jsx";
 
 export default function TimeLines() {
-    const {editingId, setEditingId, tips} = useDateTipsContext();
+    const {editingId, setEditingId, datetipList} = useDateTipsContext();
+    console.log(datetipList)
     const [hoveredTipId, setHoveredTipId] = useState(undefined);
     return (<>
-        {tips.map(tip => {
+        {datetipList.map(tip => {
             const hovered = hoveredTipId === tip.id;
             return <Fragment key={tip.id}>
                 {
@@ -21,8 +22,8 @@ export default function TimeLines() {
                             onMouseLeave={() => setHoveredTipId(undefined)}>
                             <div className={`flex justify-between`}>
                                 <div className={'flex gap-4'}>
-                                    <div className={''}>{tip.user.name}</div>
-                                    <div className={''}>{tip.time}</div>
+                                    <div className={''}>{tip.user?.name}</div>
+                                    <div className={''}>{tip.createAt}</div>
                                 </div>
                                 {hovered && (<div>
                                     <button className={'text-green-500 rounded text-[15px] mr-2'} onClick={() => {
@@ -39,7 +40,7 @@ export default function TimeLines() {
                             {
                                 hovered && <div
                                     className={`text-[15px] leading-8 text-gray-500 mt-2  overflow-hidden transition-all duration-1000 text-ellipsis line-clamp-2 ${hovered ? 'opacity-100' : 'opacity-0'}`}>
-                                    {tip.content}
+                                    {tip.summary}
                                 </div>
                             }
 

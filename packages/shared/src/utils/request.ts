@@ -1,5 +1,6 @@
 export const request = async ({
-                                url, data,
+                                url,
+                                data = undefined,
                                 config = {
                                   method: 'GET',
                                   headers: {
@@ -14,5 +15,5 @@ export const request = async ({
     body: JSON.stringify(data),
   });
 
-  return fetch(input).then(res => res.json);
+  return fetch(input).then(res => res.json());
 }
