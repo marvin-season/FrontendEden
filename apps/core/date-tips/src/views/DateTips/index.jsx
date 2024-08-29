@@ -74,14 +74,12 @@ export default function DateTips() {
             <DateTipsContext.Provider value={{
                 editingId, setEditingId
             }}>
-                <div className={'flex gap-0 '}>
-                    <div className={'flex-grow'}>
-                        {editingId && <EditTips tip={datetipDetail} onSave={handleSave} onCancel={() => {
-                            setEditingId(undefined);
-                        }}/>}
-                        {!editingId && <DateTipsDetail data={datetipDetail} onDelete={handleDelete}/>}
-                    </div>
-                    <div className={'w-[400px] p-[20px] flex-shrink-0'}>
+                <div className={'flex gap-0 justify-center transition-all'}>
+                    {editingId && <EditTips tip={datetipDetail} onSave={handleSave} onCancel={() => {
+                        setEditingId(undefined);
+                    }}/>}
+                    {!editingId && datetipDetail && <DateTipsDetail data={datetipDetail} onDelete={handleDelete}/>}
+                    <div className={'w-[500px] p-[20px] flex-shrink-0'}>
                         <div className={'p-4 bg-white'} onClick={() => {
                             if (editingId) {
                                 alert('请先保存当前正在编辑的文档')
