@@ -1,15 +1,18 @@
 import {useDateTipsContext} from "../index.jsx";
-import {Fragment, useState} from "react";
+import {Fragment, useMemo, useState} from "react";
 import EditTips from "./EditTips.jsx";
 
 export default function DateTipsList({
-    onSelect
+                                         onSelect
                                      }) {
     const {editingId, setEditingId, datetipList} = useDateTipsContext();
-    const [hoveredTipId, setHoveredTipId] = useState(undefined);
+
+    const [selectId, setSelectId] = useState(undefined);
+
     return (<>
         {datetipList.map(tip => {
-            const hovered = hoveredTipId === tip.id;
+            const selected = selectId === tip.id;
+            console.log(selected)
             return <Fragment key={tip.id}>
                 {
                     editingId === tip.id ? <div className={'transition-all'}>
@@ -18,18 +21,18 @@ export default function DateTipsList({
                             }}/>
                         </div>
                         : <div
-                            className={`mb-[20px] transition-all duration-500 flex flex-col p-4 gap-2 bg-white rounded-[9px] ${hovered ? 'h-[140px]' : 'h-[60px]'}`}
+                            className={`mb-[20px] transition-all duration-500 flex flex-col p-4 gap-2 bg-white rounded-[9px] ${selected ? 'h-[140px] border border-blue-500' : 'h-[60px]'}`}
                             onClick={() => {
-                                onSelect(tip)
+                                onSelect(tip);
+                                setSelectId(tip.id)
                             }}
-                            onMouseEnter={() => setHoveredTipId(tip.id)}
-                            onMouseLeave={() => setHoveredTipId(undefined)}>
+                        >
                             <div className={`flex justify-between`}>
                                 <div className={'flex gap-4'}>
                                     <div className={'text-amber-600'}>{tip.user?.name || '匿名'}</div>
                                     <div className={'text-gray-600'}>{tip.createAt}</div>
                                 </div>
-                                {hovered && (<div>
+                                {selected && (<div>
                                     <button className={'text-green-500 rounded text-[15px] mr-2'} onClick={() => {
                                         setEditingId(tip.id)
                                     }}>
@@ -42,8 +45,8 @@ export default function DateTipsList({
                             </div>
                             <div className={'border-b-[1px]'}></div>
                             {
-                                hovered && <div
-                                    className={`text-[15px] leading-8 text-gray-500 mt-2  overflow-hidden transition-all duration-1000 text-ellipsis line-clamp-2 ${hovered ? 'opacity-100' : 'opacity-0'}`}>
+                                selected && <div
+                                    className={`text-[15px] leading-8 text-gray-500 mt-2  overflow-hidden transition-all duration-1000 text-ellipsis line-clamp-2 ${selected ? 'opacity-100' : 'opacity-0'}`}>
                                     {tip.summary}
                                 </div>
                             }
