@@ -74,12 +74,12 @@ export default function DateTips() {
             <DateTipsContext.Provider value={{
                 editingId, setEditingId
             }}>
-                <div className={'flex gap-0 justify-center transition-all'}>
+                <div className={''}>
                     {editingId && <EditTips tip={datetipDetail} onSave={handleSave} onCancel={() => {
                         setEditingId(undefined);
                     }}/>}
                     {!editingId && datetipDetail && <DateTipsDetail data={datetipDetail} onDelete={handleDelete}/>}
-                    <div className={'w-[500px] p-[20px] flex-shrink-0'}>
+                    <div className={`w-[500px] p-[20px] flex-shrink-0 transition-all ${editingId || datetipDetail ? ' translate-x-[20px]' : ''}`}>
                         <div className={'p-4 bg-white'} onClick={() => {
                             if (editingId) {
                                 alert('请先保存当前正在编辑的文档')
