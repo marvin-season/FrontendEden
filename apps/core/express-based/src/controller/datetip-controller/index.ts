@@ -2,6 +2,18 @@ import {Router} from 'express';
 import prisma from "../../utils/prisma";
 
 const DateTipController = Router();
+DateTipController.get('/:id', async (req, res) => {
+  const {id} = req.params;
+  if (!id) {
+    return res.json({data: null})
+  }
+  const data = await prisma.dateTip.findUnique({
+    where: {
+      id: parseInt(id)
+    }
+  })
+  return res.json({data})
+})
 
 DateTipController.get('/list', async (req, res) => {
   const data = await prisma.dateTip.findMany()

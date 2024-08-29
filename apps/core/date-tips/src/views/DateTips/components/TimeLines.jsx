@@ -22,8 +22,8 @@ export default function TimeLines() {
                             onMouseLeave={() => setHoveredTipId(undefined)}>
                             <div className={`flex justify-between`}>
                                 <div className={'flex gap-4'}>
-                                    <div className={''}>{tip.user?.name}</div>
-                                    <div className={''}>{tip.createAt}</div>
+                                    <div className={'text-amber-600'}>{tip.user?.name || '匿名'}</div>
+                                    <div className={'text-gray-600'}>{tip.createAt}</div>
                                 </div>
                                 {hovered && (<div>
                                     <button className={'text-green-500 rounded text-[15px] mr-2'} onClick={() => {
