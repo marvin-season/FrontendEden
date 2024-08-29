@@ -37,6 +37,19 @@ export default function DateTips() {
         })
     }
 
+    const handleDelete = async ({id}) => {
+        request({
+            url: `/api/datetip/${id}`,
+            config: {
+                method: 'delete'
+            }
+        }).then(res => {
+            setEditingId(undefined)
+            setDatetipDetail(undefined);
+            fetchList()
+        })
+    }
+
     const handleSave = async (content) => {
         const res = await request({
             url: '/api/datetip',
@@ -64,7 +77,7 @@ export default function DateTips() {
                 <div className={'flex gap-0'}>
                     <div className={'flex-grow'}>
                         {editingId && <EditTips tip={datetipDetail} onSave={handleSave}/>}
-                        {!editingId && datetipDetail && <DateTipsDetail data={datetipDetail}/>}
+                        {!editingId && datetipDetail && <DateTipsDetail data={datetipDetail} onDelete={handleDelete}/>}
                     </div>
                     <div className={'w-[400px] p-[20px] flex-shrink-0 bg'}>
                         <div className={'p-4 bg-white'} onClick={() => {

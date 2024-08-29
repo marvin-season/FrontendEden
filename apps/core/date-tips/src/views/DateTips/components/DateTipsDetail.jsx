@@ -2,6 +2,7 @@ import {useDateTipsContext} from "../index.jsx";
 
 export default function DateTipsDetail({
                                            data,
+                                           onDelete
                                        }) {
     const {setEditingId} = useDateTipsContext()
     return <>
@@ -12,7 +13,9 @@ export default function DateTipsDetail({
                 }}>
                     {'编辑'}
                 </button>
-                <button className={'text-red-500 rounded text-[15px]'}>
+                <button className={'text-red-500 rounded text-[15px]'} onClick={() => {
+                    confirm('确定删除吗？') && onDelete(data)
+                }}>
                     {'删除'}
                 </button>
             </div>

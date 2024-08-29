@@ -27,6 +27,23 @@ DateTipController.get('/:id', async (req, res) => {
   return res.json({data})
 })
 
+
+DateTipController.delete('/:id', async (req, res) => {
+  const {id} = req.params;
+  if (!id) {
+    return res.json({data: null})
+  }
+
+  const data = await prisma.dateTip.delete({
+    where: {
+      id: parseInt(id)
+    }
+  })
+
+  return res.json({data})
+});
+
+
 DateTipController.post('/', async (req, res) => {
   const data = req.body;
   let result = null;
