@@ -2,6 +2,18 @@ import {Router} from 'express';
 import prisma from "../../utils/prisma";
 
 const DateTipController = Router();
+
+DateTipController.get('/', async (req, res) => {
+  const data = await prisma.dateTip.findMany({
+    select: {
+      id: true,
+      summary: true,
+      createAt: true,
+    }
+  })
+  return res.json({data})
+})
+
 DateTipController.get('/:id', async (req, res) => {
   const {id} = req.params;
   if (!id) {
@@ -15,12 +27,7 @@ DateTipController.get('/:id', async (req, res) => {
   return res.json({data})
 })
 
-DateTipController.get('/', async (req, res) => {
-  const data = await prisma.dateTip.findMany()
-  return res.json({data})
-})
-
-DateTipController.post('/:name', async (req, res) => {
+DateTipController.post('/', async (req, res) => {
   const data = req.body;
   let result = null;
   if (data.id) {

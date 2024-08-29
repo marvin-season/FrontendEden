@@ -29,7 +29,7 @@ export default function DateTips() {
 
     const handleSave = async (content) => {
         const response = await request({
-            url: '/api/datetip/marvin?a=1&b=2',
+            url: '/api/datetip',
             data: {content, summary: content.slice(0, 10)},
             config: {
                 method: 'post',
