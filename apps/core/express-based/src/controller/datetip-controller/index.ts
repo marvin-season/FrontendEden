@@ -34,7 +34,8 @@ DateTipController.post('/', async (req, res) => {
     result = await prisma.dateTip.update({
       where: {
         id: data.id
-      }, data: {}
+      },
+      data
     })
   } else {
     result = await prisma.dateTip.create({data})

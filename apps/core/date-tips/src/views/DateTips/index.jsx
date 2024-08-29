@@ -23,6 +23,12 @@ export default function DateTips() {
     const [datetipList, setDatetipList] = useState([]);
     const [datetipDetail, setDatetipDetail] = useState(null);
 
+    const fetchList = async () => {
+        request({
+            url: '/api/datetip'
+        }).then(res => setDatetipList(res.data))
+    }
+
     const handleDetail = ({id}) => {
         request({
             url: `/api/datetip/${id}`
@@ -32,7 +38,7 @@ export default function DateTips() {
     }
 
     const handleSave = async (content) => {
-        await request({
+        const res = await request({
             url: '/api/datetip',
             data: {...datetipDetail, content, summary: content.slice(0, 10)},
             config: {
@@ -41,14 +47,13 @@ export default function DateTips() {
 
         });
 
-        setEditingId(undefined)
-
+        setEditingId(undefined);
+        setDatetipDetail(res?.data);
+        !datetipDetail?.id && fetchList();
     }
 
     useEffect(() => {
-        request({
-            url: '/api/datetip'
-        }).then(res => setDatetipList(res.data))
+        fetchList()
     }, []);
 
     return <>
