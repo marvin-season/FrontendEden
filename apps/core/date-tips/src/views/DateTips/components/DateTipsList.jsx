@@ -2,9 +2,10 @@ import {useDateTipsContext} from "../index.jsx";
 import {Fragment, useState} from "react";
 import EditTips from "./EditTips.jsx";
 
-export default function TimeLines() {
+export default function DateTipsList({
+    onSelect
+                                     }) {
     const {editingId, setEditingId, datetipList} = useDateTipsContext();
-    console.log(datetipList)
     const [hoveredTipId, setHoveredTipId] = useState(undefined);
     return (<>
         {datetipList.map(tip => {
@@ -18,6 +19,9 @@ export default function TimeLines() {
                         </div>
                         : <div
                             className={`mb-[20px] transition-all duration-500 flex flex-col p-4 gap-2 bg-white rounded-[9px] ${hovered ? 'h-[140px]' : 'h-[60px]'}`}
+                            onClick={() => {
+                                onSelect(tip)
+                            }}
                             onMouseEnter={() => setHoveredTipId(tip.id)}
                             onMouseLeave={() => setHoveredTipId(undefined)}>
                             <div className={`flex justify-between`}>

@@ -1,25 +1,10 @@
 import {useState} from "react";
-import {request} from "@marvin/shared";
+import {useDateTipsContext} from "../index.jsx";
 
 export default function EditTips({tip = {content: ''}, onSave}) {
-    const handleSave = async () => {
-
-        const response = await request({
-            url: '/api/datetip/marvin?a=1&b=2',
-            data: {content, summary: content.slice(0, 10)},
-            config: {
-                method: 'post',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            }
-
-        });
-        console.log(response)
-
-    }
 
     const [content, setContent] = useState(tip.content);
+    const {handle} = useDateTipsContext();
 
     return (<>
         <div className={'flex flex-col items-end gap-2'}>
@@ -30,7 +15,7 @@ export default function EditTips({tip = {content: ''}, onSave}) {
                 placeholder={'说点儿什么吧 ... ...'}/>
             <div>
                 <button className={'text-green-500 rounded text-[15px]'} onClick={() => {
-                    handleSave();
+                    handle.handleSave(content);
                     setContent(tip.content);
                 }}>
                     {'保存'}
