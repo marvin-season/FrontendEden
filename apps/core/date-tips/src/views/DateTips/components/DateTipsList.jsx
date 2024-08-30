@@ -1,9 +1,11 @@
 import {Fragment, useMemo, useState} from "react";
+import {useDateTipsContext} from "../index.jsx";
 
 export default function DateTipsList({
                                          onSelect, datetipList
                                      }) {
     const [selectId, setSelectId] = useState(undefined);
+    const {editingId} = useDateTipsContext();
 
     return (<>
         {datetipList.map(tip => {
@@ -11,8 +13,12 @@ export default function DateTipsList({
             return <Fragment key={tip.id}>
                 {
                     <div
-                        className={`mb-[20px] transition-all duration-500 flex flex-col p-4 gap-2 bg-white rounded-[9px] ${selected ? 'h-[140px] border border-blue-500' : 'h-[60px]'}`}
+                        className={`mb-[10px] transition-all duration-500 flex flex-col p-4 gap-2 bg-white rounded-[9px] ${selected ? 'h-[140px] border border-blue-500' : 'h-[60px]'}`}
                         onClick={() => {
+                            if (editingId) {
+                                confirm('请先保存当前正在编辑的文档');
+                                return
+                            }
                             onSelect(tip);
                             setSelectId(tip.id)
                         }}

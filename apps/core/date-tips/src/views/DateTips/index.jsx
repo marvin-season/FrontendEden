@@ -7,10 +7,6 @@ import DateTipsDetail from "./components/DateTipsDetail.jsx";
 
 const DateTipsContext = createContext({
     editingId: undefined,
-    datetipList: [],
-    handle: {
-        handleSave: null
-    }
 });
 
 export const useDateTipsContext = () => {
@@ -79,7 +75,7 @@ export default function DateTips() {
                 editingId, setEditingId
             }}>
                 <div
-                    className={`flex items-start justify-center transition-all`}>
+                    className={`flex items-start justify-center gap-4 transition-all`}>
                     <div
                         className={`transition-all duration-500 ${isActive ? 'w-[800px] h-full' : 'w-0 h-0'}`}>
                         {editingId && <EditTips tip={datetipDetail} onSave={handleSave} onCancel={() => {
@@ -89,8 +85,8 @@ export default function DateTips() {
                     </div>
 
                     <div
-                        className={`w-[500px] p-[20px] flex-shrink-0 transition-all duration-500 `}>
-                        <div className={'p-4 bg-white'} onClick={() => {
+                        className={`w-[500px] flex-shrink-0 transition-all duration-500 `}>
+                        <div className={'p-4 mb-6 bg-green-300 text-amber-50 text-xl text-center'} onClick={() => {
                             if (editingId) {
                                 alert('请先保存当前正在编辑的文档')
                                 return
