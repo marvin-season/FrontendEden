@@ -16,7 +16,7 @@ export default function DateTipsList({
                         className={`mb-[10px] transition-all duration-500 flex flex-col p-4 gap-2 bg-white rounded-[9px] ${selected ? 'h-[140px] border border-blue-500' : 'h-[60px]'}`}
                         onClick={() => {
                             if (editingId) {
-                                confirm('请先保存当前正在编辑的文档');
+                                alert('请先保存当前正在编辑的文档');
                                 return
                             }
                             onSelect(tip);
