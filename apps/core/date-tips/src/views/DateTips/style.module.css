@@ -1,4 +1,5 @@
 .dateTipsBg {
+    padding: 20px;
     height: 100vh;
     overflow-y: scroll;
     background: linear-gradient(33deg, #fff 0, #f7e2fd 40%, #cee3f5 80%, #63f3c8 150%);
