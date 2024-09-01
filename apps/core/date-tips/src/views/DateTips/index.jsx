@@ -49,7 +49,7 @@ export default function DateTips() {
     const handleSave = async (content) => {
         const res = await request({
             url: '/api/datetip',
-            data: {...datetipDetail, content, summary: content.slice(0, 10)},
+            data: {...datetipDetail, content, summary: content.slice(0, 20)},
             config: {
                 method: 'post',
             }
