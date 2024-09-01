@@ -1,5 +1,6 @@
 import {Fragment, useEffect, useMemo, useState} from "react";
 import {useDateTipsContext} from "../index.jsx";
+import dayjs from "dayjs";
 
 export default function DateTipsList({
                                          onSelect, datetipList, initSelectId
@@ -17,7 +18,7 @@ export default function DateTipsList({
             return <Fragment key={tip.id}>
                 {
                     <div
-                        className={`mb-[10px] transition-all duration-500 flex flex-col p-4 gap-2 bg-white rounded-[9px] ${selected ? 'h-[140px] border border-blue-500' : 'h-[60px]'}`}
+                        className={`cursor-pointer hover:bg-black mb-[10px] transition-all duration-500 flex flex-col p-4 gap-2 bg-white rounded-[9px] ${selected ? 'h-[140px] border border-blue-500' : 'h-[60px]'}`}
                         onClick={() => {
                             if (editingId) {
                                 alert('请先保存当前正在编辑的文档');
@@ -28,9 +29,9 @@ export default function DateTipsList({
                         }}
                     >
                         <div className={`flex justify-between`}>
-                            <div className={'flex gap-4'}>
+                            <div className={'flex items-end gap-4'}>
                                 <div className={'text-amber-600'}>{tip.user?.name || '匿名'}</div>
-                                <div className={'text-gray-600'}>{tip.createAt}</div>
+                                <div className={'text-[14px] text-blue-400'}>{dayjs(tip.createAt).format('YYYY-MM-DD HH:mm:ss')}</div>
                             </div>
                         </div>
                         <div className={'border-b-[1px]'}></div>

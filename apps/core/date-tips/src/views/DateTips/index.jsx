@@ -86,7 +86,7 @@ export default function DateTips() {
 
                     <div
                         className={`w-[500px] flex-shrink-0 transition-all duration-500 `}>
-                        <div className={'p-4 mb-6 bg-green-300 text-amber-50 text-xl text-center'} onClick={() => {
+                        <div className={'cursor-pointer p-4 mb-6 bg-green-300 text-amber-50 text-xl text-center'} onClick={() => {
                             if (editingId) {
                                 alert('请先保存当前正在编辑的文档')
                                 return
