@@ -1,11 +1,15 @@
-import {Fragment, useMemo, useState} from "react";
+import {Fragment, useEffect, useMemo, useState} from "react";
 import {useDateTipsContext} from "../index.jsx";
 
 export default function DateTipsList({
-                                         onSelect, datetipList
+                                         onSelect, datetipList, initSelectId
                                      }) {
-    const [selectId, setSelectId] = useState(undefined);
+    const [selectId, setSelectId] = useState();
     const {editingId} = useDateTipsContext();
+
+    useEffect(() => {
+        setSelectId(initSelectId);
+    }, [initSelectId]);
 
     return (<>
         {datetipList.map(tip => {

@@ -92,9 +92,10 @@ export default function DateTips() {
                                 return
                             }
                             setEditingId(Date.now())
+                            setDatetipDetail(null)
                         }}>发布一篇
                         </div>
-                        <DateTipsList datetipList={datetipList} onSelect={handleDetail}/>
+                        <DateTipsList datetipList={datetipList} initSelectId={datetipDetail?.id} onSelect={handleDetail}/>
                     </div>
                 </div>
 
