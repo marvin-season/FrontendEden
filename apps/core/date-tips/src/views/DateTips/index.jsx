@@ -4,6 +4,7 @@ import {createContext, useContext} from "react";
 import styles from './style.module.css'
 import DateTipsDetail from "./components/DateTipsDetail.jsx";
 import {useDateTips} from "./hooks/index.js";
+import DateTipsFilter from "./components/DateTipsFilter.jsx";
 
 const DateTipsContext = createContext({
     editingId: undefined,
@@ -71,7 +72,7 @@ export default function DateTips() {
 
                     <div>
                         {
-                            isFilter && <div>filter module</div>
+                            isFilter && <DateTipsFilter/>
                         }
                     </div>
                 </div>
