@@ -6,6 +6,12 @@ export const useDateTips = () => {
     const [datetipList, setDatetipList] = useState([]);
     const [datetipDetail, setDatetipDetail] = useState(null);
 
+    const [filterModel, setFilterModel] = useState({
+        searchInput: '',
+        dateRange: [],
+        tagIds: []
+    });
+
     const fetchList = async () => {
         request({
             url: '/api/datetip'
@@ -56,6 +62,10 @@ export const useDateTips = () => {
         return editingId || datetipDetail
     }, [editingId, datetipDetail]);
 
+    const isFilter = useMemo(() => {
+        return !isActive
+    }, [isActive]);
+
     return {
         editingId,
         setEditingId,
@@ -67,6 +77,7 @@ export const useDateTips = () => {
         handleDetail,
         handleDelete,
         handleSave,
-        isActive
+        isActive,
+        isFilter
     }
 }
