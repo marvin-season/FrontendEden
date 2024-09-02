@@ -43,7 +43,7 @@ export default function DateTips() {
                     </div>
 
                     <div
-                        className={`w-[300px] flex-shrink-0 transition-all duration-500 `}>
+                        className={`flex-shrink-0 transition-all duration-200 ${isActive? 'w-[350px]': 'w-[500px]'}`}>
                         <div className={'cursor-pointer p-4 mb-6 bg-green-300 text-amber-50 text-xl text-center'}
                              onClick={() => {
                                  if (editingId) {
