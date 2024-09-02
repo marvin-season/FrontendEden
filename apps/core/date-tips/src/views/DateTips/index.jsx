@@ -44,15 +44,18 @@ export default function DateTips() {
 
                     <div
                         className={`flex-shrink-0 transition-all duration-200 ${isActive? 'w-[350px]': 'w-[500px]'}`}>
-                        <div className={'cursor-pointer p-4 mb-6 bg-green-300 text-amber-50 text-xl text-center'}
-                             onClick={() => {
-                                 if (editingId) {
-                                     alert('请先保存当前正在编辑的文档')
-                                     return
-                                 }
-                                 setEditingId(Date.now())
-                                 setDatetipDetail(null)
-                             }}>发布一篇
+                        <div className={'cursor-pointer flex mb-6'}>
+                            <div className={'flex-grow p-4 bg-green-300 text-amber-50 text-center'}
+                                 onClick={() => {
+                                     if (editingId) {
+                                         alert('请先保存当前正在编辑的文档')
+                                         return
+                                     }
+                                     setEditingId(Date.now())
+                                     setDatetipDetail(null)
+                                 }}>发布一篇
+                            </div>
+                            <div className={`w-[80px] bg-blue-400 text-white text-center p-4 transition-all duration-500 hover:w-[70%]`}>筛选</div>
                         </div>
                         <DateTipsList datetipList={datetipList} initSelectId={datetipDetail?.id}
                                       onSelect={handleDetail}/>
