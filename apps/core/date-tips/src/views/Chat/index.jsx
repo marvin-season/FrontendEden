@@ -16,8 +16,13 @@ export default function ChatPage() {
                 }
             });
             for await (const streamElement of stream.body) {
-                const v = textDecoder.decode(streamElement)
-                console.log('streamElement', v)
+                const jsonV = textDecoder.decode(streamElement)
+                try {
+                    const message = JSON.parse(jsonV.replace(/data:\s*/, ''))
+                    onMessage(message)
+                } catch (e) {
+                    console.log(e)
+                }
             }
         },
         stop: () => {
