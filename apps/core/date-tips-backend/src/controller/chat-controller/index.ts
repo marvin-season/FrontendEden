@@ -10,20 +10,27 @@ const ChatController = Router();
 ChatController.get('/hello', (req, res) => res.send('Hello World!'))
 
 ChatController.post('/stream', async (req, res) => {
+
   try {
-    const {messages} = req.body;
-
-    console.log(messages)
-    const result = await streamText({
+    const {prompt} = req.body;
+    // Set headers to keep connection alive for streaming
+    res.setHeader('Content-Type', 'text/event-stream');
+    res.setHeader('Connection', 'keep-alive');
+    await streamText({
       model: ollama('llama3.1:8b'),
-      messages: convertToCoreMessages(messages),
+      onChunk: (chunk) => {
+        res.write(`data: ${JSON.stringify(chunk)}`);
+      },
+      onFinish: (event) => {
+        res.write(`data: ${JSON.stringify(event)}`);
+        res.end();
+      },
+      prompt
     })
 
-    return result.toTextStreamResponse({
-      status: 200
-    })
   } catch (e) {
-    console.log(e)
+    console.error('Error in /stream endpoint:', e);
+    res.status(500).send('Internal Server Error');
   }
 })
 export default ChatController
