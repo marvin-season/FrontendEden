@@ -1,0 +1,8 @@
+-- CreateTable
+CREATE TABLE "DateTip" (
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "summary" TEXT NOT NULL,
+    "content" TEXT NOT NULL,
+    "createAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updateAt" DATETIME NOT NULL
+);

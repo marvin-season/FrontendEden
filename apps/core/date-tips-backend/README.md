@@ -2,7 +2,8 @@
 
 ##  integrate with prisma + postgresql
 
-### 0. Install Postgresql With Docker
+### 0. Install Postgresql With Docker (Optional)
+if you have a local postgresql or you want to use another database, just like sqlite
 
 ```sh
 docker run --name postgres -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -p 5432:5432 -d postgres
@@ -22,7 +23,7 @@ npx prisma init
 ### 3. Migrate the database
 
 ```sh
-npx prisma migrate dev --name initname
+npx prisma migrate dev --name migrate-name
 ```
 
 ### 4. Generate the prisma client
@@ -53,4 +54,13 @@ npx prisma studio
 (async () => {
   return await prisma.tableName.findMany()
 })()
+```
+### 8. Pull the database schema from database
+```shell
+npx prisma db pull
+```
+
+### 9. Push the database schema to database
+```shell
+npx prisma db push
 ```

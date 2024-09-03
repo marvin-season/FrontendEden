@@ -1,0 +1,16 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:../storage/sqlite.db"
+}
+
+model DateTip {
+  id       Int      @id @default(autoincrement())
+  summary  String
+  content  String
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+}
