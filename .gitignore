@@ -34,6 +34,5 @@ public/*.pdf
 public/*.doc
 public/*.docx
 
-prisma
-!prisma/schema.prisma
+prisma/migrations/**/*
 storage
