@@ -8,24 +8,30 @@ const ChatController = Router();
 
 ChatController.get('/hello', (req, res) => res.send('Hello World!'))
 
-ChatController.get('/stream', async (req, res) => {
+ChatController.post('/stream', async (req, res) => {
   try {
+    const data = req.body;
+    console.log(data)
     const result = await streamText({
       model: ollama('llama3.1:8b'),
-      onChunk: (chunk) => {
-        console.log(chunk)
-      },
       system: `You are a helpful, respectful and honest assistant.`,
       messages: [
         {
           role: 'user',
-          content: 'hi'
+          content: data.prompt
         }
       ],
     })
+    const response = new Response();
+    if(response?.body){
+      // @ts-ignore
+      for await (const responseElement of response.body) {
+        console.log(responseElement)
+      }
+    }
 
 
-    return res.json({result})
+    return result.toTextStreamResponse()
   } catch (e) {
     console.log(e)
   }

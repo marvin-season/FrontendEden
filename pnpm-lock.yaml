@@ -117,6 +117,9 @@ importers:
       '@react-spring/web':
         specifier: ^9.7.4
         version: 9.7.4(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      ai:
+        specifier: ^3.3.25
+        version: 3.3.25(openai@4.47.2(encoding@0.1.13))(react@18.3.1)(sswr@2.1.0(svelte@4.2.19))(svelte@4.2.19)(vue@3.4.38(typescript@5.4.5))(zod@3.23.8)
       date-fns:
         specifier: ^3.6.0
         version: 3.6.0
@@ -190,37 +193,6 @@ importers:
       ollama-ai-provider:
         specifier: ^0.13.0
         version: 0.13.0(zod@3.23.8)
-      openai:
-        specifier: ^4.47.1
-        version: 4.47.2(encoding@0.1.13)
-    devDependencies:
-      '@types/express':
-        specifier: ^4.17.21
-        version: 4.17.21
-      '@types/node':
-        specifier: ^20.11.20
-        version: 20.12.13
-      nodemon:
-        specifier: ^3.1.0
-        version: 3.1.2
-      ts-node:
-        specifier: ^10.9.2
-        version: 10.9.2(@types/node@20.12.13)(typescript@5.4.5)
-      typescript:
-        specifier: ^5.2.2
-        version: 5.4.5
-
-  apps/core/express-based:
-    dependencies:
-      '@prisma/client':
-        specifier: 5.16.1
-        version: 5.16.1(prisma@5.16.1)
-      dotenv:
-        specifier: ^16.4.5
-        version: 16.4.5
-      express:
-        specifier: ^4.18.3
-        version: 4.19.2
       openai:
         specifier: ^4.47.1
         version: 4.47.2(encoding@0.1.13)
