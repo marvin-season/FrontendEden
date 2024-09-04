@@ -23,7 +23,7 @@ npx prisma init
 ### 3. Migrate the database
 
 ```sh
-npx prisma migrate dev --name migrate-name
+npx prisma migrate dev --name init
 ```
 
 ### 4. Generate the prisma client
