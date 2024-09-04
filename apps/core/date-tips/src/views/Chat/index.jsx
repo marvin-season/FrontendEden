@@ -18,8 +18,11 @@ export default function ChatPage() {
             for await (const streamElement of stream.body) {
                 const jsonV = textDecoder.decode(streamElement)
                 try {
-                    const message = JSON.parse(jsonV.replace(/data:\s*/, ''))
-                    onMessage(message)
+                    jsonV.split(/\n+/).forEach(line => {
+                        const message = JSON.parse(line.replace(/data:\s*/, ''))
+                        onMessage(message)
+                    })
+
                 } catch (e) {
                     console.log(e)
                 }

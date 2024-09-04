@@ -19,11 +19,6 @@ export class LLMFactory {
   }
 
   static createAzureLLM() {
-    console.log({
-      baseURL: process.env.AZURE_OPENAI_ENDPOINT,
-      resourceName: process.env.AZURE_RESOURCE_NAME,
-      apiKey: process.env.AZURE_OPENAI_KEY
-    })
     return LLMMapping['azure']()('GPT-4');
   }
 }
