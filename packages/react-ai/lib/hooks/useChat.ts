@@ -9,7 +9,6 @@ import {parseSSE} from "@/utils";
 const format = 'YYYY-MM-DD HH:mm:ss';
 
 export const useChat = (invokeHandle: {
-    onMessage: (params: any) => void,
     onSend: (params: any) => Promise<Response>
     onStop: Function,
 }): ChatProps => {
