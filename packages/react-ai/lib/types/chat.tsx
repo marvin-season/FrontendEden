@@ -1,4 +1,4 @@
-import {DefaultChatLayout} from "@/components/Chat/default/DefaultChatLayout.tsx";
+import {ChatListLayout} from "@/components/Chat/default/ChatListLayout.tsx";
 import {DefaultAnswerLayout} from "@/components/Chat/default/DefaultAnswerLayout.tsx";
 import {DefaultQuestionLayout} from "@/components/Chat/default/DefaultQuestionLayout.tsx";
 import {ChatActionType, ChatStatus, MessageType} from "@/constant";
@@ -36,7 +36,7 @@ export interface ChatItem {
     answers: IAnswer[]
 }
 
-export type ChatLayoutType<T extends typeof DefaultChatLayout> = T;
+export type ChatLayoutType<T extends typeof ChatListLayout> = T;
 
 export type AnswerLayoutType<T extends typeof DefaultAnswerLayout> = T;
 
@@ -49,7 +49,7 @@ export interface ChatProps {
     chatList: ChatItem[];
     AnswerLayout?: AnswerLayoutType<typeof DefaultAnswerLayout>;
     QuestionLayout?: QuestionLayoutType<typeof DefaultQuestionLayout>;
-    ChatLayout?: ChatLayoutType<typeof DefaultChatLayout>;
+    ChatLayout?: ChatLayoutType<typeof ChatListLayout>;
 
     // action
     onAction: (actionType: ChatActionType, actionParams: ActionParams) => void;

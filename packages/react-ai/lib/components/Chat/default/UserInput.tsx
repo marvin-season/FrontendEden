@@ -20,7 +20,7 @@ export const UserInput = () => {
     return <Flex align={"center"} gap={6}>
         <FileSelector
             onChange={(files) => {
-                onAction(ChatActionType.SelectFile, {
+                onAction(ChatActionType.SelectAttachment, {
                     attachments: Array.from(files).map(file => {
                         return {
                             type: 'file',

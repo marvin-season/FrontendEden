@@ -4,7 +4,7 @@ import {useChatContext} from "@/components/Chat/context/ChatContext.tsx";
 import {Flex} from "antd";
 import {ChatActionType} from "@/constant";
 
-export const DefaultChatLayout: FC<Pick<ChatProps, 'QuestionLayout' | 'AnswerLayout' | 'chatList'>>
+export const ChatListLayout: FC<Pick<ChatProps, 'QuestionLayout' | 'AnswerLayout' | 'chatList'>>
     = ({
            chatList,
            QuestionLayout,
