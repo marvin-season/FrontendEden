@@ -16,11 +16,14 @@ ChatController.post('/stream')
         try {
             if (!conversationId) {
                 const conversationId = `conversation-${Date.now()}`
-                await prisma.chatConversation.create({
-                    conversationId,
-                    name: conversationId
-                } as any);
+                const conversation = await prisma.chatConversation.create({
+                    data: {
+                        conversationId,
+                        name: conversationId
+                    }
+                });
 
+                req.body.conversationId = conversation?.conversationId;
             } else {
                 const conversation = await prisma.chatConversation.findUnique({
                     where: {
@@ -31,9 +34,13 @@ ChatController.post('/stream')
                 if (!conversation) {
                     const conversationId = `conversation-${Date.now()}`
                     await prisma.chatConversation.create({
-                        conversationId,
-                        name: conversationId
-                    } as any);
+                        data: {
+                            conversationId,
+                            name: conversationId
+                        }
+                    });
+
+                    req.body.conversationId = conversationId;
                 }
             }
 
@@ -68,7 +75,7 @@ ChatController.post('/stream')
 
             for await (const content of result.textStream) {
                 console.log('result', content);
-                res.write(`data: ${JSON.stringify({content, id})}\n\n`);
+                res.write(`data: ${JSON.stringify({content, id, conversationId})}\n\n`);
             }
 
             res.end();
