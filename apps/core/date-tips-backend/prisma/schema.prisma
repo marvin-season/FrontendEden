@@ -14,3 +14,17 @@ model DateTip {
   createAt DateTime @default(now())
   updateAt DateTime @updatedAt
 }
+
+model ChatConversation {
+  id             Int           @id @default(autoincrement())
+  name           String
+  conversationId String        @unique
+  messages       ChatMessage[]
+}
+
+model ChatMessage {
+  id             Int              @id @default(autoincrement())
+  conversationId Int
+  content        String
+  conversation   ChatConversation @relation(fields: [conversationId], references: [id])
+}
