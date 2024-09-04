@@ -16,7 +16,7 @@ ChatController.post('/stream', async (req, res) => {
         res.setHeader('Connection', 'keep-alive');
         const id = Date.now();
         const result = await streamText({
-            model: LLMFactory.createAzureLLM(),
+            model: LLMFactory.createAzure(),
             messages: [
                 {
                     role: 'assistant',

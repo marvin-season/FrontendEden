@@ -1,25 +1,23 @@
 import {createOllama} from "ollama-ai-provider";
 import {createAzure} from "@ai-sdk/azure";
 
-const LLMMapping = {
-  'ollama': () => createOllama({
-    baseURL: 'http://127.0.0.1:11434/api',
-  }),
-  'azure': () => createAzure({
+const LLMConfig = {
+  'ollama': {
+    baseURL: `${process.env.OLLAMA_ENDPOINT}/api`,
+  },
+  'azure': {
     baseURL: `${process.env.AZURE_OPENAI_ENDPOINT}/openai/deployments/`,
     apiKey: process.env.AZURE_OPENAI_KEY,
-  })
+  }
 }
-type ProviderType = keyof typeof LLMMapping;
-
 
 export class LLMFactory {
-  static createOllamaLLM() {
-    return LLMMapping['ollama']()('llama3.1:8b');
+  static createOllama(modelId = 'llama3.1:8b') {
+    return createOllama(LLMConfig.ollama)(modelId);
   }
 
-  static createAzureLLM() {
-    return LLMMapping['azure']()('GPT-4');
+  static createAzure(modelId = 'GPT-4') {
+    return createAzure(LLMConfig.azure)(modelId);
   }
 }
 
