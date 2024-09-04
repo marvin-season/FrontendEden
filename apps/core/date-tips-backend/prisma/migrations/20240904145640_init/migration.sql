@@ -19,6 +19,7 @@ CREATE TABLE "ChatMessage" (
     "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     "conversationId" TEXT NOT NULL,
     "content" TEXT NOT NULL,
+    "role" TEXT DEFAULT 'user',
     CONSTRAINT "ChatMessage_conversationId_fkey" FOREIGN KEY ("conversationId") REFERENCES "ChatConversation" ("conversationId") ON DELETE RESTRICT ON UPDATE CASCADE
 );
 

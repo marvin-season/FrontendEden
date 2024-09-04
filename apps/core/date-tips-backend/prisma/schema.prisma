@@ -26,6 +26,7 @@ model ChatMessage {
   id             Int              @id @default(autoincrement())
   conversationId String
   content        String
+  role           String?          @default("user")
   conversation   ChatConversation @relation(fields: [conversationId], references: [conversationId])
 
   @@index([conversationId], map: "ChatConversation_fkey")
