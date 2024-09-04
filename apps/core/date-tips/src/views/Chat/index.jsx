@@ -8,9 +8,7 @@ export default function ChatPage() {
             console.log(params)
             return await fetch('/api/chat/stream', {
                 method: 'POST',
-                body: JSON.stringify({
-                    prompt: params.value
-                }),
+                body: JSON.stringify(params),
                 headers: {
                     'Content-Type': 'application/json',
                 }

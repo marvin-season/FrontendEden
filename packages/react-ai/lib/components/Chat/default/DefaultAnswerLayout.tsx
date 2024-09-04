@@ -1,4 +1,4 @@
-import {ChatProps, IAnswer} from "@/types";
+import {ChatProps, IAnswer, IQuestion} from "@/types";
 import Answer from "@/components/Chat/default/Answer.tsx";
 import {ReloadOutlined} from "@ant-design/icons";
 import React, {FC} from "react";
@@ -18,7 +18,7 @@ export const DefaultAnswerLayout: FC<{ answers: IAnswer[], onAction: ChatProps['
             })
         }
         {answers.at(-1) && <ReloadOutlined className={'text-sm text-sky-400'} onClick={() => {
-            onAction(ChatActionType.ReloadMessage, {answer: answers.at(-1) as IAnswer})
+            onAction(ChatActionType.ReloadMessage, {answer: answers.at(-1) as IAnswer, question: answers.at(-2) as IQuestion})
         }}/>}
     </>
 }

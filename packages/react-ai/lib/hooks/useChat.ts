@@ -1,7 +1,7 @@
 import {nanoid} from "nanoid";
 import {useImmer} from "use-immer";
 import moment from "moment";
-import {ChatItem, ChatProps, IInvoke} from "@/types";
+import {ChatItem, ChatProps} from "@/types";
 import {useEffect, useState} from "react";
 import {ChatActionType, ChatStatus, MessageType} from "@/constant";
 import {parseSSE} from "@/utils";
@@ -24,7 +24,7 @@ export const useChat = (invokeHandle: {
                 questions: [
                     {
                         id: nanoid(),
-                        content: params.value,
+                        content: params.prompt,
                         createTime: moment().format(format),
                     }
                 ],
@@ -66,8 +66,9 @@ export const useChat = (invokeHandle: {
         })
     }
 
-    const sendMessage = async (params: { value: string }) => {
+    const sendMessage = async (params: { prompt: string }) => {
         await executeReceiveTask(await executeSendTask(params));
+        setChatStatus(ChatStatus.Idle);
         return '一次会话完成'
     }
 
@@ -99,15 +100,15 @@ export const useChat = (invokeHandle: {
         chatList,
         status: chatStatus,
         onAction: (actionType, actionParams) => {
-            console.log("🚀  ", actionType, actionParams);
+            console.log("🚀  ", {actionType, actionParams});
             if (actionType === ChatActionType.SendMessage) {
-                sendMessage({value: actionParams.value}).then(console.log)
+                sendMessage({prompt: actionParams.prompt}).then(console.log)
             } else if (actionType === ChatActionType.SelectFile) {
                 onSelectedFile(actionParams.files);
             } else if (actionType === ChatActionType.StopGenerate) {
                 onStop();
             } else if (actionType === ChatActionType.ReloadMessage) {
-                sendMessage({...actionParams.answer, value: actionParams.answer.content}).then(console.log);
+                sendMessage({prompt: actionParams.question.content}).then(console.log);
             }
         }
     }

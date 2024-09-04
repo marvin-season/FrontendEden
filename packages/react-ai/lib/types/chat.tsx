@@ -55,11 +55,3 @@ export interface ChatProps {
     onAction: (actionType: ChatActionType, actionParams: Record<string, any>) => void;
 }
 
-
-export type IInvoke = (
-    params: { value: string, [_: string]: any },
-    onMessage: (message: IMessage) => void,
-    onFinish?: (message?: IMessage) => void,
-) => Promise<void>;
-
-
