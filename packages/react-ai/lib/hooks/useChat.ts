@@ -4,10 +4,15 @@ import moment from "moment";
 import {ChatItem, ChatProps, IInvoke} from "@/types";
 import {useEffect, useState} from "react";
 import {ChatActionType, ChatStatus, MessageType} from "@/constant";
+import {parseSSE} from "@/utils";
 
 const format = 'YYYY-MM-DD HH:mm:ss';
 
-export const useChat = (invokeHandle: { invoke: IInvoke, stop: Function }): ChatProps => {
+export const useChat = (invokeHandle: {
+    onMessage: (params: any) => void,
+    onSend: (params: any) => Promise<Response>
+    onStop: Function,
+}): ChatProps => {
     const [chatList, setChatList] = useImmer<ChatItem[]>([]);
     const [chatStatus, setChatStatus] = useState<ChatProps['status']>(ChatStatus.Idle);
 
@@ -33,11 +38,12 @@ export const useChat = (invokeHandle: { invoke: IInvoke, stop: Function }): Chat
                 ]
             })
         })
+        return invokeHandle.onSend(params);
     }
 
     // 接收消息任务(可能包含异步操作)
-    const executeReceiveTask = async (params: any) => {
-        await invokeHandle.invoke(params, (message) => {
+    const executeReceiveTask = async (response: Promise<Response>) => {
+        parseSSE(response, (message) => {
             setChatList(draft => {
                 const lastChatItem = draft.at(-1);
                 if (lastChatItem) {
@@ -50,8 +56,8 @@ export const useChat = (invokeHandle: { invoke: IInvoke, stop: Function }): Chat
                 }
 
             })
-        }, () => {
-            setChatStatus(ChatStatus.Idle);
+        }).then(() => {
+            console.log('消息解析完成')
         })
 
         console.log("🚀 会话建立，消息生成中");
@@ -64,8 +70,8 @@ export const useChat = (invokeHandle: { invoke: IInvoke, stop: Function }): Chat
     }
 
     const sendMessage = async (params: { value: string }) => {
-        await executeSendTask(params);
-        await executeReceiveTask(params);
+        const response = executeSendTask(params);
+        await executeReceiveTask(response);
         return '消息发送成功'
     }
 
@@ -82,12 +88,12 @@ export const useChat = (invokeHandle: { invoke: IInvoke, stop: Function }): Chat
 
     const onStop = () => {
         setChatStatus(ChatStatus.Idle);
-        invokeHandle.stop();
+        invokeHandle.onStop();
     }
 
     useEffect(() => {
         return () => {
-            invokeHandle.stop();
+            invokeHandle.onStop();
             setChatList([]);
             setChatStatus(ChatStatus.Idle);
         }

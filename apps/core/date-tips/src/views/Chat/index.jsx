@@ -4,9 +4,9 @@ const textDecoder = new TextDecoder();
 export default function ChatPage() {
 
     const chatProps = useChat({
-        invoke: async (params, onMessage, onFinish) => {
+        async onSend(params){
             console.log(params)
-            const stream = await fetch('/api/chat/stream', {
+            return await fetch('/api/chat/stream', {
                 method: 'POST',
                 body: JSON.stringify({
                     prompt: params.value
@@ -15,20 +15,8 @@ export default function ChatPage() {
                     'Content-Type': 'application/json',
                 }
             });
-            for await (const streamElement of stream.body) {
-                const jsonV = textDecoder.decode(streamElement)
-                try {
-                    jsonV.split(/\n+/).forEach(line => {
-                        const message = JSON.parse(line.replace(/data:\s*/, ''))
-                        onMessage(message)
-                    })
-
-                } catch (e) {
-                    console.log(e)
-                }
-            }
         },
-        stop: () => {
+        onStop: () => {
         }
     });
 
