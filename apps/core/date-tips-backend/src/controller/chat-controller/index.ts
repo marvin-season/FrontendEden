@@ -1,13 +1,9 @@
 import {Router} from "express";
-import {convertToCoreMessages, StreamData, streamText} from "ai";
-import {createOllama} from "ollama-ai-provider";
-import {generateEmbedding} from "../../service/embedding";
+import {streamText} from "ai";
+import {LLMFactory} from "../../service/llm";
 
-const ollama = createOllama({
-    baseURL: 'http://127.0.0.1:11434/api',
-});
 const ChatController = Router();
-const embeddingModel = ollama.textEmbeddingModel('mxbai-embed-large:latest');
+// const embeddingModel = ollama.textEmbeddingModel('mxbai-embed-large:latest');
 ChatController.get('/hello', (req, res) => res.send('Hello World!'))
 
 ChatController.post('/stream', async (req, res) => {
@@ -20,7 +16,7 @@ ChatController.post('/stream', async (req, res) => {
         res.setHeader('Connection', 'keep-alive');
         const id = Date.now();
         const result = await streamText({
-            model: ollama('llama3.1:latest'),
+            model: LLMFactory.createAzureLLM(),
             messages: [
                 {
                     role: 'assistant',
