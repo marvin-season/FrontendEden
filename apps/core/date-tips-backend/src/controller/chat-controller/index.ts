@@ -50,7 +50,7 @@ ChatController.post('/stream')
         }
         console.log('after');
     })
-    .use(async (req, res) => {
+    .use(async (req, res, next) => {
 
         try {
             const {prompt, conversationId} = req.body;
@@ -73,11 +73,26 @@ ChatController.post('/stream')
             })
 
 
-            for await (const content of result.textStream) {
-                console.log('result', content);
-                res.write(`data: ${JSON.stringify({content, id, conversationId})}\n\n`);
+            let content = ''
+            for await (const chunk of result.textStream) {
+                content += chunk
+                res.write(`data: ${JSON.stringify({content: chunk, id, conversationId})}\n\n`);
             }
 
+            await prisma.chatMessage.create({
+                data: {
+                    conversationId,
+                    content: prompt
+                }
+            })
+
+            await prisma.chatMessage.create({
+                data: {
+                    conversationId,
+                    content,
+                    role: 'assistant',
+                }
+            })
             res.end();
 
         } catch (e) {
