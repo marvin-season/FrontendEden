@@ -42,8 +42,15 @@ export const useChat = (invokeHandle: {
     }
 
     // 接收消息任务(可能包含异步操作)
-    const executeReceiveTask = async (response: Promise<Response>) => {
-        parseSSE(response, (message) => {
+    const executeReceiveTask = async (response: Response) => {
+        setChatList(draft => {
+            const chatItem = draft.at(-1);
+            if (chatItem) {
+                chatItem.answers = chatItem.answers.filter(item => item.type != MessageType.Loading)
+            }
+        })
+
+        return parseSSE(response, (message) => {
             setChatList(draft => {
                 const lastChatItem = draft.at(-1);
                 if (lastChatItem) {
@@ -56,23 +63,12 @@ export const useChat = (invokeHandle: {
                 }
 
             })
-        }).then(() => {
-            console.log('消息解析完成')
-        })
-
-        console.log("🚀 会话建立，消息生成中");
-        setChatList(draft => {
-            const chatItem = draft.at(-1);
-            if (chatItem) {
-                chatItem.answers = chatItem.answers.filter(item => item.type != MessageType.Loading)
-            }
         })
     }
 
     const sendMessage = async (params: { value: string }) => {
-        const response = executeSendTask(params);
-        await executeReceiveTask(response);
-        return '消息发送成功'
+        await executeReceiveTask(await executeSendTask(params));
+        return '一次会话完成'
     }
 
     const onSelectedFile = (files: FileList) => {

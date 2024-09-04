@@ -1,11 +1,10 @@
-export const parseSSE = async (response: Promise<Response>, onParse: (message: any) => void) => {
+export const parseSSE = async (response: Response, onParse: (message: any) => void) => {
 
-    const stream = await response;
-    if (!stream?.body) {
+    if (!response?.body) {
         return
     }
     // @ts-ignore
-    for await (const streamElement of stream.body) {
+    for await (const streamElement of response.body) {
         const jsonV = textDecoder.decode(streamElement)
         try {
             jsonV.split(/\n+/).forEach(line => {
