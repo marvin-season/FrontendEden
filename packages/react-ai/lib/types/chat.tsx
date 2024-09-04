@@ -52,6 +52,12 @@ export interface ChatProps {
     ChatLayout?: ChatLayoutType<typeof DefaultChatLayout>;
 
     // action
-    onAction: (actionType: ChatActionType, actionParams: Record<string, any>) => void;
+    onAction: (actionType: ChatActionType, actionParams: ActionParams) => void;
+}
+
+export type ActionParams = {
+    prompt?: string;
+    tools?: [],
+    attachments?: any[],
 }
 

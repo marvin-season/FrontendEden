@@ -1,6 +1,5 @@
 import {Chat, useChat} from '@marvin/react-ai'
 
-const textDecoder = new TextDecoder();
 export default function ChatPage() {
 
     const chatProps = useChat({

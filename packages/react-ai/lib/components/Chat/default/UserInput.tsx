@@ -11,7 +11,7 @@ export const UserInput = () => {
 
     const handleSend = () => {
         if (value.trim().length > 0) {
-            onAction(ChatActionType.SendMessage, {value});
+            onAction(ChatActionType.SendMessage, {prompt: value});
             setValue('')
         } else {
             message.info('消息不能为空').then()
@@ -20,7 +20,14 @@ export const UserInput = () => {
     return <Flex align={"center"} gap={6}>
         <FileSelector
             onChange={(files) => {
-                onAction(ChatActionType.SelectFile, {files})
+                onAction(ChatActionType.SelectFile, {
+                    attachments: Array.from(files).map(file => {
+                        return {
+                            type: 'file',
+                            file: file,
+                        }
+                    })
+                })
             }}><UploadOutlined className={'text-xl text-cyan-700'}/>
         </FileSelector>
         <Input

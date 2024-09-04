@@ -18,7 +18,8 @@ export const DefaultAnswerLayout: FC<{ answers: IAnswer[], onAction: ChatProps['
             })
         }
         {answers.at(-1) && <ReloadOutlined className={'text-sm text-sky-400'} onClick={() => {
-            onAction(ChatActionType.ReloadMessage, {answer: answers.at(-1) as IAnswer, question: answers.at(-2) as IQuestion})
+            console.log(answers.at(-2))
+            onAction(ChatActionType.ReloadMessage, { prompt: answers.at(-2)?.content as string})
         }}/>}
     </>
 }

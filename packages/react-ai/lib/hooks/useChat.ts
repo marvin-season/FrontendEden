@@ -1,7 +1,7 @@
 import {nanoid} from "nanoid";
 import {useImmer} from "use-immer";
 import moment from "moment";
-import {ChatItem, ChatProps} from "@/types";
+import {ActionParams, ChatItem, ChatProps} from "@/types";
 import {useEffect, useState} from "react";
 import {ChatActionType, ChatStatus, MessageType} from "@/constant";
 import {parseSSE} from "@/utils";
@@ -17,14 +17,14 @@ export const useChat = (invokeHandle: {
     const [chatStatus, setChatStatus] = useState<ChatProps['status']>(ChatStatus.Idle);
 
     // 发送消息任务(可能包含异步操作)
-    const executeSendTask = async (params: any) => {
+    const executeSendTask = async (params: ActionParams) => {
         setChatStatus(ChatStatus.Loading);
         setChatList(draft => {
             draft.push({
                 questions: [
                     {
                         id: nanoid(),
-                        content: params.prompt,
+                        content: params.prompt as string,
                         createTime: moment().format(format),
                     }
                 ],
@@ -66,7 +66,7 @@ export const useChat = (invokeHandle: {
         })
     }
 
-    const sendMessage = async (params: { prompt: string }) => {
+    const sendMessage = async (params: ActionParams) => {
         await executeReceiveTask(await executeSendTask(params));
         setChatStatus(ChatStatus.Idle);
         return '一次会话完成'
@@ -101,14 +101,12 @@ export const useChat = (invokeHandle: {
         status: chatStatus,
         onAction: (actionType, actionParams) => {
             console.log("🚀  ", {actionType, actionParams});
-            if (actionType === ChatActionType.SendMessage) {
-                sendMessage({prompt: actionParams.prompt}).then(console.log)
-            } else if (actionType === ChatActionType.SelectFile) {
-                onSelectedFile(actionParams.files);
+            if (actionType === ChatActionType.SendMessage || actionType === ChatActionType.ReloadMessage) {
+                sendMessage(actionParams).then(console.log)
+            } else if (actionType === ChatActionType.SelectAttachment) {
+                // onSelectedFile(actionParams.attachments);
             } else if (actionType === ChatActionType.StopGenerate) {
                 onStop();
-            } else if (actionType === ChatActionType.ReloadMessage) {
-                sendMessage({prompt: actionParams.question.content}).then(console.log);
             }
         }
     }
