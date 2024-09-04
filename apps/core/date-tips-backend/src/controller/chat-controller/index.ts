@@ -6,8 +6,13 @@ const ChatController = Router();
 // const embeddingModel = ollama.textEmbeddingModel('mxbai-embed-large:latest');
 ChatController.get('/hello', (req, res) => res.send('Hello World!'))
 
-ChatController.post('/stream', async (req, res) => {
-
+ChatController.post('/stream')
+    .use((req, res, next) => {
+        console.log('before');
+        next();
+        console.log('after');
+    })
+    .use(async (req, res) => {
 
     try {
         const {prompt} = req.body;
