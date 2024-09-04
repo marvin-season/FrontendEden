@@ -17,14 +17,16 @@ model DateTip {
 
 model ChatConversation {
   id             Int           @id @default(autoincrement())
-  name           String
+  name           String?
   conversationId String        @unique
   messages       ChatMessage[]
 }
 
 model ChatMessage {
   id             Int              @id @default(autoincrement())
-  conversationId Int
+  conversationId String
   content        String
-  conversation   ChatConversation @relation(fields: [conversationId], references: [id])
+  conversation   ChatConversation @relation(fields: [conversationId], references: [conversationId])
+
+  @@index([conversationId], map: "ChatConversation_fkey")
 }
