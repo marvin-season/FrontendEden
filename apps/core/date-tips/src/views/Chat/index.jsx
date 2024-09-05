@@ -35,7 +35,7 @@ export default function ChatPage() {
                 }
 
             </div>
-            <Chat {...chatProps} AnswerLayout={({answers, onRegenerate}) => {
+            <Chat {...chatProps} AssistantMessageLayout={({answers, onRegenerate}) => {
                 return <>
                     {
                         answers?.map((answer, index) => {

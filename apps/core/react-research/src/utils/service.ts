@@ -30,7 +30,7 @@ function createService() {
             //     case 401:
             //         // Token 过期时
             //         // return logout()
-            //     default:
+            //     components:
             //         // 不是正确的 code
             //         ElMessage.error(apiData.message || "Error")
             //         return Promise.reject(new Error("Error"))

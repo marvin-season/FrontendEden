@@ -3,7 +3,7 @@ import {useChatContext} from "@/components/Chat/context/ChatContext.tsx";
 import {Button, Flex, Input, message} from "antd";
 import {ChatActionType} from "@/constant";
 import {UploadOutlined} from "@ant-design/icons";
-import {FileSelector} from "@/components/Chat/default/FileSelector.tsx";
+import {FileSelector} from "./FileSelector.tsx";
 
 export const UserInput = () => {
     const [value, setValue] = useState<string>('');

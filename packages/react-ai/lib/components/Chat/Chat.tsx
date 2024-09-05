@@ -2,25 +2,27 @@ import React, {FC} from "react";
 import {ChatProps} from "@/types/chat.tsx";
 import {ChatContext} from "./context/ChatContext.tsx";
 import {Button, Flex, Divider} from "antd";
-import {DefaultQuestionLayout} from "@/components/Chat/default/DefaultQuestionLayout.tsx";
-import {UserInput} from "@/components/Chat/default/UserInput.tsx";
-import {DefaultAnswerLayout} from "@/components/Chat/default/DefaultAnswerLayout.tsx";
+import {
+    UserInput,
+    UserMessageLayout as DefaultUserMessageLayout,
+    AssistantMessageLayout as DefaultAssistantMessageLayout
+} from "@/components/Chat/components";
 import styles from "./styles.module.css";
 import {ChatActionType, ChatStatus} from "@/constant";
 import MessageList from "@/components/Chat/MessageList.tsx";
 
 export const Chat: FC<ChatProps> =
     ({
-         QuestionLayout = DefaultQuestionLayout,
-         AnswerLayout = DefaultAnswerLayout,
+         UserMessageLayout = DefaultUserMessageLayout,
+         AssistantMessageLayout = DefaultAssistantMessageLayout,
          messages,
          ...restProps
      }) => {
         console.log('messages', messages)
         return <ChatContext.Provider value={{
             messages,
-            QuestionLayout,
-            AnswerLayout,
+            UserMessageLayout,
+            AssistantMessageLayout,
             ...restProps,
         }}>
             <Flex vertical={true} gap={6} className={'h-full p-6'}>

@@ -1,7 +1,7 @@
-import {DefaultAnswerLayout} from "@/components/Chat/default/DefaultAnswerLayout.tsx";
-import {DefaultQuestionLayout} from "@/components/Chat/default/DefaultQuestionLayout.tsx";
-import {ChatActionType, ChatStatus, MessageType} from "@/constant";
+import {AssistantMessageLayout} from "@/components/Chat/components/AssistantMessageLayout.tsx";
+import {UserMessageLayout} from "@/components/Chat/components/UserMessageLayout.tsx";
 import MessageList from "@/components/Chat/MessageList.tsx";
+import {ChatActionType, ChatStatus, MessageType} from "@/constant";
 
 export interface IBaseContent {
 
@@ -32,19 +32,19 @@ export interface IAnswer extends IMessage {
 }
 
 
-export type MessageListLayout<T extends typeof MessageList> = T;
+export type MessageListLayoutType<T extends typeof MessageList> = T;
 
-export type AnswerLayoutType<T extends typeof DefaultAnswerLayout> = T;
+export type AssistantMessageLayoutType<T extends typeof AssistantMessageLayout> = T;
 
-export type QuestionLayoutType<T extends typeof DefaultQuestionLayout> = T;
+export type UserMessageLayoutType<T extends typeof UserMessageLayout> = T;
 
 
 export interface ChatProps {
     title?: string;
     status?: ChatStatus;
-    AnswerLayout?: AnswerLayoutType<typeof DefaultAnswerLayout>;
-    QuestionLayout?: QuestionLayoutType<typeof DefaultQuestionLayout>;
-    MessageListLayout?: MessageListLayout<typeof MessageList>;
+    AssistantMessageLayout?: AssistantMessageLayoutType<typeof AssistantMessageLayout>;
+    UserMessageLayout?: UserMessageLayoutType<typeof UserMessageLayout>;
+    MessageListLayout?: MessageListLayoutType<typeof MessageList>;
 
     // action
     onAction: (actionType: ChatActionType, actionParams: ActionParams) => void;

@@ -3,7 +3,7 @@ import {IQuestion} from "@/types/chat.tsx";
 import Question from "./Question.tsx";
 
 
-export const DefaultQuestionLayout: FC<{ questions: IQuestion[] }> = ({questions}) => {
+export const UserMessageLayout: FC<{ questions: IQuestion[] }> = ({questions}) => {
     return <>
         {
             questions.map((question, index) => {

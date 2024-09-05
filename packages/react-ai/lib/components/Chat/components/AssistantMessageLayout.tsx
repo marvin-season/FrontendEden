@@ -1,10 +1,9 @@
-import {ChatProps, IAnswer, IQuestion} from "@/types";
-import Answer from "@/components/Chat/default/Answer.tsx";
+import {IAnswer} from "@/types";
+import Answer from "./Answer.tsx";
 import {ReloadOutlined} from "@ant-design/icons";
 import React, {FC} from "react";
-import {ChatActionType} from "@/constant";
 
-export const DefaultAnswerLayout: FC<{ answers: IAnswer[], onRegenerate: (answer: IAnswer) => void }>
+export const AssistantMessageLayout: FC<{ answers: IAnswer[], onRegenerate: (answer: IAnswer) => void }>
     = ({
            answers,
            onRegenerate

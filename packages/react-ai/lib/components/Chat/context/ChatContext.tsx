@@ -3,8 +3,8 @@ import {ChatProps} from "@/types/chat.tsx";
 import MessageList from "@/components/Chat/MessageList.tsx";
 
 export const ChatContext = createContext<ChatProps>({
-    QuestionLayout: () => <></>,
-    AnswerLayout: () => <></>,
+    UserMessageLayout: () => <></>,
+    AssistantMessageLayout: () => <></>,
     MessageListLayout: () => <></>,
     messages: [],
     onAction: console.log
