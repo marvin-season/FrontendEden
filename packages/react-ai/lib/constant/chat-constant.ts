@@ -1,7 +1,7 @@
 export enum ChatStatus {
-    Loading,
-    Idle,
-    Typing
+    Idle = 'idle',
+    Loading = 'loading',
+    Typing = 'typing'
 }
 
 /**

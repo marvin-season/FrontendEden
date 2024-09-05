@@ -7,7 +7,6 @@ import {
     UserMessageLayout as DefaultUserMessageLayout,
     AssistantMessageLayout as DefaultAssistantMessageLayout
 } from "@/components/Chat/components";
-import styles from "./styles.module.css";
 import {ChatActionType, ChatStatus} from "@/constant";
 import MessageList from "@/components/Chat/components/MessageList.tsx";
 
@@ -16,6 +15,7 @@ export const Chat: FC<ChatProps> =
          UserMessageLayout = DefaultUserMessageLayout,
          AssistantMessageLayout = DefaultAssistantMessageLayout,
          messages,
+         status,
          ...restProps
      }) => {
         return <ChatContext.Provider value={{
@@ -26,18 +26,18 @@ export const Chat: FC<ChatProps> =
         }}>
             <div className={'h-full p-6 gap-2 flex flex-col'}>
                 { restProps.title && <div className={'p-2'}>{restProps.title}</div>}
-                <div className={'flex-grow overflow-y-auto border-slate-200 p-4 border rounded-lg relative'}>
+                <div className={'flex-grow overflow-y-auto border-slate-200 p-4 border rounded-lg'}>
                     <MessageList messages={messages}/>
-                    {restProps.status === ChatStatus.Loading && <div className={''}>loading ...</div>}
-                    {restProps.status === ChatStatus.Loading || restProps.status === ChatStatus.Typing && <div className={styles.loading}>
+                    {status === ChatStatus.Loading && <div className={''}>loading ...</div>}
+                </div>
+                <div className={"relative flex flex-col gap-4"}>
+                    {(status === ChatStatus.Loading || status === ChatStatus.Typing) && <div className={"absolute left-[50%] top-0 m-auto"}>
                         <Button type={'primary'}
                                 onClick={() => restProps.onAction(ChatActionType.StopGenerate, {})}>
                             停止生成
                         </Button>
                     </div>
                     }
-                </div>
-                <div>
                     <Divider></Divider>
                     <UserInput/>
                 </div>

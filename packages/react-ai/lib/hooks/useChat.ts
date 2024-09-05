@@ -30,6 +30,7 @@ export const useChat = (invokeHandle: HandleProps, config: ConfigProps = {
 }): ChatProps => {
     const [messages, setMessages] = useImmer<Message[]>([]);
     const [chatStatus, setChatStatus] = useState<ChatProps['status']>(ChatStatus.Idle);
+    console.log('chatStatus', chatStatus)
 
     // 发送消息任务(可能包含异步操作)
     const executeSendTask = async (params: ActionParams) => {
