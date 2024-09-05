@@ -19,7 +19,7 @@ export interface ChatProps {
     MessageListLayout?: MessageListLayoutType<typeof MessageList>;
 
     // action
-    onAction: (actionType: ChatActionType, actionParams: ActionParams) => void;
+    onAction: (actionType: ChatActionType, actionParams?: ActionParams) => void;
 
     messages: Message[];
     conversation?: Conversation;
@@ -27,11 +27,18 @@ export interface ChatProps {
 
 export type ActionParams = {
     prompt?: string;
+    messages?: string | MultiModalMessage[];
     tools?: [],
     attachments?: any[],
 }
 
-export type Role = 'user' | 'assistant' | 'system';
+export type Role = 'user' | 'assistant' | 'system' | 'tool';
+
+export type MultiModalMessage = {
+    type: 'text' | 'image' | 'tool-call',
+    text?: string,
+    image?: string | Uint8Array | ArrayBuffer | URL,
+}
 
 export type Message = {
     id: string;

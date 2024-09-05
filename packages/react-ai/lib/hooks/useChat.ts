@@ -9,7 +9,7 @@ import {parseSSE} from "@/utils";
 const format = 'YYYY-MM-DD HH:mm:ss';
 
 type HandleProps = {
-    onSend: (params: any) => Promise<Response>
+    onSend: (params: ActionParams, signal: any) => Promise<Response>
     onStop: Function,
     onConversationStart?: (message: Message) => void
     onConversationEnd?: (message: Message) => void,
@@ -19,15 +19,21 @@ type ConfigProps = {
     historyMessage: Message[]
 }
 
+const ChatUtils: {
+    controller: AbortController | null
+} = {
+    controller: null
+}
+
 export const useChat = (invokeHandle: HandleProps, config: ConfigProps = {
     historyMessage: []
 }): ChatProps => {
-    console.log('config', config)
     const [messages, setMessages] = useImmer<Message[]>([]);
     const [chatStatus, setChatStatus] = useState<ChatProps['status']>(ChatStatus.Idle);
 
     // 发送消息任务(可能包含异步操作)
     const executeSendTask = async (params: ActionParams) => {
+        ChatUtils.controller = new AbortController();
         setChatStatus(ChatStatus.Loading);
         setMessages(draft => {
             draft.push({
@@ -37,7 +43,7 @@ export const useChat = (invokeHandle: HandleProps, config: ConfigProps = {
                 role: 'user'
             })
         })
-        return invokeHandle.onSend(params);
+        return invokeHandle.onSend(params, ChatUtils.controller.signal);
     }
 
     // 接收消息任务(可能包含异步操作)
@@ -78,8 +84,9 @@ export const useChat = (invokeHandle: HandleProps, config: ConfigProps = {
         }
     }
 
-    const onStop = () => {
+    const stop = () => {
         setChatStatus(ChatStatus.Idle);
+        ChatUtils.controller?.abort('stop')
         invokeHandle.onStop();
     }
 
@@ -97,11 +104,11 @@ export const useChat = (invokeHandle: HandleProps, config: ConfigProps = {
         onAction: (actionType, actionParams) => {
             console.log("🚀  ", {actionType, actionParams});
             if (actionType === ChatActionType.SendMessage || actionType === ChatActionType.ReloadMessage) {
-                sendMessage(actionParams).then(console.log)
+                sendMessage(actionParams as ActionParams).then(console.log)
             } else if (actionType === ChatActionType.SelectAttachment) {
                 // onSelectedFile(actionParams.attachments);
             } else if (actionType === ChatActionType.StopGenerate) {
-                onStop();
+                stop();
             }
         }
     }

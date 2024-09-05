@@ -54,12 +54,18 @@ ChatController.post('/stream')
 
         try {
             const {prompt, conversationId} = req.body;
+            const abortController = new AbortController();
+
+            req.on('close', () => {
+                abortController.abort('stop')
+            });
 
             res.setHeader('Content-Type', 'text/event-stream');
             res.setHeader('Connection', 'keep-alive');
             const id = Date.now();
             const result = await streamText({
                 model: LLMFactory.createAzure('gpt-4'),
+                abortSignal: abortController.signal,
                 messages: [
                     // {
                     //     role: 'user',

@@ -6,11 +6,12 @@ export default function ChatPage() {
     const {conversations, handleSelectConversation, conversation} = useChatPage()
 
     const chatProps = useChat({
-        async onSend(params) {
+        async onSend(params, signal) {
             console.log(params)
             return await fetch('/api/chat/stream', {
                 method: 'POST',
-                body: JSON.stringify({...params, conversationId: conversation?.conversationId}),
+                signal,
+                body: JSON.stringify({...params, conversationId: conversation?.conversationId }),
                 headers: {
                     'Content-Type': 'application/json',
                 }
@@ -35,7 +36,7 @@ export default function ChatPage() {
 
             </div>
             <div className={'w-[800px] h-screen'}>
-                <Chat {...chatProps} title={'ChatBot'} AssistantMessageLayout={AssistantMessageLayout}/>
+                <Chat {...chatProps} title={'ChatBot'} />
             </div>
         </div>
     </>;
