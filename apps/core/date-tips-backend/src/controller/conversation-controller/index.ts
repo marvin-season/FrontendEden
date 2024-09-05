@@ -5,22 +5,22 @@ const ConversationController = Router();
 ConversationController.get('/', async (req, res) => {
     try {
         const conversations = await prisma.chatConversation.findMany();
-        res.json({data: conversations});
+        res.json({data: conversations.reverse()});
     } catch (e) {
         console.log(e)
     }
 })
 
-ConversationController.get('/:id', async (req, res) => {
+ConversationController.get('/:conversationId', async (req, res) => {
     console.log(req.params)
-    const {id} = req.params;
-    if (!id) {
+    const {conversationId} = req.params;
+    if (!conversationId) {
         return res.json({data: null})
     }
     try {
         const data = await prisma.chatConversation.findUnique({
             where: {
-                conversationId: id
+                conversationId
             },
             include: {
                 messages: true
@@ -31,4 +31,22 @@ ConversationController.get('/:id', async (req, res) => {
     }
 })
 
+
+ConversationController.delete('/:conversationId', async (req, res) => {
+    const {conversationId} = req.params;
+    if (!conversationId) {
+        return res.json({data: null})
+    }
+    try {
+        // 级联删除
+
+        const data = await prisma.chatConversation.delete({
+            where: {
+                conversationId
+            },
+        })
+        return res.json({data})
+    } catch (e) {
+    }
+})
 export default ConversationController

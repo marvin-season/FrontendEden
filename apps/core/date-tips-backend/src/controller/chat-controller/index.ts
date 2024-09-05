@@ -81,7 +81,7 @@ ChatController.post('/stream')
                     // },
                     {
                         role: 'assistant',
-                        content: '你是一个富有学识的、可爱的助理，可以时不时的使用日语回复！当然日语的回复占比大概在10%就可以了'
+                        content: 'you are so clever, answer me with english',
                     },
                     {
                         role: 'user',

@@ -23,6 +23,12 @@ export const useChatPage = () => {
         setConversation(null)
     }
 
+    const deleteConversation = async (conversationId) => {
+        return await request({url: `/api/conversation/${conversationId}`, config: {
+                method: 'DELETE'
+            }});
+    }
+
     useEffect(() => {
         fetchConversations()
     }, []);
@@ -31,6 +37,7 @@ export const useChatPage = () => {
         conversation,
         fetchConversations,
         selectConversation,
-        unSelectConversation
+        unSelectConversation,
+        deleteConversation
     }
 }

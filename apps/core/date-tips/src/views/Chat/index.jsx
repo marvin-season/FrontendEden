@@ -3,7 +3,7 @@ import {useChatPage} from "./hooks/index.js";
 import React from "react";
 
 export default function ChatPage() {
-    const {conversations, conversation, fetchConversations,  selectConversation, unSelectConversation } = useChatPage()
+    const {conversations, conversation, fetchConversations,  selectConversation, unSelectConversation, deleteConversation } = useChatPage()
 
     const chatProps = useChat({
         async onSend(params, signal) {
@@ -35,9 +35,15 @@ export default function ChatPage() {
                 }}>新建会话</div>
                 {conversations.map(item => {
                     return <div key={item.id}
-                                className={`${item.id === conversation?.id ? 'bg-blue-100' : ''} mb-2`}
+                                className={`flex gap-2 ${item.id === conversation?.id ? 'bg-blue-100' : ''} mb-2`}
                                 onClick={() => selectConversation(item.conversationId)}>
-                        {item.name}
+
+                        <div>{item.name}</div>
+                        <div onClick={() => {
+                            deleteConversation(item.conversationId)
+                            // confirm('确认删除吗?') && deleteConversation(item.conversationId).then(() => {
+                            // })
+                        }}>删除</div>
                     </div>
                 })}
 
