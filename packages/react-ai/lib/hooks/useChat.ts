@@ -1,7 +1,7 @@
 import {nanoid} from "nanoid";
 import {useImmer} from "use-immer";
 import moment from "moment";
-import {ActionParams, ChatItem, ChatProps} from "@/types";
+import {ActionParams, ChatItem, ChatProps, Message} from "@/types";
 import {useEffect, useState} from "react";
 import {ChatActionType, ChatStatus, MessageType} from "@/constant";
 import {parseSSE} from "@/utils";
@@ -11,6 +11,8 @@ const format = 'YYYY-MM-DD HH:mm:ss';
 export const useChat = (invokeHandle: {
     onSend: (params: any) => Promise<Response>
     onStop: Function,
+    onConversationStart?: (message: Message) => void
+    onConversationEnd?: (message: Message) => void
 }): ChatProps => {
     const [chatList, setChatList] = useImmer<ChatItem[]>([]);
     const [chatStatus, setChatStatus] = useState<ChatProps['status']>(ChatStatus.Idle);
@@ -49,13 +51,17 @@ export const useChat = (invokeHandle: {
             }
         })
 
-        return parseSSE(response, (message) => {
+        return parseSSE(response, (message, isFirstLineMessage) => {
+            if (isFirstLineMessage) {
+                invokeHandle.onConversationStart?.(message);
+            }
+
             setChatList(draft => {
                 const lastChatItem = draft.at(-1);
                 if (lastChatItem) {
                     const lastChatItemAnswer = lastChatItem.answers.find(item => item.id === message.id);
                     if (lastChatItemAnswer) {
-                        lastChatItemAnswer.content += message.content as string;
+                        lastChatItemAnswer.content += message.content;
                     } else {
                         lastChatItem.answers.push(message)
                     }
@@ -67,6 +73,7 @@ export const useChat = (invokeHandle: {
 
     const sendMessage = async (params: ActionParams) => {
         await executeReceiveTask(await executeSendTask(params));
+        invokeHandle.onConversationEnd?.(chatList as any)
         setChatStatus(ChatStatus.Idle);
         return '一次会话完成'
     }

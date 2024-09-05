@@ -13,7 +13,10 @@ export default function ChatPage() {
                     'Content-Type': 'application/json',
                 }
             });
-        }, onStop: () => {
+        },
+        onConversationEnd: console.log,
+        onConversationStart: console.log,
+        onStop: () => {
         }
     });
 
@@ -24,7 +27,8 @@ export default function ChatPage() {
             <div className={'p-2'}>
                 {
                     conversations.map(conversation => {
-                        return <div key={conversation.id} className={'bg-blue-100 mb-2'} onClick={() => handleSelectConversation(conversation)}>
+                        return <div key={conversation.id} className={'bg-blue-100 mb-2'}
+                                    onClick={() => handleSelectConversation(conversation)}>
                             {conversation.name}
                         </div>
                     })

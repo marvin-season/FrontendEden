@@ -61,3 +61,11 @@ export type ActionParams = {
     attachments?: any[],
 }
 
+export type Role = 'user' | 'assistant' | 'system';
+
+export type Message = {
+    id: string;
+    content: string;
+    createTime: string;
+    role: Role;
+}
