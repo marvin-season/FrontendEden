@@ -2,6 +2,7 @@ import {Router} from "express";
 import {streamText} from "ai";
 import {LLMFactory} from "../../service/llm";
 import prisma from "../../utils/prisma";
+import {ConversationService} from "../../service/conversation";
 
 
 const ChatController = Router();
@@ -14,36 +15,7 @@ ChatController.post('/stream')
         const {conversationId} = req.body;
 
         try {
-            if (!conversationId) {
-                const conversationId = `conversation-${Date.now()}`
-                const conversation = await prisma.chatConversation.create({
-                    data: {
-                        conversationId,
-                        name: conversationId
-                    }
-                });
-
-                req.body.conversationId = conversation?.conversationId;
-            } else {
-                const conversation = await prisma.chatConversation.findUnique({
-                    where: {
-                        conversationId
-                    }
-                });
-
-                if (!conversation) {
-                    const conversationId = `conversation-${Date.now()}`
-                    await prisma.chatConversation.create({
-                        data: {
-                            conversationId,
-                            name: conversationId
-                        }
-                    });
-
-                    req.body.conversationId = conversationId;
-                }
-            }
-
+            req.body.conversationId = await ConversationService.create(conversationId)
             next();
         } catch (e) {
             console.log(e)
