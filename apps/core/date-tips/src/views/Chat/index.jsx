@@ -25,7 +25,7 @@ export default function ChatPage() {
 
 
     return <>
-        <div className={'flex'}>
+        <div className={'flex gap-4'}>
             <div className={'p-2'}>
                 {
                     conversations.map(item => {
@@ -37,19 +37,21 @@ export default function ChatPage() {
                 }
 
             </div>
-            <Chat {...chatProps} AssistantMessageLayout={({answers, onRegenerate}) => {
-                return <>
-                    {
-                        answers?.map((answer, index) => {
-                            return <div className={'flex'} key={index}>
-                                <div className={'bg-blue-300 text-white p-2'}>
-                                    {answer.content}
+            <div className={'w-[800px] h-screen'}>
+                <Chat {...chatProps} AssistantMessageLayout={({answers, onRegenerate}) => {
+                    return <>
+                        {
+                            answers?.map((answer, index) => {
+                                return <div className={'flex'} key={index}>
+                                    <div className={'bg-blue-300 text-white p-2'}>
+                                        {answer.content}事实上
+                                    </div>
                                 </div>
-                            </div>
-                        })
-                    }
-                </>
-            }}/>
+                            })
+                        }
+                    </>
+                }}/>
+            </div>
         </div>
     </>;
 }

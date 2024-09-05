@@ -1,7 +1,7 @@
 import React, {FC} from "react";
 import {ChatProps} from "@/types/chat.tsx";
 import {ChatContext} from "./context/ChatContext.tsx";
-import {Button, Flex, Divider} from "antd";
+import {Button, Divider} from "antd";
 import {
     UserInput,
     UserMessageLayout as DefaultUserMessageLayout,
@@ -18,16 +18,15 @@ export const Chat: FC<ChatProps> =
          messages,
          ...restProps
      }) => {
-        console.log('restProps.status , ', restProps.status )
         return <ChatContext.Provider value={{
             messages,
             UserMessageLayout,
             AssistantMessageLayout,
             ...restProps,
         }}>
-            <Flex vertical={true} gap={6} className={'h-full p-6'}>
-                <Flex vertical={true} style={{position: "relative"}}
-                      className={'h-2/3 overflow-y-auto border-slate-200 p-4 border rounded-lg relative'}>
+            <div className={'h-full p-6 gap-2 flex flex-col'}>
+                { restProps.title && <div className={'p-4'}>{restProps.title}</div>}
+                <div className={'flex-grow overflow-y-auto border-slate-200 p-4 border rounded-lg relative'}>
                     <MessageList messages={messages}/>
                     {restProps.status === ChatStatus.Loading && <div className={''}>loading ...</div>}
                     {restProps.status === ChatStatus.Loading || restProps.status === ChatStatus.Typing && <div className={styles.loading}>
@@ -37,9 +36,11 @@ export const Chat: FC<ChatProps> =
                         </Button>
                     </div>
                     }
-                </Flex>
-                <Divider></Divider>
-                <UserInput/>
-            </Flex>
+                </div>
+                <div>
+                    <Divider></Divider>
+                    <UserInput/>
+                </div>
+            </div>
         </ChatContext.Provider>
     }
