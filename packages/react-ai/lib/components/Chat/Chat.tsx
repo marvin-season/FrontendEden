@@ -18,6 +18,7 @@ export const Chat: FC<ChatProps> =
          messages,
          ...restProps
      }) => {
+        console.log('restProps.status , ', restProps.status )
         return <ChatContext.Provider value={{
             messages,
             UserMessageLayout,
@@ -28,7 +29,8 @@ export const Chat: FC<ChatProps> =
                 <Flex vertical={true} style={{position: "relative"}}
                       className={'h-2/3 overflow-y-auto border-slate-200 p-4 border rounded-lg relative'}>
                     <MessageList messages={messages}/>
-                    {restProps.status === ChatStatus.Loading && <div className={styles.loading}>
+                    {restProps.status === ChatStatus.Loading && <div className={''}>loading ...</div>}
+                    {restProps.status === ChatStatus.Loading || restProps.status === ChatStatus.Typing && <div className={styles.loading}>
                         <Button type={'primary'}
                                 onClick={() => restProps.onAction(ChatActionType.StopGenerate, {})}>
                             停止生成

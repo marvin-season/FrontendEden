@@ -3,7 +3,7 @@ import {useImmer} from "use-immer";
 import moment from "moment";
 import {ActionParams, ChatProps, Message} from "@/types";
 import {useEffect, useState} from "react";
-import {ChatActionType, ChatStatus, MessageType} from "@/constant";
+import {ChatActionType, ChatStatus} from "@/constant";
 import {parseSSE} from "@/utils";
 
 const format = 'YYYY-MM-DD HH:mm:ss';
@@ -59,7 +59,9 @@ export const useChat = (invokeHandle: HandleProps, config: ConfigProps = {
     }
 
     const sendMessage = async (params: ActionParams) => {
-        await executeReceiveTask(await executeSendTask(params));
+        const response = await executeSendTask(params)
+        setChatStatus(ChatStatus.Typing);
+        await executeReceiveTask(response);
         invokeHandle.onConversationEnd?.(messages as any)
         setChatStatus(ChatStatus.Idle);
         return '一次会话完成'
