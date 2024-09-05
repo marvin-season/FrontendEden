@@ -29,7 +29,8 @@ export default function ChatPage() {
             <div className={'p-2'}>
                 {
                     conversations.map(item => {
-                        return <div key={item.id} className={`${item.id === conversation?.id ? 'bg-blue-100': ''} mb-2`}
+                        return <div key={item.id}
+                                    className={`${item.id === conversation?.id ? 'bg-blue-100' : ''} mb-2`}
                                     onClick={() => handleSelectConversation(item)}>
                             {item.name}
                         </div>
@@ -38,17 +39,13 @@ export default function ChatPage() {
 
             </div>
             <div className={'w-[800px] h-screen'}>
-                <Chat {...chatProps} AssistantMessageLayout={({answers, onRegenerate}) => {
+                <Chat {...chatProps} title={'ChatBot'} AssistantMessageLayout={({message, onRegenerate}) => {
                     return <>
-                        {
-                            answers?.map((answer, index) => {
-                                return <div className={'flex'} key={index}>
-                                    <div className={'bg-blue-300 text-white p-2'}>
-                                        {answer.content}事实上
-                                    </div>
-                                </div>
-                            })
-                        }
+                        <div className={'flex'}>
+                            <div className={'bg-blue-300 text-white p-2'}>
+                                {message.content}
+                            </div>
+                        </div>
                     </>
                 }}/>
             </div>
