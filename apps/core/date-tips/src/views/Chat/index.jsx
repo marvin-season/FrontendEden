@@ -18,7 +18,9 @@ export default function ChatPage() {
             });
         }, onConversationEnd: async (lastMessage) => {
             console.log('onConversationEnd', lastMessage);
-            await handleSelectConversation(lastMessage.conversationId)
+            handleSelectConversation(lastMessage.conversationId).then(() => {
+                console.log('选中会话: ', lastMessage.conversationId)
+            })
         }, onConversationStart: console.log, onStop: () => {
         }
     }, {
