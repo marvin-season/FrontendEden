@@ -14,10 +14,7 @@ export default function ChatPage() {
                     'Content-Type': 'application/json',
                 }
             });
-        },
-        onConversationEnd: console.log,
-        onConversationStart: console.log,
-        onStop: () => {
+        }, onConversationEnd: console.log, onConversationStart: console.log, onStop: () => {
         }
     }, {
         historyMessage: conversation?.messages || []
@@ -27,28 +24,28 @@ export default function ChatPage() {
     return <>
         <div className={'flex gap-4'}>
             <div className={'p-2'}>
-                {
-                    conversations.map(item => {
-                        return <div key={item.id}
-                                    className={`${item.id === conversation?.id ? 'bg-blue-100' : ''} mb-2`}
-                                    onClick={() => handleSelectConversation(item)}>
-                            {item.name}
-                        </div>
-                    })
-                }
+                {conversations.map(item => {
+                    return <div key={item.id}
+                                className={`${item.id === conversation?.id ? 'bg-blue-100' : ''} mb-2`}
+                                onClick={() => handleSelectConversation(item)}>
+                        {item.name}
+                    </div>
+                })}
 
             </div>
             <div className={'w-[800px] h-screen'}>
-                <Chat {...chatProps} title={'ChatBot'} AssistantMessageLayout={({message, onRegenerate}) => {
-                    return <>
-                        <div className={'flex'}>
-                            <div className={'bg-blue-300 text-white p-2'}>
-                                {message.content}
-                            </div>
-                        </div>
-                    </>
-                }}/>
+                <Chat {...chatProps} title={'ChatBot'} />
             </div>
         </div>
     </>;
+}
+
+const AssistantMessageLayout = ({message, onRegenerate}) => {
+    return <>
+        <div className={'flex'}>
+            <div className={'bg-blue-300 text-white p-2'}>
+                {message.content}
+            </div>
+        </div>
+    </>
 }
