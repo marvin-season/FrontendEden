@@ -18,7 +18,6 @@ export const Chat: FC<ChatProps> =
          messages,
          ...restProps
      }) => {
-        console.log('messages', messages)
         return <ChatContext.Provider value={{
             messages,
             UserMessageLayout,

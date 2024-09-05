@@ -2,6 +2,7 @@ import {Chat, useChat, Types} from '@marvin/react-ai'
 import {useChatPage} from "./hooks/index.js";
 
 export default function ChatPage() {
+    const {conversations, handleSelectConversation, conversation} = useChatPage()
 
     const chatProps = useChat({
         async onSend(params) {
@@ -18,18 +19,19 @@ export default function ChatPage() {
         onConversationStart: console.log,
         onStop: () => {
         }
+    }, {
+        historyMessage: conversation?.messages || []
     });
 
-    const {conversations, handleSelectConversation, conversation} = useChatPage()
 
     return <>
         <div className={'flex'}>
             <div className={'p-2'}>
                 {
-                    conversations.map(conversation => {
-                        return <div key={conversation.id} className={'bg-blue-100 mb-2'}
-                                    onClick={() => handleSelectConversation(conversation)}>
-                            {conversation.name}
+                    conversations.map(item => {
+                        return <div key={item.id} className={`${item.id === conversation?.id ? 'bg-blue-100': ''} mb-2`}
+                                    onClick={() => handleSelectConversation(item)}>
+                            {item.name}
                         </div>
                     })
                 }

@@ -8,12 +8,21 @@ import {parseSSE} from "@/utils";
 
 const format = 'YYYY-MM-DD HH:mm:ss';
 
-export const useChat = (invokeHandle: {
+type HandleProps = {
     onSend: (params: any) => Promise<Response>
     onStop: Function,
     onConversationStart?: (message: Message) => void
-    onConversationEnd?: (message: Message) => void
+    onConversationEnd?: (message: Message) => void,
+}
+
+type ConfigProps = {
+    historyMessage: Message[]
+}
+
+export const useChat = (invokeHandle: HandleProps, config: ConfigProps = {
+    historyMessage: []
 }): ChatProps => {
+    console.log('config', config)
     const [messages, setMessages] = useImmer<Message[]>([]);
     const [chatStatus, setChatStatus] = useState<ChatProps['status']>(ChatStatus.Idle);
 
@@ -81,7 +90,7 @@ export const useChat = (invokeHandle: {
     }, []);
 
     return {
-        messages,
+        messages: [...config.historyMessage, ...messages],
         status: chatStatus,
         onAction: (actionType, actionParams) => {
             console.log("🚀  ", {actionType, actionParams});

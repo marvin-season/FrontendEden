@@ -12,8 +12,11 @@ export const useChatPage = () => {
         }
     }
 
-    const handleSelectConversation = (conversation) => {
-        setConversation(conversation)
+    const handleSelectConversation = async (conversation) => {
+        const result = await request({url: `/api/conversation/${conversation.conversationId}`});
+        if (result.success) {
+            setConversation(result.data)
+        }
     }
 
     useEffect(() => {
