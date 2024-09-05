@@ -26,6 +26,14 @@ npx prisma init
 npx prisma migrate dev --name init
 ```
 
+```sh
+npx prisma migrate resolve --applied init
+```
+
+```sh
+npx prisma migrate dev --skip-generate --name init
+```
+
 ### 4. Generate the prisma client
 
 ```sh
