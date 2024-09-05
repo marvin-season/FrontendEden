@@ -1,23 +1,19 @@
-import {IAnswer} from "@/types";
-import Answer from "./Answer.tsx";
-import {ReloadOutlined} from "@ant-design/icons";
+import {Message} from "@/types";
 import React, {FC} from "react";
+import {Flex} from "antd";
+import MarkdownContent from "./MarkdownContent.tsx";
 
-export const AssistantMessageLayout: FC<{ answers: IAnswer[], onRegenerate: (answer: IAnswer) => void }>
+export const AssistantMessageLayout: FC<{ message: Message, onRegenerate?: (message: Message) => void }>
     = ({
-           answers,
+           message,
            onRegenerate
        }) => {
     return <>
-        {
-            answers.map((answer, index) => {
-                return <Answer
-                    answer={answer}
-                    key={index}/>
-            })
-        }
-        {answers.at(-1) && <ReloadOutlined className={'text-sm text-sky-400'} onClick={() => {
-            onRegenerate(answers.at(-1) as IAnswer)
-        }}/>}
+        <Flex gap={6} className={'p-2'} justify={"flex-start"}>
+            <div
+                className={'bg-sky-100 p-2 pl-4 pr-4 rounded-lg hover:bg-sky-200 hover:cursor-pointer font-mono text-sm'}>
+                <MarkdownContent source={message.content}/>
+            </div>
+        </Flex>
     </>
 }

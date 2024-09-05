@@ -1,14 +1,18 @@
 import React, {FC} from "react";
-import {IQuestion} from "@/types/chat.tsx";
-import Question from "./Question.tsx";
+import { Message} from "@/types/chat.tsx";
+import {Flex} from "antd";
+import MarkdownContent from "./MarkdownContent.tsx";
 
 
-export const UserMessageLayout: FC<{ questions: IQuestion[] }> = ({questions}) => {
+export const UserMessageLayout: FC<{ message: Message }> = ({message}) => {
     return <>
-        {
-            questions.map((question, index) => {
-                return <Question question={question} key={index}></Question>
-            })
-        }
+        <Flex className={'p-2'} justify={"flex-end"}>
+            <Flex vertical={true} gap={2} align={'end'}
+                  className={'bg-indigo-100 p-2 pl-4 pr-4 rounded-lg hover:bg-indigo-200 hover:cursor-pointer'}>
+                <div>
+                </div>
+                <MarkdownContent source={message.content}/>
+            </Flex>
+        </Flex>
     </>
 }

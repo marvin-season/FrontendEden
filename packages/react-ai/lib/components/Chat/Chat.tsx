@@ -9,7 +9,7 @@ import {
 } from "@/components/Chat/components";
 import styles from "./styles.module.css";
 import {ChatActionType, ChatStatus} from "@/constant";
-import MessageList from "@/components/Chat/MessageList.tsx";
+import MessageList from "@/components/Chat/components/MessageList.tsx";
 
 export const Chat: FC<ChatProps> =
     ({

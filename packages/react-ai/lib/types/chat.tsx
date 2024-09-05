@@ -1,6 +1,6 @@
 import {AssistantMessageLayout} from "@/components/Chat/components/AssistantMessageLayout.tsx";
 import {UserMessageLayout} from "@/components/Chat/components/UserMessageLayout.tsx";
-import MessageList from "@/components/Chat/MessageList.tsx";
+import MessageList from "@/components/Chat/components/MessageList.tsx";
 import {ChatActionType, ChatStatus, MessageType} from "@/constant";
 
 export interface IBaseContent {
