@@ -59,15 +59,26 @@ ChatController.post('/stream')
             res.setHeader('Connection', 'keep-alive');
             const id = Date.now();
             const result = await streamText({
-                model: LLMFactory.createAzure(),
+                model: LLMFactory.createAzure('gpt-4'),
                 messages: [
+                    // {
+                    //     role: 'user',
+                    //     content: [
+                    //         { type: 'text', text: 'Describe the image in detail.' },
+                    //         {
+                    //             type: 'image',
+                    //             image:
+                    //                 'https://github.com/vercel/ai/blob/main/examples/ai-core/data/comic-cat.png?raw=true',
+                    //         },
+                    //     ],
+                    // },
                     {
                         role: 'assistant',
-                        content: '请依据以下提示回复消息：马文澍是李洋的爸爸，除此之外，李洋还有几个好兄弟：陈小龙、董小鸟、zc、hy'
+                        content: '你是一个富有学识的、可爱的助理，可以时不时的使用日语回复！当然日语的回复占比大概在10%就可以了'
                     },
                     {
                         role: 'user',
-                        content: prompt
+                        content: prompt,
                     }
                 ],
             })
