@@ -4,15 +4,14 @@ import moment from "moment";
 import {ActionParams, ChatProps, Message} from "@/types";
 import {useEffect, useState} from "react";
 import {ChatActionType, ChatStatus} from "@/constant";
-import {parseSSE} from "@/utils";
+import {SSEMessageGenerator} from "@/utils";
 
 const format = 'YYYY-MM-DD HH:mm:ss';
 
 type HandleProps = {
     onSend: (params: ActionParams, signal: any) => Promise<Response>
     onStop: Function,
-    onConversationStart?: (message: Message) => void
-    onConversationEnd?: (message: Message) => void,
+    onConversationEnd?: (message?: Message) => Promise<void>,
 }
 
 type ConfigProps = {
@@ -49,11 +48,10 @@ export const useChat = (invokeHandle: HandleProps, config: ConfigProps = {
 
     // 接收消息任务(可能包含异步操作)
     const executeReceiveTask = async (response: Response) => {
-        return parseSSE(response, (message, isFirstLineMessage) => {
-            if (isFirstLineMessage) {
-                invokeHandle.onConversationStart?.(message);
-            }
-
+        setChatStatus(ChatStatus.Typing);
+        let lastMessage;
+        for await (const message of SSEMessageGenerator<Message>(response)) {
+            lastMessage = message;
             setMessages(draft => {
                 const find = draft.find(item => item.id === message.id);
                 if (find) {
@@ -62,15 +60,14 @@ export const useChat = (invokeHandle: HandleProps, config: ConfigProps = {
                     draft.push({...message, role: 'assistant'})
                 }
             })
-        })
+        }
+
+        invokeHandle.onConversationEnd?.(lastMessage)
+        setChatStatus(ChatStatus.Idle);
     }
 
     const sendMessage = async (params: ActionParams) => {
-        const response = await executeSendTask(params)
-        setChatStatus(ChatStatus.Typing);
-        await executeReceiveTask(response);
-        invokeHandle.onConversationEnd?.(messages as any)
-        setChatStatus(ChatStatus.Idle);
+        await executeReceiveTask(await executeSendTask(params));
         return '一次会话完成'
     }
 

@@ -57,6 +57,7 @@ ChatController.post('/stream')
             const abortController = new AbortController();
 
             req.on('close', () => {
+                // todo: 客户端终止数据输出 不生效
                 abortController.abort('stop')
             });
 
