@@ -1,5 +1,6 @@
 import {Chat, useChat, Types} from '@marvin/react-ai'
 import {useChatPage} from "./hooks/index.js";
+import React from "react";
 
 export default function ChatPage() {
     const {conversations, handleSelectConversation, conversation} = useChatPage()
@@ -34,7 +35,7 @@ export default function ChatPage() {
 
             </div>
             <div className={'w-[800px] h-screen'}>
-                <Chat {...chatProps} title={'ChatBot'} />
+                <Chat {...chatProps} title={'ChatBot'} AssistantMessageLayout={AssistantMessageLayout}/>
             </div>
         </div>
     </>;
@@ -45,6 +46,10 @@ const AssistantMessageLayout = ({message, onRegenerate}) => {
         <div className={'flex'}>
             <div className={'bg-blue-300 text-white p-2'}>
                 {message.content}
+            </div>
+            <div className={'cursor-pointer'} onClick={() => {
+                onRegenerate?.(message);
+            }}>0️⃣
             </div>
         </div>
     </>
