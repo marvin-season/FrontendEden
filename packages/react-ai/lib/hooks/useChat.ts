@@ -14,29 +14,19 @@ export const useChat = (invokeHandle: {
     onConversationStart?: (message: Message) => void
     onConversationEnd?: (message: Message) => void
 }): ChatProps => {
+    const [messages, setMessages] = useImmer<Message[]>([]);
     const [chatList, setChatList] = useImmer<ChatItem[]>([]);
     const [chatStatus, setChatStatus] = useState<ChatProps['status']>(ChatStatus.Idle);
 
     // 发送消息任务(可能包含异步操作)
     const executeSendTask = async (params: ActionParams) => {
         setChatStatus(ChatStatus.Loading);
-        setChatList(draft => {
+        setMessages(draft => {
             draft.push({
-                questions: [
-                    {
-                        id: nanoid(),
-                        content: params.prompt as string,
-                        createTime: moment().format(format),
-                    }
-                ],
-                answers: [
-                    {
-                        id: nanoid(),
-                        content: '',
-                        createTime: moment().format(format),
-                        type: MessageType.Loading
-                    }
-                ]
+                id: nanoid(),
+                content: params.prompt as string,
+                createTime: moment().format(format),
+                role: 'user'
             })
         })
         return invokeHandle.onSend(params);
@@ -56,17 +46,13 @@ export const useChat = (invokeHandle: {
                 invokeHandle.onConversationStart?.(message);
             }
 
-            setChatList(draft => {
-                const lastChatItem = draft.at(-1);
-                if (lastChatItem) {
-                    const lastChatItemAnswer = lastChatItem.answers.find(item => item.id === message.id);
-                    if (lastChatItemAnswer) {
-                        lastChatItemAnswer.content += message.content;
-                    } else {
-                        lastChatItem.answers.push(message)
-                    }
+            setMessages(draft => {
+                const find = draft.find(item => item.id === message.id);
+                if (find) {
+                    find.content += message.content
+                } else {
+                    draft.push({...message, role: 'assistant'})
                 }
-
             })
         })
     }
@@ -103,6 +89,7 @@ export const useChat = (invokeHandle: {
     }, []);
 
     return {
+        messages,
         chatList,
         status: chatStatus,
         onAction: (actionType, actionParams) => {

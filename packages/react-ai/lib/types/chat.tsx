@@ -46,6 +46,7 @@ export type QuestionLayoutType<T extends typeof DefaultQuestionLayout> = T;
 export interface ChatProps {
     title?: string;
     status?: ChatStatus;
+    // @deprecated
     chatList: ChatItem[];
     AnswerLayout?: AnswerLayoutType<typeof DefaultAnswerLayout>;
     QuestionLayout?: QuestionLayoutType<typeof DefaultQuestionLayout>;
@@ -53,6 +54,9 @@ export interface ChatProps {
 
     // action
     onAction: (actionType: ChatActionType, actionParams: ActionParams) => void;
+
+    messages: Message[];
+    conversation?: Conversation;
 }
 
 export type ActionParams = {
@@ -68,4 +72,10 @@ export type Message = {
     content: string;
     createTime: string;
     role: Role;
+}
+
+export type Conversation = {
+    id: string,
+    conversationId: string,
+    name?: string
 }
