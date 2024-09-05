@@ -79,20 +79,20 @@ ChatController.post('/stream')
                 res.write(`data: ${JSON.stringify({content: chunk, id, conversationId})}\n\n`);
             }
 
-            await prisma.chatMessage.create({
-                data: {
-                    conversationId,
-                    content: prompt
-                }
+            await prisma.chatMessage.createMany({
+                data: [
+                    {
+                        conversationId,
+                        content: prompt
+                    },
+                    {
+                        conversationId,
+                        content,
+                        role: 'assistant',
+                    }
+                ]
             })
 
-            await prisma.chatMessage.create({
-                data: {
-                    conversationId,
-                    content,
-                    role: 'assistant',
-                }
-            })
             res.end();
 
         } catch (e) {
