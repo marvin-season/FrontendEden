@@ -14,8 +14,6 @@ export default function ChatPage() {
         }
     });
 
-    chatProps.ChatLayout
-
     return <Chat {...chatProps} AnswerLayout={({answers, onRegenerate}) => {
         return <>
             {
