@@ -26,7 +26,7 @@ const ChatUtils: {
 
 export const useChat = (invokeHandle: HandleProps, config: ConfigProps = {
     historyMessage: []
-}): ChatProps => {
+}): ChatProps & {reset: Function} => {
     const [messages, setMessages] = useImmer<Message[]>([]);
     const [chatStatus, setChatStatus] = useState<ChatProps['status']>(ChatStatus.Idle);
 
@@ -87,15 +87,20 @@ export const useChat = (invokeHandle: HandleProps, config: ConfigProps = {
         invokeHandle.onStop();
     }
 
+    const reset = () => {
+        stop();
+        setMessages([]);
+        setChatStatus(ChatStatus.Idle);
+    }
+
     useEffect(() => {
         return () => {
-            invokeHandle.onStop();
-            setMessages([]);
-            setChatStatus(ChatStatus.Idle);
+            reset()
         }
     }, []);
 
     return {
+        reset,
         messages: [...config.historyMessage, ...messages],
         status: chatStatus,
         onAction: (actionType, actionParams) => {

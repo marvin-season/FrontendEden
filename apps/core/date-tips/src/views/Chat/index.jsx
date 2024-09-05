@@ -3,15 +3,22 @@ import {useChatPage} from "./hooks/index.js";
 import React from "react";
 
 export default function ChatPage() {
-    const {conversations, conversation, fetchConversations,  selectConversation, unSelectConversation, deleteConversation } = useChatPage()
+    const {
+        conversations,
+        conversation,
+        fetchConversations,
+        selectConversation,
+        unSelectConversation,
+        deleteConversation
+    } = useChatPage()
 
-    const chatProps = useChat({
+    const {reset, ...chatProps} = useChat({
         async onSend(params, signal) {
             console.log(params)
             return await fetch('/api/chat/stream', {
                 method: 'POST',
                 signal,
-                body: JSON.stringify({...params, conversationId: conversation?.conversationId }),
+                body: JSON.stringify({...params, conversationId: conversation?.conversationId}),
                 headers: {
                     'Content-Type': 'application/json',
                 }
@@ -32,24 +39,26 @@ export default function ChatPage() {
             <div className={'p-2'}>
                 <div onClick={() => {
                     unSelectConversation();
-                }}>新建会话</div>
+                }}>新建会话
+                </div>
                 {conversations.map(item => {
-                    return <div key={item.id}
-                                className={`flex gap-2 ${item.id === conversation?.id ? 'bg-blue-100' : ''} mb-2`}
-                                onClick={() => selectConversation(item.conversationId)}>
+                    return <div key={item.id} className={`flex gap-2 ${item.id === conversation?.id ? 'bg-blue-100' : ''} mb-2`}>
 
-                        <div>{item.name}</div>
+                        <div onClick={() => selectConversation(item.conversationId)}>{item.name}</div>
                         <div onClick={() => {
-                            deleteConversation(item.conversationId)
-                            // confirm('确认删除吗?') && deleteConversation(item.conversationId).then(() => {
-                            // })
-                        }}>删除</div>
+                            confirm('确认删除吗?') && deleteConversation(item.conversationId).then(() => {
+                                unSelectConversation();
+                                fetchConversations();
+                                reset();
+                            })
+                        }}>删除
+                        </div>
                     </div>
                 })}
 
             </div>
             <div className={'w-[800px] h-screen'}>
-                <Chat {...chatProps} title={'ChatBot'} />
+                <Chat {...chatProps} title={'ChatBot'}/>
             </div>
         </div>
     </>;
