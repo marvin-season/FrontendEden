@@ -25,7 +25,7 @@ export const Chat: FC<ChatProps> =
             ...restProps,
         }}>
             <div className={'h-full p-6 gap-2 flex flex-col'}>
-                { restProps.title && <div className={'p-4'}>{restProps.title}</div>}
+                { restProps.title && <div className={'p-2'}>{restProps.title}</div>}
                 <div className={'flex-grow overflow-y-auto border-slate-200 p-4 border rounded-lg relative'}>
                     <MessageList messages={messages}/>
                     {restProps.status === ChatStatus.Loading && <div className={''}>loading ...</div>}
