@@ -1,7 +1,7 @@
 import {nanoid} from "nanoid";
 import {useImmer} from "use-immer";
 import moment from "moment";
-import {ActionParams, ChatItem, ChatProps, Message} from "@/types";
+import {ActionParams, ChatProps, Message} from "@/types";
 import {useEffect, useState} from "react";
 import {ChatActionType, ChatStatus, MessageType} from "@/constant";
 import {parseSSE} from "@/utils";
@@ -15,7 +15,6 @@ export const useChat = (invokeHandle: {
     onConversationEnd?: (message: Message) => void
 }): ChatProps => {
     const [messages, setMessages] = useImmer<Message[]>([]);
-    const [chatList, setChatList] = useImmer<ChatItem[]>([]);
     const [chatStatus, setChatStatus] = useState<ChatProps['status']>(ChatStatus.Idle);
 
     // 发送消息任务(可能包含异步操作)
@@ -34,13 +33,6 @@ export const useChat = (invokeHandle: {
 
     // 接收消息任务(可能包含异步操作)
     const executeReceiveTask = async (response: Response) => {
-        setChatList(draft => {
-            const chatItem = draft.at(-1);
-            if (chatItem) {
-                chatItem.answers = chatItem.answers.filter(item => item.type != MessageType.Loading)
-            }
-        })
-
         return parseSSE(response, (message, isFirstLineMessage) => {
             if (isFirstLineMessage) {
                 invokeHandle.onConversationStart?.(message);
@@ -59,7 +51,7 @@ export const useChat = (invokeHandle: {
 
     const sendMessage = async (params: ActionParams) => {
         await executeReceiveTask(await executeSendTask(params));
-        invokeHandle.onConversationEnd?.(chatList as any)
+        invokeHandle.onConversationEnd?.(messages as any)
         setChatStatus(ChatStatus.Idle);
         return '一次会话完成'
     }
@@ -83,14 +75,13 @@ export const useChat = (invokeHandle: {
     useEffect(() => {
         return () => {
             invokeHandle.onStop();
-            setChatList([]);
+            setMessages([]);
             setChatStatus(ChatStatus.Idle);
         }
     }, []);
 
     return {
         messages,
-        chatList,
         status: chatStatus,
         onAction: (actionType, actionParams) => {
             console.log("🚀  ", {actionType, actionParams});

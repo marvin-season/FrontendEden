@@ -4,7 +4,6 @@ import {ChatContext} from "./context/ChatContext.tsx";
 import {Button, Flex, Divider} from "antd";
 import {DefaultQuestionLayout} from "@/components/Chat/default/DefaultQuestionLayout.tsx";
 import {UserInput} from "@/components/Chat/default/UserInput.tsx";
-import {ChatListLayout} from "@/components/Chat/default/ChatListLayout.tsx";
 import {DefaultAnswerLayout} from "@/components/Chat/default/DefaultAnswerLayout.tsx";
 import styles from "./styles.module.css";
 import {ChatActionType, ChatStatus} from "@/constant";
@@ -28,7 +27,6 @@ export const Chat: FC<ChatProps> =
                 <Flex vertical={true} style={{position: "relative"}}
                       className={'h-2/3 overflow-y-auto border-slate-200 p-4 border rounded-lg relative'}>
                     <MessageList messages={messages}/>
-                    {/*<ChatListLayout chatList={restProps.chatList} QuestionLayout={QuestionLayout} AnswerLayout={AnswerLayout}/>*/}
                     {restProps.status === ChatStatus.Loading && <div className={styles.loading}>
                         <Button type={'primary'}
                                 onClick={() => restProps.onAction(ChatActionType.StopGenerate, {})}>

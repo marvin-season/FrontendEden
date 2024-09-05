@@ -1,7 +1,7 @@
-import {ChatListLayout} from "@/components/Chat/default/ChatListLayout.tsx";
 import {DefaultAnswerLayout} from "@/components/Chat/default/DefaultAnswerLayout.tsx";
 import {DefaultQuestionLayout} from "@/components/Chat/default/DefaultQuestionLayout.tsx";
 import {ChatActionType, ChatStatus, MessageType} from "@/constant";
+import MessageList from "@/components/Chat/MessageList.tsx";
 
 export interface IBaseContent {
 
@@ -31,12 +31,8 @@ export interface IAnswer extends IMessage {
     content: string | IAnswerContent,
 }
 
-export interface ChatItem {
-    questions: IQuestion[];
-    answers: IAnswer[]
-}
 
-export type ChatLayoutType<T extends typeof ChatListLayout> = T;
+export type MessageListLayout<T extends typeof MessageList> = T;
 
 export type AnswerLayoutType<T extends typeof DefaultAnswerLayout> = T;
 
@@ -46,11 +42,9 @@ export type QuestionLayoutType<T extends typeof DefaultQuestionLayout> = T;
 export interface ChatProps {
     title?: string;
     status?: ChatStatus;
-    // @deprecated
-    chatList: ChatItem[];
     AnswerLayout?: AnswerLayoutType<typeof DefaultAnswerLayout>;
     QuestionLayout?: QuestionLayoutType<typeof DefaultQuestionLayout>;
-    ChatLayout?: ChatLayoutType<typeof ChatListLayout>;
+    MessageListLayout?: MessageListLayout<typeof MessageList>;
 
     // action
     onAction: (actionType: ChatActionType, actionParams: ActionParams) => void;
