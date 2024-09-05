@@ -12,14 +12,14 @@ export const useChatPage = () => {
         }
     }
 
-    const handleSelectConversation = async (conversationId) => {
+    const selectConversation = async (conversationId) => {
         const result = await request({url: `/api/conversation/${conversationId}`});
         if (result.success) {
             setConversation(result.data)
         }
     }
 
-    const handleUnSelectConversation =( ) => {
+    const unSelectConversation =( ) => {
         setConversation(null)
     }
 
@@ -29,7 +29,8 @@ export const useChatPage = () => {
     return {
         conversations,
         conversation,
-        handleSelectConversation,
-        handleUnSelectConversation
+        fetchConversations,
+        selectConversation,
+        unSelectConversation
     }
 }
