@@ -30,17 +30,15 @@ export const UserInput = () => {
                 })
             }}><UploadOutlined className={'text-xl text-cyan-700'}/>
         </FileSelector>
-        <Input
-            value={value}
-            onKeyUp={e => {
-                if (e.key.toLowerCase() == 'enter') {
-                    handleSend()
-                }
-            }}
-            onChange={(e) => {
-                setValue(e.target.value);
-            }}
-        />
+        <form className={"w-full"} action="#" onSubmit={e => {
+            e.preventDefault()
+            handleSend()
+        }}>
+            <Input type="text" value={value}
+                   onChange={(e) => {
+                       setValue(e.target.value);
+                   }}/>
+        </form>
 
         <Button onClick={handleSend}>发送</Button>
 
