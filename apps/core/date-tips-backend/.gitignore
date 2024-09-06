@@ -8,3 +8,8 @@ prisma/migrations/
 vector-cache
 
 *.log
+
+
+.env*.local
+.env
+.env.template
