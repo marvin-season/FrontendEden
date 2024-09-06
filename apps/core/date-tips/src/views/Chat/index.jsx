@@ -30,7 +30,7 @@ export default function ChatPage() {
         }, onConversationStart: console.log, onStop: () => {
         }
     }, {
-        historyMessage: conversation?.messages || []
+        historyMessages: conversation?.messages || []
     });
 
 

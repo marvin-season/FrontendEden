@@ -2,7 +2,7 @@ import {nanoid} from "nanoid";
 import {useImmer} from "use-immer";
 import moment from "moment";
 import {ActionParams, ChatProps, Message} from "@/types";
-import {useEffect, useState} from "react";
+import { useEffect, useMemo, useState } from "react";
 import {ChatActionType, ChatStatus} from "@/constant";
 import {SSEMessageGenerator} from "@/utils";
 
@@ -15,7 +15,7 @@ type HandleProps = {
 }
 
 type ConfigProps = {
-    historyMessage: Message[]
+    historyMessages: Message[]
 }
 
 const ChatUtils: {
@@ -25,10 +25,19 @@ const ChatUtils: {
 }
 
 export const useChat = (invokeHandle: HandleProps, config: ConfigProps = {
-    historyMessage: []
+    historyMessages: []
 }): ChatProps & {reset: Function} => {
     const [messages, setMessages] = useImmer<Message[]>([]);
     const [chatStatus, setChatStatus] = useState<ChatProps['status']>(ChatStatus.Idle);
+    /**
+     * @link: sendMessage
+     */
+    const mixedMessages = useMemo(() => {
+        if(chatStatus === ChatStatus.Idle) {
+            return config.historyMessages;
+        }
+        return [...config.historyMessages, ...messages]
+    }, [config.historyMessages, messages, chatStatus]);
 
     // 发送消息任务(可能包含异步操作)
     const executeSendTask = async (params: ActionParams) => {
@@ -65,6 +74,9 @@ export const useChat = (invokeHandle: HandleProps, config: ConfigProps = {
         setChatStatus(ChatStatus.Idle);
     }
 
+    /**
+     * 执行消息发送以及消息接受任务，任务完成后返回一次会话完成，此时拉取库中的数据
+     */
     const sendMessage = async (params: ActionParams) => {
         await executeReceiveTask(await executeSendTask(params));
         return '一次会话完成'
@@ -101,7 +113,7 @@ export const useChat = (invokeHandle: HandleProps, config: ConfigProps = {
 
     return {
         reset,
-        messages: [...config.historyMessage, ...messages],
+        messages: mixedMessages,
         status: chatStatus,
         onAction: (actionType, actionParams) => {
             console.log("🚀  ", {actionType, actionParams});
