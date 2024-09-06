@@ -1,10 +1,10 @@
 import {Router} from "express";
-import {streamText} from "ai";
+import { streamText, tool } from "ai";
 import {LLMFactory} from "../../service/llm";
 import prisma from "../../utils/prisma";
 import {ConversationService} from "../../service/conversation";
 import * as lancedb from "@lancedb/lancedb";
-
+import { z } from 'zod';
 
 
 
@@ -59,18 +59,35 @@ ChatController.post('/stream')
             const result = await streamText({
                 model: LLMFactory.createAzure('gpt-4'),
                 abortSignal: abortController.signal,
+                tools: {
+                    weather: tool({
+                        description: 'Get the weather in a location',
+                        parameters: z.object({
+                            location: z.string().describe('The location to get the weather for'),
+                        }),
+                        execute: async ({ location }: { location: string }) => ({
+                            location,
+                            temperature: 999 + Math.floor(Math.random() * 21) - 10,
+                        }),
+                    }),
+                    cityAttractions: tool({
+                        parameters: z.object({ city: z.string() }),
+                        execute: async ({ city }: { city: string }) => {
+                            if (city === 'San Francisco') {
+                                return {
+                                    attractions: [
+                                        'Golden Gate Bridge',
+                                        'Alcatraz Island',
+                                        "Fisherman's Wharf",
+                                    ],
+                                };
+                            } else {
+                                return { attractions: [] };
+                            }
+                        },
+                    }),
+                },
                 messages: [
-                    // {
-                    //     role: 'user',
-                    //     content: [
-                    //         { type: 'text', text: 'Describe the image in detail.' },
-                    //         {
-                    //             type: 'image',
-                    //             image:
-                    //                 'https://github.com/vercel/ai/blob/main/examples/ai-core/data/comic-cat.png?raw=true',
-                    //         },
-                    //     ],
-                    // },
                     {
                         role: 'assistant',
                         content: 'you are so clever, answer me with english',
@@ -83,7 +100,26 @@ ChatController.post('/stream')
             })
 
 
-            let content = ''
+            let content = '';
+            const toolResults = await result.toolResults;
+            for (const toolResult of toolResults) {
+                switch (toolResult.toolName) {
+                    case 'weather': {
+                        console.log('工具调用：', toolResult.args.location, JSON.stringify(toolResult.result)); // string
+                        break;
+                    }
+                }
+            }
+            const toolCalls = await result.toolCalls;
+            for (const toolCall of toolCalls) {
+                switch (toolCall.toolName) {
+                    case 'weather': {
+                        console.log('工具调用结果：', toolCall.args.location, JSON.stringify(toolCall)); // string
+                        break;
+                    }
+                }
+            }
+
             for await (const chunk of result.textStream) {
                 content += chunk
                 res.write(`data: ${JSON.stringify({content: chunk, id, conversationId})}\n\n`);
