@@ -34,7 +34,7 @@ export const UserInput = () => {
             e.preventDefault()
             handleSend()
         }}>
-            <Input type="text" value={value}
+            <Input.TextArea value={value}
                    onChange={(e) => {
                        setValue(e.target.value);
                    }}/>
