@@ -33,6 +33,3 @@ dist-ssr
 public/*.pdf
 public/*.doc
 public/*.docx
-
-prisma/migrations/**/*
-storage
