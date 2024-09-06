@@ -3,11 +3,31 @@ import {streamText} from "ai";
 import {LLMFactory} from "../../service/llm";
 import prisma from "../../utils/prisma";
 import {ConversationService} from "../../service/conversation";
+import * as lancedb from "@lancedb/lancedb";
+
+
 
 
 const ChatController = Router();
 // const embeddingModel = ollama.textEmbeddingModel('mxbai-embed-large:latest');
-ChatController.get('/hello', (req, res) => res.send('Hello World!'))
+ChatController.get('/hello', async (req, res) => {
+    try {
+        const uri = "./storage/lancedb/";
+
+        const db = await lancedb.connect(uri);
+        const tbl = await db.createTable(
+            "myTable",
+            [
+                { vector: [3.1, 4.1], item: "foo", price: 10.0 },
+                { vector: [5.9, 26.5], item: "bar", price: 20.0 },
+            ],
+            { mode: "overwrite" },
+        );
+    } catch (e) {
+        console.log(e)
+    }
+    res.send('Hello World!')
+})
 
 ChatController.post('/stream')
     .use(async (req, res, next) => {
