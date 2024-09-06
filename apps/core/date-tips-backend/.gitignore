@@ -12,4 +12,3 @@ vector-cache
 
 .env*.local
 .env
-.env.template
