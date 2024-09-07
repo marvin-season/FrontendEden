@@ -39,7 +39,7 @@ export default function ChatPage() {
 
 
   return <>
-    <div className={"flex gap-4"}>
+    <div className={"flex gap-4 justify-center"}>
       <div className={"p-2"}>
         <div onClick={() => {
           unSelectConversation();
@@ -61,7 +61,7 @@ export default function ChatPage() {
         })}
 
       </div>
-      <div className={"w-[800px] h-screen"}>
+      <div className={"w-[50%] h-screen"}>
         <Chat {...chatProps} title={"ChatBot"} />
       </div>
     </div>

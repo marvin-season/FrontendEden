@@ -63,7 +63,7 @@ ChatController.post('/stream')
                 messages: [
                     {
                         role: 'assistant',
-                        content: 'you are so clever, answer me with english',
+                        content: '你是一个精通世界历史的专家，请使用中文回复我',  // you are so clever, answer me with english
                     },
                     {
                         role: 'user',
