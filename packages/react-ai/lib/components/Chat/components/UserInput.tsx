@@ -1,8 +1,6 @@
 import React, {useState} from "react";
 import {useChatContext} from "@/components/Chat/context/ChatContext.tsx";
-import {Button, Flex, Input, message} from "antd";
 import {ChatActionType} from "@/constant";
-import {UploadOutlined} from "@ant-design/icons";
 import {FileSelector} from "./FileSelector.tsx";
 
 export const UserInput = () => {
@@ -14,10 +12,10 @@ export const UserInput = () => {
             onAction(ChatActionType.SendMessage, {prompt: value});
             setValue('')
         } else {
-            message.info('消息不能为空').then()
+            alert('消息不能为空')
         }
     }
-    return <Flex align={"center"} gap={6}>
+    return <div className={'flex item-center gap-4'}>
         <FileSelector
             onChange={(files) => {
                 onAction(ChatActionType.SelectAttachment, {
@@ -28,19 +26,19 @@ export const UserInput = () => {
                         }
                     })
                 })
-            }}><UploadOutlined className={'text-xl text-cyan-700'}/>
+            }}>上传
         </FileSelector>
         <form className={"w-full"} action="#" onSubmit={e => {
             e.preventDefault()
             handleSend()
         }}>
-            <Input.TextArea value={value}
+            <input value={value}
                    onChange={(e) => {
                        setValue(e.target.value);
                    }}/>
         </form>
 
-        <Button onClick={handleSend}>发送</Button>
+        <button onClick={handleSend}>发送</button>
 
-    </Flex>
+    </div>
 }

@@ -1,7 +1,6 @@
 import React, {FC} from "react";
 import {ChatProps} from "@/types/chat.tsx";
 import {ChatContext} from "./context/ChatContext.tsx";
-import {Button, Divider} from "antd";
 import {
     UserInput,
     UserMessageLayout as DefaultUserMessageLayout,
@@ -32,13 +31,12 @@ export const Chat: FC<ChatProps> =
                 </div>
                 <div className={"relative flex flex-col gap-4"}>
                     {(status === ChatStatus.Loading || status === ChatStatus.Typing) && <div className={"absolute left-[50%] top-0 m-auto"}>
-                        <Button type={'primary'}
+                        <button className={'bg-blue-300 border-0'}
                                 onClick={() => restProps.onAction(ChatActionType.StopGenerate, {})}>
                             停止生成
-                        </Button>
+                        </button>
                     </div>
                     }
-                    <Divider></Divider>
                     <UserInput/>
                 </div>
             </div>

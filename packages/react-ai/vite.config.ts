@@ -33,7 +33,8 @@ export default defineConfig({
         copyPublicDir: false,
         rollupOptions: {
             external: (id) => {
-                return ['react', 'react/jsx-runtime', 'antd', '@ant-design/icons', '@uiw/react-markdown-preview', 'nanoid', 'use-immer', 'moment'
+                return [
+                    'react', 'react/jsx-runtime', '@uiw/react-markdown-preview', 'nanoid', 'use-immer', 'moment'
                 ].includes(id)
             },
             input: Object.fromEntries(
