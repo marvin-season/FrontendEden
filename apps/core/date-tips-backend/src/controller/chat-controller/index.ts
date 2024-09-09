@@ -4,7 +4,7 @@ import {LLMFactory} from "../../service/llm";
 import prisma from "../../utils/prisma";
 import {ConversationService} from "../../service/conversation";
 import * as lancedb from "@lancedb/lancedb";
-// import { z } from 'zod';
+import { z } from 'zod';
 
 
 
@@ -59,7 +59,18 @@ ChatController.post('/stream')
             const result = await streamText({
                 model: LLMFactory.createAzure(),
                 abortSignal: abortController.signal,
-
+                tools: {
+                    calculateInputLength: tool({
+                        description: 'calculate the input string length',
+                        parameters: z.object({
+                            input: z.string().describe('the prompt of input'),
+                        }),
+                        execute: async ({ input }: { input: string }) => ({
+                            input,
+                            pinter: input.length,
+                        }),
+                    })
+                },
                 messages: [
                     {
                         role: 'assistant',
@@ -71,27 +82,32 @@ ChatController.post('/stream')
                     }
                 ],
             })
-
+            /**
+             * 工具调用结果：
+             *  {"message":"\n","pinter":"printer"}
+             * index.ts:101工具调用：
+             *  {"type":"tool-call","toolCallId":"call_vQUj6eF0r1VCu86j4F7bPzEy","toolName":"printer","args":{"message":"\n"}}
+             */
 
             let content = '';
-            // const toolResults = await result.toolResults;
-            // for (const toolResult of toolResults) {
-            //     switch (toolResult.toolName) {
-            //         case 'weather': {
-            //             console.log('工具调用：', toolResult.args.location, JSON.stringify(toolResult.result)); // string
-            //             break;
-            //         }
-            //     }
-            // }
-            // const toolCalls = await result.toolCalls;
-            // for (const toolCall of toolCalls) {
-            //     switch (toolCall.toolName) {
-            //         case 'weather': {
-            //             console.log('工具调用结果：', toolCall.args.location, JSON.stringify(toolCall)); // string
-            //             break;
-            //         }
-            //     }
-            // }
+            const toolResults = await result.toolResults;
+            for (const toolResult of toolResults) {
+                switch (toolResult.toolName) {
+                    case 'calculateInputLength': {
+                        console.log('工具调用结果：', toolResult.args.input, JSON.stringify(toolResult.result)); // string
+                        break;
+                    }
+                }
+            }
+            const toolCalls = await result.toolCalls;
+            for (const toolCall of toolCalls) {
+                switch (toolCall.toolName) {
+                    case 'calculateInputLength': {
+                        console.log('工具调用：', toolCall.args.input, JSON.stringify(toolCall)); // string
+                        break;
+                    }
+                }
+            }
 
             for await (const chunk of result.textStream) {
                 content += chunk
