@@ -47,14 +47,18 @@ export default function ChatPage() {
              }}>新建会话
         </div>
         {conversations.map(item => {
-          return <div key={item.id} className={`cursor-pointer hover:border hover:border-blue-500 border flex justify-between gap-2 p-2 rounded-xl
-          ${item.id === conversation?.id ? "bg-blue-300 text-black" : "bg-gray-100 text-gray-600"} mb-2`}>
+          return <div
+            key={item.id}
+            className={`cursor-pointer hover:border hover:border-blue-500 border flex justify-between gap-2 p-2 rounded-xl
+            ${item.id === conversation?.id ? "bg-blue-300 text-black" : "bg-gray-100 text-gray-600"} mb-2`}
+            onClick={() => selectConversation(item.conversationId)}
+          >
 
             <div className={"w-[200px] overflow-hidden text-nowrap"} style={{
               maskImage: "linear-gradient(to right, black 70%, transparent 100%)",
-            }}
-                 onClick={() => selectConversation(item.conversationId)}>{item.name}</div>
-            <div onClick={() => {
+            }}>{item.name}</div>
+            <div onClick={(e) => {
+              e.stopPropagation();
               confirm("确认删除吗?") && deleteConversation(item.conversationId).then(() => {
                 unSelectConversation();
                 fetchConversations();
