@@ -57,7 +57,7 @@ ChatController.post('/stream')
             res.setHeader('Connection', 'keep-alive');
             const id = Date.now();
             const result = await streamText({
-                model: LLMFactory.createOllama('llama3.1:latest'),
+                model: LLMFactory.createAzure(),
                 abortSignal: abortController.signal,
 
                 messages: [

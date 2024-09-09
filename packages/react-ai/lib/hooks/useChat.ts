@@ -29,16 +29,6 @@ export const useChat = (invokeHandle: HandleProps, config: ConfigProps = {
 }): ChatProps & { reset: Function } => {
   const [messages, setMessages] = useImmer<Message[]>([]);
   const [chatStatus, setChatStatus] = useState<ChatProps["status"]>(ChatStatus.Idle);
-  /**
-   * @link: sendMessage
-   */
-  const mixedMessages = useMemo(() => {
-    if (chatStatus === ChatStatus.Idle) {
-      return config.historyMessages;
-    }
-    return [...config.historyMessages, ...messages];
-  }, [config.historyMessages, messages, chatStatus]);
-
   // 发送消息任务(可能包含异步操作)
   const executeSendTask = async (params: ActionParams) => {
     ChatUtils.controller = new AbortController();
@@ -111,6 +101,12 @@ export const useChat = (invokeHandle: HandleProps, config: ConfigProps = {
   };
 
   useEffect(() => {
+    if (messages.length !== 0 || config.historyMessages.length !== 0) { // 必须加，否则页面无限渲染
+      setMessages(config.historyMessages);
+    }
+  }, [config.historyMessages]);
+
+  useEffect(() => {
     return () => {
       reset();
     };
@@ -118,7 +114,7 @@ export const useChat = (invokeHandle: HandleProps, config: ConfigProps = {
 
   return {
     reset,
-    messages: mixedMessages,
+    messages,
     status: chatStatus,
     onAction: (actionType, actionParams) => {
       console.log("🚀  ", { actionType, actionParams });
