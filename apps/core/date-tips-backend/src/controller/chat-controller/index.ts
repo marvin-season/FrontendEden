@@ -5,6 +5,7 @@ import prisma from "../../utils/prisma";
 import {ConversationService} from "../../service/conversation";
 import * as lancedb from "@lancedb/lancedb";
 import { z } from 'zod';
+import { MessageEvent } from "./constant";
 
 
 
@@ -59,18 +60,18 @@ ChatController.post('/stream')
             const result = await streamText({
                 model: LLMFactory.createAzure(),
                 abortSignal: abortController.signal,
-                tools: {
-                    calculateInputLength: tool({
-                        description: 'calculate the input string length',
-                        parameters: z.object({
-                            input: z.string().describe('the prompt of input'),
-                        }),
-                        execute: async ({ input }: { input: string }) => ({
-                            input,
-                            pinter: input.length,
-                        }),
-                    })
-                },
+                // tools: {
+                //     calculateInputLength: tool({
+                //         description: 'calculate the input string length',
+                //         parameters: z.object({
+                //             input: z.string().describe('the prompt of input'),
+                //         }),
+                //         execute: async ({ input }: { input: string }) => ({
+                //             input,
+                //             pinter: input.length,
+                //         }),
+                //     })
+                // },
                 messages: [
                     {
                         role: 'assistant',
@@ -89,30 +90,33 @@ ChatController.post('/stream')
              *  {"type":"tool-call","toolCallId":"call_vQUj6eF0r1VCu86j4F7bPzEy","toolName":"printer","args":{"message":"\n"}}
              */
 
+            // const toolResults = await result.toolResults;
+            // console.log('toolResults', toolResults);
+            // for (const toolResult of toolResults) {
+            //     switch (toolResult.toolName) {
+            //         case 'calculateInputLength': {
+            //             console.log('工具调用结果：', toolResult.args.input, JSON.stringify(toolResult.result)); // string
+            //             break;
+            //         }
+            //     }
+            // }
+            // const toolCalls = await result.toolCalls;
+            // console.log('toolCalls', toolCalls);
+            // for (const toolCall of toolCalls) {
+            //     switch (toolCall.toolName) {
+            //         case 'calculateInputLength': {
+            //             console.log('工具调用：', toolCall.args.input, JSON.stringify(toolCall)); // string
+            //             break;
+            //         }
+            //     }
+            // }
             let content = '';
-            const toolResults = await result.toolResults;
-            for (const toolResult of toolResults) {
-                switch (toolResult.toolName) {
-                    case 'calculateInputLength': {
-                        console.log('工具调用结果：', toolResult.args.input, JSON.stringify(toolResult.result)); // string
-                        break;
-                    }
-                }
-            }
-            const toolCalls = await result.toolCalls;
-            for (const toolCall of toolCalls) {
-                switch (toolCall.toolName) {
-                    case 'calculateInputLength': {
-                        console.log('工具调用：', toolCall.args.input, JSON.stringify(toolCall)); // string
-                        break;
-                    }
-                }
-            }
-
+            res.write(`data: ${JSON.stringify({event: MessageEvent.conversationStart, content: '', id, conversationId})}\n\n`);
             for await (const chunk of result.textStream) {
                 content += chunk
-                res.write(`data: ${JSON.stringify({content: chunk, id, conversationId})}\n\n`);
+                res.write(`data: ${JSON.stringify({event: MessageEvent.message, content: chunk, id, conversationId})}\n\n`);
             }
+            res.write(`data: ${JSON.stringify({event: MessageEvent.conversationEnd, content: '', id, conversationId})}\n\n`);
 
             await prisma.chatMessage.createMany({
                 data: [
