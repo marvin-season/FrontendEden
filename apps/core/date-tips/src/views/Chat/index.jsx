@@ -18,7 +18,7 @@ export default function ChatPage() {
       return await fetch("/api/chat/stream", {
         method: "POST",
         signal,
-        body: JSON.stringify({ ...params, conversationId: conversation?.conversationId }),
+        body: JSON.stringify({ ...params, conversationId: conversation?.conversationId, toolIds: [1] }),
         headers: {
           "Content-Type": "application/json",
         },
