@@ -101,10 +101,9 @@ export const useChat = (invokeHandle: HandleProps, config: ConfigProps = {
   };
 
   useEffect(() => {
-    if (messages.length !== 0 || config.historyMessages.length !== 0) { // 必须加，否则页面无限渲染
-      setMessages(config.historyMessages);
-    }
-  }, [config.historyMessages]);
+    console.log('message', messages, config.historyMessages);
+    setMessages(config.historyMessages);
+  }, [config.historyMessages.length]);
 
   useEffect(() => {
     return () => {
