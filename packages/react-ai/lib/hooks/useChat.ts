@@ -2,7 +2,7 @@ import { nanoid } from "nanoid";
 import { useImmer } from "use-immer";
 import moment from "moment";
 import { ActionParams, ChatProps, Message } from "@/types";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { ChatActionType, ChatStatus } from "@/constant";
 import { SSEMessageGenerator } from "@/utils";
 
@@ -28,20 +28,30 @@ const ChatUtils: {
 export const useChat = (invokeHandle: HandleProps, config: ConfigProps = {
   historyMessages: [],
 }): ChatProps & { reset: Function } => {
+  // 只存储一次的问答
   const [messages, setMessages] = useImmer<Message[]>([]);
   const [chatStatus, setChatStatus] = useState<ChatProps["status"]>(ChatStatus.Idle);
+
+  const mixedMessages = useMemo(() => {
+    if (ChatStatus.Idle === chatStatus) {
+      return [...config.historyMessages];
+    }
+
+    return [...config.historyMessages, ...messages];
+  }, [messages, config.historyMessages]);
+
   // 发送消息任务(可能包含异步操作)
   const executeSendTask = async (params: ActionParams) => {
     ChatUtils.controller = new AbortController();
     setChatStatus(ChatStatus.Loading);
-    setMessages(draft => {
-      draft.push({
+    setMessages([
+      {
         id: nanoid(),
         content: params.prompt as string,
         createTime: moment().format(format),
         role: "user",
-      });
-    });
+      },
+    ]);
     return invokeHandle.onSend(params, ChatUtils.controller.signal);
   };
 
@@ -111,11 +121,6 @@ export const useChat = (invokeHandle: HandleProps, config: ConfigProps = {
   };
 
   useEffect(() => {
-    console.log("message", messages, config.historyMessages);
-    setMessages(config.historyMessages);
-  }, [config.historyMessages.length]);
-
-  useEffect(() => {
     return () => {
       reset();
     };
@@ -123,7 +128,7 @@ export const useChat = (invokeHandle: HandleProps, config: ConfigProps = {
 
   return {
     reset,
-    messages,
+    messages: mixedMessages,
     status: chatStatus,
     onAction: (actionType, actionParams) => {
       console.log("🚀  ", { actionType, actionParams });
