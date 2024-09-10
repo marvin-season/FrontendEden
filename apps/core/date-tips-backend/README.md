@@ -72,3 +72,6 @@ npx prisma db pull
 ```shell
 npx prisma db push
 ```
+
+## deploy model with ollama
+[点我查看](./doc/README.ollama.md)
