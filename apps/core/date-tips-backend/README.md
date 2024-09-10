@@ -23,7 +23,15 @@ npx prisma init
 ### 3. Migrate the database
 
 ```sh
-npx prisma migrate dev --name migrate-name
+npx prisma migrate dev --name init
+```
+
+```sh
+npx prisma migrate resolve --applied init
+```
+
+```sh
+npx prisma migrate dev --skip-generate --name init
 ```
 
 ### 4. Generate the prisma client
@@ -64,3 +72,6 @@ npx prisma db pull
 ```shell
 npx prisma db push
 ```
+
+## deploy model with ollama
+[点我查看](./doc/README.ollama.md)

@@ -1,7 +1,7 @@
 export enum ChatStatus {
-    Loading,
-    Idle,
-    Typing
+    Idle = 'idle',
+    Loading = 'loading',
+    Typing = 'typing'
 }
 
 /**
@@ -10,9 +10,10 @@ export enum ChatStatus {
 export enum ChatActionType {
     SendMessage,
     ReloadMessage,
-    SelectFile,
+    SelectAttachment,
     StopGenerate
 }
+
 export enum MessageType {
     Normal,
     Loading,

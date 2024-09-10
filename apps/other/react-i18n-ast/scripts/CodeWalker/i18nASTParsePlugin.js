@@ -5,7 +5,7 @@ export const i18nASTParsePlugin = {
     run(ctx) {
         ctx.rawCode = fs.readFileSync(ctx.config.src, 'utf8');
         ctx.ast = babelParser.parse(ctx.rawCode, {
-            sourceType: 'module', // default: "script"
+            sourceType: 'module', // components: "script"
             plugins: ['typescript', 'jsx'],
         });
     }

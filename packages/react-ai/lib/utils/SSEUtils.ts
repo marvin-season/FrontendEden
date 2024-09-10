@@ -1,23 +1,13 @@
-import {Router} from 'express';
-import DateTipController from "./datetip-controller";
-import ChatController from "./chat-controller";
-import ConversationController from "./conversation-controller";
-
-const IndexController = Router();
-
-IndexController.use('/datetip', DateTipController);
-IndexController.use('/chat', ChatController);
-IndexController.use('/conversation', ConversationController);
-
-export default IndexController
+export const textDecoder = new TextDecoder();
 
 export async function* SSEMessageGenerator<T>(response: Response) {
     if (!response?.body) {
         return
     }
 
+    // @ts-ignore
     for await (const chunk of response.body) {
-        const sse_chunk = new TextDecoder().decode(chunk)
+        const sse_chunk = textDecoder.decode(chunk)
         try {
             // 使用for...of替代forEach，确保yield在生成器体内
             for (const line of sse_chunk.split(/\n+/)) {
@@ -27,11 +17,9 @@ export async function* SSEMessageGenerator<T>(response: Response) {
                     yield message as T; // 在生成器内yield消息
                 }
             }
-
         } catch (e) {
             console.log(e)
         }
     }
 }
 
-SSEMessageGenerator(new Response())

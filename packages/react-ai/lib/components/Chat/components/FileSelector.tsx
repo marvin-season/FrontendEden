@@ -1,5 +1,4 @@
 import React, {FC} from "react";
-import {Input} from "antd";
 
 export const FileSelector: FC<{
     children?: React.ReactElement | string,
@@ -9,7 +8,7 @@ export const FileSelector: FC<{
     return <>
         <label htmlFor="file-upload">
             {children}
-            <Input style={{display: 'none'}} accept={accept} id="file-upload" type="file" multiple={true}
+            <input style={{display: 'none'}} accept={accept} id="file-upload" type="file" multiple={true}
                    onChange={(e) => {
                        e.currentTarget.files && onChange?.(e.currentTarget.files)
                    }}/>

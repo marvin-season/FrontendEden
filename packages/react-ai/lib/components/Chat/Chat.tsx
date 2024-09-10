@@ -1,43 +1,44 @@
 import React, {FC} from "react";
 import {ChatProps} from "@/types/chat.tsx";
 import {ChatContext} from "./context/ChatContext.tsx";
-import {Button, Flex, Divider} from "antd";
-import {DefaultQuestionLayout} from "@/components/Chat/default/DefaultQuestionLayout.tsx";
-import {DefaultChatLayout} from "@/components/Chat/default/DefaultChatLayout.tsx";
-import {UserInput} from "@/components/Chat/default/UserInput.tsx";
-import {ChatList} from "@/components/Chat/default/ChatList.tsx";
-import {DefaultAnswerLayout} from "@/components/Chat/default/DefaultAnswerLayout.tsx";
-import styles from "./styles.module.css";
+import {
+    UserInput,
+    UserMessageLayout as DefaultUserMessageLayout,
+    AssistantMessageLayout as DefaultAssistantMessageLayout
+} from "@/components/Chat/components";
 import {ChatActionType, ChatStatus} from "@/constant";
+import MessageList from "@/components/Chat/components/MessageList.tsx";
 
 export const Chat: FC<ChatProps> =
     ({
-         QuestionLayout = DefaultQuestionLayout,
-         AnswerLayout = DefaultAnswerLayout,
-         ChatLayout = DefaultChatLayout,
+         UserMessageLayout = DefaultUserMessageLayout,
+         AssistantMessageLayout = DefaultAssistantMessageLayout,
+         messages,
+         status,
          ...restProps
      }) => {
-
         return <ChatContext.Provider value={{
-            ChatLayout,
-            QuestionLayout,
-            AnswerLayout,
+            messages,
+            UserMessageLayout,
+            AssistantMessageLayout,
             ...restProps,
         }}>
-            <Flex vertical={true} gap={6} className={'h-full p-6'}>
-                <Flex vertical={true} style={{position: "relative"}}
-                      className={'h-2/3 overflow-y-auto border-slate-200 p-4 border rounded-lg relative'}>
-                    <ChatList/>
-                    {restProps.status === ChatStatus.Loading && <div className={styles.loading}>
-                        <Button type={'primary'}
+            <div className={'h-full p-6 gap-2 flex flex-col'}>
+                { restProps.title && <div className={'p-2'}>{restProps.title}</div>}
+                <div className={'flex-grow overflow-y-auto border-slate-200 p-4 border rounded-lg'}>
+                    <MessageList messages={messages}/>
+                    {status === ChatStatus.Loading && <div className={''}>loading ...</div>}
+                </div>
+                <div className={"relative flex flex-col gap-4"}>
+                    {(status === ChatStatus.Loading || status === ChatStatus.Typing) && <div className={"absolute left-[50%] top-0 m-auto"}>
+                        <button className={'bg-blue-300 border-0'}
                                 onClick={() => restProps.onAction(ChatActionType.StopGenerate, {})}>
                             停止生成
-                        </Button>
+                        </button>
                     </div>
                     }
-                </Flex>
-                <Divider></Divider>
-                <UserInput/>
-            </Flex>
+                    <UserInput/>
+                </div>
+            </div>
         </ChatContext.Provider>
     }

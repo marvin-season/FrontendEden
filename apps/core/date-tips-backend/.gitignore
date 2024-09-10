@@ -1,0 +1,14 @@
+
+*.db
+*.db-journal
+storage/lancedb
+public/
+prisma/migrations/
+
+vector-cache
+
+*.log
+
+
+.env*.local
+.env

@@ -4,6 +4,7 @@ import Chat from "./views/Chat/index.jsx";
 const App = () => {
     return <>
         <Chat/>
+        {/*<DateTips/>*/}
     </>
 }
 

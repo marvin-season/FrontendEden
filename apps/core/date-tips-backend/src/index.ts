@@ -2,6 +2,8 @@
 import express, {Express, Request, Response} from "express";
 import dotenv from "dotenv";
 import IndexController from './controller';
+import {responseFormatter} from "./middleware/intercepter";
+import logger from "./middleware/logger";
 
 dotenv.config();
 
@@ -17,7 +19,8 @@ app.get("/", (req: Request, res: Response) => {
   res.send("Express + TypeScript Server");
 });
 
-
+app.use(logger);
+app.use(responseFormatter);
 app.use('/api', IndexController)
 
 app.listen(port, () => {

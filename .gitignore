@@ -25,14 +25,10 @@ dist-ssr
 *.sln
 *.sw?
 
-.env*.local
-.env
+
 .next
 .vercel
 
 public/*.pdf
 public/*.doc
 public/*.docx
-
-prisma/migrations/**/*
-storage

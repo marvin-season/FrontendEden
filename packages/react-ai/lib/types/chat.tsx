@@ -1,65 +1,64 @@
-import {DefaultChatLayout} from "@/components/Chat/default/DefaultChatLayout.tsx";
-import {DefaultAnswerLayout} from "@/components/Chat/default/DefaultAnswerLayout.tsx";
-import {DefaultQuestionLayout} from "@/components/Chat/default/DefaultQuestionLayout.tsx";
-import {ChatActionType, ChatStatus, MessageType} from "@/constant";
-
-export interface IBaseContent {
-
-}
-
-export interface IQuestionContent extends IBaseContent {
-
-}
-
-export interface IAnswerContent extends IBaseContent {
-
-}
-
-export interface IMessage {
-    id: string,
-    content: string | IBaseContent,
-    createTime: string,
-    type?: MessageType
-}
+import {AssistantMessageLayout} from "@/components/Chat/components/AssistantMessageLayout.tsx";
+import {UserMessageLayout} from "@/components/Chat/components/UserMessageLayout.tsx";
+import MessageList from "@/components/Chat/components/MessageList.tsx";
+import {ChatActionType, ChatStatus} from "@/constant";
 
 
-export interface IQuestion extends IMessage {
-    content: string | IQuestionContent;
-}
+export type MessageListLayoutType<T extends typeof MessageList> = T;
 
-export interface IAnswer extends IMessage {
-    content: string | IAnswerContent,
-}
+export type AssistantMessageLayoutType<T extends typeof AssistantMessageLayout> = T;
 
-export interface ChatItem {
-    questions: IQuestion[];
-    answers: IAnswer[]
-}
-
-export type ChatLayoutType<T extends typeof DefaultChatLayout> = T;
-
-export type AnswerLayoutType<T extends typeof DefaultAnswerLayout> = T;
-
-export type QuestionLayoutType<T extends typeof DefaultQuestionLayout> = T;
+export type UserMessageLayoutType<T extends typeof UserMessageLayout> = T;
 
 
 export interface ChatProps {
     title?: string;
     status?: ChatStatus;
-    chatList: ChatItem[];
-    AnswerLayout?: AnswerLayoutType<typeof DefaultAnswerLayout>;
-    QuestionLayout?: QuestionLayoutType<typeof DefaultQuestionLayout>;
-    ChatLayout?: ChatLayoutType<typeof DefaultChatLayout>;
+    AssistantMessageLayout?: AssistantMessageLayoutType<typeof AssistantMessageLayout>;
+    UserMessageLayout?: UserMessageLayoutType<typeof UserMessageLayout>;
+    MessageListLayout?: MessageListLayoutType<typeof MessageList>;
 
     // action
-    onAction: (actionType: ChatActionType, actionParams: Record<string, any>) => void;
+    onAction: (actionType: ChatActionType, actionParams?: ActionParams) => void;
+
+    messages: Message[];
+    conversation?: Conversation;
 }
 
+export type ActionParams = {
+    prompt?: string;
+    messages?: string | MultiModalMessage[];
+    tools?: [],
+    attachments?: any[],
+}
 
-export type IInvoke = (
-    params: { value: string, [_: string]: any },
-    onMessage: (message: IMessage) => void,
-    onFinish?: (message?: IMessage) => void,
-) => Promise<void>;
+export type Role = 'user' | 'assistant' | 'system' | 'tool';
 
+export type MultiModalMessage = {
+    type: 'text' | 'image' | 'tool-call',
+    text?: string,
+    image?: string | Uint8Array | ArrayBuffer | URL,
+}
 
+export enum MessageEvent {
+    message = 'message',
+    conversationStart = 'conversation-start',
+    conversationEnd = 'conversation-end',
+    toolCallStart = 'tool-call-start',
+    toolCallEnd = 'tool-call-end',
+}
+
+export type Message = {
+    id: string;
+    content: string;
+    conversationId?: string,
+    createTime: string;
+    role: Role;
+    event?: MessageEvent
+}
+
+export type Conversation = {
+    id: string,
+    conversationId: string,
+    name?: string
+}

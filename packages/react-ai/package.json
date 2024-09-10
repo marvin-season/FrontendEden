@@ -23,7 +23,6 @@
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "@ant-design/icons": "^5.3.5",
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",
     "@typescript-eslint/eslint-plugin": "^7.2.0",
@@ -37,7 +36,6 @@
     "vite": "^5.2.0",
     "vite-plugin-lib-inject-css": "^2.1.1",
     "@uiw/react-markdown-preview": "^4.1.13",
-    "antd": "^5.15.4",
     "use-immer": "^0.9.0",
     "vite-plugin-dts": "^2.2.0"
   },
