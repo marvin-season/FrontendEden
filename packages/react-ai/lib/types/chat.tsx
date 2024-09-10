@@ -40,12 +40,21 @@ export type MultiModalMessage = {
     image?: string | Uint8Array | ArrayBuffer | URL,
 }
 
+export enum MessageEvent {
+    message = 'message',
+    conversationStart = 'conversation-start',
+    conversationEnd = 'conversation-end',
+    toolCallStart = 'tool-call-start',
+    toolCallEnd = 'tool-call-end',
+}
+
 export type Message = {
     id: string;
     content: string;
     conversationId?: string,
     createTime: string;
     role: Role;
+    event?: MessageEvent
 }
 
 export type Conversation = {

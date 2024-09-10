@@ -24,7 +24,7 @@ export default function ChatPage() {
         },
       });
     },
-    onConversationEnd: async (lastMessage) => {
+    onConversationStart: async (lastMessage) => {
       await fetchConversations();
       await selectConversation(lastMessage.conversationId);
       console.log("选中会话: ", lastMessage.conversationId);
@@ -34,7 +34,7 @@ export default function ChatPage() {
   });
 
   useEffect(() => {
-    conversation && chatProps.onAction(ChatActionType.StopGenerate);
+    // conversation && chatProps.onAction(ChatActionType.StopGenerate);
   }, [conversation]);
 
 

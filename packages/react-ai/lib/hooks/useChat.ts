@@ -2,7 +2,7 @@ import { nanoid } from "nanoid";
 import { useImmer } from "use-immer";
 import moment from "moment";
 import { ActionParams, ChatProps, Message } from "@/types";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { ChatActionType, ChatStatus } from "@/constant";
 import { SSEMessageGenerator } from "@/utils";
 
@@ -12,6 +12,7 @@ type HandleProps = {
   onSend: (params: ActionParams, signal: any) => Promise<Response>
   onStop?: () => void,
   onConversationEnd?: (message?: Message) => Promise<void>,
+  onConversationStart?: (message?: Message) => Promise<void>,
 }
 
 type ConfigProps = {
@@ -46,22 +47,31 @@ export const useChat = (invokeHandle: HandleProps, config: ConfigProps = {
 
   // 接收消息任务(可能包含异步操作)
   const executeReceiveTask = async (response: Response) => {
-    setChatStatus(ChatStatus.Typing);
-    let lastMessage;
-    for await (const message of SSEMessageGenerator<Message>(response)) {
-      lastMessage = message;
-      setMessages(draft => {
-        const find = draft.find(item => item.id === message.id);
-        if (find) {
-          find.content += message.content;
-        } else {
-          draft.push({ ...message, role: "assistant" });
-        }
-      });
-    }
 
-    invokeHandle.onConversationEnd?.(lastMessage);
-    setChatStatus(ChatStatus.Idle);
+    try {
+      for await (const message of SSEMessageGenerator<Message>(response)) {
+        if (message.event === "conversation-start") {
+          setChatStatus(ChatStatus.Typing);
+          invokeHandle.onConversationStart?.(message);
+        }
+        if (message.event === "conversation-end") {
+          setChatStatus(ChatStatus.Idle);
+          invokeHandle.onConversationEnd?.(message);
+        }
+
+        setMessages(draft => {
+          const find = draft.find(item => item.id === message.id);
+          if (find) {
+            find.content += message.content;
+          } else {
+            draft.push({ ...message, role: "assistant" });
+          }
+        });
+      }
+    } catch (e) {
+      invokeHandle.onConversationEnd?.();
+      setChatStatus(ChatStatus.Idle);
+    }
   };
 
   /**
@@ -101,7 +111,7 @@ export const useChat = (invokeHandle: HandleProps, config: ConfigProps = {
   };
 
   useEffect(() => {
-    console.log('message', messages, config.historyMessages);
+    console.log("message", messages, config.historyMessages);
     setMessages(config.historyMessages);
   }, [config.historyMessages.length]);
 
