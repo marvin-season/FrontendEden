@@ -1,6 +1,7 @@
 import { Chat, useChat, ChatActionType } from "@marvin/react-ai";
 import { useChatPage } from "./hooks/index.js";
 import React, { useEffect } from "react";
+import { Delete } from "@icon-park/react";
 
 export default function ChatPage() {
   const {
@@ -64,7 +65,8 @@ export default function ChatPage() {
                 fetchConversations();
                 reset();
               });
-            }}>删除
+            }}>
+              <Delete theme={"outline"} fill={"#f40"} />
             </div>
           </div>;
         })}
