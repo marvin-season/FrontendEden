@@ -1,6 +1,7 @@
 import { Response } from "express";
-import { StreamTextResult } from "ai";
+import { streamText, StreamTextResult } from "ai";
 import { MessageEvent } from "../../controller/chat-controller/constant";
+import { LLMFactory } from "../llm";
 
 export const chatService = {
   async writeStream(res: Response, result: StreamTextResult<Record<string, any>>, {
@@ -32,5 +33,17 @@ export const chatService = {
     } catch (e) {
       console.log(e);
     }
+  },
+
+  async streamComplete({
+                         prompt,
+                       }: {
+    prompt: string,
+  }) {
+
+    return streamText({
+      model: LLMFactory.createAzure(),
+      prompt,
+    });
   },
 };

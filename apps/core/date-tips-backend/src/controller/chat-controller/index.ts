@@ -45,34 +45,36 @@ ChatController.post("/stream")
         console.log("选择了工具：", toolIds);
       }
 
-
-      const result = await streamText({
-        model: LLMFactory.createAzure(),
-        abortSignal: abortController.signal,
-        // tools: {
-        //     calculateInputLength: tool({
-        //         description: 'calculate the input string length',
-        //         parameters: z.object({
-        //             input: z.string().describe('the prompt of input'),
-        //         }),
-        //         execute: async ({ input }: { input: string }) => ({
-        //             input,
-        //             pinter: input.length,
-        //         }),
-        //     })
-        // },
+      const result = await chatService.streamComplete({
         prompt,
-        // messages: [
-        //     {
-        //         role: 'assistant',
-        //         content: '你是一个精通世界历史的专家，请使用中文回复我',  // you are so clever, answer me with english
-        //     },
-        //     {
-        //         role: 'user',
-        //         content: prompt,
-        //     }
-        // ],
       });
+      // const result = await streamText({
+      //   model: LLMFactory.createAzure(),
+      //   abortSignal: abortController.signal,
+      // tools: {
+      //     calculateInputLength: tool({
+      //         description: 'calculate the input string length',
+      //         parameters: z.object({
+      //             input: z.string().describe('the prompt of input'),
+      //         }),
+      //         execute: async ({ input }: { input: string }) => ({
+      //             input,
+      //             pinter: input.length,
+      //         }),
+      //     })
+      // },
+      // prompt,
+      // messages: [
+      //     {
+      //         role: 'assistant',
+      //         content: '你是一个精通世界历史的专家，请使用中文回复我',  // you are so clever, answer me with english
+      //     },
+      //     {
+      //         role: 'user',
+      //         content: prompt,
+      //     }
+      // ],
+      // });
       /**
        * 工具调用结果：
        *  {"message":"\n","pinter":"printer"}
@@ -102,7 +104,7 @@ ChatController.post("/stream")
         // }
       const content = await chatService.writeStream(res, result, { conversationId });
 
-      if(content){
+      if (content) {
         await prisma.chatMessage.createMany({
           data: [
             {
