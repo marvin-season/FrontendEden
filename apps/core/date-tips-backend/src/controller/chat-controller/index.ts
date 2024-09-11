@@ -1,7 +1,7 @@
 import { Router } from "express";
-import prisma from "../../utils/prisma";
-import { ConversationService } from "../../service/conversation";
-import { chatService } from "../../service/chat";
+import prisma from "@/utils/prisma";
+import { ConversationService } from "@/service/conversation";
+import { chatService } from "@/service/chat";
 
 
 const ChatController = Router();
