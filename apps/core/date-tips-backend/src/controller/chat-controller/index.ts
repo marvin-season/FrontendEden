@@ -4,6 +4,7 @@ import { LLMFactory } from "../../service/llm";
 import prisma from "../../utils/prisma";
 import { ConversationService } from "../../service/conversation";
 import { MessageEvent } from "./constant";
+import { chatService } from "../../service/chat";
 
 
 const ChatController = Router();
@@ -45,7 +46,6 @@ ChatController.post("/stream")
       }
 
 
-      const id = Date.now();
       const result = await streamText({
         model: LLMFactory.createAzure(),
         abortSignal: abortController.signal,
@@ -100,38 +100,24 @@ ChatController.post("/stream")
         //         }
         //     }
         // }
+      const content = await chatService.writeStream(res, result, { conversationId });
 
-      let content = "";
-      res.write(`data: ${JSON.stringify({
-        event: MessageEvent.conversationStart,
-        content: "",
-        id,
-        conversationId,
-      })}\n\n`);
-      for await (const chunk of result.textStream) {
-        content += chunk;
-        res.write(`data: ${JSON.stringify({ event: MessageEvent.message, content: chunk, id, conversationId })}\n\n`);
+      if(content){
+        await prisma.chatMessage.createMany({
+          data: [
+            {
+              conversationId,
+              content: prompt,
+            },
+            {
+              conversationId,
+              content,
+              role: "assistant",
+            },
+          ],
+        });
       }
-      res.write(`data: ${JSON.stringify({
-        event: MessageEvent.conversationEnd,
-        content: "",
-        id,
-        conversationId,
-      })}\n\n`);
 
-      await prisma.chatMessage.createMany({
-        data: [
-          {
-            conversationId,
-            content: prompt,
-          },
-          {
-            conversationId,
-            content,
-            role: "assistant",
-          },
-        ],
-      });
 
       res.end();
 
