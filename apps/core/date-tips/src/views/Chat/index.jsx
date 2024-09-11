@@ -27,8 +27,14 @@ export default function ChatPage() {
     },
     onConversationStart: async (lastMessage) => {
       await fetchConversations();
-      await selectConversation(lastMessage.conversationId);
-      console.log("选中会话: ", lastMessage.conversationId);
+      await selectConversation({
+        conversationId: lastMessage?.conversationId,
+      }, false);
+    },
+    onConversationEnd: async (lastMessage) => {
+      await selectConversation({
+        conversationId: lastMessage?.conversationId,
+      });
     },
   }, {
     historyMessages: conversation?.messages || [],
@@ -52,7 +58,7 @@ export default function ChatPage() {
             key={item.id}
             className={`cursor-pointer hover:border hover:border-blue-500 border flex justify-between gap-2 p-2 rounded-xl
             ${item.id === conversation?.id ? "bg-blue-300 text-black" : "bg-gray-100 text-gray-600"} mb-2`}
-            onClick={() => selectConversation(item.conversationId)}
+            onClick={() => selectConversation(item, true)}
           >
 
             <div className={"w-[200px] overflow-hidden text-nowrap"} style={{

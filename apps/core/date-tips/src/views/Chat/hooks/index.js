@@ -12,11 +12,16 @@ export const useChatPage = () => {
         }
     }
 
-    const selectConversation = async (conversationId) => {
+    const fetchConversationWithMessages = async (conversationId) => {
         const result = await request({url: `/api/conversation/${conversationId}`});
         if (result.success) {
             setConversation(result.data)
         }
+    }
+
+    const selectConversation = async (conversation, withMessages = true) => {
+        setConversation(conversation);
+        withMessages && await fetchConversationWithMessages(conversation.conversationId);
     }
 
     const unSelectConversation =( ) => {
