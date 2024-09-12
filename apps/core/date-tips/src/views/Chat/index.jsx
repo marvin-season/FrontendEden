@@ -31,16 +31,11 @@ export default function ChatPage() {
     onConversationEnd: async (lastMessage) => {
       await selectConversation({
         conversationId: lastMessage?.conversationId,
-      });
+      }, true);
     },
   }, {
     historyMessages: conversation?.messages || [],
   });
-
-  useEffect(() => {
-    console.log('conversation', conversation);
-    // conversation && chatProps.onAction(ChatActionType.StopGenerate);
-  }, [conversation]);
 
 
   return <>
