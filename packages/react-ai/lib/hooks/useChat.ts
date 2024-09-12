@@ -36,9 +36,8 @@ export const useChat = (invokeHandle: HandleProps, config: ConfigProps = {
     if (ChatStatus.Idle === chatStatus) {
       return [...config.historyMessages];
     }
-
     return [...config.historyMessages, ...messages];
-  }, [messages, config.historyMessages]);
+  }, [messages, chatStatus, config.historyMessages]);
 
   // 发送消息任务(可能包含异步操作)
   const executeSendTask = async (params: ActionParams) => {

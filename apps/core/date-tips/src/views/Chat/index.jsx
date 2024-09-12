@@ -27,9 +27,6 @@ export default function ChatPage() {
     },
     onConversationStart: async (lastMessage) => {
       await fetchConversations();
-      await selectConversation({
-        conversationId: lastMessage?.conversationId,
-      }, false);
     },
     onConversationEnd: async (lastMessage) => {
       await selectConversation({
@@ -41,6 +38,7 @@ export default function ChatPage() {
   });
 
   useEffect(() => {
+    console.log('conversation', conversation);
     // conversation && chatProps.onAction(ChatActionType.StopGenerate);
   }, [conversation]);
 
