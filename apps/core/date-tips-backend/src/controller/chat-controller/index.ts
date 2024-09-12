@@ -25,14 +25,16 @@ ChatController.post("/stream")
             const { prompt, conversationId, toolIds } = req.body;
             const abortController = new AbortController();
 
-            req.on("close", () => {
+
+
+            res.setHeader('Cache-Control', 'no-cache');
+            res.setHeader("Content-Type", "text/event-stream");
+            res.setHeader("Connection", "keep-alive");
+            res.on("close", (e: any) => {
+                console.log('res disconnected ', e);
                 // todo: 客户端终止数据输出 不生效
                 abortController.abort("stop");
             });
-
-            res.setHeader("Content-Type", "text/event-stream");
-            res.setHeader("Connection", "keep-alive");
-
 
             /**
              * 工具调用
@@ -68,6 +70,7 @@ ChatController.post("/stream")
         } catch (e) {
             console.error("Error in /stream endpoint:", e);
             res.status(500).send("Internal Server Error");
+            res.end();
         }
     });
 export default ChatController;
