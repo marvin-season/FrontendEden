@@ -1,7 +1,6 @@
 import {defineConfig} from 'vite'
 import react from '@vitejs/plugin-react'
 import dts from 'vite-plugin-dts'
-import {libInjectCss} from 'vite-plugin-lib-inject-css'
 
 // The glob library helps you to specify a set of filenames. In this case it selects all files ending with .ts or .tsx
 import {glob} from "glob";
@@ -13,7 +12,6 @@ console.log("🚀  ", resolve(__dirname, 'lib'))
 export default defineConfig({
     plugins: [
         react(),
-        libInjectCss(),
         dts({include: ['lib'], exclude: ['src']}) as any,
     ],
     server: {
