@@ -1,4 +1,4 @@
-import { Chat, useChat, ChatActionType } from "@marvin/react-ai";
+import { Chat, useChat } from "@marvin/react-ai";
 import { useChatPage } from "./hooks/index.js";
 import React, { useEffect } from "react";
 import { Delete } from "@icon-park/react";
