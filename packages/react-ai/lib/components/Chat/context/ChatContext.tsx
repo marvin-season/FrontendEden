@@ -1,6 +1,5 @@
 import React, {createContext, useContext} from "react";
 import {ChatProps} from "@/types/chat.tsx";
-import MessageList from "@/components/Chat/components/MessageList.tsx";
 
 export const ChatContext = createContext<ChatProps>({
     UserMessageLayout: () => <></>,

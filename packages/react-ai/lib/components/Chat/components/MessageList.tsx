@@ -2,10 +2,10 @@ import { Message } from "@/types";
 import React, { Fragment, useEffect, useRef } from "react";
 import { useChatContext } from "@/components/Chat/context/ChatContext.tsx";
 import { ChatActionType, ChatStatus } from "@/constant";
+import { throttle } from "lodash";
 
 const scrollToBottom = (element: HTMLDivElement) => {
   if (element) {
-    console.log("scrollTo", element);
     element.scrollTo({
       top: element.scrollHeight,
       behavior: "smooth",
@@ -14,6 +14,8 @@ const scrollToBottom = (element: HTMLDivElement) => {
   }
 };
 
+const scrollToBottomThrottled = throttle(scrollToBottom, 500, { leading: true, trailing: true });
+
 export default function MessageList({ messages, status }: { messages: Message[], status?: ChatStatus }) {
   const { AssistantMessageLayout, UserMessageLayout, onAction } = useChatContext();
 
@@ -21,8 +23,12 @@ export default function MessageList({ messages, status }: { messages: Message[],
 
 
   useEffect(() => {
-    messagesContainerRef.current && scrollToBottom(messagesContainerRef.current);
+    messagesContainerRef.current && scrollToBottomThrottled(messagesContainerRef.current);
+    return () => {
+      scrollToBottomThrottled.cancel();
+    };
   }, [messages]);
+
   return (
     <>
       <div

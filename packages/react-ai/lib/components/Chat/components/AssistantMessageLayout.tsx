@@ -5,9 +5,6 @@ import MarkdownContent from "./MarkdownContent.tsx";
 export const AssistantMessageLayout: FC<{
   message: Message, onRegenerate?: (message: Message) => void
 }> = memo(({ message, onRegenerate }) => {
-
-  console.log("rerender AssistantMessageLayout", message);
-
   return <>
     <div className={"p-2 gap-4 flex items-start"}>
       <div
