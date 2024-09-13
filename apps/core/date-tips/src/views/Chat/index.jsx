@@ -43,7 +43,7 @@ export default function ChatPage() {
       <div className={"p-2"}>
         <div className={"cursor-pointer bg-blue-500 p-2 rounded-xl text-white text-center mb-4"}
              onClick={() => {
-               chatProps.newConversation();
+               chatProps.checkoutConversation();
              }}>新建会话
         </div>
         {conversations.map(item => {
@@ -52,7 +52,7 @@ export default function ChatPage() {
             className={`cursor-pointer hover:border hover:border-blue-500 border flex justify-between gap-2 p-2 rounded-xl
             ${item.conversationId === chatProps.conversationId ? "bg-blue-300 text-black" : "bg-gray-100 text-gray-600"} mb-2`}
             onClick={async () => {
-              chatProps.newConversation(item.conversationId);
+              chatProps.checkoutConversation(item.conversationId);
               const messages = await fetchConversationMessages(item.conversationId);
               chatProps.setHistoryMessages(messages);
             }}
@@ -65,7 +65,7 @@ export default function ChatPage() {
               e.stopPropagation();
               confirm("确认删除吗?") && deleteConversation(item.conversationId).then(() => {
                 fetchConversations();
-                chatProps.newConversation();
+                chatProps.checkoutConversation();
               });
             }}>
               <Delete theme={"outline"} fill={"#f40"} />

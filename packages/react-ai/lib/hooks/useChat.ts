@@ -24,7 +24,7 @@ const ChatUtils: {
 };
 
 export const useChat = (invokeHandle: HandleProps, config: ConfigProps = {}): ChatProps & {
-  newConversation: () => void,
+  checkoutConversation: () => void,
   setHistoryMessages: React.Dispatch<React.SetStateAction<Message[]>>
   conversationId?: string;
 } => {
@@ -112,7 +112,7 @@ export const useChat = (invokeHandle: HandleProps, config: ConfigProps = {}): Ch
     invokeHandle.onStop?.();
   };
 
-  const newConversation = (id?: string) => {
+  const checkoutConversation = (id?: string) => {
     setConversationId(id);
     setHistoryMessages([]);
     setMessages([]);
@@ -127,12 +127,12 @@ export const useChat = (invokeHandle: HandleProps, config: ConfigProps = {}): Ch
 
   useEffect(() => {
     return () => {
-      newConversation();
+      checkoutConversation();
     };
   }, []);
 
   return {
-    newConversation,
+    checkoutConversation,
     setHistoryMessages,
     conversationId,
     messages: [...historyMessages, ...messages],
