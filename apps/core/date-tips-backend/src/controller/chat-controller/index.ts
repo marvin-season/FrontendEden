@@ -2,6 +2,7 @@ import { Router } from "express";
 import prisma from "@/utils/prisma";
 import { ConversationService } from "@/service/conversation";
 import { chatService } from "@/service/chat";
+import { ErrorEvent } from "@/controller/chat-controller/constant";
 
 
 const ChatController = Router();
@@ -25,15 +26,11 @@ ChatController.post("/stream")
             const { prompt, conversationId, toolIds } = req.body;
             const abortController = new AbortController();
 
-
-
             res.setHeader('Cache-Control', 'no-cache');
             res.setHeader("Content-Type", "text/event-stream");
             res.setHeader("Connection", "keep-alive");
-            res.on("close", (e: any) => {
-                console.log('res disconnected ', e);
-                // todo: 客户端终止数据输出 不生效
-                abortController.abort("stop");
+            res.on("close", () => {
+                abortController.abort(ErrorEvent.stop);
             });
 
             /**
@@ -45,26 +42,9 @@ ChatController.post("/stream")
             }
             const result = await chatService.streamChat({
                 prompt,
+                abortSignal: abortController.signal
             });
-            const content = await chatService.writeStream(res, result, { conversationId });
-
-            if (content) {
-                await prisma.chatMessage.createMany({
-                    data: [
-                        {
-                            conversationId,
-                            content: prompt,
-                        },
-                        {
-                            conversationId,
-                            content,
-                            role: "assistant",
-                        },
-                    ],
-                });
-            }
-
-
+            await chatService.writeStreamAndDB(res, { result, prompt, conversationId });
             res.end();
 
         } catch (e) {

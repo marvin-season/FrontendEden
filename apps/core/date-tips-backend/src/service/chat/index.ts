@@ -1,63 +1,89 @@
 import { Response } from "express";
 import { streamText, StreamTextResult } from "ai";
-import { MessageEvent } from "../../controller/chat-controller/constant";
+import { ErrorEvent, MessageEvent } from "@/controller/chat-controller/constant";
 import { LLMFactory } from "../llm";
+import prisma from "@/utils/prisma";
 
 export const chatService = {
-    async writeStream(res: Response, result: StreamTextResult<Record<string, any>>, {
+  async writeStreamAndDB(res: Response, {
+    conversationId,
+    result,
+    prompt,
+  }: {
+    result: StreamTextResult<Record<string, any>>
+    conversationId: string,
+    prompt: string
+  }) {
+    let content = "";
+
+    try {
+      const id = Date.now();
+      res.write(`data: ${JSON.stringify({
+        event: MessageEvent.conversationStart,
+        content: "",
+        id,
         conversationId,
-    }: {
-        conversationId: string
-    }) {
-        try {
-            const id = Date.now();
-            let content = "";
-            res.write(`data: ${JSON.stringify({
-                event: MessageEvent.conversationStart,
-                content: "",
-                id,
-                conversationId,
-            })}\n\n`);
-            for await (const chunk of result.textStream) {
-                content += chunk;
-                res.write(`data: ${JSON.stringify({
-                    event: MessageEvent.message,
-                    content: chunk,
-                    id,
-                    conversationId,
-                })}\n\n`);
-            }
-            res.write(`data: ${JSON.stringify({
-                event: MessageEvent.conversationEnd,
-                content: "",
-                id,
-                conversationId,
-            })}\n\n`);
+      })}\n\n`);
+      for await (const chunk of result.textStream) {
+        console.log("chunk", chunk);
+        content += chunk;
+        res.write(`data: ${JSON.stringify({
+          event: MessageEvent.message,
+          content: chunk,
+          id,
+          conversationId,
+        })}\n\n`);
+      }
+      res.write(`data: ${JSON.stringify({
+        event: MessageEvent.conversationEnd,
+        content: "",
+        id,
+        conversationId,
+      })}\n\n`);
 
-            return content;
-        } catch (e) {
-            console.log(e);
-        }
-    },
+    } catch (e) {
+      console.log("流式写入异常", e);
+      if (e === ErrorEvent.stop) {
+        // 消息终止，写入已生成的信息
+        console.log("消息生成中断");
+      }
+    } finally {
+      await prisma.chatMessage.createMany({
+        data: [
+          {
+            conversationId,
+            content: prompt,
+          },
+          {
+            conversationId,
+            content,
+            role: "assistant",
+          },
+        ],
+      });
+    }
+  },
 
-    async streamChat({ prompt }: {
-        prompt: string,
-    }) {
+  async streamChat({ prompt, abortSignal }: {
+    prompt: string,
+    abortSignal?: AbortSignal,
+  }) {
 
-        return streamText({
-            model: LLMFactory.createAzure(),
-            messages: [
-                {
-                    role: "assistant",
-                    content: "你是一个精通世界历史的专家，请使用中文回复我",  // you are so clever, answer me with english
-                },
-                {
-                    role: "user",
-                    content: prompt,
-                },
-            ],
-        });
-    },
+    return streamText({
+      model: LLMFactory.createAzure(),
+      abortSignal,
+      messages: [
+        {
+          role: "assistant",
+          content: "你是一个精通世界历史的专家，请使用中文回复我",  // you are so clever, answer me with english
+        },
+        {
+          role: "user",
+          content: prompt,
+        },
+      ],
+    });
+  },
 };
 // tools: {
 //     calculateInputLength: tool({

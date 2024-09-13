@@ -5,3 +5,7 @@ export enum MessageEvent {
   toolCallStart = 'tool-call-start',
   toolCallEnd = 'tool-call-end',
 }
+
+export enum ErrorEvent {
+  stop = "stop"
+}
