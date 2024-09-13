@@ -1,25 +1,23 @@
 import { Chat, useChat } from "@marvin/react-ai";
 import { useChatPage } from "./hooks/index.js";
-import React, { useEffect } from "react";
+import React, { } from "react";
 import { Delete } from "@icon-park/react";
 
 export default function ChatPage() {
   const {
     conversations,
-    conversation,
+    fetchConversationMessages,
     fetchConversations,
-    selectConversation,
-    unSelectConversation,
     deleteConversation,
   } = useChatPage();
 
-  const { reset, setHistoryMessages, ...chatProps } = useChat({
+  const chatProps = useChat({
     async onSend(params, signal) {
       console.log(params);
       return await fetch("/api/chat/stream", {
         method: "POST",
         signal,
-        body: JSON.stringify({ ...params, conversationId: conversation?.conversationId, toolIds: [1] }),
+        body: JSON.stringify({ ...params, toolIds: [1] }),
         headers: {
           "Content-Type": "application/json",
         },
@@ -27,21 +25,14 @@ export default function ChatPage() {
     },
     onConversationStart: async (lastMessage) => {
       await fetchConversations();
-      await selectConversation({ conversationId: lastMessage?.conversationId }, false);
     },
     onConversationEnd: async (lastMessage) => {
-      await selectConversation({
-        conversationId: conversation.conversationId,
-      }, false);
+
     },
     onStop: () => {
-      selectConversation({
-        conversationId: conversation.conversationId,
-      }, false);
+
     },
-  }, {
-    historyMessages: conversation?.messages || [],
-  });
+  }, {});
 
 
   return <>
@@ -49,18 +40,18 @@ export default function ChatPage() {
       <div className={"p-2"}>
         <div className={"cursor-pointer bg-blue-500 p-2 rounded-xl text-white text-center mb-4"}
              onClick={() => {
-               unSelectConversation();
-               setHistoryMessages([])
+               chatProps.newConversation();
              }}>新建会话
         </div>
         {conversations.map(item => {
           return <div
             key={item.id}
             className={`cursor-pointer hover:border hover:border-blue-500 border flex justify-between gap-2 p-2 rounded-xl
-            ${item.id === conversation?.id ? "bg-blue-300 text-black" : "bg-gray-100 text-gray-600"} mb-2`}
+            ${item.conversationId === chatProps.conversationId ? "bg-blue-300 text-black" : "bg-gray-100 text-gray-600"} mb-2`}
             onClick={async () => {
-              await selectConversation(item, true);
-              setHistoryMessages(conversation.messages || []);
+              chatProps.newConversation(item.conversationId);
+              const messages = await fetchConversationMessages(item.conversationId);
+              chatProps.setHistoryMessages(messages);
             }}
           >
 
@@ -70,9 +61,8 @@ export default function ChatPage() {
             <div onClick={(e) => {
               e.stopPropagation();
               confirm("确认删除吗?") && deleteConversation(item.conversationId).then(() => {
-                unSelectConversation();
                 fetchConversations();
-                reset();
+                chatProps.newConversation();
               });
             }}>
               <Delete theme={"outline"} fill={"#f40"} />

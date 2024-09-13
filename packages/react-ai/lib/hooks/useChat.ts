@@ -24,15 +24,16 @@ const ChatUtils: {
 };
 
 export const useChat = (invokeHandle: HandleProps, config: ConfigProps = {}): ChatProps & {
-  reset: Function,
+  newConversation: () => void,
   setHistoryMessages: React.Dispatch<React.SetStateAction<Message[]>>
+  conversationId?: string;
 } => {
   // 存储当前会话问答 => 前端临时存储
   const [messages, setMessages] = useImmer<Message[]>([]);
   const [chatStatus, setChatStatus] = useState<ChatProps["status"]>(ChatStatus.Idle);
 
   const [historyMessages, setHistoryMessages] = useState<Message[]>([]);
-
+  const [conversationId, setConversationId] = useState<string>();
 
   // 发送消息任务(可能包含异步操作)
   const executeSendTask = async (params: ActionParams) => {
@@ -48,7 +49,7 @@ export const useChat = (invokeHandle: HandleProps, config: ConfigProps = {}): Ch
         },
       );
     });
-    return invokeHandle.onSend(params, ChatUtils.controller.signal);
+    return invokeHandle.onSend({ ...params, conversationId }, ChatUtils.controller.signal);
   };
 
   // 接收消息任务(可能包含异步操作)
@@ -59,6 +60,7 @@ export const useChat = (invokeHandle: HandleProps, config: ConfigProps = {}): Ch
         if (message.event === "conversation-start") {
           setChatStatus(ChatStatus.Typing);
           invokeHandle.onConversationStart?.(message);
+          setConversationId(message.conversationId);
         }
         if (message.event === "conversation-end") {
           setChatStatus(ChatStatus.Idle);
@@ -110,6 +112,13 @@ export const useChat = (invokeHandle: HandleProps, config: ConfigProps = {}): Ch
     invokeHandle.onStop?.();
   };
 
+  const newConversation = (id?: string) => {
+    setConversationId(id);
+    setHistoryMessages([]);
+    setMessages([]);
+    setChatStatus(ChatStatus.Idle);
+  };
+
   const reset = () => {
     stop();
     setMessages([]);
@@ -118,13 +127,14 @@ export const useChat = (invokeHandle: HandleProps, config: ConfigProps = {}): Ch
 
   useEffect(() => {
     return () => {
-      reset();
+      newConversation();
     };
   }, []);
 
   return {
-    reset,
+    newConversation,
     setHistoryMessages,
+    conversationId,
     messages: [...historyMessages, ...messages],
     status: chatStatus,
     onAction: (actionType, actionParams) => {

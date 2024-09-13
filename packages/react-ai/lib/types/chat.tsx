@@ -30,6 +30,7 @@ export type ActionParams = {
     messages?: string | MultiModalMessage[];
     tools?: [],
     attachments?: any[],
+    conversationId?: string
 }
 
 export type Role = 'user' | 'assistant' | 'system' | 'tool';
