@@ -1,7 +1,7 @@
 import { nanoid } from "nanoid";
 import { useImmer } from "use-immer";
 import moment from "moment";
-import { ActionParams, ChatProps, Message } from "@/types";
+import { ActionParams, ChatProps, Message, MultiModalContent } from "@/types";
 import React, { useEffect, useMemo, useState } from "react";
 import { ChatActionType, ChatStatus } from "@/constant";
 import { SSEMessageGenerator } from "@/utils";
@@ -39,17 +39,25 @@ export const useChat = (invokeHandle: HandleProps, config: ConfigProps = {}): Ch
   const executeSendTask = async (params: ActionParams) => {
     ChatUtils.controller = new AbortController();
     setChatStatus(ChatStatus.Loading);
+
+    const prompt = typeof params.content === "string" ? params.content :
+      (params.content as MultiModalContent[])?.filter(item => item.type === "text").map(item => item.text).join("");
+
     setMessages(draft => {
       draft.push(
         {
           id: nanoid(),
-          content: params.prompt as string,
+          content: prompt,
           createTime: moment().format(format),
           role: "user",
         },
       );
     });
-    return invokeHandle.onSend({ ...params, conversationId }, ChatUtils.controller.signal);
+    return invokeHandle.onSend({
+      ...params,
+      prompt,
+      conversationId,
+    }, ChatUtils.controller.signal);
   };
 
   // 接收消息任务(可能包含异步操作)
@@ -67,14 +75,22 @@ export const useChat = (invokeHandle: HandleProps, config: ConfigProps = {}): Ch
           invokeHandle.onConversationEnd?.(message);
         }
 
-        setMessages(draft => {
-          const find = draft.find(item => item.id === message.id);
-          if (find) {
-            find.content += message.content;
-          } else {
-            draft.push({ ...message, role: "assistant" });
-          }
-        });
+        if (message.event === "message") {
+          setMessages(draft => {
+            const find = draft.find(item => item.id === message.id);
+            if (find) {
+              find.content += message.content as string;
+            } else {
+              draft.push({
+                ...message,
+                role: "assistant",
+              });
+            }
+          });
+        } else {
+          // 多模态消息
+        }
+
       }
     } catch (e) {
       invokeHandle.onConversationEnd?.();

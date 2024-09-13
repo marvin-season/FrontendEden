@@ -27,6 +27,7 @@ export interface ChatProps {
 
 export type ActionParams = {
   prompt?: string;
+  content?: string | MultiModalContent[];
   messages?: string | MultiModalContent[];
   tools?: [],
   attachments?: any[],

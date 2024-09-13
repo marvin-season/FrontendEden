@@ -46,12 +46,12 @@ export default function MessageList({ messages, status }: { messages: Message[],
                   item.role === "assistant"
                   && AssistantMessageLayout
                   && <AssistantMessageLayout message={item} onRegenerate={(message) => {
-                    const prompt = messages[index - 1]?.content;
-                    onAction(ChatActionType.ReloadMessage, { prompt });
+                    const content = messages[index - 1]?.content;
+                    onAction(ChatActionType.ReloadMessage, { content });
                   }} />
                 }
                 {
-                  item.role === "system" && <div>system: {item.content}</div>
+                  item.role === "system" && typeof item.content === "string" && <div>system: {item.content}</div>
                 }
               </Fragment>
             );
