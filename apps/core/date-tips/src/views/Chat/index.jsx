@@ -1,6 +1,6 @@
 import { Chat, useChat } from "@marvin/react-ai";
 import { useChatPage } from "./hooks/index.js";
-import React, { } from "react";
+import React, {} from "react";
 import { Delete } from "@icon-park/react";
 
 export default function ChatPage() {
@@ -24,7 +24,10 @@ export default function ChatPage() {
       });
     },
     onConversationStart: async (lastMessage) => {
-      await fetchConversations();
+      // 如果是新对话
+      if (!conversations.find(item => item.conversationId === lastMessage.conversationId)) {
+        await fetchConversations();
+      }
     },
     onConversationEnd: async (lastMessage) => {
 
