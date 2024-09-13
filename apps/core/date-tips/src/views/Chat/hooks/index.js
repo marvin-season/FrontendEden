@@ -12,8 +12,8 @@ export const useChatPage = () => {
     }
 
     const fetchConversationMessages = async (conversationId) => {
-        const result = await request({url: `/api/conversation/${conversationId}`})
-        return result?.data?.messages || [];
+        const result = await request({url: `/api/conversation/messages/${conversationId}`})
+        return result?.data || [];
     }
 
 

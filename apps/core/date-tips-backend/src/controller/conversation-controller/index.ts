@@ -11,20 +11,17 @@ ConversationController.get('/', async (req, res) => {
     }
 })
 
-ConversationController.get('/:conversationId', async (req, res) => {
+ConversationController.get('/messages/:conversationId', async (req, res) => {
     console.log(req.params)
     const {conversationId} = req.params;
     if (!conversationId) {
         return res.json({data: null})
     }
     try {
-        const data = await prisma.chatConversation.findUnique({
+        const data = await prisma.chatMessage.findMany({
             where: {
                 conversationId
             },
-            include: {
-                messages: true
-            }
         })
         return res.json({data})
     } catch (e) {
