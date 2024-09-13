@@ -27,10 +27,16 @@ export default function ChatPage() {
     },
     onConversationStart: async (lastMessage) => {
       await fetchConversations();
+      await selectConversation({ conversationId: lastMessage?.conversationId }, false);
     },
     onConversationEnd: async (lastMessage) => {
       await selectConversation({
-        conversationId: lastMessage?.conversationId,
+        conversationId: conversation.conversationId,
+      }, true);
+    },
+    onStop: () => {
+      selectConversation({
+        conversationId: conversation.conversationId,
       }, true);
     },
   }, {
