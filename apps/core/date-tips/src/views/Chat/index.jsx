@@ -39,39 +39,42 @@ export default function ChatPage() {
 
 
   return <>
-    <div className={"flex gap-4 justify-center"}>
-      <div className={"p-2"}>
-        <div className={"cursor-pointer bg-blue-500 p-2 rounded-xl text-white text-center mb-4"}
+    <div className={"bg-gray-700 flex gap-4 justify-center"}>
+      <div className={"p-2 h-screen flex flex-col"}>
+        <div className={"cursor-pointer bg-cyan-800 text-gray-200 p-2 rounded-xl text-center mb-4"}
              onClick={() => {
                chatProps.checkoutConversation();
              }}>新建会话
         </div>
-        {conversations.map(item => {
-          return <div
-            key={item.id}
-            className={`cursor-pointer hover:border hover:border-blue-500 border flex justify-between gap-2 p-2 rounded-xl
-            ${item.conversationId === chatProps.conversationId ? "bg-blue-300 text-black" : "bg-gray-100 text-gray-600"} mb-2`}
-            onClick={async () => {
-              chatProps.checkoutConversation(item.conversationId);
-              const messages = await fetchConversationMessages(item.conversationId);
-              chatProps.setHistoryMessages(messages);
-            }}
-          >
+        <div className={"overflow-y-scroll scrollbar-none"}>
+          {conversations.map(item => {
+            return <div
+              key={item.id}
+              className={`cursor-pointer border border-green-800 flex justify-between gap-2 p-2 rounded-xl
+            ${item.conversationId === chatProps.conversationId ? "bg-cyan-700 text-black" : "bg-gray-600 text-gray-300"} mb-2`}
+              onClick={async () => {
+                chatProps.checkoutConversation(item.conversationId);
+                const messages = await fetchConversationMessages(item.conversationId);
+                chatProps.setHistoryMessages(messages);
+              }}
+            >
 
-            <div className={"w-[200px] overflow-hidden text-nowrap"} style={{
-              maskImage: "linear-gradient(to right, black 70%, transparent 100%)",
-            }}>{item.name}</div>
-            <div onClick={(e) => {
-              e.stopPropagation();
-              confirm("确认删除吗?") && deleteConversation(item.conversationId).then(() => {
-                fetchConversations();
-                chatProps.checkoutConversation();
-              });
-            }}>
-              <Delete theme={"outline"} fill={"#f40"} />
-            </div>
-          </div>;
-        })}
+              <div className={"w-[200px] overflow-x-scroll scrollbar-none pr-4 text-nowrap mr-4"} style={{
+                maskImage: "linear-gradient(to right, black 90%, transparent 100%)",
+              }}>{item.name}</div>
+              <div onClick={(e) => {
+                e.stopPropagation();
+                confirm("确认删除吗?") && deleteConversation(item.conversationId).then(() => {
+                  fetchConversations();
+                  chatProps.checkoutConversation();
+                });
+              }}>
+                <Delete theme={"outline"} fill={"#f40"} />
+              </div>
+            </div>;
+          })}
+        </div>
+
 
       </div>
       <div className={"w-[50%] h-screen"}>

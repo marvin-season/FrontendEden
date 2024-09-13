@@ -1,0 +1,16 @@
+@import '@marvin/tailwind-config/main.css';
+
+
+@layer utilities {
+    .scrollbar-thin::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+    }
+    .scrollbar-thin::-webkit-scrollbar-thumb {
+        background-color: rgba(0, 0, 0, 0.5);
+        border-radius: 4px;
+    }
+    .scrollbar-none::-webkit-scrollbar {
+        display: none;
+    }
+}

@@ -24,7 +24,7 @@ const ChatUtils: {
 };
 
 export const useChat = (invokeHandle: HandleProps, config: ConfigProps = {}): ChatProps & {
-  checkoutConversation: () => void,
+  checkoutConversation: (id?: string) => void,
   setHistoryMessages: React.Dispatch<React.SetStateAction<Message[]>>
   conversationId?: string;
 } => {
