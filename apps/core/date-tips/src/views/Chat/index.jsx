@@ -13,7 +13,7 @@ export default function ChatPage() {
     deleteConversation,
   } = useChatPage();
 
-  const { reset, ...chatProps } = useChat({
+  const { reset, setHistoryMessages, ...chatProps } = useChat({
     async onSend(params, signal) {
       console.log(params);
       return await fetch("/api/chat/stream", {
@@ -32,12 +32,12 @@ export default function ChatPage() {
     onConversationEnd: async (lastMessage) => {
       await selectConversation({
         conversationId: conversation.conversationId,
-      }, true);
+      }, false);
     },
     onStop: () => {
       selectConversation({
         conversationId: conversation.conversationId,
-      }, true);
+      }, false);
     },
   }, {
     historyMessages: conversation?.messages || [],
@@ -50,6 +50,7 @@ export default function ChatPage() {
         <div className={"cursor-pointer bg-blue-500 p-2 rounded-xl text-white text-center mb-4"}
              onClick={() => {
                unSelectConversation();
+               setHistoryMessages([])
              }}>新建会话
         </div>
         {conversations.map(item => {
@@ -57,7 +58,10 @@ export default function ChatPage() {
             key={item.id}
             className={`cursor-pointer hover:border hover:border-blue-500 border flex justify-between gap-2 p-2 rounded-xl
             ${item.id === conversation?.id ? "bg-blue-300 text-black" : "bg-gray-100 text-gray-600"} mb-2`}
-            onClick={() => selectConversation(item, true)}
+            onClick={async () => {
+              await selectConversation(item, true);
+              setHistoryMessages(conversation.messages || []);
+            }}
           >
 
             <div className={"w-[200px] overflow-hidden text-nowrap"} style={{

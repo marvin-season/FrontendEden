@@ -2,7 +2,7 @@ import { nanoid } from "nanoid";
 import { useImmer } from "use-immer";
 import moment from "moment";
 import { ActionParams, ChatProps, Message } from "@/types";
-import { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { ChatActionType, ChatStatus } from "@/constant";
 import { SSEMessageGenerator } from "@/utils";
 
@@ -15,9 +15,7 @@ type HandleProps = {
   onConversationStart?: (message?: Message) => Promise<void>,
 }
 
-type ConfigProps = {
-  historyMessages: Message[]
-}
+type ConfigProps = {}
 
 const ChatUtils: {
   controller: AbortController | null
@@ -25,32 +23,31 @@ const ChatUtils: {
   controller: null,
 };
 
-export const useChat = (invokeHandle: HandleProps, config: ConfigProps = {
-  historyMessages: [],
-}): ChatProps & { reset: Function } => {
-  // 只存储一次的问答
+export const useChat = (invokeHandle: HandleProps, config: ConfigProps = {}): ChatProps & {
+  reset: Function,
+  setHistoryMessages: React.Dispatch<React.SetStateAction<Message[]>>
+} => {
+  // 存储当前会话问答 => 前端临时存储
   const [messages, setMessages] = useImmer<Message[]>([]);
   const [chatStatus, setChatStatus] = useState<ChatProps["status"]>(ChatStatus.Idle);
 
-  const mixedMessages = useMemo(() => {
-    if (ChatStatus.Idle === chatStatus) {
-      return [...config.historyMessages];
-    }
-    return [...config.historyMessages, ...messages];
-  }, [messages, chatStatus, config.historyMessages]);
+  const [historyMessages, setHistoryMessages] = useState<Message[]>([]);
+
 
   // 发送消息任务(可能包含异步操作)
   const executeSendTask = async (params: ActionParams) => {
     ChatUtils.controller = new AbortController();
     setChatStatus(ChatStatus.Loading);
-    setMessages([
-      {
-        id: nanoid(),
-        content: params.prompt as string,
-        createTime: moment().format(format),
-        role: "user",
-      },
-    ]);
+    setMessages(draft => {
+      draft.push(
+        {
+          id: nanoid(),
+          content: params.prompt as string,
+          createTime: moment().format(format),
+          role: "user",
+        },
+      );
+    });
     return invokeHandle.onSend(params, ChatUtils.controller.signal);
   };
 
@@ -127,7 +124,8 @@ export const useChat = (invokeHandle: HandleProps, config: ConfigProps = {
 
   return {
     reset,
-    messages: mixedMessages,
+    setHistoryMessages,
+    messages: [...historyMessages, ...messages],
     status: chatStatus,
     onAction: (actionType, actionParams) => {
       console.log("🚀  ", { actionType, actionParams });
