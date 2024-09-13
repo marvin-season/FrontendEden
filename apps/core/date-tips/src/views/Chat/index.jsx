@@ -2,6 +2,7 @@ import { Chat, useChat } from "@marvin/react-ai";
 import { useChatPage } from "./hooks/index.js";
 import React, {} from "react";
 import { Delete } from "@icon-park/react";
+import { chatWX } from "./wx.js";
 
 export default function ChatPage() {
   const {
@@ -14,14 +15,15 @@ export default function ChatPage() {
   const chatProps = useChat({
     async onSend(params, signal) {
       console.log(params);
-      return await fetch("/api/chat/stream", {
-        method: "POST",
-        signal,
-        body: JSON.stringify({ ...params, toolIds: [1] }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      return chatWX(params.prompt)
+      // return await fetch("/maws/api/chat/stream", {
+      //   method: "POST",
+      //   signal,
+      //   body: JSON.stringify({ ...params, toolIds: [1] }),
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      // });
     },
     onConversationStart: async (lastMessage) => {
       // 如果是新对话
