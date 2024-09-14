@@ -27,10 +27,11 @@ const MultiModalMessageContent: FC<{
           }
           {
             type === "tool-call" && tool && <>
-
-              {
-                tool.name
-              }
+              <div className={"truncate"}>
+                {
+                  JSON.stringify(tool)
+                }
+              </div>
             </>
           }
         </>;

@@ -64,7 +64,9 @@ export const useChat = (invokeHandle: HandleProps, config: ConfigProps = {}): Ch
   const executeReceiveTask = async (response: Response) => {
 
     try {
-      for await (const message of SSEMessageGenerator<Message>(response)) {
+      for await (const message of SSEMessageGenerator<Message & {
+        content: string | MultiModalContent;
+      }>(response)) {
         if (message.event === "conversation-start") {
           setChatStatus(ChatStatus.Typing);
           invokeHandle.onConversationStart?.(message);
@@ -79,7 +81,22 @@ export const useChat = (invokeHandle: HandleProps, config: ConfigProps = {}): Ch
           setMessages(draft => {
             const find = draft.find(item => item.id === message.id);
             if (find) {
-              find.content += message.content as string;
+              if (message.type === "multi-modal") {
+                // 多模态消息
+                const content = message.content as MultiModalContent;
+                const findContent = find.content as MultiModalContent[];
+
+                // 更新多模态消息
+                find.content = findContent.map(fc => {
+                  if (fc.position === content.position) {
+                    return content;
+                  }
+                  return fc;
+                });
+
+              } else {
+                find.content += message.content as string;
+              }
             } else {
               draft.push({
                 ...message,
@@ -87,10 +104,7 @@ export const useChat = (invokeHandle: HandleProps, config: ConfigProps = {}): Ch
               });
             }
           });
-        } else {
-          // 多模态消息
         }
-
       }
     } catch (e) {
       invokeHandle.onConversationEnd?.();

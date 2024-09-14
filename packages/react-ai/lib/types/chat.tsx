@@ -41,23 +41,21 @@ export enum MessageEvent {
   message = "message",
   conversationStart = "conversation-start",
   conversationEnd = "conversation-end",
-  toolCallStart = "tool-call-start",
-  toolCallEnd = "tool-call-end",
 }
 
 export type MultiModalContent = {
   type: "text" | "image" | "tool-call",
+  position?: number,
   text?: string,
   image?: string,
   tool?: {
     name: string,
-    status: "finished" | "using",
     description: string,
     detail: string,
     input: string
   }
 }
-export type MessageType = undefined | "multi-modal";
+export type MessageType = undefined | "multi-modal" | string;
 
 export type Message = {
   id: string;
