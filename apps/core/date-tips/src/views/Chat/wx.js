@@ -185,7 +185,9 @@ export const chatWX = async (query) => {
                 type: "tool-call",
                 tool: {
                   tool_labels: iterElement.tool_labels,
-                  tool: iterElement.tool
+                  tool: iterElement.tool,
+                  tool_input: iterElement.tool_input,
+                  observation: iterElement.observation,
                 },
               };
             } else if (iterElement.event === "agent_message") {
