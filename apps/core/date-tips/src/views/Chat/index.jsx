@@ -1,8 +1,9 @@
 import { Chat, useChat } from "@marvin/react-ai";
 import { useChatPage } from "./hooks/index.js";
-import React, {} from "react";
+import React, { useEffect, useState } from "react";
 import { Delete } from "@icon-park/react";
 import { chatWX } from "./wx.js";
+import { EvalPanel } from "./components/EvalPanel.jsx";
 
 export default function ChatPage() {
   const {
@@ -12,10 +13,13 @@ export default function ChatPage() {
     deleteConversation,
   } = useChatPage();
 
+  const [response, setResponse] = useState();
+
   const chatProps = useChat({
     async onSend(params, signal) {
       console.log(params);
-      return chatWX(params.prompt)
+      console.log("response", response);
+      // return response;
       // return await fetch("/maws/api/chat/stream", {
       //   method: "POST",
       //   signal,
@@ -38,6 +42,10 @@ export default function ChatPage() {
 
     },
   }, {});
+
+  useEffect(() => {
+    console.log(response);
+  }, [response]);
 
 
   return <>
@@ -81,6 +89,11 @@ export default function ChatPage() {
       </div>
       <div className={"w-[50%] h-screen"}>
         <Chat {...chatProps} title={"ChatBot"} />
+      </div>
+      <div className={"flex-grow flex flex-col"}>
+        <EvalPanel onRunOk={res => {
+          setResponse(res)
+        }}/>
       </div>
     </div>
   </>;
