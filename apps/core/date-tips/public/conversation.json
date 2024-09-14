@@ -1,0 +1,65 @@
+{
+  "success": true,
+  "data": [
+    {
+      "id": 77,
+      "name": "conversation-1726303749057",
+      "conversationId": "conversation-1726303749057"
+    },
+    {
+      "id": 76,
+      "name": "conversation-1726302345369",
+      "conversationId": "conversation-1726302345369"
+    },
+    {
+      "id": 75,
+      "name": "conversation-1726214225384",
+      "conversationId": "conversation-1726214225384"
+    },
+    {
+      "id": 58,
+      "name": "conversation-1726132622683",
+      "conversationId": "conversation-1726132622683"
+    },
+    {
+      "id": 56,
+      "name": "conversation-1726132156816",
+      "conversationId": "conversation-1726132156816"
+    },
+    {
+      "id": 55,
+      "name": "conversation-1726130064993",
+      "conversationId": "conversation-1726130064993"
+    },
+    {
+      "id": 54,
+      "name": "conversation-1726130023100",
+      "conversationId": "conversation-1726130023100"
+    },
+    {
+      "id": 9,
+      "name": "conversation-1725846566334",
+      "conversationId": "conversation-1725846566334"
+    },
+    {
+      "id": 7,
+      "name": "conversation-1725846146258",
+      "conversationId": "conversation-1725846146258"
+    },
+    {
+      "id": 4,
+      "name": "conversation-1725614156348",
+      "conversationId": "conversation-1725614156348"
+    },
+    {
+      "id": 2,
+      "name": "conversation-1725613629483",
+      "conversationId": "conversation-1725613629483"
+    },
+    {
+      "id": 1,
+      "name": "conversation-1725593844867",
+      "conversationId": "conversation-1725593844867"
+    }
+  ]
+}

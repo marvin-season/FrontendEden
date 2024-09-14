@@ -7,38 +7,30 @@ import { EvalPanel } from "./components/EvalPanel.jsx";
 
 export default function ChatPage() {
   const {
-    conversations,
-    fetchConversationMessages,
-    fetchConversations,
-    deleteConversation,
+    conversations, fetchConversationMessages, fetchConversations, deleteConversation,
   } = useChatPage();
 
   const [response, setResponse] = useState();
+  const [enableEval, setEnableEval] = useState(false);
 
   const chatProps = useChat({
     async onSend(params, signal) {
-      console.log(params);
-      console.log("response", response);
-      // return response;
-      // return await fetch("/maws/api/chat/stream", {
-      //   method: "POST",
-      //   signal,
-      //   body: JSON.stringify({ ...params, toolIds: [1] }),
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //   },
-      // });
-    },
-    onConversationStart: async (lastMessage) => {
+      return response || fetch("/maws/api/chat/stream", {
+        method: "POST",
+        signal,
+        body: JSON.stringify({ ...params, toolIds: [1] }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+    }, onConversationStart: async (lastMessage) => {
       // 如果是新对话
       if (!conversations.find(item => item.conversationId === lastMessage.conversationId)) {
         await fetchConversations();
       }
-    },
-    onConversationEnd: async (lastMessage) => {
+    }, onConversationEnd: async (lastMessage) => {
 
-    },
-    onStop: () => {
+    }, onStop: () => {
 
     },
   }, {});
@@ -91,9 +83,21 @@ export default function ChatPage() {
         <Chat {...chatProps} title={"ChatBot"} />
       </div>
       <div className={"flex-grow flex flex-col"}>
-        <EvalPanel onRunOk={res => {
-          setResponse(res)
-        }}/>
+        <div className={"p-2 flex gap-2"}>
+          <input type={"checkbox"} checked={enableEval} onChange={e => {
+            setEnableEval(e.target.checked);
+          }} />
+          <span>开启eval 测试</span>
+
+          <button className={"text-white"} onClick={() => {
+            setResponse(null);
+          }}>清除
+          </button>
+        </div>
+        {response ? <div className={"p-2"}>可读流已就绪</div> : <div className={"p-2"}>暂无可读流</div>}
+        {enableEval && <EvalPanel onRunOk={res => {
+          setResponse(res);
+        }} />}
       </div>
     </div>
   </>;
