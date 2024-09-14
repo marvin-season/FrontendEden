@@ -79,27 +79,39 @@ export const useChat = (invokeHandle: HandleProps, config: ConfigProps = {}): Ch
 
         if (message.event === "message") {
           setMessages(draft => {
-            const find = draft.find(item => item.id === message.id);
-            if (find) {
+            const oldMessage = draft.find(item => item.id === message.id);
+            if (oldMessage) {
               if (message.type === "multi-modal") {
                 // 多模态消息
                 const content = message.content as MultiModalContent;
-                const findContent = find.content as MultiModalContent[];
+                const oldContent = oldMessage.content as MultiModalContent[];
 
-                // 更新多模态消息
-                find.content = findContent.map(fc => {
-                  if (fc.position === content.position) {
-                    return content;
+                if (content.position === undefined) {
+                  // 新增多模态消息
+                  const lastTextMultiModalContent = oldContent.findLast(oc => oc.type === "text");
+                  if (lastTextMultiModalContent) {
+                    lastTextMultiModalContent.text! += content.text;
+                  } else {
+                    oldContent.push(content);
                   }
-                  return fc;
-                });
-
+                } else {
+                  // 更新多模态消息
+                  oldMessage.content = oldContent.map(oc => {
+                    if (oc.position === content.position) {
+                      return content;
+                    }
+                    return oc;
+                  });
+                }
               } else {
-                find.content += message.content as string;
+                oldMessage.content += message.content as string;
               }
             } else {
               draft.push({
-                ...message,
+                ...{
+                  ...message,
+                  content: message.type === "multi-modal" ? [message.content as MultiModalContent] : message.content,
+                },
                 role: "assistant",
               });
             }

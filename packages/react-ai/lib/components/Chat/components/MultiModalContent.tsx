@@ -4,6 +4,7 @@ import { MultiModalContent } from "@/types";
 const MultiModalMessageContent: FC<{
   multiContent: MultiModalContent[]
 }> = ({ multiContent }) => {
+  console.log("multiContent", multiContent);
   if (!Array.isArray(multiContent)) {
     return <>
       expected an array content
