@@ -90,18 +90,24 @@ export const useChat = (invokeHandle: HandleProps, config: ConfigProps = {}): Ch
                   // 新增多模态消息
                   const lastTextMultiModalContent = oldContent.findLast(oc => oc.type === "text");
                   if (lastTextMultiModalContent) {
-                    lastTextMultiModalContent.text! += content.text;
+                    lastTextMultiModalContent.text! += content.text || '';
                   } else {
                     oldContent.push(content);
                   }
                 } else {
                   // 更新多模态消息
-                  oldMessage.content = oldContent.map(oc => {
-                    if (oc.position === content.position) {
-                      return content;
-                    }
-                    return oc;
-                  });
+                  const lastToolMultiModalContent = oldContent.findLast(oc => oc.position === content.position);
+                  if (lastToolMultiModalContent) {
+                    oldMessage.content = oldContent.map(oc => {
+                      if (oc.position === content.position) {
+                        return content;
+                      }
+                      return oc;
+                    });
+                  } else {
+                    oldContent.push(content);
+                  }
+
                 }
               } else {
                 oldMessage.content += message.content as string;

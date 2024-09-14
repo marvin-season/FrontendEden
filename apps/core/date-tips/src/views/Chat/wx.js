@@ -198,9 +198,8 @@ export const chatWX = async (query) => {
               };
             }
 
-            const type = iterElement.event.startsWith("agent") ? "multi-modal" : undefined;
             const rc = {
-              event: 'message', content, type, id, conversationId: id,
+              event: 'message', content, type: "multi-modal", id, conversationId: id,
             };
             let c = `data: ${JSON.stringify(rc)}\n\n`;
             console.log("rc => ", rc);
