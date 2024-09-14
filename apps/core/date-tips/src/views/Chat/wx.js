@@ -5,7 +5,7 @@ export const chatWX = async (query) => {
     "headers": {
       "accept": "*/*",
       "accept-language": "zh,en;q=0.9,zh-CN;q=0.8,ja;q=0.7",
-      "authorization": "Bearer 1e838c189b4e419e9c369e5b0a2e3d0e",
+      "authorization": "Bearer",
       "content-type": "application/json",
       "tenant-id": "523",
     },
