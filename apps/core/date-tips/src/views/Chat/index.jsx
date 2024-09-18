@@ -1,5 +1,5 @@
 import { Chat, useChat } from "@marvin/react-ai";
-import { useChatPage } from "./hooks/index.js";
+import { useChatApproach, useChatPage } from "./hooks/index.js";
 import React, { useEffect, useState } from "react";
 import { Delete } from "@icon-park/react";
 import { EvalPanel } from "./components/EvalPanel.jsx";
@@ -9,19 +9,13 @@ export default function ChatPage() {
     conversations, fetchConversationMessages, fetchConversations, deleteConversation,
   } = useChatPage();
 
-  const [response, setResponse] = useState();
   const [enableEval, setEnableEval] = useState(false);
+  const approachHandle = useChatApproach();
 
   const chatProps = useChat({
     async onSend(params, signal) {
-      return response || fetch("/marvin/api/chat/stream", {
-        method: "POST",
-        signal,
-        body: JSON.stringify({ ...params, toolIds: [1] }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      console.log(approachHandle);
+      return approachHandle.getApproach.call(null, params, signal);
     }, onConversationStart: async (lastMessage) => {
       // 如果是新对话
       if (!conversations.find(item => item.conversationId === lastMessage.conversationId)) {
@@ -34,9 +28,6 @@ export default function ChatPage() {
     },
   }, {});
 
-  useEffect(() => {
-    console.log(response);
-  }, [response]);
 
 
   return <>
@@ -88,15 +79,16 @@ export default function ChatPage() {
           }} />
           <span>开启eval 测试</span>
           <Delete theme={"outline"} fill={"#fff"} onClick={() => {
-            setResponse(null);
+            approachHandle.state.setResponse(null);
           }} />
 
         </div>
-        {response ? <div className={"p-2"}>可读流已就绪</div> : <div className={"p-2"}>暂无可读流</div>}
-        {enableEval && <EvalPanel onChangeApproach={() => {
-
+        {approachHandle.state.response ? <div className={"p-2"}>可读流已就绪</div> :
+          <div className={"p-2"}>暂无可读流</div>}
+        {enableEval && <EvalPanel approach={approachHandle.state.approach} onChangeApproach={(approach) => {
+          approachHandle.state.setApproach(approach);
         }} onRunOk={res => {
-          setResponse(res);
+          approachHandle.state.setResponse(res);
         }} />}
       </div>
     </div>

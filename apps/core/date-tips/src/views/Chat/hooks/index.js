@@ -38,7 +38,9 @@ export const useChatPage = () => {
 };
 
 export const useChatApproach = () => {
-  return {
+  const [approach, setApproach] = useState("default");
+  const [response, setResponse] = useState();
+  const mapping = {
     "default": (params, signal) => fetch("/marvin/api/chat/stream", {
       method: "POST",
       signal,
@@ -48,5 +50,15 @@ export const useChatApproach = () => {
       },
     }),
     "wx": (params, signal) => chatWX(),
+    "custom": (params, signal) => response,
+  };
+  return {
+    getApproach: mapping[approach],
+    mapping,
+    state: {
+      approach, setApproach,
+      response, setResponse,
+    },
+
   };
 };

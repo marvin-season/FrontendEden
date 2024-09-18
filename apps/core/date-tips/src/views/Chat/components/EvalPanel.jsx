@@ -1,15 +1,13 @@
 import React, { useState } from "react";
 
-export const EvalPanel = ({ onRunOk, onChangeApproach }) => {
-  const [approach, setApproach] = useState("default");
+export const EvalPanel = ({ onRunOk, onChangeApproach, approach }) => {
 
   const handleChange = (event) => {
-    setApproach(event.target.value);
     onChangeApproach(event.target.value);
   };
 
   const [code, setCode] = useState(`
-        return fetch("/maws/api/chat/stream", {
+        return fetch("/marvin/api/chat/stream", {
         method: "POST",
         body: JSON.stringify({
           "prompt": "hi",
