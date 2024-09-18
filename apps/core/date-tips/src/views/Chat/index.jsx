@@ -2,7 +2,6 @@ import { Chat, useChat } from "@marvin/react-ai";
 import { useChatPage } from "./hooks/index.js";
 import React, { useEffect, useState } from "react";
 import { Delete } from "@icon-park/react";
-import { chatWX } from "./wx.js";
 import { EvalPanel } from "./components/EvalPanel.jsx";
 
 export default function ChatPage() {
@@ -94,7 +93,9 @@ export default function ChatPage() {
 
         </div>
         {response ? <div className={"p-2"}>可读流已就绪</div> : <div className={"p-2"}>暂无可读流</div>}
-        {enableEval && <EvalPanel onRunOk={res => {
+        {enableEval && <EvalPanel onChangeApproach={() => {
+
+        }} onRunOk={res => {
           setResponse(res);
         }} />}
       </div>
