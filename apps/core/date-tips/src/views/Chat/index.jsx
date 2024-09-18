@@ -41,8 +41,8 @@ export default function ChatPage() {
 
 
   return <>
-    <div className={"bg-white flex gap-4 justify-center"}>
-      <div className={"p-2 h-screen flex flex-col"}>
+    <div className={"bg-white p-2 h-screen flex gap-4 justify-center"}>
+      <div className={"p-4 border rounded-xl bg-gray-100 b flex flex-col"}>
         <div className={"cursor-pointer bg-cyan-400 text-white p-2 rounded-xl text-center mb-4"}
              onClick={() => {
                chatProps.checkoutConversation();
@@ -79,20 +79,19 @@ export default function ChatPage() {
 
 
       </div>
-      <div className={"w-[50%] h-screen"}>
+      <div className={"w-[50%] border rounded-xl"}>
         <Chat {...chatProps} title={"ChatBot"} />
       </div>
-      <div className={"flex-grow flex flex-col"}>
-        <div className={"p-2 flex gap-2"}>
+      <div className={"flex-grow border rounded-xl p-4 text-white bg-gray-400 flex flex-col"}>
+        <div className={"p-2 flex items-center gap-2"}>
           <input type={"checkbox"} checked={enableEval} onChange={e => {
             setEnableEval(e.target.checked);
           }} />
           <span>开启eval 测试</span>
-
-          <button className={"text-white"} onClick={() => {
+          <Delete theme={"outline"} fill={"#fff"} onClick={() => {
             setResponse(null);
-          }}>清除
-          </button>
+          }} />
+
         </div>
         {response ? <div className={"p-2"}>可读流已就绪</div> : <div className={"p-2"}>暂无可读流</div>}
         {enableEval && <EvalPanel onRunOk={res => {

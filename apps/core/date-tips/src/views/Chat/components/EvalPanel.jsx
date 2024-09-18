@@ -16,10 +16,10 @@ export const EvalPanel = ({ onRunOk }) => {
   `);
 
   return <>
-    <textarea className={"bg-cyan-800 flex-grow w-full"} value={code} onChange={e => {
+    <textarea className={"rounded-xl bg-gray-500 flex-grow w-full"} value={code} onChange={e => {
       setCode(e.target.value);
     }}></textarea>
-    <div className={"cursor-pointer"} onClick={async () => {
+    <div className={"cursor-pointer m-2"} onClick={async () => {
       try {
         const res = await new Function(code)();
         console.log(res);
