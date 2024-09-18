@@ -12,7 +12,7 @@ export default defineConfig({
                 changeOrigin: true,
             },
             '/maws/api': {
-                target: 'http://localhost:3000',
+                target: 'http://localhost:6000',
                 changeOrigin: true,
                 rewrite: (path) => {
                     console.log('path', path)
