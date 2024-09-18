@@ -21,13 +21,8 @@ export default function ChatPage() {
       if (!conversations.find(item => item.conversationId === lastMessage.conversationId)) {
         await fetchConversations();
       }
-    }, onConversationEnd: async (lastMessage) => {
-
-    }, onStop: () => {
-
     },
   }, {});
-
 
 
   return <>
@@ -77,14 +72,14 @@ export default function ChatPage() {
           <input type={"checkbox"} checked={enableEval} onChange={e => {
             setEnableEval(e.target.checked);
           }} />
-          <span>开启eval 测试</span>
+          <span>开启测试</span>
           <Delete theme={"outline"} fill={"#fff"} onClick={() => {
             approachHandle.state.setResponse(null);
           }} />
 
         </div>
         {approachHandle.state.response ? <div className={"p-2"}>可读流已就绪</div> :
-          <div className={"p-2"}>暂无可读流</div>}
+          <div className={"p-2 text-blue-600"}>暂无可读流，请先生成流对象</div>}
         {enableEval && <EvalPanel approach={approachHandle.state.approach} onChangeApproach={(approach) => {
           approachHandle.state.setApproach(approach);
         }} onRunOk={res => {
