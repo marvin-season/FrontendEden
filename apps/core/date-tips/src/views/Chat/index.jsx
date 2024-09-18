@@ -15,7 +15,7 @@ export default function ChatPage() {
 
   const chatProps = useChat({
     async onSend(params, signal) {
-      return response || fetch("/maws/api/chat/stream", {
+      return response || fetch("/marvin/api/chat/stream", {
         method: "POST",
         signal,
         body: JSON.stringify({ ...params, toolIds: [1] }),

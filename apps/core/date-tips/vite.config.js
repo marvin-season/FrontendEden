@@ -11,12 +11,12 @@ export default defineConfig({
                 target: 'http://10.0.44.34:5000', // 开发环境
                 changeOrigin: true,
             },
-            '/maws/api': {
+            '/marvin/api': {
                 target: 'http://localhost:6000',
                 changeOrigin: true,
                 rewrite: (path) => {
                     console.log('path', path)
-                    return path.replace(/^\/maws\/api/, '/api')
+                    return path.replace(/^\/marvin\/api/, '/api')
                 }
             },
 
