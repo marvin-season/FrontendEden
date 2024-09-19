@@ -1,11 +1,19 @@
 import DateTips from "./views/DateTips/index.jsx";
 import Chat from "./views/Chat/index.jsx";
+import Auth from "./views/Auth/index.jsx";
+import { useMemo, useState } from "react";
+
 
 const App = () => {
-    return <>
-        <Chat/>
-        {/*<DateTips/>*/}
-    </>
-}
+  console.log(sessionStorage.getItem("token"));
+  const [isAuthed, setIsAuthed] = useState(false);
 
-export default App
+  return <>
+    {
+      isAuthed ? <Chat /> : <Auth setIsAuthed={setIsAuthed} />
+    }
+    {/*<DateTips/>*/}
+  </>;
+};
+
+export default App;
