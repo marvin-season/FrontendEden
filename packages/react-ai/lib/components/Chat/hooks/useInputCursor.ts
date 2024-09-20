@@ -8,13 +8,17 @@ const getCurrentChar = (input: HTMLInputElement) => {
 export const useInputCursorChar = <T extends string>(
   ref: RefObject<HTMLInputElement>,
   chars: T[],
-  onTrigger: (char: T) => void) => {
+  onTrigger: (char: T) => void,
+  onClear: (char: T) => void
+) => {
 
   useEventListener("input", (e) => {
       if (!ref.current) return;
       const char = getCurrentChar(ref.current) as T;
       if (char && chars.includes(char)) {
         onTrigger(char);
+      } else {
+        onClear(char);
       }
     },
   );

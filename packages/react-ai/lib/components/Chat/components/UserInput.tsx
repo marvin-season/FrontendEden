@@ -34,7 +34,7 @@ export const UserInput = () => {
             e.preventDefault()
             handleSend()
         }}>
-            <div className={"absolute"} id={"command-portal"}></div>
+            <div className={"absolute left-0 right-0 top-[-30px] z-10"} id={"command-portal"}></div>
             <input ref={ref} className={"border w-full px-4 py-2 rounded"} value={value}
                    onChange={(e) => {
                        setValue(e.target.value);

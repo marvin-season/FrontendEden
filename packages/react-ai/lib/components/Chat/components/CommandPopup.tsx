@@ -4,7 +4,7 @@ const CommandPopup: FC<{
   children?: ReactNode;
 }> = () => {
   return <>
-    <div>
+    <div className={"rounded border p-2 bg-gray-300"}>
       CommandPopup
     </div>
   </>;
