@@ -2,10 +2,12 @@ import React, {useState} from "react";
 import {useChatContext} from "@/components/Chat/context/ChatContext.tsx";
 import {ChatActionType} from "@/constant";
 import {FileSelector} from "./FileSelector.tsx";
+import { useCommandPopup } from "@/components/Chat/hooks/useCommandPopup.ts";
 
 export const UserInput = () => {
     const [value, setValue] = useState<string>('');
     const {onAction} = useChatContext();
+    const { ref } = useCommandPopup()
 
     const handleSend = () => {
         if (value.trim().length > 0) {
@@ -32,7 +34,7 @@ export const UserInput = () => {
             e.preventDefault()
             handleSend()
         }}>
-            <input value={value}
+            <input ref={ref} className={"border w-full px-4 py-2 rounded"} value={value}
                    onChange={(e) => {
                        setValue(e.target.value);
                    }}/>
