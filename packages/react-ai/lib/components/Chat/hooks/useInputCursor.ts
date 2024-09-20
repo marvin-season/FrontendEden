@@ -1,4 +1,4 @@
-import { RefObject, useEffect, useRef } from "react";
+import { RefObject } from "react";
 import { useEventListener } from "ahooks/es";
 
 const getCurrentChar = (input: HTMLInputElement) => {
@@ -18,19 +18,4 @@ export const useInputCursorChar = <T extends string>(
       }
     },
   );
-};
-
-export const useCommandPopup = () => {
-  const ref = useRef<HTMLInputElement>(null);
-  useInputCursorChar<"@" | "#">(ref, ["@"], (char) => {
-    console.log(char);
-  });
-
-  useEffect(() => {
-    console.log("useCommandPopup", ref.current);
-  }, []);
-
-  return {
-    ref,
-  };
 };
