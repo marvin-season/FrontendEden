@@ -39,6 +39,7 @@ export const useChatPage = () => {
 };
 
 export const useChatApproach = () => {
+  const [enableEval, setEnableEval] = useState(false);
   const [approach, setApproach] = useState("default");
   const [response, setResponse] = useState();
   const mapping = {
@@ -59,6 +60,7 @@ export const useChatApproach = () => {
     state: {
       approach, setApproach,
       response, setResponse,
+      enableEval, setEnableEval
     },
 
   };

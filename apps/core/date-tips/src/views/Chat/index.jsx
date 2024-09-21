@@ -9,7 +9,6 @@ export default function ChatPage() {
     conversations, fetchConversationMessages, fetchConversations, deleteConversation,
   } = useChatPage();
 
-  const [enableEval, setEnableEval] = useState(false);
   const approachHandle = useChatApproach();
 
   const chatProps = useChatExtend({
@@ -66,23 +65,7 @@ export default function ChatPage() {
         }}/>
       </div>
       <div className={"flex-grow border rounded-xl p-4 text-white bg-gray-400 flex flex-col"}>
-        <div className={"p-2 flex items-center gap-2"}>
-          <input type={"checkbox"} checked={enableEval} onChange={e => {
-            setEnableEval(e.target.checked);
-          }} />
-          <span>开启测试</span>
-          <Delete theme={"outline"} fill={"#fff"} onClick={() => {
-            approachHandle.state.setResponse(null);
-          }} />
-
-        </div>
-        {approachHandle.state.response ? <div className={"p-2"}>可读流已就绪</div> :
-          <div className={"p-2 text-blue-600"}>暂无可读流，请先生成流对象</div>}
-        {enableEval && <EvalPanel approach={approachHandle.state.approach} onChangeApproach={(approach) => {
-          approachHandle.state.setApproach(approach);
-        }} onRunOk={res => {
-          approachHandle.state.setResponse(res);
-        }} />}
+        <EvalPanel state={approachHandle.state} />
       </div>
     </div>
   </>;
