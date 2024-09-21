@@ -11,7 +11,7 @@ const ConversationBar = ({
                              deleteConversation
                          }) => {
     return <>
-        <div className={"cursor-pointer bg-cyan-400 text-white p-2 rounded-xl text-center mb-4"}
+        <div className={"cursor-pointer bg-gray-400 text-white p-2 rounded-xl text-center mb-4"}
              onClick={() => {
                  checkoutConversation();
              }}>新建会话
@@ -21,7 +21,7 @@ const ConversationBar = ({
                 return <div
                     key={item.id}
                     className={`cursor-pointer border border-green-100 flex items-center justify-between gap-2 p-2 rounded-xl
-            ${item.conversationId === conversationId ? "bg-cyan-400 text-sky-50" : "bg-cyan-200 text-white"} mb-2`}
+            ${item.conversationId === conversationId ? "bg-gray-400 text-white" : "bg-gray-200 text-gray-500"} mb-2`}
                     onClick={async () => {
                         checkoutConversation(item.conversationId);
                         const messages = await fetchConversationMessages(item.conversationId);
