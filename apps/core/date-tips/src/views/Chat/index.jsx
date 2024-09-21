@@ -1,5 +1,5 @@
 import { Chat, useChat } from "@marvin/react-ai";
-import { useChatApproach, useChatPage } from "./hooks/index.js";
+import {useChatApproach, useChatExtend, useChatPage} from "./hooks/index.js";
 import React, { useEffect, useState } from "react";
 import { Delete } from "@icon-park/react";
 import { EvalPanel } from "./components/EvalPanel.jsx";
@@ -12,17 +12,11 @@ export default function ChatPage() {
   const [enableEval, setEnableEval] = useState(false);
   const approachHandle = useChatApproach();
 
-  const chatProps = useChat({
-    async onSend(params, signal) {
-      console.log(approachHandle);
-      return approachHandle.getApproach.call(null, params, signal);
-    }, onConversationStart: async (lastMessage) => {
-      // 如果是新对话
-      if (!conversations.find(item => item.conversationId === lastMessage.conversationId)) {
-        await fetchConversations();
-      }
-    },
-  }, {});
+  const chatProps = useChatExtend({
+    approachHandle,
+    fetchConversations,
+    conversations,
+  })
 
 
   return <>
