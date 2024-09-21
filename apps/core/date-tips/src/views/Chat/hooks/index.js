@@ -66,19 +66,3 @@ export const useChatApproach = () => {
   };
 };
 
-export const useChatExtend = ({approachHandle, fetchConversations, conversations = []}) => {
-    const chatProps = useChat({
-        async onSend(params, signal) {
-            return approachHandle.getApproach.call(null, params, signal);
-        },
-        onConversationStart: async (lastMessage) => {
-            // 如果是新对话
-            if (!conversations.find(item => item.conversationId === lastMessage.conversationId)) {
-                await fetchConversations();
-            }
-        },
-    }, {});
-    return {
-        ...chatProps
-    }
-}

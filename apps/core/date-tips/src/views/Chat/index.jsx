@@ -1,8 +1,9 @@
 import {Chat} from "@marvin/react-ai";
-import {useChatApproach, useChatExtend, useChatPage} from "./hooks/index.js";
+import {useChatApproach, useChatPage} from "./hooks/index.js";
 import React from "react";
 import {EvalPanel} from "./components/EvalPanel.jsx";
 import ConversationBar from "./components/ConversationBar.jsx";
+import useChatExtend from "./hooks/useChatExtend.jsx";
 
 export default function ChatPage() {
     const {
@@ -32,12 +33,7 @@ export default function ChatPage() {
                 />
             </div>
             <div className={"w-[50%] border rounded-xl"}>
-                <Chat {...chatProps} title={"ChatBot"} commandElementRender={(commandChar) => {
-                    return <div className={'h-[100px]'}>
-                        <div className={"text-blue-600 text-xl font-bold italic"}>{commandChar}</div>
-                        commandElementRender Element
-                    </div>
-                }}/>
+                <Chat {...chatProps}/>
             </div>
             <div className={"flex-grow border rounded-xl p-4 text-white bg-gray-400 flex flex-col"}>
                 <EvalPanel state={approachHandle.state}/>
@@ -46,16 +42,3 @@ export default function ChatPage() {
     </>;
 }
 
-const AssistantMessageLayout = ({message, onRegenerate}) => {
-    return <>
-        <div className={"flex"}>
-            <div className={"bg-blue-300 text-white p-2"}>
-                {message.content}
-            </div>
-            <div className={"cursor-pointer"} onClick={() => {
-                onRegenerate?.(message);
-            }}>0️⃣
-            </div>
-        </div>
-    </>;
-};
