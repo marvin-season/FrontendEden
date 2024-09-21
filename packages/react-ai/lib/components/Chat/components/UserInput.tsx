@@ -19,7 +19,7 @@ export const UserInput = () => {
             alert('消息不能为空')
         }
     }
-    return <div className={'flex item-center gap-4'}>
+    return <div className={'flex item-center gap-4 border p-4 rounded-lg'}>
         <FileSelector
             onChange={(files) => {
                 onAction(ChatActionType.SelectAttachment, {
@@ -33,7 +33,7 @@ export const UserInput = () => {
             }}>上传
         </FileSelector>
 
-        <form className={"relative w-full"} action="#" onSubmit={e => {
+        <form className={"relative w-full flex gap-4"} action="#" onSubmit={e => {
             e.preventDefault()
             handleSend()
         }}>
@@ -42,9 +42,9 @@ export const UserInput = () => {
                    onChange={(e) => {
                        setValue(e.target.value);
                    }}/>
+            <button type={'submit'}>发送</button>
         </form>
 
-        <button onClick={handleSend}>发送</button>
 
     </div>
 }
