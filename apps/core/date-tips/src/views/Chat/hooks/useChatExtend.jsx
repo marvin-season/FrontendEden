@@ -16,17 +16,28 @@ const useChatExtend = ({approachHandle, fetchConversations, conversations = []})
 
     const AssistantMessageLayout = ({message, onRegenerate}) => {
         return <>
-            <div className={"flex"}>
-                <div className={"bg-blue-300 text-white p-2"}>
+            <div className={"bg-gray-100 p-4 flex rounded-lg"}>
+                <div className={""}>
                     {message.content}
                 </div>
                 <div className={"cursor-pointer"} onClick={() => {
                     onRegenerate?.(message);
-                }}>0️⃣
+                }}>RE
                 </div>
             </div>
         </>;
     };
+
+
+    const UserMessageLayout = ({message, onRegenerate}) => {
+        return <>
+            <div className={"bg-gray-400 text-white p-4 rounded-lg mb-1 mt-3"}>
+                {
+                    message.content
+                }
+            </div>
+        </>
+    }
 
     const commandElementRender = (commandChar) => {
         return <div className={'h-[100px]'}>
@@ -38,6 +49,7 @@ const useChatExtend = ({approachHandle, fetchConversations, conversations = []})
         ...chatProps,
         commandElementRender,
         AssistantMessageLayout,
+        UserMessageLayout,
         title: "Chat-Room"
     }
 }
