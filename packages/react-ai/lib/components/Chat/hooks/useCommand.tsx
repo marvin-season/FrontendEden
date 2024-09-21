@@ -3,10 +3,13 @@ import CommandPopup from "../components/CommandPopup.tsx";
 import { useInputCursorChar } from "./useInputCursor.ts";
 import { createPortal } from "react-dom";
 import { createRoot } from "react-dom/client";
+import {useChatContext} from "@/components/Chat/context/ChatContext.tsx";
+import {CommandCharType} from "@/types";
 
 
-export const useCommand = (element: ReactNode) => {
+export const useCommand = () => {
   const ref = useRef<HTMLInputElement>(null);
+  const { commandElementRender} = useChatContext();
 
   const target = document.getElementById("command-portal");
 
@@ -24,10 +27,12 @@ export const useCommand = (element: ReactNode) => {
 
   }, [target]);
 
-  useInputCursorChar<"@" | "#">(
+
+  useInputCursorChar<CommandCharType>(
     ref,
     ["@", "#"],
     (char) => {
+      const element  = commandElementRender?.(char);
       mount(<CommandPopup children={element}/>);
     },
     (char) => {

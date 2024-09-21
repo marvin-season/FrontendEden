@@ -32,8 +32,9 @@ export default function ChatPage() {
                 />
             </div>
             <div className={"w-[50%] border rounded-xl"}>
-                <Chat {...chatProps} title={"ChatBot"} commandElementRender={() => {
+                <Chat {...chatProps} title={"ChatBot"} commandElementRender={(commandChar) => {
                     return <div className={'h-[100px]'}>
+                        <div className={"text-blue-600 text-xl font-bold italic"}>{commandChar}</div>
                         commandElementRender Element
                     </div>
                 }}/>

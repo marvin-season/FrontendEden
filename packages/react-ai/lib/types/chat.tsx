@@ -11,6 +11,7 @@ export type AssistantMessageLayoutType<T extends typeof AssistantMessageLayout> 
 
 export type UserMessageLayoutType<T extends typeof UserMessageLayout> = T;
 
+export type CommandCharType = "@" | "#"
 
 export interface ChatProps {
   title?: string;
@@ -25,7 +26,7 @@ export interface ChatProps {
   messages: Message[];
   conversation?: Conversation;
 
-  commandElementRender?: () => ReactNode;
+  commandElementRender?: (commandChar: CommandCharType) => ReactNode;
 }
 
 export type ActionParams = {
