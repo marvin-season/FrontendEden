@@ -2,6 +2,7 @@ import { AssistantMessageLayout } from "@/components/Chat/components/AssistantMe
 import { UserMessageLayout } from "@/components/Chat/components/UserMessageLayout.tsx";
 import MessageList from "@/components/Chat/components/MessageList.tsx";
 import { ChatActionType, ChatStatus } from "@/constant";
+import {ReactNode} from "react";
 
 
 export type MessageListLayoutType<T extends typeof MessageList> = T;
@@ -23,6 +24,8 @@ export interface ChatProps {
 
   messages: Message[];
   conversation?: Conversation;
+
+  commandElementRender?: () => ReactNode;
 }
 
 export type ActionParams = {

@@ -27,7 +27,7 @@ export default function ChatPage() {
 
   return <>
     <div className={"bg-white p-2 h-screen flex gap-4 justify-center"}>
-      <div className={"p-4 border rounded-xl bg-gray-100 b flex flex-col"}>
+      <div className={"p-4 border rounded-xl bg-gray-100 b flex flex-col w-[300px]"}>
         <div className={"cursor-pointer bg-cyan-400 text-white p-2 rounded-xl text-center mb-4"}
              onClick={() => {
                chatProps.checkoutConversation();
@@ -65,7 +65,11 @@ export default function ChatPage() {
 
       </div>
       <div className={"w-[50%] border rounded-xl"}>
-        <Chat {...chatProps} title={"ChatBot"} />
+        <Chat {...chatProps} title={"ChatBot"} commandElementRender={() => {
+          return <div className={'h-[100px]'}>
+            commandElementRender Element
+          </div>
+        }}/>
       </div>
       <div className={"flex-grow border rounded-xl p-4 text-white bg-gray-400 flex flex-col"}>
         <div className={"p-2 flex items-center gap-2"}>

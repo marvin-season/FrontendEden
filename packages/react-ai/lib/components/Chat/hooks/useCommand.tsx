@@ -5,7 +5,7 @@ import { createPortal } from "react-dom";
 import { createRoot } from "react-dom/client";
 
 
-export const useCommand = () => {
+export const useCommand = (element: ReactNode) => {
   const ref = useRef<HTMLInputElement>(null);
 
   const target = document.getElementById("command-portal");
@@ -28,7 +28,7 @@ export const useCommand = () => {
     ref,
     ["@", "#"],
     (char) => {
-      mount(<CommandPopup />);
+      mount(<CommandPopup children={element}/>);
     },
     (char) => {
       unmount();
