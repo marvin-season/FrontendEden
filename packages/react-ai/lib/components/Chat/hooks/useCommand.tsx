@@ -1,42 +1,40 @@
-import { ReactNode, useCallback, useEffect, useMemo, useRef } from "react";
+import { ReactNode, useCallback, useMemo, useRef } from "react";
 import CommandPopup from "../components/CommandPopup.tsx";
 import { useInputCursorChar } from "./useInputCursor.ts";
-import { createPortal } from "react-dom";
-import { createRoot } from "react-dom/client";
-import {useChatContext} from "@/components/Chat/context/ChatContext.tsx";
-import {CommandCharType} from "@/types";
+import { createRoot, Root } from "react-dom/client";
+import { useChatContext } from "@/components/Chat/context/ChatContext.tsx";
+import { CommandCharType } from "@/types";
 
+const CommandRootManager = {
+  root: null as Root | null,
+  getRoot(target: HTMLElement) {
+    if (!this.root && target) {
+      this.root = createRoot(target);
+    }
+    return this.root;
+  },
+  clearRoot() {
+    if (this.root) {
+      this.root.unmount();
+      this.root = null;
+    }
+  },
+};
 
 export const useCommand = () => {
   const ref = useRef<HTMLInputElement>(null);
-  const { commandElementRender} = useChatContext();
-
+  const { commandElementRender } = useChatContext();
   const target = document.getElementById("command-portal");
-
-  const unmount = useCallback(() => {
-    target && createRoot(target).unmount();
-  }, [target]);
-
-  const mount = useCallback((reactNode: ReactNode) => {
-    console.log("mount", target);
-
-    if (target) {
-      const portal = createPortal(reactNode, target);
-      createRoot(target).render(portal);
-    }
-
-  }, [target]);
-
 
   useInputCursorChar<CommandCharType>(
     ref,
     ["@", "#"],
     (char) => {
-      const element  = commandElementRender?.(char);
-      mount(<CommandPopup children={element}/>);
+      const element = commandElementRender?.(char);
+      CommandRootManager.getRoot(target!)?.render(<CommandPopup children={element} />);
     },
     (char) => {
-      unmount();
+      CommandRootManager.clearRoot();
     },
   );
 
