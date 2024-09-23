@@ -50,7 +50,7 @@ const useChatExtend = ({approachHandle, fetchConversations, conversations = []})
         commandElementRender,
         AssistantMessageLayout,
         UserMessageLayout,
-        title: "Chat-Room"
+        title: ""
     }
 }
 
