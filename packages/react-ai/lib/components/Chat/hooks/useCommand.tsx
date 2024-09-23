@@ -1,8 +1,7 @@
 import { useCallback, useRef } from "react";
 import { useInputCursorChar } from "./useInputCursor.ts";
 import { createRoot, Root } from "react-dom/client";
-import { useChatContext } from "@/components/Chat/context/ChatContext.tsx";
-import { CommandCharType } from "@/types";
+import { ChatProps, CommandCharType } from "@/types";
 
 const CommandRootManager = {
   root: null as Root | null,
@@ -20,11 +19,10 @@ const CommandRootManager = {
   },
 };
 
-export const useCommand = () => {
+export const useCommand = (commandElementRender: ChatProps['commandElementRender']) => {
   const triggerRef = useRef<HTMLInputElement>(null);
   const reactorRef = useRef<HTMLDivElement>(null);
 
-  const { commandElementRender } = useChatContext();
 
   const closeCommandPopup = useCallback(() => {
     CommandRootManager.clearRoot();

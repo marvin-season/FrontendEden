@@ -6,10 +6,10 @@ import {useCommand} from "@/components/Chat/hooks/useCommand.tsx";
 
 export const UserInput = () => {
     const [value, setValue] = useState<string>('');
-    const {onAction} = useChatContext();
+    const {onAction, commandElementRender} = useChatContext();
 
 
-    const {triggerRef, reactorRef } = useCommand();
+    const {triggerRef, reactorRef } = useCommand(commandElementRender);
 
     const handleSend = () => {
         if (value.trim().length > 0) {
