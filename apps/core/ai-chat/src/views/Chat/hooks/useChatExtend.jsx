@@ -1,7 +1,12 @@
 import {useChat} from "@marvin/react-ai";
-import React from "react";
+import React, { useState } from "react";
 
 const useChatExtend = ({approachHandle, fetchConversations, conversations = []}) => {
+    const [tools, setTools] = useState([
+      {id: 1, name: '天气', selected: false},
+      {id: 2, name: '翻译', selected: false}
+    ]);
+
     const chatProps = useChat({
         async onSend(params, signal) {
             return approachHandle.getApproach.call(null, params, signal);
@@ -40,8 +45,23 @@ const useChatExtend = ({approachHandle, fetchConversations, conversations = []})
     const commandElementRender = (commandChar, { onClose }) => {
         return <div className={"h-[100px] rounded p-4 backdrop-blur-sm bg-[#fff9]"}>
             <div className={"text-blue-600 text-xl font-bold italic"}>{commandChar}</div>
-            <div onClick={onClose}>
-                <span>渲染<span className={"text-green-600 text-xl font-bold italic"}>{commandChar}</span>内容</span>
+            <div className={"flex flex-wrap gap-2"}>
+              {
+                tools.map((tool, index) => {
+                  return <div
+                    className={`cursor-pointer text-gray-600 py-2 px-4 rounded-xl border text-sm ${tool.selected ? "border-green-500" : ""}`}
+                    key={index}
+                    onClick={() => {
+                      setTools(tools.map(item => {
+                        if (item.id === tool.id) {
+                          item.selected = !item.selected;
+                        }
+                        return item;
+                      }));
+                      onClose();
+                    }}>{tool.name}</div>;
+                })
+              }
             </div>
         </div>;
     }
