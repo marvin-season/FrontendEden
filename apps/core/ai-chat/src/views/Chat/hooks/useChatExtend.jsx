@@ -7,6 +7,11 @@ const useChatExtend = ({approachHandle, fetchConversations, conversations = []})
       {id: 2, name: '翻译', selected: false}
     ]);
 
+    const [docs, setDocs] = useState([
+      {id: 1, name: '资本论', selected: false},
+      {id: 2, name: '肖生克的救赎', selected: false}
+    ]);
+
     const chatProps = useChat({
         async onSend(params, signal) {
             return approachHandle.getApproach.call(null, params, signal);
@@ -43,28 +48,30 @@ const useChatExtend = ({approachHandle, fetchConversations, conversations = []})
     }
 
     const commandElementRender = (commandChar, { onClose }) => {
-        return <div className={"h-[100px] rounded p-4 backdrop-blur-sm bg-[#fff9]"}>
-            <div className={"text-blue-600 text-xl font-bold italic"}>{commandChar}</div>
-            <div className={"flex flex-wrap gap-2"}>
-              {
-                tools.map((tool, index) => {
-                  return <div
-                    className={`cursor-pointer text-gray-600 py-2 px-4 rounded-xl border text-sm ${tool.selected ? "border-green-500" : ""}`}
-                    key={index}
-                    onClick={() => {
-                      setTools(tools.map(item => {
-                        if (item.id === tool.id) {
-                          item.selected = !item.selected;
-                        }
-                        return item;
-                      }));
-                      onClose();
-                    }}>{tool.name}</div>;
-                })
-              }
-            </div>
-        </div>;
-    }
+      const state_ = commandChar === "@" ? tools : docs;
+      const setState_ = commandChar === "@" ? setTools : setDocs;
+      return <div className={"h-[100px] rounded p-4 backdrop-blur-sm bg-[#fff9]"}>
+        <div className={"text-blue-600 text-xl font-bold italic"}>{commandChar}</div>
+        <div className={"flex flex-wrap gap-2"}>
+          {
+            state_.map((item, index) => {
+              return <div
+                className={`cursor-pointer text-gray-600 py-2 px-4 rounded-xl border text-sm ${item.selected ? "border-green-500" : ""}`}
+                key={index}
+                onClick={() => {
+                  setState_(prev => prev.map(item_ => {
+                    if (item_.id === item.id) {
+                      item_.selected = !item.selected;
+                    }
+                    return item;
+                  }));
+                  onClose();
+                }}>{item.name}</div>;
+            })
+          }
+        </div>
+      </div>;
+    };
     return {
         ...chatProps,
         commandElementRender,
