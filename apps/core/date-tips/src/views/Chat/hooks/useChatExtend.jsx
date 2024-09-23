@@ -16,7 +16,7 @@ const useChatExtend = ({approachHandle, fetchConversations, conversations = []})
 
     const AssistantMessageLayout = ({message, onRegenerate}) => {
         return <>
-            <div className={"bg-gray-100 p-4 flex rounded-lg"}>
+            <div className={"bg-gray-200 py-2 px-4 flex rounded-lg"}>
                 <div className={""}>
                     {message.content}
                 </div>
@@ -31,7 +31,7 @@ const useChatExtend = ({approachHandle, fetchConversations, conversations = []})
 
     const UserMessageLayout = ({message, onRegenerate}) => {
         return <>
-            <div className={"bg-gray-400 text-white p-4 rounded-lg mb-1 mt-3"}>
+            <div className={"bg-gray-400 text-white py-2 px-4 rounded-lg mb-1 mt-3"}>
                 {
                     message.content
                 }
@@ -40,10 +40,12 @@ const useChatExtend = ({approachHandle, fetchConversations, conversations = []})
     }
 
     const commandElementRender = (commandChar) => {
-        return <div className={'h-[100px]'}>
+        return <div className={"h-[100px]"}>
             <div className={"text-blue-600 text-xl font-bold italic"}>{commandChar}</div>
-            commandElementRender Element
-        </div>
+            <div>
+                <span>渲染<span className={"text-green-600 text-xl font-bold italic"}>{commandChar}</span>内容</span>
+            </div>
+        </div>;
     }
     return {
         ...chatProps,

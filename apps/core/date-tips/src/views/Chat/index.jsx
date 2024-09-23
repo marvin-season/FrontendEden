@@ -21,7 +21,7 @@ export default function ChatPage() {
 
     return <>
         <div className={"bg-gradient-to-r from-green-200  to-blue-200  h-screen flex items-center justify-center"}>
-            <div className={"bg-[#fffa] rounded-[16px] h-[80%] w-[80%] p-16 flex gap-4 justify-center"}>
+            <div className={"bg-[#fffa] rounded-[16px] h-[90%] w-[90%] p-16 flex gap-4 justify-center"}>
                 <div className={"p-4 border rounded-xl bg-gray-100 b flex flex-col w-[300px]"}>
                     <ConversationBar
                         checkoutConversation={chatProps.checkoutConversation}
