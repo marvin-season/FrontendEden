@@ -36,9 +36,9 @@ export default function ChatPage() {
                 <div className={"flex-[3] w-[50%] border rounded-xl"}>
                     <Chat {...chatProps}/>
                 </div>
-                <div className={"flex-1 border rounded-xl p-4 text-white bg-gray-400 flex flex-col"}>
-                    <EvalPanel state={approachHandle.state}/>
-                </div>
+                {/*<div className={"flex-1 border rounded-xl p-4 text-white bg-gray-400 flex flex-col"}>*/}
+                {/*    <EvalPanel state={approachHandle.state}/>*/}
+                {/*</div>*/}
             </div>
         </div>
 
