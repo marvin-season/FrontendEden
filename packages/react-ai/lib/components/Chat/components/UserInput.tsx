@@ -9,7 +9,7 @@ export const UserInput = () => {
     const {onAction} = useChatContext();
 
 
-    const {ref} = useCommand();
+    const {triggerRef, reactorRef } = useCommand();
 
     const handleSend = () => {
         if (value.trim().length > 0) {
@@ -37,8 +37,8 @@ export const UserInput = () => {
             e.preventDefault()
             handleSend()
         }}>
-            <div className={"absolute left-0 right-0 bottom-[48px] z-10"} id={"command-portal"}></div>
-            <input ref={ref} className={"border w-full px-4 py-2 rounded"} value={value}
+            <div ref={reactorRef} className={"absolute left-0 right-0 bottom-[48px] z-10"}></div>
+            <input ref={triggerRef} className={"border w-full px-4 py-2 rounded"} value={value}
                    onChange={(e) => {
                        setValue(e.target.value);
                    }}/>

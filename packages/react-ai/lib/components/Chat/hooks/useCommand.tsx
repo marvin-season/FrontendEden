@@ -1,5 +1,4 @@
-import { ReactNode, useCallback, useMemo, useRef } from "react";
-import CommandPopup from "../components/CommandPopup.tsx";
+import { useCallback, useRef } from "react";
 import { useInputCursorChar } from "./useInputCursor.ts";
 import { createRoot, Root } from "react-dom/client";
 import { useChatContext } from "@/components/Chat/context/ChatContext.tsx";
@@ -22,20 +21,21 @@ const CommandRootManager = {
 };
 
 export const useCommand = () => {
-  const ref = useRef<HTMLInputElement>(null);
+  const triggerRef = useRef<HTMLInputElement>(null);
+  const reactorRef = useRef<HTMLDivElement>(null);
+
   const { commandElementRender } = useChatContext();
-  const target = document.getElementById("command-portal");
 
   const closeCommandPopup = useCallback(() => {
     CommandRootManager.clearRoot();
   }, [CommandRootManager]);
 
   useInputCursorChar<CommandCharType>(
-    ref,
+    triggerRef,
     ["@", "#"],
     (char) => {
       const element = commandElementRender?.(char, { onClose: closeCommandPopup });
-      CommandRootManager.getRoot(target!)?.render(<CommandPopup children={element} />);
+      CommandRootManager.getRoot(reactorRef.current!)?.render(element);
     },
     (char) => {
       CommandRootManager.clearRoot();
@@ -43,6 +43,7 @@ export const useCommand = () => {
   );
 
   return {
-    ref,
+    triggerRef,
+    reactorRef
   };
 };
