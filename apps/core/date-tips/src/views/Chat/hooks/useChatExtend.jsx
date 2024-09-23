@@ -16,8 +16,8 @@ const useChatExtend = ({approachHandle, fetchConversations, conversations = []})
 
     const AssistantMessageLayout = ({message, onRegenerate}) => {
         return <>
-            <div className={"bg-gray-200 py-2 px-4 flex rounded-lg"}>
-                <div className={""}>
+            <div className={"flex"}>
+                <div className={"bg-gray-200 py-2 px-4 flex rounded-lg"}>
                     {message.content}
                 </div>
                 <div className={"cursor-pointer"} onClick={() => {
@@ -31,10 +31,8 @@ const useChatExtend = ({approachHandle, fetchConversations, conversations = []})
 
     const UserMessageLayout = ({message, onRegenerate}) => {
         return <>
-            <div className={"bg-gray-400 text-white py-2 px-4 rounded-lg mb-1 mt-3"}>
-                {
-                    message.content
-                }
+            <div className={"flex"}>
+                <div className={"bg-gray-400 text-white py-2 px-4 rounded-lg mb-2 mt-4"}>{message.content}</div>
             </div>
         </>
     }
