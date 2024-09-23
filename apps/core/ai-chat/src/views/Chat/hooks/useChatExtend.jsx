@@ -37,10 +37,10 @@ const useChatExtend = ({approachHandle, fetchConversations, conversations = []})
         </>
     }
 
-    const commandElementRender = (commandChar) => {
+    const commandElementRender = (commandChar, { onClose }) => {
         return <div className={"h-[100px]"}>
             <div className={"text-blue-600 text-xl font-bold italic"}>{commandChar}</div>
-            <div>
+            <div onClick={onClose}>
                 <span>渲染<span className={"text-green-600 text-xl font-bold italic"}>{commandChar}</span>内容</span>
             </div>
         </div>;

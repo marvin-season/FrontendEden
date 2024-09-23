@@ -26,11 +26,15 @@ export const useCommand = () => {
   const { commandElementRender } = useChatContext();
   const target = document.getElementById("command-portal");
 
+  const closeCommandPopup = useCallback(() => {
+    CommandRootManager.clearRoot();
+  }, [CommandRootManager]);
+
   useInputCursorChar<CommandCharType>(
     ref,
     ["@", "#"],
     (char) => {
-      const element = commandElementRender?.(char);
+      const element = commandElementRender?.(char, { onClose: closeCommandPopup });
       CommandRootManager.getRoot(target!)?.render(<CommandPopup children={element} />);
     },
     (char) => {

@@ -26,7 +26,11 @@ export interface ChatProps {
   messages: Message[];
   conversation?: Conversation;
 
-  commandElementRender?: (commandChar: CommandCharType) => ReactNode;
+  commandElementRender?: (
+    commandChar: CommandCharType,
+    commandOperator: {
+      onClose: () => void
+    }) => ReactNode;
 }
 
 export type ActionParams = {
