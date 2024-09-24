@@ -9,7 +9,10 @@ export const UserInput = () => {
     const {onAction, commandElementRender} = useChatContext();
 
 
-    const {triggerRef, reactorRef } = useCommand(commandElementRender);
+    const {triggerRef, reactorRef } = useCommand(commandElementRender, (char) => {
+        // todo: 消除唤起弹窗的字符
+        setValue(prevState => (prevState.slice(0, -1)))
+    });
 
     const handleSend = () => {
         if (value.trim().length > 0) {

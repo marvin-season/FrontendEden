@@ -29,7 +29,7 @@ export interface ChatProps {
   commandElementRender?: (
     commandChar: CommandCharType,
     commandOperator: {
-      onClose: () => void
+      onClose: (char: CommandCharType) => void;
     }) => ReactNode;
 }
 

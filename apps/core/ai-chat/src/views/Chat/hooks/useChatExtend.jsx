@@ -68,11 +68,14 @@ const useChatExtend = ({ approachHandle, fetchConversations, conversations = [] 
               onClick={() => {
                 setState_(prev => prev.map(item_ => {
                   if (item_.id === item.id) {
-                    item_.selected = !item_.selected;
+                    return {
+                      ...item_,
+                      selected: !item_.selected,
+                    }
                   }
                   return item_;
                 }));
-                onClose();
+                onClose(commandChar);
               }}>{item.name}</div>;
           })
         }

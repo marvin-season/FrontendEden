@@ -19,20 +19,20 @@ const CommandRootManager = {
   },
 };
 
-export const useCommand = (commandElementRender: ChatProps['commandElementRender']) => {
+export const useCommand = (commandElementRender: ChatProps["commandElementRender"], onCloseCommand: (char: CommandCharType) => void) => {
   const triggerRef = useRef<HTMLInputElement>(null);
   const reactorRef = useRef<HTMLDivElement>(null);
-
-
-  const closeCommandPopup = useCallback(() => {
-    CommandRootManager.clearRoot();
-  }, [CommandRootManager]);
 
   useInputCursorChar<CommandCharType>(
     triggerRef,
     ["@", "#"],
     (char) => {
-      const element = commandElementRender?.(char, { onClose: closeCommandPopup });
+      const element = commandElementRender?.(char, {
+        onClose: (char) => {
+          CommandRootManager.clearRoot();
+          onCloseCommand(char);
+        },
+      });
       CommandRootManager.getRoot(reactorRef.current!)?.render(element);
     },
     (char) => {
@@ -42,6 +42,6 @@ export const useCommand = (commandElementRender: ChatProps['commandElementRender
 
   return {
     triggerRef,
-    reactorRef
+    reactorRef,
   };
 };
