@@ -1,5 +1,5 @@
 import { useChat } from "@marvin/react-ai";
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 
 const useChatExtend = ({ approachHandle, fetchConversations, conversations = [] }) => {
   const [tools, setTools] = useState([
@@ -12,9 +12,16 @@ const useChatExtend = ({ approachHandle, fetchConversations, conversations = [] 
     { id: 2, name: "肖生克的救赎", selected: false },
   ]);
 
+  const attachments = useMemo(() => {
+    return [
+      ...tools.map(i => ({ ...i, type: "tool" })),
+      ...docs.map(i => ({ ...i, type: "doc" })),
+    ].filter(item => item.selected);
+  }, [tools, docs]);
+
   const chatProps = useChat({
     async onSend(params, signal) {
-      return approachHandle.getApproach.call(null, params, signal);
+      return approachHandle.getApproach.call(null, { ...params, attachments }, signal);
     },
     onConversationStart: async (lastMessage) => {
       // 如果是新对话
@@ -39,7 +46,7 @@ const useChatExtend = ({ approachHandle, fetchConversations, conversations = [] 
   };
 
 
-  const UserMessageLayout = ({ message, onRegenerate }) => {
+  const UserMessageLayout = ({ message }) => {
     return <>
       <div className={"flex"}>
         <div className={"bg-gray-400 text-white py-2 px-4 rounded-lg mb-2 mt-4"}>{message.content}</div>
