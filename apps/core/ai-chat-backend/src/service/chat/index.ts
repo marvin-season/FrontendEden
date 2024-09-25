@@ -6,13 +6,15 @@ import prisma from "@/utils/prisma";
 
 export const chatService = {
   async writeStreamAndDB(res: Response, {
+    attachments = [],
     conversationId,
     result,
     prompt,
   }: {
     result: StreamTextResult<Record<string, any>>
     conversationId: string,
-    prompt: string
+    prompt: string,
+    attachments: any[]
   }) {
     let content = "";
 
@@ -53,6 +55,7 @@ export const chatService = {
           {
             conversationId,
             content: prompt,
+            attachments: JSON.stringify(attachments)
           },
           {
             conversationId,

@@ -29,5 +29,8 @@ model ChatMessage {
   role           String?          @default("user")
   conversation   ChatConversation @relation(fields: [conversationId], references: [conversationId], onDelete: Cascade)
 
+  // todo: 暂时直接存字符串
+  attachments String?
+
   @@index([conversationId], map: "ChatConversation_fkey")
 }

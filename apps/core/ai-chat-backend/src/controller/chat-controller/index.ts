@@ -23,7 +23,7 @@ ChatController.post("/stream")
     .use(async (req, res, next) => {
 
         try {
-            const { prompt, conversationId, toolIds } = req.body;
+            const { prompt, conversationId, attachments } = req.body;
             const abortController = new AbortController();
 
             res.setHeader('Cache-Control', 'no-cache');
@@ -33,18 +33,11 @@ ChatController.post("/stream")
                 abortController.abort(ErrorEvent.stop);
             });
 
-            /**
-             * 工具调用
-             */
-
-            if (toolIds.length) {
-                console.log("选择了工具：", toolIds);
-            }
             const result = await chatService.streamChat({
                 prompt,
                 abortSignal: abortController.signal
             });
-            await chatService.writeStreamAndDB(res, { result, prompt, conversationId });
+            await chatService.writeStreamAndDB(res, { result, prompt, conversationId, attachments });
             res.end();
 
         } catch (e) {

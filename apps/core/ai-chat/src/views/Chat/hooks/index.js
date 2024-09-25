@@ -15,7 +15,7 @@ export const useChatPage = () => {
 
   const fetchConversationMessages = async (conversationId) => {
     const result = await request({ url: `/marvin/api/conversation/messages/${conversationId}` });
-    return result?.data || [];
+    return result?.data.map(item => ( { ...item, attachments: JSON.parse(item.attachments || '[]') } )) || [];
   };
 
 

@@ -55,14 +55,16 @@ const useChatExtend = ({ approachHandle, fetchConversations, conversations = [] 
 
   const UserMessageLayout = ({ message }) => {
     return <>
-      {
-        message.attachments?.length && <div className={"flex flex-wrap gap-2"}>
+      <div className={"mb-2 mt-4"}>
+        <div className={"flex flex-wrap gap-2"}>
           <Attachments attachments={message.attachments} />
         </div>
-      }
-      <div className={"flex"}>
-        <div className={"bg-gray-400 text-white py-2 px-4 rounded-lg mb-2 mt-4"}>{message.content}</div>
+
+        <div className={"flex"}>
+          <div className={"bg-gray-400 text-white py-2 px-4 rounded-lg"}>{message.content}</div>
+        </div>
       </div>
+
     </>;
   };
 
