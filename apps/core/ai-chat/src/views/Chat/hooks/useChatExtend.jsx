@@ -1,6 +1,7 @@
 import { useChat } from "@marvin/react-ai";
 import React, { useMemo, useState } from "react";
 import { Close } from "@icon-park/react";
+import { Attachments } from "../components/Attachments.jsx";
 
 const useChatExtend = ({ approachHandle, fetchConversations, conversations = [] }) => {
   const [tools, setTools] = useState([
@@ -49,6 +50,11 @@ const useChatExtend = ({ approachHandle, fetchConversations, conversations = [] 
 
   const UserMessageLayout = ({ message }) => {
     return <>
+      {
+        attachments.length && <div className={"flex flex-wrap gap-2"}>
+          <Attachments attachments={attachments} />
+        </div>
+      }
       <div className={"flex"}>
         <div className={"bg-gray-400 text-white py-2 px-4 rounded-lg mb-2 mt-4"}>{message.content}</div>
       </div>
@@ -57,25 +63,18 @@ const useChatExtend = ({ approachHandle, fetchConversations, conversations = [] 
 
   const attachmentRender = () => {
     return <div className={"flex gap-2"}>
-      {
-        attachments?.map((attachment) => {
-          return <div key={`${attachment.type}${attachment.id}`} className={"border rounded py-2 px-4 flex gap-2"}>
-            <span>{attachment.name}</span>
-            <Close onClick={() => {
-              const setState_ = attachment.type === "tool" ? setTools : setDocs;
-              setState_(prev => prev.map(item => {
-                if (item.id === attachment.id) {
-                  return {
-                    ...item,
-                    selected: false,
-                  };
-                }
-                return item;
-              }));
-            }} />
-          </div>;
-        })
-      }
+      <Attachments attachments={attachments} closeable={true} onClose={(attachment) => {
+        const setState_ = attachment.type === "tool" ? setTools : setDocs;
+        setState_(prev => prev.map(item => {
+          if (item.id === attachment.id) {
+            return {
+              ...item,
+              selected: false,
+            };
+          }
+          return item;
+        }));
+      }} />
     </div>;
   };
 
