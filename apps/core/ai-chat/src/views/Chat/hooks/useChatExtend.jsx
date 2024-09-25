@@ -23,11 +23,11 @@ const useChatExtend = ({ approachHandle, fetchConversations, conversations = [] 
 
   const chatProps = useChat({
     onSend(params, signal) {
-      const mergedParams = { ...params, attachments }
+      const mergedParams = { ...params, attachments };
       debugger
       return {
         mergedParams,
-        responsePromise: approachHandle.getApproach.call(null, mergedParams, signal)
+        responsePromise: approachHandle.getApproach.call(null, mergedParams, signal),
       };
     },
     onConversationStart: async (lastMessage) => {
@@ -56,8 +56,8 @@ const useChatExtend = ({ approachHandle, fetchConversations, conversations = [] 
   const UserMessageLayout = ({ message }) => {
     return <>
       {
-        attachments.length && <div className={"flex flex-wrap gap-2"}>
-          <Attachments attachments={attachments} />
+        message.attachments.length && <div className={"flex flex-wrap gap-2"}>
+          <Attachments attachments={message.attachments} />
         </div>
       }
       <div className={"flex"}>
