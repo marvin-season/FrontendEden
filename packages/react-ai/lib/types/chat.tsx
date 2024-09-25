@@ -6,8 +6,9 @@ import {ReactNode} from "react";
 
 export type Attachment = {
   id: string;
-  type: 'doc' | 'tool',
+  type: 'doc' | 'tool' | 'file',
   name: string;
+  value?: any
 }
 
 export type MessageListLayoutType<T extends typeof MessageList> = T;
@@ -44,7 +45,7 @@ export type ActionParams = {
   content?: string | MultiModalContent[];
   messages?: string | MultiModalContent[];
   tools?: [],
-  attachments?: any[],
+  attachments?: Attachment[],
   conversationId?: string
 }
 
@@ -79,6 +80,7 @@ export type Message = {
   createTime: string;
   role: Role;
   event?: MessageEvent
+  attachments?: Attachment[]
 }
 
 export type Conversation = {

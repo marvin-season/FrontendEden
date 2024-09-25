@@ -22,8 +22,13 @@ const useChatExtend = ({ approachHandle, fetchConversations, conversations = [] 
   }, [tools, docs]);
 
   const chatProps = useChat({
-    async onSend(params, signal) {
-      return approachHandle.getApproach.call(null, { ...params, attachments }, signal);
+    onSend(params, signal) {
+      const mergedParams = { ...params, attachments }
+      debugger
+      return {
+        mergedParams,
+        responsePromise: approachHandle.getApproach.call(null, mergedParams, signal)
+      };
     },
     onConversationStart: async (lastMessage) => {
       // 如果是新对话

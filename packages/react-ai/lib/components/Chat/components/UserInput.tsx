@@ -4,6 +4,7 @@ import { ChatActionType } from "@/constant";
 import { FileSelector } from "./FileSelector.tsx";
 import { useCommand } from "@/components/Chat/hooks/useCommand.tsx";
 import { AttachmentLayout } from "@/components/Chat/components/AttachmentLayout.tsx";
+import { Attachment } from "@/types";
 
 export const UserInput = () => {
   const [value, setValue] = useState<string>("");
@@ -32,9 +33,10 @@ export const UserInput = () => {
           onAction(ChatActionType.SelectAttachment, {
             attachments: Array.from(files).map(file => {
               return {
+                id: file.name,
                 type: "file",
-                file: file,
-              };
+                value: file,
+              } as Attachment
             }),
           });
         }}>上传

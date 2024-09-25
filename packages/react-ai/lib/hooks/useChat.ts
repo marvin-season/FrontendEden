@@ -9,7 +9,7 @@ import { SSEMessageGenerator } from "@/utils";
 const format = "YYYY-MM-DD HH:mm:ss";
 
 type HandleProps = {
-  onSend: (params: ActionParams, signal: any) => Promise<Response>
+  onSend: (params: ActionParams, signal: any) => { mergedParams: ActionParams, responsePromise: Promise<Response> }
   onStop?: () => void,
   onConversationEnd?: (message?: Message) => Promise<void>,
   onConversationStart?: (message?: Message) => Promise<void>,
@@ -35,29 +35,42 @@ export const useChat = (invokeHandle: HandleProps, config: ConfigProps = {}): Ch
   const [historyMessages, setHistoryMessages] = useState<Message[]>([]);
   const [conversationId, setConversationId] = useState<string>();
 
-  // 发送消息任务(可能包含异步操作)
-  const executeSendTask = async (params: ActionParams) => {
+  /**
+   * 执行消息发送以及消息接受任务，任务完成后返回一次会话完成，此时拉取库中的数据
+   */
+  const sendMessage = async (params: ActionParams) => {
     ChatUtils.controller = new AbortController();
-    setChatStatus(ChatStatus.Loading);
 
     const prompt = typeof params.content === "string" ? params.content :
       (params.content as MultiModalContent[])?.filter(item => item.type === "text").map(item => item.text).join("");
 
+    // attachments may be contained in the mergedParams
+    const { responsePromise, mergedParams } = invokeHandle.onSend({
+      ...params,
+      prompt,
+      conversationId,
+    }, ChatUtils.controller.signal);
+
+    debugger
+    await executeSendTask(mergedParams);
+    await executeReceiveTask(await responsePromise);
+    return "一次会话完成";
+  };
+
+  // 发送消息任务(可能包含异步操作)
+  const executeSendTask = async (params: ActionParams) => {
+    setChatStatus(ChatStatus.Loading);
     setMessages(draft => {
       draft.push(
         {
           id: nanoid(),
-          content: prompt,
+          content: params.prompt!,
+          attachments: params.attachments,
           createTime: moment().format(format),
           role: "user",
         },
       );
     });
-    return invokeHandle.onSend({
-      ...params,
-      prompt,
-      conversationId,
-    }, ChatUtils.controller.signal);
   };
 
   // 接收消息任务(可能包含异步操作)
@@ -90,7 +103,7 @@ export const useChat = (invokeHandle: HandleProps, config: ConfigProps = {}): Ch
                   // 新增多模态消息
                   const lastTextMultiModalContent = oldContent.findLast(oc => oc.type === "text");
                   if (lastTextMultiModalContent) {
-                    lastTextMultiModalContent.text! += content.text || '';
+                    lastTextMultiModalContent.text! += content.text || "";
                   } else {
                     oldContent.push(content);
                   }
@@ -128,14 +141,6 @@ export const useChat = (invokeHandle: HandleProps, config: ConfigProps = {}): Ch
       invokeHandle.onConversationEnd?.();
       setChatStatus(ChatStatus.Idle);
     }
-  };
-
-  /**
-   * 执行消息发送以及消息接受任务，任务完成后返回一次会话完成，此时拉取库中的数据
-   */
-  const sendMessage = async (params: ActionParams) => {
-    await executeReceiveTask(await executeSendTask(params));
-    return "一次会话完成";
   };
 
   const onSelectedFile = (files: FileList) => {
