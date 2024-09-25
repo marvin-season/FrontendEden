@@ -56,7 +56,7 @@ const useChatExtend = ({ approachHandle, fetchConversations, conversations = [] 
   const UserMessageLayout = ({ message }) => {
     return <>
       {
-        message.attachments.length && <div className={"flex flex-wrap gap-2"}>
+        message.attachments?.length && <div className={"flex flex-wrap gap-2"}>
           <Attachments attachments={message.attachments} />
         </div>
       }
