@@ -1,5 +1,6 @@
 import { useChat } from "@marvin/react-ai";
 import React, { useMemo, useState } from "react";
+import { Close } from "@icon-park/react";
 
 const useChatExtend = ({ approachHandle, fetchConversations, conversations = [] }) => {
   const [tools, setTools] = useState([
@@ -54,6 +55,30 @@ const useChatExtend = ({ approachHandle, fetchConversations, conversations = [] 
     </>;
   };
 
+  const attachmentRender = () => {
+    return <div className={"flex gap-2"}>
+      {
+        attachments?.map((attachment) => {
+          return <div key={`${attachment.type}${attachment.id}`} className={"border rounded py-2 px-4 flex gap-2"}>
+            <span>{attachment.name}</span>
+            <Close onClick={() => {
+              const setState_ = attachment.type === "tool" ? setTools : setDocs;
+              setState_(prev => prev.map(item => {
+                if (item.id === attachment.id) {
+                  return {
+                    ...item,
+                    selected: false,
+                  };
+                }
+                return item;
+              }));
+            }} />
+          </div>;
+        })
+      }
+    </div>;
+  };
+
   const commandElementRender = (commandChar, { onClose }) => {
     const state_ = commandChar === "@" ? tools : docs;
     const setState_ = commandChar === "@" ? setTools : setDocs;
@@ -71,7 +96,7 @@ const useChatExtend = ({ approachHandle, fetchConversations, conversations = [] 
                     return {
                       ...item_,
                       selected: !item_.selected,
-                    }
+                    };
                   }
                   return item_;
                 }));
@@ -88,7 +113,7 @@ const useChatExtend = ({ approachHandle, fetchConversations, conversations = [] 
     AssistantMessageLayout,
     UserMessageLayout,
     title: "",
-    attachments,
+    attachmentRender,
   };
 };
 

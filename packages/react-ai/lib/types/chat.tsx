@@ -28,7 +28,6 @@ export interface ChatProps {
   // action
   onAction: (actionType: ChatActionType, actionParams?: ActionParams) => void;
 
-  attachments?: Attachment[];
   messages: Message[];
   conversation?: Conversation;
 
@@ -37,6 +36,7 @@ export interface ChatProps {
     commandOperator: {
       onClose: (char: CommandCharType) => void;
     }) => ReactNode;
+  attachmentRender?: () => ReactNode;
 }
 
 export type ActionParams = {
