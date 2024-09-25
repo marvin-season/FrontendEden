@@ -45,7 +45,7 @@ export const UserInput = () => {
         handleSend();
       }}>
         <div ref={reactorRef} className={"absolute left-0 right-0 bottom-[48px] z-10"}></div>
-        <textarea
+        <input
           ref={triggerRef}
           className={"border w-full px-4 py-2 rounded resize-none"}
           value={value}

@@ -20,10 +20,10 @@ const CommandRootManager = {
 };
 
 export const useCommand = (commandElementRender: ChatProps["commandElementRender"], onCloseCommand: (char: CommandCharType) => void) => {
-  const triggerRef = useRef<HTMLTextAreaElement>(null);
+  const triggerRef = useRef<HTMLInputElement>(null);
   const reactorRef = useRef<HTMLDivElement>(null);
 
-  useInputCursorChar<CommandCharType, HTMLTextAreaElement>(
+  useInputCursorChar<CommandCharType, HTMLInputElement>(
     triggerRef,
     ["@", "#"],
     (char) => {
