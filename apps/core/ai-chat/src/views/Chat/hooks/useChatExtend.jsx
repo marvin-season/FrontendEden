@@ -88,6 +88,7 @@ const useChatExtend = ({ approachHandle, fetchConversations, conversations = [] 
     AssistantMessageLayout,
     UserMessageLayout,
     title: "",
+    attachments,
   };
 };
 

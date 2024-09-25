@@ -15,10 +15,12 @@ export const Chat: FC<ChatProps> =
      AssistantMessageLayout = DefaultAssistantMessageLayout,
      messages,
      status,
+     attachments,
      ...restProps
    }) => {
     return <ChatContext.Provider value={{
       messages,
+      attachments,
       UserMessageLayout,
       AssistantMessageLayout,
       ...restProps,

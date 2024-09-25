@@ -4,6 +4,11 @@ import MessageList from "@/components/Chat/components/MessageList.tsx";
 import { ChatActionType, ChatStatus } from "@/constant";
 import {ReactNode} from "react";
 
+export type Attachment = {
+  id: string;
+  type: 'doc' | 'tool',
+  name: string;
+}
 
 export type MessageListLayoutType<T extends typeof MessageList> = T;
 
@@ -23,6 +28,7 @@ export interface ChatProps {
   // action
   onAction: (actionType: ChatActionType, actionParams?: ActionParams) => void;
 
+  attachments?: Attachment[];
   messages: Message[];
   conversation?: Conversation;
 
