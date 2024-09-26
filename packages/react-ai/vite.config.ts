@@ -33,7 +33,7 @@ export default defineConfig({
       external: (id) => {
         return [
           "react", "react/jsx-runtime", "@uiw/react-markdown-preview",
-          "nanoid", "use-immer", "moment", "react-dom", "react-dom/client", "ahooks/es", "ahooks",
+          "nanoid", "use-immer", "moment", "react-dom", "react-dom/client", "ahooks/es", "ahooks", "lodash"
         ].includes(id);
       },
       input: Object.fromEntries(
