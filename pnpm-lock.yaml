@@ -234,128 +234,6 @@ importers:
 
   apps/core/algorithm: {}
 
-  apps/core/date-tips:
-    dependencies:
-      '@icon-park/react':
-        specifier: ^1.4.2
-        version: 1.4.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@marvin/react-ai':
-        specifier: workspace:^1.0.0
-        version: link:../../../packages/react-ai
-      '@marvin/shared':
-        specifier: workspace:^1.0.0
-        version: link:../../../packages/shared
-      '@react-spring/web':
-        specifier: ^9.7.4
-        version: 9.7.4(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      ai:
-        specifier: ^3.3.25
-        version: 3.3.25(openai@4.47.2(encoding@0.1.13))(react@18.3.1)(sswr@2.1.0(svelte@4.2.19))(svelte@4.2.19)(vue@3.4.38(typescript@5.4.5))(zod@3.23.8)
-      date-fns:
-        specifier: ^3.6.0
-        version: 3.6.0
-      dayjs:
-        specifier: ^1.11.13
-        version: 1.11.13
-      react:
-        specifier: ^18.3.1
-        version: 18.3.1
-      react-day-picker:
-        specifier: ^9.0.8
-        version: 9.0.8(react@18.3.1)
-      react-dom:
-        specifier: ^18.3.1
-        version: 18.3.1(react@18.3.1)
-    devDependencies:
-      '@eslint/js':
-        specifier: ^9.9.0
-        version: 9.9.1
-      '@marvin/tailwind-config':
-        specifier: workspace:^1.0.0
-        version: link:../../../packages/tailwind-config
-      '@types/react':
-        specifier: ^18.3.3
-        version: 18.3.3
-      '@types/react-dom':
-        specifier: ^18.3.0
-        version: 18.3.0
-      '@vitejs/plugin-react':
-        specifier: ^4.3.1
-        version: 4.3.1(vite@5.4.2(@types/node@22.1.0)(sass@1.72.0)(terser@5.31.1))
-      eslint:
-        specifier: ^9.9.0
-        version: 9.9.1(jiti@1.21.0)
-      eslint-plugin-react:
-        specifier: ^7.35.0
-        version: 7.35.0(eslint@9.9.1(jiti@1.21.0))
-      eslint-plugin-react-hooks:
-        specifier: ^5.1.0-rc.0
-        version: 5.1.0-rc-fb9a90fa48-20240614(eslint@9.9.1(jiti@1.21.0))
-      eslint-plugin-react-refresh:
-        specifier: ^0.4.9
-        version: 0.4.11(eslint@9.9.1(jiti@1.21.0))
-      globals:
-        specifier: ^15.9.0
-        version: 15.9.0
-      vite:
-        specifier: ^5.4.1
-        version: 5.4.2(@types/node@22.1.0)(sass@1.72.0)(terser@5.31.1)
-
-  apps/core/date-tips-backend:
-    dependencies:
-      '@ai-sdk/azure':
-        specifier: ^0.0.32
-        version: 0.0.32(zod@3.23.8)
-      '@ai-sdk/openai':
-        specifier: ^0.0.54
-        version: 0.0.54(zod@3.23.8)
-      '@lancedb/lancedb':
-        specifier: ^0.9.0
-        version: 0.9.0(apache-arrow@17.0.0)
-      '@prisma/client':
-        specifier: 5.19.1
-        version: 5.19.1(prisma@5.19.1)
-      ai:
-        specifier: ^3.3.25
-        version: 3.3.25(openai@4.47.2(encoding@0.1.13))(react@18.3.1)(sswr@2.1.0(svelte@4.2.19))(svelte@4.2.19)(vue@3.4.38(typescript@5.4.5))(zod@3.23.8)
-      dotenv:
-        specifier: ^16.4.5
-        version: 16.4.5
-      express:
-        specifier: ^4.18.3
-        version: 4.19.2
-      ollama-ai-provider:
-        specifier: ^0.13.0
-        version: 0.13.0(zod@3.23.8)
-      openai:
-        specifier: ^4.47.1
-        version: 4.47.2(encoding@0.1.13)
-      tsconfig-paths:
-        specifier: ^4.2.0
-        version: 4.2.0
-      zod:
-        specifier: ^3.23.8
-        version: 3.23.8
-    devDependencies:
-      '@types/express':
-        specifier: ^4.17.21
-        version: 4.17.21
-      '@types/node':
-        specifier: ^20.11.20
-        version: 20.12.13
-      nodemon:
-        specifier: ^3.1.0
-        version: 3.1.2
-      prisma:
-        specifier: 5.19.1
-        version: 5.19.1
-      ts-node:
-        specifier: ^10.9.2
-        version: 10.9.2(@types/node@20.12.13)(typescript@5.4.5)
-      typescript:
-        specifier: ^5.2.2
-        version: 5.4.5
-
   apps/core/js-ts-based:
     devDependencies:
       ts-node:
@@ -793,6 +671,18 @@ importers:
 
   packages/react-ai:
     dependencies:
+      ahooks:
+        specifier: ^3.7.10
+        version: 3.8.0(react@18.3.1)
+      lodash:
+        specifier: ^4.17.21
+        version: 4.17.21
+      moment:
+        specifier: ^2.29.1
+        version: 2.30.1
+      nanoid:
+        specifier: ^3.1.23
+        version: 3.3.7
       react:
         specifier: ^18.2.0
         version: 18.3.1
@@ -1731,7 +1621,6 @@ packages:
   '@lancedb/lancedb@0.9.0':
     resolution: {integrity: sha512-roIBK6JJq4AkvVmLG4orZ/SXdpzPLnArhKTK+4cG/Nso9k2y2Wk5DsFStqzNmO7ko1phiCJJlmtwPLr787nV/Q==}
     engines: {node: '>= 18'}
-    cpu: [x64, arm64]
     os: [darwin, linux, win32]
     peerDependencies:
       apache-arrow: '>=13.0.0 <=17.0.0'
