@@ -1,7 +1,6 @@
 import {Chat} from "@marvin/react-ai";
 import {useChatApproach, useChatPage} from "./hooks/index.js";
 import React from "react";
-import {EvalPanel} from "./components/EvalPanel.jsx";
 import ConversationBar from "./components/ConversationBar.jsx";
 import useChatExtend from "./hooks/useChatExtend.jsx";
 

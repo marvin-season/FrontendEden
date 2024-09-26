@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { request } from "@marvin/shared";
 import { chatWX } from "../wx.js";
-import {useChat} from "@marvin/react-ai";
 
 export const useChatPage = () => {
   const [conversations, setConversations] = useState([]);

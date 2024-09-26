@@ -24,7 +24,6 @@ const useChatExtend = ({ approachHandle, fetchConversations, conversations = [] 
   const chatProps = useChat({
     onSend(params, signal) {
       const mergedParams = { ...params, attachments };
-      debugger
       return {
         mergedParams,
         responsePromise: approachHandle.getApproach.call(null, mergedParams, signal),
