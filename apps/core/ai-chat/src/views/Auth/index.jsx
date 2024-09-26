@@ -21,6 +21,5 @@ const Auth = ({ setIsAuthed }) => {
     </form>
   </>;
 };
-;
 
 export default Auth;
