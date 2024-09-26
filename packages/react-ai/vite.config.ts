@@ -32,7 +32,7 @@ export default defineConfig({
         rollupOptions: {
             external: (id) => {
                 return [
-                    'react', 'react/jsx-runtime', '@uiw/react-markdown-preview', 'nanoid', 'use-immer', 'moment'
+                    'react', 'react/jsx-runtime', '@uiw/react-markdown-preview', 'nanoid', 'use-immer', 'moment', 'react-dom'
                 ].includes(id)
             },
             input: Object.fromEntries(
