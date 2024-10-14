@@ -5,6 +5,7 @@ import CalendarPanel from './CalendarPanel';
 import WorkerPanel from './WorkerPanel';
 import ScrollPanel from './ScrollPanel';
 import CompReRender from './CompReRender';
+import UpdatePage from './UpdatePage';
 
 const items: TabsProps['items'] = [
   {
@@ -31,6 +32,11 @@ const items: TabsProps['items'] = [
     label: '组件重渲染',
     children: <CompReRender/>,
     key: '5'
+  },
+  {
+    label: '快速更新文本',
+    children: <UpdatePage/>,
+    key: '6'
   },
 ]
 const ReactResearchPanel = memo(() => {
