@@ -1,6 +1,6 @@
 import './index.css'
 import {useState} from "react";
-import {Button} from "@marvin/react-ai";
+import { Button } from "antd";
 
 const ScrollPanel = () => {
     const [count, setCount] = useState(0)

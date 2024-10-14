@@ -1,7 +1,7 @@
 import {useState} from 'react'
 import {Tab, TabGroup, TabList, TabPanel, TabPanels} from '@headlessui/react'
 
-function classNames(...classes) {
+function classNames(...classes: any) {
   return classes.filter(Boolean).join(' ')
 }
 
