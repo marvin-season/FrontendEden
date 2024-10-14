@@ -8,20 +8,6 @@ const UpdatePage = () => {
   const [content, setContent] = useState("");
   const [container, setContainer] = useState<HTMLDivElement | null>(null);
 
-  useEffect(() => {
-    let i = 1;
-    text.split(" ").forEach((word) => {
-      i += 1;
-      // sleep(10 * i).then(() => {
-      //   setContent((prev) => prev.concat(' ' + word))
-      // })
-    });
-
-    return () => {
-      setContent("");
-    };
-
-  }, []);
 
   useEffect(() => {
     (async () => {
