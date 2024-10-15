@@ -7,11 +7,20 @@ import ScrollPanel from './ScrollPanel';
 import CompReRender from './CompReRender';
 import UpdatePage from './UpdatePage';
 
+const text = `
+Once upon a time, in a small village nestled in the mountains, there lived a young shepherd named Jack. He spent his days tending to his flock of sheep, wandering through meadows and valleys.
+`;
+
 const items: TabsProps['items'] = [
+  {
+    label: '快速更新文本',
+    children: <UpdatePage text={text}/>,
+    key: '1'
+  },
   {
     label: '竞态条件',
     children: <RaceCondition/>,
-    key: '1'
+    key: '6'
   },
   {
     label: '日历组件',
@@ -33,11 +42,7 @@ const items: TabsProps['items'] = [
     children: <CompReRender/>,
     key: '5'
   },
-  {
-    label: '快速更新文本',
-    children: <UpdatePage/>,
-    key: '6'
-  },
+
 ]
 const ReactResearchPanel = memo(() => {
 
