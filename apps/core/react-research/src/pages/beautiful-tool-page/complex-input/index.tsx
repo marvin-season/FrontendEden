@@ -34,6 +34,11 @@ export const ComplexInput = () => {
       type: "element",
       value: "world",
     },
+    {
+      id: "6",
+      type: "element",
+      value: "world",
+    },
   ]);
 
   console.log("inputs", inputs);
@@ -70,6 +75,7 @@ export const ComplexInput = () => {
         previousElementSibling = (baseNode.previousElementSibling as HTMLSpanElement);
       }
       previousElementSibling.parentNode?.removeChild(previousElementSibling);
+      e.preventDefault();
     }
   };
 
@@ -82,7 +88,7 @@ export const ComplexInput = () => {
               input.type === "text" ?
                 <span id={input.id} data-id={input.id} data-type={input.type} key={index}>{input.value}</span> :
                 <span id={input.id} data-id={input.id} key={index} data-type={input.type} contentEditable={false}
-                      className={"bg-blue-300 p-1 rounded"}>
+                      className={"bg-blue-300 p-1 rounded mx-1"}>
               <span contentEditable={true}>{input.value}</span>
             </span>
             }
