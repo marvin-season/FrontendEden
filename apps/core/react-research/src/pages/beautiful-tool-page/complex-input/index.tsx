@@ -44,10 +44,12 @@ export const ComplexInput = () => {
     }
     const selection = window.getSelection() as any;
 
+    const baseNode = selection.baseNode;
     if (selection?.baseOffset === 1) {
-      let parentNode = selection.baseNode.parentNode as HTMLSpanElement;
+      let parentNode = baseNode.parentNode as HTMLSpanElement;
       console.log("parentNode", parentNode);
       if (parentNode === anchorRef.current) {
+        anchorRef.current.innerHTML = "&nbsp;";
         e.preventDefault();
         if (selection.rangeCount > 0) {
           const range = selection.getRangeAt(0); // 获取当前选区
@@ -64,7 +66,10 @@ export const ComplexInput = () => {
     }
 
     if (selection?.baseOffset === 0) {
-      const previousElementSibling = (selection.baseNode.parentNode.previousElementSibling as HTMLSpanElement);
+      let previousElementSibling = (baseNode.parentNode.previousElementSibling as HTMLSpanElement);
+      if (baseNode === anchorRef.current) {
+        previousElementSibling = (baseNode.previousElementSibling as HTMLSpanElement);
+      }
       previousElementSibling.parentNode?.removeChild(previousElementSibling);
     }
   };
