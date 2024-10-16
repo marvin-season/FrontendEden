@@ -23,26 +23,42 @@ export const ComplexInput = () => {
       type: "element",
       value: "world",
     },
+    {
+      id: "5",
+      type: "text",
+      value: "pretty",
+    },
+    {
+      id: "6",
+      type: "element",
+      value: "world",
+    },
   ]);
 
   console.log("inputs", inputs);
 
+  const remove = (e: any) => {
+    if (e.key !== "Backspace") {
+      return;
+    }
+    const selection = window.getSelection() as any;
+    if (selection?.baseOffset === 0) {
+      const previousElementSibling = (selection.baseNode.parentNode.previousElementSibling as HTMLSpanElement);
+      previousElementSibling.parentNode?.removeChild(previousElementSibling);
+    }
+  };
+
   return <>
-    <div className={"px-4 py-2 border"} contentEditable={true} onKeyDown={(e) => {
-      if (e.key !== "Backspace") {
-        return;
-      }
-      setInputs(prev => {
-        return prev.filter(item => item.id !== "2");
-      });
-    }}>
+    <div className={"px-4 py-2 border"} contentEditable={true} onKeyDown={remove}>
       {
         inputs?.map((input, index) => {
           return <>
             {
-              input.type === "text" ? <span data-type={input.type} key={index}>{input.value}</span> :
-                <span key={index} data-type={input.type} className={"bg-blue-300 p-1 rounded"}>
-              <span contentEditable>{input.value}</span>
+              input.type === "text" ?
+                <span id={input.id} data-id={input.id} data-type={input.type} key={index}>{input.value}</span> :
+                <span id={input.id} data-id={input.id} key={index} data-type={input.type} contentEditable={false}
+                      className={"bg-blue-300 p-1 rounded"}>
+              <span contentEditable={true}>{input.value}</span>
             </span>
             }
           </>;
@@ -51,4 +67,13 @@ export const ComplexInput = () => {
       <span>{" asas"}</span>
     </div>
   </>;
+};
+
+const isCursorInElement = (element: HTMLElement) => {
+  const selection = window.getSelection();
+  if (!selection || selection.rangeCount === 0) {
+    return false;
+  }
+  const range = selection.getRangeAt(0);
+  return element.contains(range.commonAncestorContainer);
 };
