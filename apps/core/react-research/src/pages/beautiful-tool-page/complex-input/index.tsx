@@ -1,6 +1,7 @@
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode, useEffect, useRef, useState } from "react";
 
 export const ComplexInput = () => {
+  const anchorRef = useRef<HTMLSpanElement>(null);
   const [inputs, setInputs] = useState<{ id: string; type: "text" | "element", value: string }[]>([
     {
       id: "1",
@@ -42,6 +43,26 @@ export const ComplexInput = () => {
       return;
     }
     const selection = window.getSelection() as any;
+
+    if (selection?.baseOffset === 1) {
+      let parentNode = selection.baseNode.parentNode as HTMLSpanElement;
+      console.log("parentNode", parentNode);
+      if (parentNode === anchorRef.current) {
+        e.preventDefault();
+        if (selection.rangeCount > 0) {
+          const range = selection.getRangeAt(0); // 获取当前选区
+          if (range.startOffset > 0) {
+            // 如果光标不在起始位置
+            range.setStart(range.startContainer, range.startOffset - 1); // 将光标位置向前移动一格
+            range.setEnd(range.startContainer, range.startOffset); // 同步选区结束位置
+            selection.removeAllRanges(); // 清除原有选区
+            selection.addRange(range); // 设置新选区
+          }
+        }
+        return;
+      }
+    }
+
     if (selection?.baseOffset === 0) {
       const previousElementSibling = (selection.baseNode.parentNode.previousElementSibling as HTMLSpanElement);
       previousElementSibling.parentNode?.removeChild(previousElementSibling);
@@ -64,16 +85,7 @@ export const ComplexInput = () => {
           </>;
         })
       }
-      <span>{" asas"}</span>
+      <span id={"anchor"} ref={anchorRef}>&nbsp;</span>
     </div>
   </>;
-};
-
-const isCursorInElement = (element: HTMLElement) => {
-  const selection = window.getSelection();
-  if (!selection || selection.rangeCount === 0) {
-    return false;
-  }
-  const range = selection.getRangeAt(0);
-  return element.contains(range.commonAncestorContainer);
 };
