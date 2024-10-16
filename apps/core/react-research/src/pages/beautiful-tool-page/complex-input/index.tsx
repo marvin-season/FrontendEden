@@ -49,7 +49,6 @@ export const ComplexInput = () => {
       let parentNode = baseNode.parentNode as HTMLSpanElement;
       console.log("parentNode", parentNode);
       if (parentNode === anchorRef.current) {
-        anchorRef.current.innerHTML = "&nbsp;";
         e.preventDefault();
         if (selection.rangeCount > 0) {
           const range = selection.getRangeAt(0); // 获取当前选区
