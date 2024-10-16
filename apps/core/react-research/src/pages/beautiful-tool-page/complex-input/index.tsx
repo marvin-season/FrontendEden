@@ -2,6 +2,7 @@ import { ReactNode, useEffect, useRef, useState } from "react";
 
 export const ComplexInput = () => {
   const anchorRef = useRef<HTMLSpanElement>(null);
+  const inputRef = useRef<HTMLDivElement>(null);
   const [inputs, setInputs] = useState<{ id: string; type: "text" | "element", value: string }[]>([
     {
       id: "1",
@@ -79,8 +80,8 @@ export const ComplexInput = () => {
     }
   };
 
-  return <>
-    <div className={"px-4 py-2 border"} contentEditable={true} onKeyDown={remove}>
+  return <div className={"flex gap-2"}>
+    <div ref={inputRef} className={"px-4 py-2 border"} contentEditable={true} onKeyDown={remove}>
       {
         inputs?.map((input, index) => {
           return <>
@@ -97,5 +98,22 @@ export const ComplexInput = () => {
       }
       <span id={"anchor"} ref={anchorRef}>&nbsp;</span>
     </div>
-  </>;
+    <div onClick={() => {
+      let result = "";
+      for (const node of inputRef.current!.children as HTMLCollectionOf<HTMLElement>) {
+        if (!node.textContent?.trim()) {
+          continue;
+        }
+        const isText = node.dataset.type === "text";
+        if (isText) {
+          result += node.textContent;
+        } else {
+          result += ` [${node.textContent}] `;
+        }
+      }
+
+      alert(result)
+    }}>submit
+    </div>
+  </div>;
 };
