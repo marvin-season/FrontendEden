@@ -6,6 +6,7 @@ import {HLMarked} from "@/pages/markdown-page/marked/HLMarked.tsx";
 import {ReactRemarkMD} from "@/pages/markdown-page/react-remark-md";
 import {useDownload} from "@/hook/useDownload.ts";
 import {useEffect} from "react";
+import ReactMarkdownTest from "./react-markdown/index.tsx";
 
 const items: TabsProps['items'] = [
     {
@@ -33,10 +34,15 @@ const items: TabsProps['items'] = [
         label: '可编辑MD',
         children: <EditableMD/>,
     },
+        {
+        key: '6',
+        label: 'ReactMarkdownTest',
+        children: <ReactMarkdownTest/>,
+    },
 ];
 const MarkdownPanel = () => {
     return <>
-        <Tabs defaultActiveKey={'4'} items={items}>
+        <Tabs defaultActiveKey={'6'} items={items}>
         </Tabs>
     </>
 }
