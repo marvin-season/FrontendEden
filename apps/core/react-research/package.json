@@ -20,6 +20,7 @@
     "@marvin/tailwind-config": "workspace:^1.0.0",
     "@uiw/react-markdown-editor": "^6.1.1",
     "@uiw/react-markdown-preview": "^4.1.13",
+    "aio-tool": "^0.0.2",
     "antd": "^5.15.4",
     "highlight.js": "^11.9.0",
     "hls.js": "^1.5.17",
